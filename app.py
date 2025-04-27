@@ -6,18 +6,16 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/submit_availability', methods=['POST'])
-def submit_availability():
+@app.route('/process', methods=['POST'])
+def process():
     data = request.get_json()
+    rooms_to_times = data['roomsToTimes']
+    all_times = data['allTimes']
 
-    roomsToTimes = data.get('roomsToTimes', {})
-    allTimes = data.get('allTimes', [])
+    print("Rooms to Times:", rooms_to_times)
+    print("All Times:", all_times)
 
-    print("Rooms to Times:", roomsToTimes)
-    print("All Times:", allTimes)
-
-    # Now you have both structures ready to use!
-    return jsonify({"message": "Success!"}), 200
-
+    return 'Data received successfully!'
+    
 if __name__ == '__main__':
     app.run(debug=True)
