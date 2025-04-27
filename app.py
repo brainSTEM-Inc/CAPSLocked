@@ -23,7 +23,11 @@ def process():
     print('All Times:', all_times)
 
     # Send the data to the frontend
-    return render_template('availability_submitted.html', rooms_to_times=rooms_to_times, all_times=all_times)
+    return render_template(
+            "index.html", 
+            roomsToTimes=roomsToTimes, 
+            allTimes=allTimes
+        )
     
 if __name__ == '__main__':
     app.run(debug=True)
