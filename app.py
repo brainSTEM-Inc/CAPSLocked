@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Hello, world! Your Flask app is working!"
+    return render_template('index.html')
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
