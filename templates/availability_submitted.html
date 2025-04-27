@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Availability Submitted</title>
+</head>
+<body>
+    <h1>Success! 🎉</h1>
+
+    <h2>Rooms to Times</h2>
+    <ul>
+    {% for room, times in rooms_to_times.items() %}
+        <li><strong>{{ room }}</strong>: {{ times }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>All Times</h2>
+    <ul>
+    {% for time in all_times %}
+        <li>{{ time }}</li>
+    {% endfor %}
+    </ul>
+
+    <br>
+    <a href="/">Go back</a>
+</body>
+</html>
