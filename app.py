@@ -66,8 +66,8 @@ def submit_availability():
         else:
             for topic in value[1].split(", "):
                 backupRoomData[topic].append(key)
-        for topic in value[1].split(", "):
-            fullRoomData[topic].append(key)
+        '''for topic in value[1].split(", "):
+            fullRoomData[topic].append(key)'''
         rawRoomData[value[1]].append(key)
     
     roomData = dict(sorted(roomData.items(), key=lambda item: len(item[1]),reverse=True))
