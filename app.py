@@ -9,6 +9,7 @@ def home():
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
+    print("🔔 submit_availability was called!")
     data = request.get_json()
 
     url = data.get('url')
