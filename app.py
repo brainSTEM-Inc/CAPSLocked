@@ -32,8 +32,15 @@ def submit_availability():
     projectNameCol = int(projectNameCol1)-1
     
     rawdataDict = {}
-    allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
-    roomToTimes={element:allTimes for element in ["Room 195","Room 198","Room 199"]}
+    #allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
+    #roomToTimes={element:allTimes for element in ["Room 195","Room 198","Room 199"]}
+
+    roomsToTimes = data['roomsToTimes']
+    allTimes = data['allTimes']
+
+    print("Rooms to Times:", rooms_to_times)
+    print("All Times:", all_times)
+    
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     
     for i in range(len(rawData)):
@@ -98,17 +105,6 @@ def submit_availability():
     return render_template(
             "index.html"
         )
-
-@app.route('/process', methods=['POST'])
-def process():
-    data = request.get_json()
-    rooms_to_times = data['roomsToTimes']
-    all_times = data['allTimes']
-
-    print("Rooms to Times:", rooms_to_times)
-    print("All Times:", all_times)
-
-    return 'Data received successfully!'
 
 if __name__ == '__main__':
     app.run(debug=True)
