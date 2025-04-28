@@ -139,30 +139,6 @@
                 blurbCol: blurbCol
             };
 
-            // Send the data to the backend
-            fetch('/submit_availability', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                console.log("✅ Received response from backend!");
-                return response.text();
-            })
-            .then(message => {
-                console.log("📢 Backend says:", message);
-                //alert(message); // still alert the user nicely
-            })
-            .catch(error => {
-                console.error('❌ Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-            getRoomsTimes();
-        }
-
-        function getRoomsTimes() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const roomsToTimes = {};
 
@@ -179,23 +155,29 @@
 
             const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 
-            fetch('/process', {
+            // Send the data to the backend
+            fetch('/submit_availability', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    data: data,
                     roomsToTimes: roomsToTimes,
                     allTimes: allTimes
                 })
             })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Server response:', data);
-                alert('Data sent successfully!');
+            .then(response => {
+                console.log("✅ Received response from backend!");
+                return response.text();
             })
-            .catch((error) => {
-                console.error('Error:', error);
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                alert('An error occurred. Please try again.');
             });
         }
     </script>
