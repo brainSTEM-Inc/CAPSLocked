@@ -127,17 +127,6 @@
             const friendsCol = document.getElementById('friends').value;
             const blurbCol = document.getElementById('blurb').value;
 
-            // Prepare the data to send
-            const data = {
-                url: url,
-                firstNameCol: firstNameCol,
-                lastNameCol: lastNameCol,
-                projectNameCol: projectNameCol,
-                projectTopicCol: projectTopicCol,
-                availabilityCol: availabilityCol,
-                friendsCol: friendsCol,
-                blurbCol: blurbCol
-            };
 
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const roomsToTimes = {};
@@ -155,17 +144,27 @@
 
             const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 
+            // Prepare the data to send
+            const data = {
+                url: url,
+                firstNameCol: firstNameCol,
+                lastNameCol: lastNameCol,
+                projectNameCol: projectNameCol,
+                projectTopicCol: projectTopicCol,
+                availabilityCol: availabilityCol,
+                friendsCol: friendsCol,
+                blurbCol: blurbCol,
+                allTimes: allTimes,
+                roomToTimes: roomToTimes
+            };
+            
             // Send the data to the backend
             fetch('/submit_availability', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    data: data,
-                    roomsToTimes: roomsToTimes,
-                    allTimes: allTimes
-                })
+                body: JSON.stringify(data: data)
             })
             .then(response => {
                 console.log("✅ Received response from backend!");
