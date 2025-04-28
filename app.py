@@ -35,11 +35,8 @@ def submit_availability():
     #allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
     #roomToTimes={element:allTimes for element in ["Room 195","Room 198","Room 199"]}
 
-    roomsToTimes = data['roomsToTimes']
-    allTimes = data['allTimes']
-
-    print("Rooms to Times:", rooms_to_times)
-    print("All Times:", all_times)
+    roomsToTimes = data.get('roomsToTimes')
+    allTimes = data.get('allTimes')
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     
