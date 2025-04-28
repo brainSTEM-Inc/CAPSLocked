@@ -63,11 +63,6 @@ def submit_availability():
     for key, value in rawdataDict.items():
         if "," not in value[1]:
             roomData[value[1]].append(key)
-        else:
-            for topic in value[1].split(", "):
-                backupRoomData[topic].append(key)
-        '''for topic in value[1].split(", "):
-            fullRoomData[topic].append(key)'''
         rawRoomData[value[1]].append(key)
     
     roomData = dict(sorted(roomData.items(), key=lambda item: len(item[1]),reverse=True))
