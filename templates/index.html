@@ -114,6 +114,7 @@
         }
 
         function submitAvailability() {
+            console.log("Sending data to backend...");
             // Get the textbox values
             const url = document.getElementById('spreadsheetUrl').value;
             const firstNameCol = document.getElementById('firstName').value;
@@ -144,13 +145,16 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.text())
+            .then(response => {
+                console.log("✅ Received response from backend!");
+                return response.text();
+            })
             .then(message => {
-                console.log(message);
-                alert(message);
+                console.log("📢 Backend says:", message);
+                alert(message); // still alert the user nicely
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('❌ Error:', error);
                 alert('An error occurred. Please try again.');
             });
         }
