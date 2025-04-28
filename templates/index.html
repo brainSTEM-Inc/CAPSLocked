@@ -99,8 +99,10 @@
                     const cell = document.createElement('td');
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
-                    const key = `${room}|${time}`; 
-                    checkbox.dataset.key = key;
+                    const key = `${room}|${time}`;
+                    checkbox.dataset.room = room;   // <<< ADD THIS
+                    checkbox.dataset.time = time;
+                    checkbox.checked = true;
                     
                     cell.appendChild(checkbox);
                     row.appendChild(cell);
