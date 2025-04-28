@@ -157,6 +157,44 @@
                 console.error('❌ Error:', error);
                 alert('An error occurred. Please try again.');
             });
+            getRoomsTimes();
+        }
+
+        function getRoomsTimes() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const roomsToTimes = {};
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const room = cb.getAttribute('data-room');
+                    const time = cb.getAttribute('data-time');
+                    if (!roomsToTimes[room]) {
+                        roomsToTimes[room] = [];
+                    }
+                    roomsToTimes[room].push(time);
+                }
+            });
+
+            const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
+
+            fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    roomsToTimes: roomsToTimes,
+                    allTimes: allTimes
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Server response:', data);
+                alert('Data sent successfully!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         }
     </script>
 </body>
