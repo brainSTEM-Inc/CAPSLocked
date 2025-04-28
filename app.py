@@ -93,17 +93,6 @@ def submit_availability():
     
     #print(initRoomDistribution)
     print(rawRoomData)
-    
-    # Now you have all the variables!
-    print("Received data:")
-    print(f"url: {url}")
-    print(f"firstNameCol: {firstNameCol}")
-    print(f"lastNameCol: {lastNameCol}")
-    print(f"projectNameCol: {projectNameCol}")
-    print(f"projectTopicCol: {projectTopicCol}")
-    print(f"availabilityCol: {availabilityCol}")
-    print(f"friendsCol: {friendsCol}")
-    print(f"blurbCol: {blurbCol}")
 
     # Send the data to the frontend
     return render_template(
