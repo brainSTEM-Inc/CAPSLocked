@@ -24,7 +24,7 @@ def submit_availability():
     urlData = requests.get(url).content
     rawData = pd.read_csv(io.StringIO(urlData.decode('utf-8')))
     firstNameCol = int(firstNameCol1)-1
-    lastNameCol = int(lastNameCol)-1
+    lastNameCol = int(lastNameCol1)-1
     availabilityCol = int(availabilityCol1)-1
     topicCol = int(projectTopicCol1)-1
     friendsCol = int(friendsCol1)-1
