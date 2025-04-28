@@ -121,39 +121,44 @@
         }
 
         function submitAvailability() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const roomsToTimes = {};
+            // Get the textbox values
+            const url = document.getElementById('spreadsheetUrl').value;
+            const firstNameCol = document.getElementById('firstName').value;
+            const lastNameCol = document.getElementById('lastName').value;
+            const projectNameCol = document.getElementById('projectName').value;
+            const projectTopicCol = document.getElementById('projectTopic').value;
+            const availabilityCol = document.getElementById('availability').value;
+            const friendsCol = document.getElementById('friends').value;
+            const blurbCol = document.getElementById('blurb').value;
 
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    const room = cb.getAttribute('data-room');
-                    const time = cb.getAttribute('data-time');
-                    if (!roomsToTimes[room]) {
-                        roomsToTimes[room] = [];
-                    }
-                    roomsToTimes[room].push(time);
-                }
-            });
+            // Prepare the data to send
+            const data = {
+                url: url,
+                firstNameCol: firstNameCol,
+                lastNameCol: lastNameCol,
+                projectNameCol: projectNameCol,
+                projectTopicCol: projectTopicCol,
+                availabilityCol: availabilityCol,
+                friendsCol: friendsCol,
+                blurbCol: blurbCol
+            };
 
-            const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
-
-            fetch('/process', {
+            // Send the data to the backend
+            fetch('/submit_availability', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    roomsToTimes: roomsToTimes,
-                    allTimes: allTimes
-                })
+                body: JSON.stringify(data)
             })
             .then(response => response.text())
-            .then(data => {
-                console.log('Server response:', data);
-                alert('Data sent successfully!');
+            .then(message => {
+                console.log(message);
+                alert(message);
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error('Error:', error);
+                alert('An error occurred. Please try again.');
             });
         }
     </script>
