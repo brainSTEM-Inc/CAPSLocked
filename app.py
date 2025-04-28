@@ -99,7 +99,7 @@ def submit_availability():
     print(rawRoomData)
     
     # Now you have all the variables!
-    '''print("Received data:")
+    print("Received data:")
     print(f"url: {url}")
     print(f"firstNameCol: {firstNameCol}")
     print(f"lastNameCol: {lastNameCol}")
@@ -107,7 +107,7 @@ def submit_availability():
     print(f"projectTopicCol: {projectTopicCol}")
     print(f"availabilityCol: {availabilityCol}")
     print(f"friendsCol: {friendsCol}")
-    print(f"blurbCol: {blurbCol}")'''
+    print(f"blurbCol: {blurbCol}")
 
     # Send the data to the frontend
     return render_template(
