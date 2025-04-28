@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-import requests, pandas as pd, io
+import requests, pandas as pd, io, copy
 
 app = Flask(__name__)
 
