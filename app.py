@@ -30,6 +30,8 @@ def submit_availability():
     friendsCol = int(friendsCol1)-1
     blurbCol= int(blurbCol1)-1
     projectNameCol = int(projectNameCol1)-1
+
+    personsPerTimes=2
     
     rawdataDict = {}
     #allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
@@ -39,7 +41,7 @@ def submit_availability():
     allTimes = data.get('allTimes')
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
-    capacityDict = {room: len(times) for room, times in roomToTimes.items()}
+    capacityDict = {room: len(times)*personsPerTime for room, times in roomToTimes.items()}
     
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
@@ -48,7 +50,7 @@ def submit_availability():
         for item in allTimes:
             if item in target_string:
                 output_list.append(item)
-        rawdataDict[x[firstNameCol]+" "+x[lastNameCol]]=[output_list,x[topicCol],x[friendsCol].split(", "),[]]
+        rawdataDict[x[firstNameCol]+" "+x[lastNameCol]]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
     
     
     maintopics = {element for value in rawdataDict.values() for element in value[1].split(", ")}
@@ -60,24 +62,31 @@ def submit_availability():
     
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
-    
+
+    backupRoomDict={}
     rawRoomData={}
     for topic in rawMaintopics:
         rawRoomData[topic]=[]
+        if topic not in maintopics:
+            backupRoomDict[topic]=[]
     
     for key, value in rawdataDict.items():
         if "," not in value[1]:
             roomData[value[1]].append(key)
+        else:
+            backupRoomDict[value[1]].append([key,value[4])
         rawRoomData[value[1]].append(key)
     
     roomData = dict(sorted(roomData.items(), key=lambda item: len(item[1]),reverse=True))
     rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
     
-    initRoomDistribution = {}
+    initRoomDistribution = {room: [] for room in list(roomToTimes.keys())}
     capacityDictCopy = copy.deepcopy(capacityDict)
+
+    print(maintopics)
     for maintopic in maintopics:
         capacityDictCopy = dict(sorted(capacityDictCopy.items(), key=lambda item: item,reverse=True))
-        initRoomDistribution[list(capacityDictCopy.keys())[0]]=maintopic
+        initRoomDistribution[list(capacityDictCopy.keys())[0]].append([maintopic, [[name,rawdataDict[name][4]] for name in roomData[maintopic]])
         capacityDictCopy[list(capacityDictCopy.keys())[0]]-=len(roomData[maintopic])
     
     specialGroups=[]
@@ -93,7 +102,8 @@ def submit_availability():
                         rawdataDict[student1][3].append(student2)
     
     print(initRoomDistribution)
-    print(rawRoomData)
+    #print(rawRoomData)
+    print(backupRoomDict)
     
     # Send the data to the frontend
     return render_template(
