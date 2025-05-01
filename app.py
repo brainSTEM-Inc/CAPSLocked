@@ -83,7 +83,7 @@ def submit_availability():
     specialGroups=[]
     
     for value in rawRoomData.values():
-        if len(value)<6:
+        if len(value)<=6 and len(value)>1:
             specialGroups.append(value)
     
     for specialGroup in specialGroups:
