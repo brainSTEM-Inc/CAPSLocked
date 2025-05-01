@@ -86,7 +86,7 @@ def submit_availability():
     print(maintopics)
     for maintopic in list(roomData.keys()):
         print(capacityDictCopy)
-        capacityDictCopy = dict(sorted(capacityDictCopy.items(), key=lambda item: item,reverse=True))
+        capacityDictCopy = dict(sorted(capacityDictCopy.items(), key=lambda item: item,reverse=False))
         initRoomDistribution[list(capacityDictCopy.keys())[0]].append([maintopic, [[name,rawdataDict[name][4]] for name in roomData[maintopic]]])
         capacityDictCopy[list(capacityDictCopy.keys())[0]]-=len(roomData[maintopic])
     
