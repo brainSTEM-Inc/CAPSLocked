@@ -80,11 +80,6 @@ def submit_availability():
         initRoomDistribution[list(capacityDictCopy.keys())[0]]=maintopic
         capacityDictCopy[list(capacityDictCopy.keys())[0]]-=len(roomData[maintopic])
     
-    
-    freshRoomData = copy.deepcopy(rawRoomData)
-    for topic in mainRoomTopics:
-        del freshRoomData[topic]
-    
     specialGroups=[]
     
     for value in rawRoomData.values():
