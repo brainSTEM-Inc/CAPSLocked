@@ -39,6 +39,7 @@ def submit_availability():
     allTimes = data.get('allTimes')
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
+    capacityDict = {room: len(times) for room, times in roomToTimes.items()}
     
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
@@ -73,11 +74,12 @@ def submit_availability():
     rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
     
     initRoomDistribution = {}
-    mainRoomTopics = []
-    for i in range(len(list(roomToTimes.keys()))):
-        mainRoomTopic=list(roomData.keys())[i]
-        initRoomDistribution[list(roomToTimes.keys())[i]]=roomData[mainRoomTopic]
-        mainRoomTopics.append(mainRoomTopic)
+    capacityDictCopy = copy.deepcopy(capacityDict)
+    for maintopic in maintopics:
+        capacityDictCopy = dict(sorted(capacityDictCopy.items(), key=lambda item: item,reverse=True))
+        initRoomDistribution[list(capacityDictCopy.keys())[0]]=maintopic
+        capacityDictCopy[list(capacityDictCopy.keys())[0]]-=len(roomData[maintopic])
+    
     
     freshRoomData = copy.deepcopy(rawRoomData)
     for topic in mainRoomTopics:
@@ -95,7 +97,7 @@ def submit_availability():
                     if student1 != student2:
                         rawdataDict[student1][3].append(student2)
     
-    #print(initRoomDistribution)
+    print(initRoomDistribution)
     print(rawRoomData)
     
     # Send the data to the frontend
