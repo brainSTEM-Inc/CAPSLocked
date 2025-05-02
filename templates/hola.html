@@ -211,45 +211,31 @@
         dropTarget = dropTarget.parentElement;
       }
 
+      // Insert above if dropped on another draggable element
       if ((draggedEl.classList.contains("item") || draggedEl.classList.contains("topic-box")) &&
           (dropTarget.classList.contains("item") || dropTarget.classList.contains("topic-box"))) {
         dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
         return;
       }
 
+      // Label drag
       if (draggedEl.classList.contains("label") && dropTarget.classList.contains("label-slot")) {
         dropTarget.appendChild(draggedEl);
         return;
       }
 
+      // Topic-box drag
       if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
         return;
       }
 
+      // Item drag
       if (draggedEl.classList.contains("item") && (dropTarget.classList.contains("room") || dropTarget.classList.contains("topic-box"))) {
         dropTarget.appendChild(draggedEl);
         return;
       }
     }
-
-    window.getRoomState = function() {
-      const state = {};
-      document.querySelectorAll(".room").forEach(room => {
-        const roomName = room.getAttribute("data-room-name");
-        const topics = [];
-        room.querySelectorAll(".topic-box").forEach(topicBox => {
-          const topicTitle = topicBox.querySelector(".topic-title")?.innerText;
-          const items = Array.from(topicBox.querySelectorAll(".item")).map(item => {
-            const [person, project] = item.innerHTML.split("<br>");
-            return [person, project];
-          });
-          topics.push([topicTitle, items]);
-        });
-        state[roomName] = topics;
-      });
-      return state;
-    };
 
     // Initialize page
     /*createRoomElements();*/
