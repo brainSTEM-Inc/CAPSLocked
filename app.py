@@ -135,8 +135,7 @@ def submit_availability():
 @app.route('/get_data')
 def get_data():
     return jsonify({
-        "realInitRoomDistribution": realInitRoomDistribution,
-        "backupRoomDict": backupRoomDict
+        "realInitRoomDistribution": realInitRoomDistribution
     })
 
 if __name__ == '__main__':
