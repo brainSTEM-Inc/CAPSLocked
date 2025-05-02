@@ -108,7 +108,7 @@ def submit_availability():
     
     # Send the data to the frontend
     return render_template(
-            "index.html"
+            "hola.html"
         )
 
 def get_data():
