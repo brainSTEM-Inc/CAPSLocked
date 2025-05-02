@@ -122,6 +122,7 @@ def submit_availability():
             "hola.html"
         )
 
+@app.route('/get_data')
 def get_data():
     return jsonify({
         "initRoomDistribution": initRoomDistribution,
