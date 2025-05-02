@@ -111,5 +111,11 @@ def submit_availability():
             "index.html"
         )
 
+def get_data():
+    return jsonify({
+        "initRoomDistribution": initRoomDistribution,
+        "backupRoomDict": backupRoomDict
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)
