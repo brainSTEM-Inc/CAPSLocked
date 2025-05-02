@@ -112,10 +112,20 @@ def submit_availability():
                 for student2 in specialGroup:
                     if student1 != student2:
                         rawdataDict[student1][3].append(student2)
+
+    backupRoomList = {}
+    for key, value in backupRoomDict.items():
+        backupRoomList.append([key,value])
     
-    print(initRoomDistribution)
+    #print(initRoomDistribution)
     #print(rawRoomData)
-    print(backupRoomDict)
+    #print(backupRoomDict)
+
+    realInitRoomDistribution={"Multiple Topics":backupRoomList}
+    for room in list(roomToTimes.keys()):
+        realInitRoomDistribution[room]=initRoomDistribution[room]
+
+    print(realInitRoomDistribution)
     
     # Send the data to the frontend
     return render_template(
@@ -125,7 +135,7 @@ def submit_availability():
 @app.route('/get_data')
 def get_data():
     return jsonify({
-        "initRoomDistribution": initRoomDistribution,
+        "initRoomDistribution": realInitRoomDistribution,
         "backupRoomDict": backupRoomDict
     })
 
