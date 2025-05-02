@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drag and Drop Rooms</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .room-labels {
+      display: flex;
+      justify-content: center;
+      margin: 1rem;
+    }
+
+    .label-slot {
+      width: 300px;
+      height: 40px;
+      border: 2px dashed #aaa;
+      margin: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+    }
+
+    .label {
+      padding: 5px 10px;
+      background-color: #ffde59;
+      border: 1px solid #aaa;
+      cursor: move;
+    }
+
+    .rooms {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    .room {
+      width: 300px;
+      min-height: 400px;
+      border: 2px solid #333;
+      padding: 10px 10px 40px 10px; /* extra bottom padding */
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    
+
+    .topic-box {
+      border: 2px solid #4caf50;
+      padding: 10px 10px 30px 10px;
+      min-height: 100px;
+      cursor: move;
+    }
+
+    .topic-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .item {
+      border: 1px solid #555;
+      padding: 5px;
+      margin: 5px 0;
+      cursor: move;
+    }
+  </style>
+</head>
+<body>
+  <div class="room-labels" id="room-labels">
+    <!-- Labels dynamically inserted here -->
+  </div>
+
+  <div class="rooms" id="rooms-container">
+    <!-- Rooms will be populated here from JS -->
+  </div>
+
+  <script>
+    /*const initRoomDistribution = {
+      "Room Alpha": [
+        ["Solar Energy", [["Alice", "Panels"], ["Bob", "Mirrors"]]],
+        ["AI", [["Cara", "Chatbots"], ["Dan", "Vision"]]]
+      ],
+      "Room Beta": [
+        ["Gaming", [["Eva", "Wii"], ["Frank", "Switch"]]],
+        ["Music", [["George", "Guitar"], ["Holly", "Piano"]]]
+      ],
+      "Room Gamma": [
+        ["Art", [["Iris", "Painting"], ["Jack", "Sculpture"]]]
+      ],
+      "Room Delta": [
+        ["Sports", [["Karen", "Tennis"], ["Leo", "Basketball"]]]
+      ]
+    };*/
+
+    fetch('/get_data')
+    .then(res => res.json())
+    .then(data => {
+      createRoomElements(data.initRoomDistribution);
+      // You can store or log `data.backupRoomDict` if needed
+    })
+    .catch(err => console.error("Failed to fetch room data:", err));
+
+    const topicColors = [
+      "#ff9999", "#99ccff", "#99ff99", "#ffcc99", "#cc99ff",
+      "#ffff99", "#66ffcc", "#ffb3e6", "#c2f0c2", "#d9b3ff"
+    ];
+    const topicColorMap = {};
+    let colorIndex = 0;
+
+    function createRoomElements() {
+      const labelContainer = document.getElementById("room-labels");
+      labelContainer.innerHTML = "";
+      const roomContainer = document.getElementById("rooms-container");
+      roomContainer.innerHTML = "";
+
+      Object.entries(initRoomDistribution).forEach(([roomName, topics], i) => {
+        const labelSlot = document.createElement("div");
+        labelSlot.className = "label-slot";
+        labelSlot.ondrop = drop;
+        labelSlot.ondragover = allowDrop;
+
+        const label = document.createElement("div");
+        label.className = "label";
+        label.draggable = true;
+        label.id = `label-${roomName.replace(/\s+/g, '-')}`;
+        label.ondragstart = drag;
+        label.innerText = roomName;
+
+        labelSlot.appendChild(label);
+        labelContainer.appendChild(labelSlot);
+
+        const roomDiv = document.createElement("div");
+        roomDiv.className = "room";
+        roomDiv.id = `room${i+1}`;
+        roomDiv.ondrop = drop;
+        roomDiv.ondragover = allowDrop;
+
+        topics.forEach(([topic, items]) => {
+          const topicId = `${roomDiv.id}-${topic.replace(/\s+/g, '-')}`;
+          if (!topicColorMap[topic]) {
+            topicColorMap[topic] = topicColors[colorIndex % topicColors.length];
+            colorIndex++;
+          }
+
+          const topicDiv = document.createElement("div");
+          topicDiv.className = "topic-box";
+          topicDiv.style.backgroundColor = topicColorMap[topic];
+          topicDiv.draggable = true;
+          topicDiv.id = topicId;
+          topicDiv.ondragstart = drag;
+
+          const title = document.createElement("div");
+          title.className = "topic-title";
+          title.innerText = topic;
+          topicDiv.appendChild(title);
+
+          items.forEach(([person, project]) => {
+            const itemDiv = document.createElement("div");
+            itemDiv.className = "item";
+            itemDiv.style.backgroundColor = topicColorMap[topic];
+            itemDiv.draggable = true;
+            itemDiv.id = `${person.toLowerCase()}-${project.toLowerCase()}`;
+            itemDiv.ondragstart = drag;
+            itemDiv.innerHTML = `${person}<br />${project}`;
+            topicDiv.appendChild(itemDiv);
+          });
+
+          roomDiv.appendChild(topicDiv);
+        });
+
+        roomContainer.appendChild(roomDiv);
+      });
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      const data = ev.dataTransfer.getData("text");
+      const draggedEl = document.getElementById(data);
+
+      if (!draggedEl || ev.target.contains(draggedEl)) return;
+
+      // Label drag
+      if (draggedEl.classList.contains("label") && ev.target.classList.contains("label-slot")) {
+        ev.target.appendChild(draggedEl);
+        return;
+      }
+
+      // Topic-box drag
+      if (draggedEl.classList.contains("topic-box") && ev.target.classList.contains("room")) {
+        ev.target.appendChild(draggedEl);
+        return;
+      }
+
+      // Item drag
+      if (draggedEl.classList.contains("item") && (ev.target.classList.contains("room") || ev.target.classList.contains("topic-box"))) {
+        ev.target.appendChild(draggedEl);
+        return;
+      }
+    }
+
+    // Initialize page
+    createRoomElements();
+  </script>
+</body>
+</html>
