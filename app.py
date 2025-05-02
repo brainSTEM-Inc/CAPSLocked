@@ -129,10 +129,6 @@ def submit_availability():
     #return render_template(
            # "hola.html"
        # )
-    return redirect('/hola')
-
-@app.route('/hola')
-def hola():
     return render_template('hola.html')
 
 @app.route('/get_data')
