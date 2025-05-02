@@ -7,8 +7,15 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+initRoomDistribution={}
+backupRoomDict={}
+
+
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
+    global initRoomDistribution
+    global backupRoomDict
+    
     print("🔔 submit_availability was called!")
     data = request.get_json()
 
