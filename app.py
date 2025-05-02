@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 import requests, pandas as pd, io, copy
 
 app = Flask(__name__)
@@ -126,9 +126,14 @@ def submit_availability():
     print(realInitRoomDistribution)
     
     # Send the data to the frontend
-    return render_template(
-            "hola.html"
-        )
+    #return render_template(
+           # "hola.html"
+       # )
+    return redirect('/hola')
+
+@app.route('/hola')
+def hola():
+    return render_template('hola.html')
 
 @app.route('/get_data')
 def get_data():
