@@ -11,15 +11,13 @@ def home():
 def hola():
     return render_template('hola.html')
 
-initRoomDistribution={}
-backupRoomDict={}
+realInitRoomDistribution={}
 
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
-    global initRoomDistribution
-    global backupRoomDict
-    
+    global realInitRoomDistribution
+
     print("🔔 submit_availability was called!")
     data = request.get_json()
 
