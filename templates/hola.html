@@ -108,7 +108,7 @@
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
-      createRoomElements(data.initRoomDistribution);
+      createRoomElements(data.realInitRoomDistribution);
       // You can store or log `data.backupRoomDict` if needed
     })
     .catch(err => console.error("Failed to fetch room data:", err));
