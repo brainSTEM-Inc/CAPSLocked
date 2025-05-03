@@ -211,6 +211,12 @@
         dropTarget = dropTarget.parentElement;
       }
 
+      // Item drag
+      if (draggedEl.classList.contains("item") && (dropTarget.classList.contains("room") || dropTarget.classList.contains("topic-box"))) {
+        dropTarget.appendChild(draggedEl);
+        return;
+      }
+      
       // Insert above if dropped on another draggable element
       if ((draggedEl.classList.contains("item") || draggedEl.classList.contains("topic-box")) &&
           (dropTarget.classList.contains("item") || dropTarget.classList.contains("topic-box"))) {
@@ -226,12 +232,6 @@
 
       // Topic-box drag
       if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("room")) {
-        dropTarget.appendChild(draggedEl);
-        return;
-      }
-
-      // Item drag
-      if (draggedEl.classList.contains("item") && (dropTarget.classList.contains("room") || dropTarget.classList.contains("topic-box"))) {
         dropTarget.appendChild(draggedEl);
         return;
       }
