@@ -54,6 +54,7 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      margin: 0px 0px 10px 0px;
     }
     
     
@@ -218,6 +219,12 @@
         dropTarget.appendChild(draggedEl);
         return;
       }
+
+      // Topic-box drag
+      if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("room")) {
+        dropTarget.appendChild(draggedEl);
+        return;
+      }
       
       // Insert above if dropped on another draggable element
       if ((draggedEl.classList.contains("item") || draggedEl.classList.contains("topic-box")) &&
@@ -231,12 +238,7 @@
         dropTarget.appendChild(draggedEl);
         return;
       }
-
-      // Topic-box drag
-      if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("room")) {
-        dropTarget.appendChild(draggedEl);
-        return;
-      }
+      
     }
 
     // Initialize page
@@ -244,6 +246,36 @@
 
 
     function generateSchedules() {
+      const roomDict = {};
+    
+      document.querySelectorAll(".room").forEach(room => {
+        const roomName = room.getAttribute("data-room-name") || room.querySelector(".room-label")?.innerText?.trim();
+        const people = [];
+    
+        // Get all direct children with class 'item' (skip topic-box etc.)
+        room.querySelectorAll(":scope > .item").forEach(item => {
+          // Only grab the name before the colon, assuming format is "Name: Project"
+          const fullText = item.innerText.trim();
+          const nameOnly = fullText.split(":")[0].trim();
+          people.push(nameOnly);
+        });
+    
+        if (roomName) {
+          roomDict[roomName] = people;
+        }
+      });
+    
+      // Send to backend
+      fetch('/receive_schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(roomDict)
+      })
+      .then(res => res.json())
+      .then(data => console.log("Success:", data))
+      .catch(err => console.error("Error sending schedule:", err));
     }
   </script>
 </body>
