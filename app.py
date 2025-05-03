@@ -137,5 +137,11 @@ def get_data():
         "realInitRoomDistribution": realInitRoomDistribution
     })
 
+@app.route('/receive_schedule', methods=['POST'])
+def receive_schedule():
+    room_data = request.get_json()
+    print("Received schedule:", room_data)
+    return jsonify({"status": "success", "message": "Schedule received"})
+
 if __name__ == '__main__':
     app.run(debug=True)
