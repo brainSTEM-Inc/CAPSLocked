@@ -39,6 +39,7 @@
     }
 
     .rooms {
+      min-width: 300px;
       display: flex;
       justify-content: space-around;
       width: 100%;
@@ -204,7 +205,7 @@
       const data = ev.dataTransfer.getData("text");
       const draggedEl = document.getElementById(data);
 
-      if (!draggedEl || ev.target.contains(draggedEl)) return;
+      //if (!draggedEl || ev.target.contains(draggedEl)) return;
 
       let dropTarget = ev.target;
       while (dropTarget && !dropTarget.classList.contains("room") &&
@@ -215,9 +216,22 @@
         dropTarget = dropTarget.parentElement;
       }
 
+		
       // Item drag
-      if (draggedEl.classList.contains("item") && (dropTarget.classList.contains("room") || dropTarget.classList.contains("topic-box"))) {
+      if (draggedEl.classList.contains("item") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
+        return;
+      }
+      
+      // Item drag
+      if (draggedEl.classList.contains("item") && dropTarget.classList.contains("topic-box")) {
+        //dropTarget.appendChild(draggedEl);
+        if (!dropTarget.classList.contains("item") && dropTarget.querySelectorAll(".item").length != 0) {
+        	dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
+        }
+        else {
+        	dropTarget.appendChild(draggedEl);
+        }
         return;
       }
 
