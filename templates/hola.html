@@ -112,6 +112,7 @@
     .then(res => res.json())
     .then(data => {
       createRoomElements(data.realInitRoomDistribution);
+      document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
     })
     .catch(err => console.error("Failed to fetch room data:", err));
