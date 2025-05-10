@@ -51,7 +51,9 @@ def submit_availability():
     allTimes = data.get('allTimes')
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
-    capacityDict = {room: len(times)*personsPerTime for room, times in roomToTimes.items()}
+    capacityDict={"Multiple Topics":0}
+    for room, times in roomToTimes.items():
+        capacityDict[room]=len(times)*personsPerTime
     
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
