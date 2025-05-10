@@ -127,6 +127,7 @@
     .then(res => res.json())
     .then(data => {
       const capacityDict = data.capacityDict;
+      console.log(capacityDict);
       createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
