@@ -21,14 +21,24 @@
     }
 
     .label-slot {
-      width: 300px;
-      height: 40px;
+      /*width: 300px;*/
+      min-height: 40px;
       border: 2px dashed #aaa;
       margin: 1rem;
+      margin-bottom: 0rem;
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: #f0f0f0;
+      flex-direction: column;
+    }
+    
+    .capacityLabel {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
     }
 
     .label {
@@ -36,6 +46,9 @@
       background-color: #ffde59;
       border: 1px solid #aaa;
       cursor: move;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
     }
 
     .rooms {
@@ -81,9 +94,9 @@
   </style>
 </head>
 <body>
-  <div class="room-labels" id="room-labels">
-    <!-- Labels dynamically inserted here -->
-  </div>
+  <!--<div class="room-labels" id="room-labels">
+    <!-- Labels dynamically inserted here
+  </div>-->
 
   <div class="rooms" id="rooms-container">
     <!-- Rooms will be populated here from JS -->
@@ -107,12 +120,14 @@
       "Room Delta": [
         ["Sports", [["Karen", "Tennis"], ["Leo", "Basketball"]]]
       ]
-    };*/
+    };
+    const capacityDict={"Room Alpha": 0, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};*/
 
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
       createRoomElements(data.realInitRoomDistribution);
+      const capacityDict = data.capacityDict;
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
     })
@@ -126,17 +141,24 @@
     ];
     const topicColorMap = {};
     let colorIndex = 0;
-	var allTopics={};
+    var allTopics={};
     var allTopicNames=[]
+    
+    var allRoomNames=[];
+    var allRooms={};
+    
     //var allTopicBoxes=[];
     //var allTopicNumbers=[];
     
+    
+    
     function createRoomElements(initRoomDistribution) {
-      const labelContainer = document.getElementById("room-labels");
-      labelContainer.innerHTML = "";
+      //const labelContainer = document.getElementById("room-labels");
+      //labelContainer.innerHTML = "";
       const roomContainer = document.getElementById("rooms-container");
       roomContainer.innerHTML = "";
-		
+      var crest=0;
+      
       Object.entries(initRoomDistribution).forEach(([roomName, topics], i) => {
         const labelSlot = document.createElement("div");
         labelSlot.className = "label-slot";
@@ -149,17 +171,34 @@
         label.id = `label-${roomName.replace(/\s+/g, '-')}`;
         label.ondragstart = drag;
         label.innerText = roomName;
-
+        
+        const capacityLabel = document.createElement("div");
+        capacityLabel.innerText = "max capacity: "+capacityDict[roomName];
+        capacityLabel.className = "capacityLabel";
+        capacityLabel.id=`label-${roomName.replace(/\s+/g, '-')}`+"CAPACITY";
+        
+		const currentCapacityLabel = document.createElement("div");
+        currentCapacityLabel.innerText = "currently holding: "+0;
+        currentCapacityLabel.className = "capacityLabel";
+        currentCapacityLabel.style.fontSize="18px";
+        currentCapacityLabel.id=`label-${roomName.replace(/\s+/g, '-')}`+"CURRENTCAPACITY";
+        
+        
         labelSlot.appendChild(label);
-        labelContainer.appendChild(labelSlot);
+        //labelContainer.appendChild(labelSlot);
 
         const roomDiv = document.createElement("div");
         roomDiv.className = "room";
         roomDiv.id = `room${i+1}`;
         roomDiv.ondrop = drop;
         roomDiv.ondragover = allowDrop;
-		
+		roomDiv.append(labelSlot);
+        
+        label.append(capacityLabel);
+        roomDiv.append(currentCapacityLabel);
       
+      	allRoomNames.push(roomName);
+      	allRooms[roomName]=[roomDiv,currentCapacityLabel,0];
    
         topics.forEach(([topic, items]) => {
           //const topicId = `${roomDiv.id}-${topic.replace(/\s+/g, '-')}`;
@@ -187,7 +226,13 @@
           allTopicNames.push(topic);
           var topicBoxState = document.createElement("div");
           topicBoxState.className = "topic-title";
-          topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [expand]";
+          
+          if (crest==0) {
+          	topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [hide]";
+          }
+          else {
+          	topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [expand]";
+          }
           topicDiv.appendChild(topicBoxState);
 
           items.forEach(([person, project]) => {
@@ -198,7 +243,9 @@
             itemDiv.id = `${person.toLowerCase()}-${project.toLowerCase()}`;
             itemDiv.ondragstart = drag;
             itemDiv.innerHTML = `${person}<br />${project}`;
-       		itemDiv.style.display="none";
+            if (crest!=0) {
+       			itemDiv.style.display="none";
+            }
             topicDiv.appendChild(itemDiv);
             itemDiv.classList.add("class");
           });
@@ -229,12 +276,16 @@
             topicBoxState.style.display="block";
             
           });
-          updateNumbers(topic);
+          //updateNumbers(topic);
           roomDiv.appendChild(topicDiv);
         });
-	
+        if (crest==0) {
+        	roomDiv.style.marginRight="50px";
+        }
+		crest++;
         roomContainer.appendChild(roomDiv);
       });
+      updateAllNumbers();
     }
 	
     function updateNumbers(topic) {
@@ -252,6 +303,20 @@
         topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [hide]";
       }
       allTopics[topic][1]=topicNumber;
+    }
+    
+    function updateAllNumbers() {
+        allTopicNames.forEach((topic) => {
+        	updateNumbers(topic);
+        });
+        
+        allRoomNames.forEach((room) => {
+        	var currentRoom = allRooms[room][0];
+        	var currentRoomCapacityLabel=allRooms[room][1];
+            var currentRoomCapacity = currentRoom.querySelectorAll(".item").length;
+            currentRoomCapacityLabel.innerText = "currently holding: "+currentRoomCapacity;
+            allRooms[room][2]=currentRoomCapacity;
+        });
     }
     
     function allowDrop(ev) {
@@ -282,7 +347,7 @@
       // Item drag
       if (draggedEl.classList.contains("item") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
-        updateAllNumbers()
+        updateAllNumbers();
         return;
       }
       
@@ -295,14 +360,14 @@
         else {
         	dropTarget.appendChild(draggedEl);
         }
-        updateAllNumbers()
+        updateAllNumbers();
         return;
       }
 
       // Topic-box drag
       if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
-        updateAllNumbers()
+        updateAllNumbers();
         return;
       }
       
@@ -316,24 +381,24 @@
       if ((draggedEl.classList.contains("item") || draggedEl.classList.contains("topic-box")) &&
           (dropTarget.classList.contains("item") || dropTarget.classList.contains("topic-box"))) {
         dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
-        updateAllNumbers()
+        updateAllNumbers();
         return;
       }
 
       // Label drag
       if (draggedEl.classList.contains("label") && dropTarget.classList.contains("label-slot")) {
         dropTarget.appendChild(draggedEl);
-        updateAllNumbers()
+        updateAllNumbers();
         return;
       }
       
-    }
-    
-    function updateAllNumbers() {
-    	console.log(allTopicNames);
-    	for (var topic in allTopicNames) {
-        	updateNumbers(topic);
-        }
+      
+      //Label drag onto another label
+      if (draggedEl.classList.contains("label") && dropTarget.classList.contains("label")) {
+        dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
+        return;
+      }
+      
     }
 
     // Initialize page
