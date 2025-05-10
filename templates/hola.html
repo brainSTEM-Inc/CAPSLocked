@@ -305,6 +305,8 @@
     }
     
     function updateAllNumbers() {
+    
+    	var bub = true;
         allTopicNames.forEach((topic) => {
         	updateNumbers(topic);
         });
@@ -314,8 +316,21 @@
         	var currentRoomCapacityLabel=allRooms[room][1];
             var currentRoomCapacity = currentRoom.querySelectorAll(".item").length;
             currentRoomCapacityLabel.innerText = "currently holding: "+currentRoomCapacity;
+            if (currentRoomCapacity>capacityDict[room]) {
+            	currentRoomCapacityLabel.style.color="red";
+                bub=false;
+            }
+            else {
+            	currentRoomCapacityLabel.style.color="black";
+            }
             allRooms[room][2]=currentRoomCapacity;
         });
+        if (bub==true) {
+        	document.getElementById("generate").disabled=false;
+        }
+        else {
+        	document.getElementById("generate").disabled=true;
+        }
     }
     
     function allowDrop(ev) {
@@ -401,7 +416,7 @@
     }
 
     // Initialize page
-    /*createRoomElements(initRoomDistribution);
+    /*createRoomElements(initRoomDistribution,capacityDict);
 	document.getElementById("generate").style.display = "block";
 	console.log(allTopics);*/
     
@@ -409,7 +424,7 @@
       const roomDict = {};
     
       document.querySelectorAll(".room").forEach(room => {
-        const roomName = room.getAttribute("data-room-name") || room.querySelector(".room-label")?.innerText?.trim();
+        /*const roomName = room.getAttribute("data-room-name") || room.querySelector(".room-label")?.innerText?.trim();
         const people = [];
     
         // Get all direct children with class 'item' (skip topic-box etc.)
@@ -422,9 +437,16 @@
     
         if (roomName) {
           roomDict[roomName] = people;
-        }
+        }*/
+        roomDict[room]=[];
+        room.querySelectorAll(".item").forEach(item => {
+        	item.style.display="block";
+        	console.log(item.innerText.split("\n"));
+        	roomDict[room].push(item.innerText.split("\n")[0]);
+        });
       });
-    
+      console.log(roomDict);
+      
       // Send to backend
       fetch('/receive_schedule', {
         method: 'POST',
