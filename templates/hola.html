@@ -254,7 +254,6 @@
           topicDiv.addEventListener("click", function showHideProjects() {
           	var allElements = topicDiv.querySelectorAll(".item");
             var bob = true;
-            console.log(allElements);
             var newtopicNumber = allTopics[topic][1];
             if (topicBoxState.innerText.includes("expand")) {
                 topicBoxState.innerHTML = "<b>"+topic+" ("+newtopicNumber+")</b> [hide]";
@@ -288,11 +287,11 @@
     }
 	
     function updateNumbers(topic) {
-      console.log(allTopics);
       
       var topicBox = allTopics[topic][0];
       var topicNumber = topicBox.querySelectorAll(".item").length;
-      //console.log(topicBox.querySelectorAll(".item"));
+      console.log(topic);
+      console.log(topicNumber);
       var topicBoxState = topicBox.querySelector(".topic-title");
       //console.log(topicBoxState);
       if (topicBoxState.innerText.includes("expand")) {
