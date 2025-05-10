@@ -122,11 +122,11 @@
       ]
     };
     const capacityDict={"Room Alpha": 0, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};*/
-
+    const capacityDict;	
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
-      var capacityDict=data.capacityDict;
+      capacityDict=data.capacityDict;
       console.log(capacityDict);
       createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
