@@ -122,12 +122,12 @@
       ]
     };
     const capacityDict={"Room Alpha": 0, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};*/
-    const capacityDict;	
+    const capacityDict={};
+	  
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
       capacityDict=data.capacityDict;
-      console.log(capacityDict);
       createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
@@ -256,6 +256,7 @@
           topicDiv.addEventListener("click", function showHideProjects() {
           	var allElements = topicDiv.querySelectorAll(".item");
             var bob = true;
+            console.log(allElements);
             var newtopicNumber = allTopics[topic][1];
             if (topicBoxState.innerText.includes("expand")) {
                 topicBoxState.innerHTML = "<b>"+topic+" ("+newtopicNumber+")</b> [hide]";
@@ -289,11 +290,11 @@
     }
 	
     function updateNumbers(topic) {
+      console.log(allTopics);
       
       var topicBox = allTopics[topic][0];
       var topicNumber = topicBox.querySelectorAll(".item").length;
-      console.log(topic);
-      console.log(topicNumber);
+      //console.log(topicBox.querySelectorAll(".item"));
       var topicBoxState = topicBox.querySelector(".topic-title");
       //console.log(topicBoxState);
       if (topicBoxState.innerText.includes("expand")) {
@@ -424,7 +425,7 @@
     function generateSchedules() {
       const roomDict = {};
     
-      document.querySelectorAll(".room").forEach(room => {
+      allRoomNames.forEach(room => {
         /*const roomName = room.getAttribute("data-room-name") || room.querySelector(".room-label")?.innerText?.trim();
         const people = [];
     
@@ -440,13 +441,14 @@
           roomDict[roomName] = people;
         }*/
         roomDict[room]=[];
-        room.querySelectorAll(".item").forEach(item => {
+        allRooms[room][0].querySelectorAll(".item").forEach(item => {
         	item.style.display="block";
         	console.log(item.innerText.split("\n"));
         	roomDict[room].push(item.innerText.split("\n")[0]);
         });
       });
-      console.log(roomDict);
+      console.log(JSON.stringify(roomDict));
+      
       
       // Send to backend
       fetch('/receive_schedule', {
