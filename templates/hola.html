@@ -63,12 +63,12 @@
     .topic-box {
       border: 2px solid #4caf50;
       padding: 10px 10px 20px 10px;
-      min-height: 100px;
+      min-height: 10px;
       cursor: move;
     }
 
     .topic-title {
-      font-weight: bold;
+      /*font-weight: bold;*/
       margin-bottom: 8px;
     }
 
@@ -126,13 +126,17 @@
     ];
     const topicColorMap = {};
     let colorIndex = 0;
-
+	var allTopics={};
+    var allTopicNames=[]
+    //var allTopicBoxes=[];
+    //var allTopicNumbers=[];
+    
     function createRoomElements(initRoomDistribution) {
       const labelContainer = document.getElementById("room-labels");
       labelContainer.innerHTML = "";
       const roomContainer = document.getElementById("rooms-container");
       roomContainer.innerHTML = "";
-
+		
       Object.entries(initRoomDistribution).forEach(([roomName, topics], i) => {
         const labelSlot = document.createElement("div");
         labelSlot.className = "label-slot";
@@ -154,9 +158,13 @@
         roomDiv.id = `room${i+1}`;
         roomDiv.ondrop = drop;
         roomDiv.ondragover = allowDrop;
-
+		
+      
+   
         topics.forEach(([topic, items]) => {
-          const topicId = `${roomDiv.id}-${topic.replace(/\s+/g, '-')}`;
+          //const topicId = `${roomDiv.id}-${topic.replace(/\s+/g, '-')}`;
+          //allTopics.push(topic);
+          const topicId = "pranavi"+topic;
           if (!topicColorMap[topic]) {
             topicColorMap[topic] = topicColors[colorIndex % topicColors.length];
             colorIndex++;
@@ -169,10 +177,18 @@
           topicDiv.id = topicId;
           topicDiv.ondragstart = drag;
 
-          const title = document.createElement("div");
+          /*var title = document.createElement("div");
           title.className = "topic-title";
           title.innerText = topic;
-          topicDiv.appendChild(title);
+          topicDiv.appendChild(title);*/
+          
+          var topicNumber = 0;
+          allTopics[topic]=[topicDiv,topicNumber];
+          allTopicNames.push(topic);
+          var topicBoxState = document.createElement("div");
+          topicBoxState.className = "topic-title";
+          topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [expand]";
+          topicDiv.appendChild(topicBoxState);
 
           items.forEach(([person, project]) => {
             const itemDiv = document.createElement("div");
@@ -182,16 +198,62 @@
             itemDiv.id = `${person.toLowerCase()}-${project.toLowerCase()}`;
             itemDiv.ondragstart = drag;
             itemDiv.innerHTML = `${person}<br />${project}`;
+       		itemDiv.style.display="none";
             topicDiv.appendChild(itemDiv);
+            itemDiv.classList.add("class");
           });
-
+          
+          
+          
+          topicDiv.addEventListener("click", function showHideProjects() {
+          	var allElements = topicDiv.querySelectorAll(".item");
+            var bob = true;
+            console.log(allElements);
+            var newtopicNumber = allTopics[topic][1];
+            if (topicBoxState.innerText.includes("expand")) {
+                topicBoxState.innerHTML = "<b>"+topic+" ("+newtopicNumber+")</b> [hide]";
+            }
+            else {
+                topicBoxState.innerHTML = "<b>"+topic+" ("+newtopicNumber+")</b> [expand]";
+                bob = false;
+            }
+          	for (var project of allElements) {
+                if (bob) {
+                	project.style.display = "block";
+                }
+                else {
+                	project.style.display = "none";
+                };
+            }
+            //title.style.display="block";
+            topicBoxState.style.display="block";
+            
+          });
+          updateNumbers(topic);
           roomDiv.appendChild(topicDiv);
         });
-
+	
         roomContainer.appendChild(roomDiv);
       });
     }
-
+	
+    function updateNumbers(topic) {
+      console.log(allTopics);
+      
+      var topicBox = allTopics[topic][0];
+      var topicNumber = topicBox.querySelectorAll(".item").length;
+      //console.log(topicBox.querySelectorAll(".item"));
+      var topicBoxState = topicBox.querySelector(".topic-title");
+      //console.log(topicBoxState);
+      if (topicBoxState.innerText.includes("expand")) {
+        topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [expand]";
+      }
+      else {
+        topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [hide]";
+      }
+      allTopics[topic][1]=topicNumber;
+    }
+    
     function allowDrop(ev) {
       ev.preventDefault();
     }
@@ -220,6 +282,7 @@
       // Item drag
       if (draggedEl.classList.contains("item") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
+        updateAllNumbers()
         return;
       }
       
@@ -232,12 +295,20 @@
         else {
         	dropTarget.appendChild(draggedEl);
         }
+        updateAllNumbers()
         return;
       }
 
       // Topic-box drag
       if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
+        updateAllNumbers()
+        return;
+      }
+      
+      //no topic box in topic box!!!!!!
+      if ((draggedEl.classList.contains("topic-box")) &&
+          (dropTarget.classList.contains("item"))) {
         return;
       }
       
@@ -245,21 +316,31 @@
       if ((draggedEl.classList.contains("item") || draggedEl.classList.contains("topic-box")) &&
           (dropTarget.classList.contains("item") || dropTarget.classList.contains("topic-box"))) {
         dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
+        updateAllNumbers()
         return;
       }
 
       // Label drag
       if (draggedEl.classList.contains("label") && dropTarget.classList.contains("label-slot")) {
         dropTarget.appendChild(draggedEl);
+        updateAllNumbers()
         return;
       }
       
     }
+    
+    function updateAllNumbers() {
+    	console.log(allTopicNames);
+    	for (var topic in allTopicNames) {
+        	updateNumbers(topic);
+        }
+    }
 
     // Initialize page
-    //createRoomElements(initRoomDistribution);
-
-
+    /*createRoomElements(initRoomDistribution);
+	document.getElementById("generate").style.display = "block";
+	console.log(allTopics);*/
+    
     function generateSchedules() {
       const roomDict = {};
     
