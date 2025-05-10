@@ -13,12 +13,18 @@ def hola():
 
 realInitRoomDistribution={}
 capacityDict={}
+rawdataDict={}
+personsPerTime=2
+roomToTimes={}
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
     global realInitRoomDistribution
     global capacityDict
-
+    global rawdataDict
+    global personsPerTime
+    global roomToTimes
+    
     print("🔔 submit_availability was called!")
     data = request.get_json()
 
@@ -43,7 +49,7 @@ def submit_availability():
 
     personsPerTime=2
     
-    rawdataDict = {}
+    #rawdataDict = {}
     #allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
     #roomToTimes={element:allTimes for element in ["Room 195","Room 198","Room 199"]}
 
@@ -143,8 +149,51 @@ def get_data():
 
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
-    room_data = request.get_json()
-    print("Received schedule:", room_data)
+    roomData = request.get_json()
+    print("Received schedule:", roomData)
+    maintopics = list(roomToTimes.keys())
+
+    for maintopic in maintopics:
+        room = roomData[maintopic]
+        
+        dataDict = {}
+        for key, value in rawdataDict.items():
+            if key in room:
+                dataDict[key] = value
+        
+        realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
+        
+        currentSchedule = {}
+        for time in roomToTimes[maintopic]:
+            currentSchedule[time]=[]
+        
+        def g(current, students, score):
+            global dataDict
+            global schedules
+            if not students:
+                schedules.append([current,score])
+                return
+              
+            for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic])):
+                if len(current[time]) < personsPerTime:
+                    newSchedule = copy.deepcopy(current)
+                    newStudents = copy.deepcopy(students)
+                    newScore=score
+                    newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
+                    if dataDict[students[0]][3]:
+                        newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
+                    newSchedule[time].append(students[0])
+                    newStudents.remove(students[0])
+                    g(newSchedule, newStudents,newScore)
+                
+        schedules=[]
+        g(currentSchedule, realFlexibility,0)
+        sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
+        print("Schedule w/ nemesi")
+        for x in sorted_schedules[:10]:
+            print(x)
+        print()
+
     return jsonify({"status": "success", "message": "Schedule received"})
 
 if __name__ == '__main__':
