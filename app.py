@@ -168,8 +168,6 @@ def receive_schedule():
             currentSchedule[time]=[]
         
         def g(current, students, score):
-            global dataDict
-            global schedules
             if not students:
                 schedules.append([current,score])
                 return
