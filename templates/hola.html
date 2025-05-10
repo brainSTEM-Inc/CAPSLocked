@@ -126,7 +126,9 @@
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
-      createRoomElements(data.realInitRoomDistribution,data.capacityDict);
+      var capacityDict=data.capacityDict;
+      console.log(capacityDict);
+      createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
     })
@@ -151,7 +153,7 @@
     
     
     
-    function createRoomElements(initRoomDistribution, capacityDict) {
+    function createRoomElements(initRoomDistribution) {
       //const labelContainer = document.getElementById("room-labels");
       //labelContainer.innerHTML = "";
       const roomContainer = document.getElementById("rooms-container");
@@ -415,7 +417,7 @@
     }
 
     // Initialize page
-    /*createRoomElements(initRoomDistribution,capacityDict);
+    /*createRoomElements(initRoomDistribution);
 	document.getElementById("generate").style.display = "block";
 	console.log(allTopics);*/
     
