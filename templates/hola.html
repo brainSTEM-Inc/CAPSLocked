@@ -126,8 +126,8 @@
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
-      createRoomElements(data.realInitRoomDistribution);
       const capacityDict = data.capacityDict;
+      createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
     })
