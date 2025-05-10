@@ -12,11 +12,12 @@ def hola():
     return render_template('hola.html')
 
 realInitRoomDistribution={}
-
+capacityDict={}
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
     global realInitRoomDistribution
+    global capacityDict
 
     print("🔔 submit_availability was called!")
     data = request.get_json()
@@ -134,7 +135,8 @@ def submit_availability():
 @app.route('/get_data')
 def get_data():
     return jsonify({
-        "realInitRoomDistribution": realInitRoomDistribution
+        "realInitRoomDistribution": realInitRoomDistribution,
+        "capacityDict": capacityDict
     })
 
 @app.route('/receive_schedule', methods=['POST'])
