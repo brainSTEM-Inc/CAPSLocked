@@ -126,7 +126,8 @@
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
-      const capacityDict = data.capacityDict;
+      //const capacityDict = data.capacityDict;
+      const capacityDict = {"Multiple Topics":0, "Room 195": 20, "Room 198":20, "Room 199":20};
       console.log(capacityDict);
       createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
