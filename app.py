@@ -143,6 +143,7 @@ def submit_availability():
             realInitRoomDistribution[room][day]=[];
 
     print(realInitRoomDistribution)
+    print(roomsDaysTimes)
     # Send the data to the frontend
     #return render_template(
            # "hola.html"
