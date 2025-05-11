@@ -22,6 +22,7 @@ dayCapacityDict={}
 def submit_availability():
     global realInitRoomDistribution
     global capacityDict
+    global dayCapacityDict
     global rawdataDict
     global personsPerTime
     global roomToTimes
