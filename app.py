@@ -152,6 +152,7 @@ limit=10
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     roomData = request.get_json()
+    del roomData["Multiple Topics"]
     print("Received schedule:", roomData)
     maintopics = list(roomToTimes.keys())
 
