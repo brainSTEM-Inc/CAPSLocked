@@ -157,7 +157,7 @@ def receive_schedule():
     maintopics = list(roomToTimes.keys())
     print(roomData)
     print(rawdataDict)
-    print(roomsToTimes)
+    print(roomToTimes)
 
     
     maintopic = maintopics[0]
