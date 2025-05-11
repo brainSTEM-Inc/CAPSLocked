@@ -173,18 +173,20 @@ def receive_schedule():
             if not students and score>limit:
                 schedules.append([current,score])
                 return
-              
-            for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic])):
-                if len(current[time]) < personsPerTime:
-                    newSchedule = copy.deepcopy(current)
-                    newStudents = copy.deepcopy(students)
-                    newScore=score
-                    newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
-                    if dataDict[students[0]][3]:
-                        newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
-                    newSchedule[time].append(students[0])
-                    newStudents.remove(students[0])
-                    g(newSchedule, newStudents,newScore)
+            try:  
+                for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic])):
+                    if len(current[time]) < personsPerTime:
+                        newSchedule = copy.deepcopy(current)
+                        newStudents = copy.deepcopy(students)
+                        newScore=score
+                        newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
+                        if dataDict[students[0]][3]:
+                            newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
+                        newSchedule[time].append(students[0])
+                        newStudents.remove(students[0])
+                        g(newSchedule, newStudents,newScore)
+            except:
+                return
                 
         schedules=[]
         g(currentSchedule, realFlexibility,0)
