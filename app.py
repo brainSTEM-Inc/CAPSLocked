@@ -147,6 +147,8 @@ def get_data():
         "capacityDict": capacityDict
     })
 
+lowerLimit=10
+
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     roomData = request.get_json()
@@ -168,7 +170,7 @@ def receive_schedule():
             currentSchedule[time]=[]
         
         def g(current, students, score):
-            if not students:
+            if not students and score>limit:
                 schedules.append([current,score])
                 return
               
