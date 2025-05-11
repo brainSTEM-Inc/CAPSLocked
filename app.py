@@ -16,6 +16,7 @@ capacityDict={}
 rawdataDict={}
 personsPerTime=2
 roomToTimes={}
+dayCapacityDict={}
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
@@ -46,21 +47,27 @@ def submit_availability():
     friendsCol = int(friendsCol1)-1
     blurbCol= int(blurbCol1)-1
     projectNameCol = int(projectNameCol1)-1
-
-    personsPerTime=2
     
-    #rawdataDict = {}
-    #allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
+    personsPerTime=2
+    bigGroupLowerBound = 10
+    
+    rawdataDict = {}
+    allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
     #roomToTimes={element:allTimes for element in ["Room 195","Room 198","Room 199"]}
-
-    roomToTimes = data.get('roomsToTimes')
-    allTimes = data.get('allTimes')
+    
+    roomToTimes = {"Room 195":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]},"Room 198":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]},"Room 199":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]}}
+    #allTimes = data.get('allTimes')
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     capacityDict={"Multiple Topics":0}
-    for room, times in roomToTimes.items():
-        capacityDict[room]=len(times)*personsPerTime
+    dayCapacityDict={"Multiple Topics": {"Day 1":0}}
     
+    for room, times in roomToTimes.items():
+        capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
+        dayCapacityDict[room]={}
+        for day, daytimes in times.items():
+            dayCapacityDict[room][day]=len(daytimes)*personsPerTime
+        
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
         target_string = x[availabilityCol]
@@ -80,7 +87,7 @@ def submit_availability():
     
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
-
+    
     backupRoomDict={}
     rawRoomData={}
     for topic in rawMaintopics:
@@ -100,13 +107,14 @@ def submit_availability():
     
     initRoomDistribution = {room: [] for room in list(roomToTimes.keys())}
     capacityDictCopy = copy.deepcopy(capacityDict)
-
-    #print(maintopics)
+    
     for maintopic in list(roomData.keys()):
         #print(capacityDictCopy)
         capacityDictCopy = dict(sorted(capacityDictCopy.items(), key=lambda item: item[1],reverse=True))
         initRoomDistribution[list(capacityDictCopy.keys())[0]].append([maintopic, [[name,rawdataDict[name][4]] for name in roomData[maintopic]]])
         capacityDictCopy[list(capacityDictCopy.keys())[0]]-=len(roomData[maintopic])
+    
+    
     
     specialGroups=[]
     
@@ -119,7 +127,7 @@ def submit_availability():
                 for student2 in specialGroup:
                     if student1 != student2:
                         rawdataDict[student1][3].append(student2)
-
+    
     backupRoomList = []
     for key, value in backupRoomDict.items():
         backupRoomList.append([key,value])
@@ -127,13 +135,14 @@ def submit_availability():
     #print(initRoomDistribution)
     #print(rawRoomData)
     #print(backupRoomDict)
-
-    realInitRoomDistribution={"Multiple Topics":backupRoomList}
-    for room in list(roomToTimes.keys()):
-        realInitRoomDistribution[room]=initRoomDistribution[room]
+    
+    realInitRoomDistribution={"Multiple Topics":{"Day 1": backupRoomList}}
+    for room, days in roomToTimes.items():
+        realInitRoomDistribution[room]={"Day 1":initRoomDistribution[room]}
+        for day in list(days.keys())[1:]:
+            realInitRoomDistribution[room][day]=[];
 
     print(realInitRoomDistribution)
-    
     # Send the data to the frontend
     #return render_template(
            # "hola.html"
@@ -144,7 +153,8 @@ def submit_availability():
 def get_data():
     return jsonify({
         "realInitRoomDistribution": realInitRoomDistribution,
-        "capacityDict": capacityDict
+        "capacityDict": capacityDict,
+        "dayCapacityDict": dayCapacityDict
     })
 
 limit=10
