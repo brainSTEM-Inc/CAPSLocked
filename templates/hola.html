@@ -159,7 +159,7 @@
     .then(res => res.json())
     .then(data => {
       capacityDict=data.capacityDict;
-      roomsDaysTimes=data.daysCapacityDict;
+      roomsDaysTimes=data.dayCapacityDict;
       createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
