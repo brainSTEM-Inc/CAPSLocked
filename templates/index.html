@@ -50,6 +50,7 @@ PD 3, Tuesday, December 19th
 PD 4, Tuesday, December 19th
 PD 5, Tuesday, December 19th
 PD 6, Tuesday, December 19th
+
 PD 2, Thursday, December 21st
 PD 3, Thursday, December 21st
 PD 4, Thursday, December 21st
@@ -125,7 +126,55 @@ PD 6, Thursday, December 21st</textarea>
             container.appendChild(table);
             sendBackend.style.display = 'block';
         }
+		
+        
+        function parseTimesByDay(timesRaw) {
+            const days = [];
+            const lines = timesRaw.split("\n");
+            let currentDay = [];
 
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if (trimmed === "") {
+                    if (currentDay.length > 0) {
+                        days.push(currentDay);
+                        currentDay = [];
+                    }
+                } else {
+                    currentDay.push(trimmed);
+                }
+            }
+            if (currentDay.length > 0) {
+                days.push(currentDay);
+            }
+
+            return days;  // [["Time 1", "Time 2", "Time 3"], ["Time 4", "Time 5"]]
+        }
+
+        function buildRoomsToTimesByDay(timesRaw, roomsToTimesOld) {
+            const days = parseTimesByDay(timesRaw);
+            const roomsToTimes = {};
+
+            for (const room in roomsToTimesOld) {
+                const availableTimes = new Set(roomsToTimesOld[room]);
+                const dayDict = {};
+
+                days.forEach((timesList, index) => {
+                    const dayLabel = `Day ${index + 1}`;
+                    const timesForDay = timesList.filter(time => availableTimes.has(time));
+                    if (timesForDay.length > 0) {
+                        dayDict[dayLabel] = timesForDay;
+                    }
+                });
+
+                roomsToTimes[room] = dayDict;
+            }
+
+            return roomsToTimes;
+        }
+        
+        
+        
         function submitAvailability() {
             console.log("Sending data to backend...");
             // Get the textbox values
@@ -140,21 +189,28 @@ PD 6, Thursday, December 21st</textarea>
 
 
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const roomsToTimes = {};
+            const roomsToTimesOld = {};
 
             checkboxes.forEach(cb => {
                 if (cb.checked) {
                     const room = cb.getAttribute('data-room');
                     const time = cb.getAttribute('data-time');
-                    if (!roomsToTimes[room]) {
-                        roomsToTimes[room] = [];
+                    if (!roomsToTimesOld[room]) {
+                        roomsToTimesOld[room] = [];
                     }
-                    roomsToTimes[room].push(time);
+                    roomsToTimesOld[room].push(time);
                 }
             });
 
             const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
-
+			
+            
+            const timesRaw = document.getElementById("timesInput").value;
+            const roomsToTimes = buildRoomsToTimesByDay(timesRaw, roomsToTimesOld);
+            console.log(JSON.stringify(roomsToTimes));
+            
+            
+            
             // Prepare the data to send
             const data = {
                 url: url,
