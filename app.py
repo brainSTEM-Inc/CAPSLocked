@@ -155,7 +155,11 @@ def receive_schedule():
     del roomData["Multiple Topics"]
     print("Received schedule:", roomData)
     maintopics = list(roomToTimes.keys())
+    print(roomData)
+    print(rawdataDict)
+    print(roomsToTimes)
 
+    
     maintopic = maintopics[0]
     room = roomData[maintopic]
     
