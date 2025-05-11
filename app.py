@@ -156,46 +156,46 @@ def receive_schedule():
     print("Received schedule:", roomData)
     maintopics = list(roomToTimes.keys())
 
-    for maintopic in maintopics:
-        room = roomData[maintopic]
-        
-        dataDict = {}
-        for key, value in rawdataDict.items():
-            if key in room:
-                dataDict[key] = value
-        
-        realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
-        
-        currentSchedule = {}
-        for time in roomToTimes[maintopic]:
-            currentSchedule[time]=[]
-        
-        def g(current, students, score):
-            if not students and score>limit:
-                schedules.append([current,score])
-                return
-            try:  
-                for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic])):
-                    if len(current[time]) < personsPerTime:
-                        newSchedule = copy.deepcopy(current)
-                        newStudents = copy.deepcopy(students)
-                        newScore=score
-                        newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
-                        if dataDict[students[0]][3]:
-                            newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
-                        newSchedule[time].append(students[0])
-                        newStudents.remove(students[0])
-                        g(newSchedule, newStudents,newScore)
-            except:
-                return
-                
-        schedules=[]
-        g(currentSchedule, realFlexibility,0)
-        sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
-        print("Schedule w/ nemesi")
-        for x in sorted_schedules[:10]:
-            print(x)
-        print()
+    maintopic = maintopics[0]
+    room = roomData[maintopic]
+    
+    dataDict = {}
+    for key, value in rawdataDict.items():
+        if key in room:
+            dataDict[key] = value
+    
+    realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
+    
+    currentSchedule = {}
+    for time in roomToTimes[maintopic]:
+        currentSchedule[time]=[]
+    
+    def g(current, students, score):
+        if not students and score>limit:
+            schedules.append([current,score])
+            return
+        try:  
+            for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic])):
+                if len(current[time]) < personsPerTime:
+                    newSchedule = copy.deepcopy(current)
+                    newStudents = copy.deepcopy(students)
+                    newScore=score
+                    newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
+                    if dataDict[students[0]][3]:
+                        newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
+                    newSchedule[time].append(students[0])
+                    newStudents.remove(students[0])
+                    g(newSchedule, newStudents,newScore)
+        except:
+            return
+            
+    schedules=[]
+    g(currentSchedule, realFlexibility,0)
+    sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
+    print("Schedule w/ nemesi")
+    for x in sorted_schedules[:10]:
+        print(x)
+    print()
 
     return jsonify({"status": "success", "message": "Schedule received"})
 
