@@ -147,7 +147,7 @@ def get_data():
         "capacityDict": capacityDict
     })
 
-lowerLimit=10
+limit=10
 
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
