@@ -154,7 +154,7 @@
     const capacityDict={"Room Alpha": 0, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};
     const roomsDaysTimes = {"Room Alpha": {"Day 1":0,"Day 2":0}, "Room Beta": {"Day 1":2, "Day 2":4}, "Room Gamma": {"Day 1":4}, "Room Delta": {"Day 2":4}}*/
     var capacityDict={};
-    var roomsDaysTimes={}	  
+    var roomsDaysTimes={};	  
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
