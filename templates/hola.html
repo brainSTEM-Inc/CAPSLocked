@@ -491,7 +491,7 @@
       
       //no topic box in topic box!!!!!!
       if ((draggedEl.classList.contains("topic-box")) &&
-          (dropTarget.classList.contains("item"))) {
+          (dropTarget.classList.contains("item")) && dropTarget.parentElement.classList.contains("topic-box")) {
         return;
       }
       
