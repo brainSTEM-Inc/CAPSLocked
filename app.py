@@ -167,7 +167,6 @@ def receive_schedule():
     del roomData["Multiple Topics"]
     print("Received schedule:", roomData)
     maintopics = list(roomToTimes.keys())
-    print(roomData)
     print(rawdataDict)
     print(roomToTimes)
 
@@ -221,21 +220,26 @@ def receive_schedule():
     for maintopic, dayTimes in roomData.items():
         for day in list(dayTimes.keys()):
             room = roomData[maintopic][day]
-            print(room)
+            #print(room)
             schedules=[]
             dataDict ={}
-            x=True
+    
+            print(maintopic)
+            print(day)
             
             if not f(room,maintopic,day):
+                x=True
                 for sacrifice in room:
                     newRoom = copy.deepcopy(room)
                     newRoom.remove(sacrifice)
-                    print(sacrifice)
                     if f(newRoom,maintopic,day):
+                       print("Sacrifice: "+sacrifice)
                        x=False
     
-            if x:
-                print("yeah so it sucks")
+                if x:
+                    print("yeah so it sucks")
+            print()
+            print()
                 
         
     return jsonify({"status": "success", "message": "Schedule received"})
