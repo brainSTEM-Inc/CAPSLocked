@@ -189,30 +189,54 @@ def receive_schedule():
                 newStudents.remove(students[0])
                 g(newSchedule, newStudents,newScore, maintopic, day)
     
-    for maintopic, dayTimes in roomToTimes.items():
+    failures=[]
+    
+    def f(room, maintopic, day):
+        global schedules
+        global dataDict
+        schedules=[]
+        dataDict ={}
+        
+        for key, value in rawdataDict.items():
+            if key in room:
+                dataDict[key] = value
+        
+        realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
+        
+        currentSchedule = {}
+        for time in roomToTimes[maintopic][day]:
+            currentSchedule[time]=[]
+            
+        schedules=[]
+        g(currentSchedule, realFlexibility,0, maintopic, day)
+        if not schedules:
+            return False
+        sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
+        print("Schedule w/ nemesi")
+        for x in sorted_schedules[:10]:
+            print(x)
+        print()
+        return True
+    
+    for maintopic, dayTimes in roomData.items():
         for day in list(dayTimes.keys()):
             room = roomData[maintopic][day]
-            
-            dataDict = {}
-            for key, value in rawdataDict.items():
-                if key in room:
-                    dataDict[key] = value
-    
-    
-            
-            realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
-            
-            currentSchedule = {}
-            for time in roomToTimes[maintopic][day]:
-                currentSchedule[time]=[]
-                
+            print(room)
             schedules=[]
-            g(currentSchedule, realFlexibility,0, maintopic, day)
-            sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
-            print("Schedule w/ nemesi")
-            for x in sorted_schedules[:10]:
-                print(x)
-            print()
+            dataDict ={}
+            x=True
+            
+            if not f(room,maintopic,day):
+                for sacrifice in room:
+                    newRoom = copy.deepcopy(room)
+                    newRoom.remove(sacrifice)
+                    print(sacrifice)
+                    if f(newRoom,maintopic,day):
+                       x=False
+    
+            if x:
+                print("yeah so it sucks")
+                
         
     return jsonify({"status": "success", "message": "Schedule received"})
 
