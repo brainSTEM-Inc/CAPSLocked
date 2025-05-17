@@ -76,7 +76,7 @@ def submit_availability():
         for item in allTimes:
             if item in target_string:
                 output_list.append(item)
-        rawdataDict[x[firstNameCol]+" "+x[lastNameCol]]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
+        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
     
     
     maintopics = {element for value in rawdataDict.values() for element in value[1].split(", ")}
