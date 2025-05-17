@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect
-import requests, pandas as pd, io, copy
+import requests, pandas as pd, io, copy, sys
+sys.setrecursionlimit(2000)
+
 
 app = Flask(__name__)
 
@@ -136,41 +138,43 @@ def hola():
     
     allSchedules={}
     
-    for maintopic, dayTimes in roomData.items():
-        allSchedules[maintopic]={}
-        for day in list(dayTimes.keys()):
-            allSchedules[maintopic][day]=[]
-            room = roomData[maintopic][day]
-            #print(room)
-            schedules=[]
-            dataDict ={}
-    
-            print(maintopic)
-            print(day)
-            print(room)
-            print()
-    
-    
-            firstTry = f(room,maintopic,day)
-            if firstTry:
-                pass
-                allSchedules[maintopic][day].append(["",firstTry])
-            else:
-                x=True
-                for sacrifice in room:
-                    newRoom = copy.deepcopy(room)
-                    newRoom.remove(sacrifice)
-                    secondTry = f(newRoom,maintopic,day)
-                    if secondTry:
-                       allSchedules[maintopic][day].append([sacrifice,secondTry])
-                       print("Sacrifice: "+sacrifice)
-                       x=False
-    
-                if x:
-                    print("yeah so it sucks")
-    
-            print()
-            print()
+    #for maintopic, dayTimes in roomData.items():
+    maintopic=list(roomData.keys())[0]
+    dayTimes=roomData[list(roomData.keys())[0]]
+    allSchedules[maintopic]={}
+    day=list(dayTimes.keys())[0]:
+    allSchedules[maintopic][day]=[]
+    room = roomData[maintopic][day]
+    #print(room)
+    schedules=[]
+    dataDict ={}
+
+    print(maintopic)
+    print(day)
+    print(room)
+    print()
+
+
+    firstTry = f(room,maintopic,day)
+    if firstTry:
+        pass
+        allSchedules[maintopic][day].append(["",firstTry])
+    else:
+        x=True
+        for sacrifice in room:
+            newRoom = copy.deepcopy(room)
+            newRoom.remove(sacrifice)
+            secondTry = f(newRoom,maintopic,day)
+            if secondTry:
+               allSchedules[maintopic][day].append([sacrifice,secondTry])
+               print("Sacrifice: "+sacrifice)
+               x=False
+
+        if x:
+            print("yeah so it sucks")
+
+    print()
+    print()
 
     
     return render_template('hola.html')
@@ -223,8 +227,8 @@ def submit_availability():
     #roomToTimes = {"Room 195":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]},"Room 198":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]},"Room 199":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]}}
     allTimes = data.get('allTimes')
     roomToTimes = data.get('roomsToTimes')
-    print(allTimes)
-    print(roomToTimes)
+    #print(allTimes)
+    #print(roomToTimes)
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     capacityDict={"Multiple Topics":0}
