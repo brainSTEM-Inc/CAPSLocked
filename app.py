@@ -168,10 +168,73 @@ def receive_schedule():
     roomData = request.get_json()
     del roomData["Multiple Topics"]
     print("Received schedule:", roomData)
-    maintopics = list(roomToTimes.keys())
-    print(rawdataDict)
-    print(roomToTimes)
 
+
+    unboxedRoomData={}
+    for room, days in roomData.items():
+        thisRoom=[]
+        for students in list(days.values()):
+            thisRoom.extend(students)
+        unboxedRoomData[room]=thisRoom
+    
+    print(unboxedRoomData)
+    
+    for thisRoom, thisStudents in unboxedRoomData.items():
+    
+        thisDayTimesFull = roomToTimes[thisRoom]
+        thisDayTimes = {key:len(value)*personsPerTime for key,value in roomToTimes[thisRoom].items()}
+        thisDays = list(roomToTimes[thisRoom].keys())
+        roomSchedule = {key:[] for key in thisDays}
+        print(thisDayTimes)
+        
+        #compromised = []
+        
+        
+        studentAvailability = {}
+        for student in thisStudents:
+            studentTimes = rawdataDict[student][0]
+            availableDays = []
+            for day, times in thisDayTimesFull.items():
+                if len(set(studentTimes) & set(times)) != 0:
+                    availableDays.append(day)
+            studentAvailability[student]=availableDays
+        
+        studentAvailability = dict(sorted(studentAvailability.items(), key=lambda item: len(item[1])))
+        #print(studentAvailability)
+        
+        for student, days in studentAvailability.items():
+            
+            globalDays = [day for day, number in thisDayTimes.items() if number>0]
+            
+            '''print(thisDayTimes)
+            print(roomSchedule)
+            print(globalDays)'''
+            
+            availableDays = list(set(globalDays) & set(days))
+            if len(availableDays)==0:
+                #compromised.append(student)
+                print(student)
+                #availableDays=globalDays
+                break
+            if len(availableDays)==1:
+                roomSchedule[availableDays[0]].append(student)
+                thisDayTimes[availableDays[0]]-=1
+                continue
+            friendDays=[]
+            for day in availableDays:
+                if len(set(roomSchedule[day]) & set(rawdataDict[student][2]))>0:
+                    friendDays.append(day)
+            if not friendDays:
+                day=sorted(availableDays, key=lambda x: thisDayTimes[x], reverse=True)[0]
+            else:
+                day=sorted(friendDays, key=lambda x: thisDayTimes[x], reverse=True)[0]
+                
+            roomSchedule[day].append(student)
+            thisDayTimes[day]-=1     
+    
+        #print(roomSchedule)
+        roomData[thisRoom]=roomSchedule
+        
     def g(current, students, score, maintopic, day):
         if not students:
             schedules.append([current,score])
@@ -189,8 +252,6 @@ def receive_schedule():
                 newSchedule[time].append(students[0])
                 newStudents.remove(students[0])
                 g(newSchedule, newStudents,newScore, maintopic, day)
-    
-    failures=[]
     
     def f(room, maintopic, day):
         global schedules
@@ -219,8 +280,12 @@ def receive_schedule():
         print()
         return True
     
+    allSchedules={}
+    
     for maintopic, dayTimes in roomData.items():
+        allSchedules[maintopic]={}
         for day in list(dayTimes.keys()):
+            allSchedules[maintopic][day]=[]
             room = roomData[maintopic][day]
             #print(room)
             schedules=[]
@@ -228,18 +293,28 @@ def receive_schedule():
     
             print(maintopic)
             print(day)
-            
-            if not f(room,maintopic,day):
+            print(room)
+            print()
+    
+    
+            firstTry = f(room,maintopic,day)
+            if firstTry:
+                pass
+                allSchedules[maintopic][day].append(["",firstTry])
+            else:
                 x=True
                 for sacrifice in room:
                     newRoom = copy.deepcopy(room)
                     newRoom.remove(sacrifice)
-                    if f(newRoom,maintopic,day):
+                    secondTry = f(newRoom,maintopic,day)
+                    if secondTry:
+                       allSchedules[maintopic][day].append([sacrifice,secondTry])
                        print("Sacrifice: "+sacrifice)
                        x=False
     
                 if x:
                     print("yeah so it sucks")
+    
             print()
             print()
                 
