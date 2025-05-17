@@ -240,9 +240,7 @@ def receive_schedule():
         if not students:
             schedules.append([current,score])
             return
-        #try:  
-        print(students[0])
-        print(dataDict)
+        #try:
         
         for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic][day])):
             #print(current)
@@ -267,7 +265,6 @@ def receive_schedule():
             if key in room:
                 dataDict[key] = value
                 
-        print(dataDict)
         realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
         
         currentSchedule = {}
