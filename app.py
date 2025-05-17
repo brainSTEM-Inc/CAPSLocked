@@ -142,7 +142,7 @@ def hola():
     maintopic=list(roomData.keys())[0]
     dayTimes=roomData[list(roomData.keys())[0]]
     allSchedules[maintopic]={}
-    day=list(dayTimes.keys())[0]:
+    day=list(dayTimes.keys())[0]
     allSchedules[maintopic][day]=[]
     room = roomData[maintopic][day]
     #print(room)
