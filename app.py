@@ -263,6 +263,8 @@ def receive_schedule():
             if key in room:
                 dataDict[key] = value
 
+        print("WHAT THE HELL LIL BRO???")
+        print("Jay Wankhede" in list(dataDict.keys()))
         print(dataDict)
         realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
         
