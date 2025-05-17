@@ -168,7 +168,7 @@ def receive_schedule():
     roomData = request.get_json()
     del roomData["Multiple Topics"]
     print("Received schedule:", roomData)
-
+    print(rawdataDict)
 
     unboxedRoomData={}
     for room, days in roomData.items():
@@ -262,7 +262,8 @@ def receive_schedule():
         for key, value in rawdataDict.items():
             if key in room:
                 dataDict[key] = value
-        
+
+        print(dataDict)
         realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
         
         currentSchedule = {}
