@@ -240,6 +240,9 @@ def receive_schedule():
             schedules.append([current,score])
             return
         #try:  
+        print(students[0])
+        print(dataDict)
+        
         for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic][day])):
             #print(current)
             if len(current[time]) < personsPerTime:
@@ -262,9 +265,7 @@ def receive_schedule():
         for key, value in rawdataDict.items():
             if key in room:
                 dataDict[key] = value
-
-        print("WHAT THE HELL LIL BRO???")
-        print("Jay Wankhede" in list(dataDict.keys()))
+                
         print(dataDict)
         realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
         
