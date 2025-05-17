@@ -50,7 +50,6 @@ def submit_availability():
     projectNameCol = int(projectNameCol1)-1
     
     personsPerTime=2
-    bigGroupLowerBound = 10
     
     rawdataDict = {}
     allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
