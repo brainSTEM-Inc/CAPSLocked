@@ -87,6 +87,7 @@ def hola():
         roomData[thisRoom]=roomSchedule
         
     def g(current, students, score, maintopic, day):
+        global dataDict
         if not students:
             schedules.append([current,score])
             return
