@@ -139,43 +139,44 @@ def hola():
     
     allSchedules={}
     
-    #for maintopic, dayTimes in roomData.items():
-    maintopic=list(roomData.keys())[0]
-    dayTimes=roomData[list(roomData.keys())[0]]
-    allSchedules[maintopic]={}
-    day=list(dayTimes.keys())[0]
-    allSchedules[maintopic][day]=[]
-    room = roomData[maintopic][day]
-    #print(room)
-    schedules=[]
-    dataDict ={}
-
-    print(maintopic)
-    print(day)
-    print(room)
-    print()
-
-
-    firstTry = f(room,maintopic,day)
-    if firstTry:
-        pass
-        allSchedules[maintopic][day].append(["",firstTry])
-    else:
-        x=True
-        for sacrifice in room:
-            newRoom = copy.deepcopy(room)
-            newRoom.remove(sacrifice)
-            secondTry = f(newRoom,maintopic,day)
-            if secondTry:
-               allSchedules[maintopic][day].append([sacrifice,secondTry])
-               print("Sacrifice: "+sacrifice)
-               x=False
-
-        if x:
-            print("yeah so it sucks")
-
-    print()
-    print()
+    for maintopic, dayTimes in roomData.items():
+    #maintopic=list(roomData.keys())[0]
+    #dayTimes=roomData[list(roomData.keys())[0]]
+        allSchedules[maintopic]={}
+    #day=list(dayTimes.keys())[0]
+        for day in list(dayTimes.keys()):
+            allSchedules[maintopic][day]=[]
+            room = roomData[maintopic][day]
+            #print(room)
+            schedules=[]
+            dataDict ={}
+        
+            print(maintopic)
+            print(day)
+            print(room)
+            print()
+        
+        
+            firstTry = f(room,maintopic,day)
+            if firstTry:
+                pass
+                allSchedules[maintopic][day].append(["",firstTry])
+            else:
+                x=True
+                for sacrifice in room:
+                    newRoom = copy.deepcopy(room)
+                    newRoom.remove(sacrifice)
+                    secondTry = f(newRoom,maintopic,day)
+                    if secondTry:
+                       allSchedules[maintopic][day].append([sacrifice,secondTry])
+                       print("Sacrifice: "+sacrifice)
+                       x=False
+        
+                if x:
+                    print("yeah so it sucks")
+        
+            print()
+            print()
 
     
     return render_template('hola.html')
