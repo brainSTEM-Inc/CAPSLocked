@@ -90,6 +90,7 @@ def hola():
         
     def g(current, students, score, maintopic, day):
         global dataDict
+        global schedules
         if not students:
             schedules.append([current,score])
             return
