@@ -210,7 +210,7 @@ limit=10
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     unboxedRoomData = request.get_json()
-    print("Received schedule:", roomData)
+    print("Received schedule:", unboxedRoomData)
 
     global roomDayDistribution
 
