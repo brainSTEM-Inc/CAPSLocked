@@ -10,16 +10,8 @@ def home():
     return render_template('index.html')
 
 @app.route('/hola')
-def hola():
-    roomData = {'Room 195': {'Day 1': ['Vincent Ha', 'Catherine Tenny', 'Akhil Raman', 'Sean Radimer', 'Sarah Yu', 'Aaron Zhu', 'Eddie Wu', 'Nicholas McGonigle', 'Zory Teselko', 'Aidan Paul'], 'Day 2': ['Ritviik Ravi', 'Nikhil Kakani', 'Aileen Sharma', 'Aditya Lahiri', 'James Tan', 'Pranav Gaddam', 'Archit Ashok', 'Rachel Zhang', 'Jay Wankhede', 'Chris Ramos']}}
-    #roomData = {'Room 195': {'Day 1': ['Vincent Ha', 'Catherine Tenny', 'Akhil Raman', 'Sean Radimer', 'Sarah Yu', 'Aaron Zhu', 'Eddie Wu', 'Nicholas McGonigle', 'Zory Teselko', 'Aidan Paul'], 'Day 2': ['Nikhil Kakani', 'Jay Wankhede', 'Aditya Lahiri', 'James Tan', 'Pranav Gaddam', 'Rachel Zhang', 'Archit Ashok', 'Aileen Sharma', 'Ritviik Ravi', 'Chris Ramos']}, 'Room 198': {'Day 1': ['Alex Shelley', 'Leavy Hu', 'Esme Liao', 'Veera Singh', 'Michael Tsegaye', 'Kelly Chen', 'Hannah Chen', 'Katherine Saeed', 'Priscilla Kim', 'Snigdha Chelluri'], 'Day 2': ['Elizabeth Issac', 'Daniel Mathew', 'Devon Chen', 'Neel Bhattacharyya', 'David Ruan', 'Daniel Ling', 'Ryan Zhao']}, 'Room 199': {'Day 1': ['Sachet Korada', 'Avyukth Selvadurai', 'Larson Ozbun', 'Muhammad Ahmad', 'Patrick Le', 'Ethan Nee', 'Tarini Nagenalli', 'Tanya Bait', 'Andrew Sha', 'Patrick Foley'], 'Day 2': ['sumedh vangara', 'Milo Stammers', 'Lahari Bandaru', 'Elizabeth Ivanova', 'Jeffery Westlake', 'Sanvika Thimmasamudram', 'Rohun Sarkar', 'Lakshmi Sangireddi', 'Srinidhi Guruvayurappan']}}
-    
-    #'Eddie Wu', 
-    rawdataDict={'Andrew Sha': [['PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Neuroscience', ['Rohun Sarkar'], [], 'Extracting connectivity signatures of Parkinson’s disease using energy-based analysis'], 'Alex Shelley': [['PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['nan'], [], 'Effects of Biosolarization of Apple Pomace on Weed Suppression'], 'Sachet Korada': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['Patrick Le'], ['Avyukth Selvadurai', 'Larson Ozbun', 'Muhammad Ahmad', 'Patrick Le', 'Ethan Nee'], 'Developing a lightweight, robust, open source control system for a differential drive miniature unmanned ground vehicle'], 'Rohun Sarkar': [['PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science, Data Science', ['Andrew Sha [DENIED]'], [], 'Comparative Analysis of Machine Learning Methods for Predicting Global Sea Ice Extent'], 'Leavy Hu': [['PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['Snigdha Chelluri'], [], 'Designing An Animal Model For V122I Transthyretin Amyloidosis'], 'Esme Liao': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st'], 'Biology', ['Kelly Chen'], [], 'Progress in the Generation of an In-House 3rd generation Lentiviral System'], 'David Ruan': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['James Tan'], [], ' Utilizing Perceptron Learning to Classify and Characterize SpireTag Data of Diaphragm Contractions and Relaxations'], 'Tanya Bait': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Astronomy', ['Srinidhi Guruvayruappan'], [], 'Kinematics of the Ionized Outflow in the Northwest of NGC 253'], 'Vincent Ha': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['nan'], [], 'Improving Depth Estimation In Video Frame Interpolation Using Stereo Vision and Epipolar Geometry'], 'Elizabeth Issac': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science, Biology', ['Sanvika Thimmasamudram'], ['Daniel Mathew', 'Devon Chen', 'Neel Bhattacharyya'], 'Using Quantitative Image Analysis and Neural Networks to Classify Colorectal Cancer Patches'], 'Veera Singh': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 5, Tuesday, December 19th'], 'Biology', ['Lahari Bandaru'], [], 'Downregulation of GAP-43 and Y5R Through the Crispri System to Reduce Metastasis of Ewing Sarcoma'], 'Elizabeth Ivanova': [['PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science, Engineering', ['Tarini Nagenalli or Sumedh Vangara or Tanya Bait [DENIED]'], ['Jeffery Westlake', 'Sanvika Thimmasamudram'], 'Enhancing CdSe Quantum Emitter Isolation via Spin Coating and Experimental Optimization'], 'Lahari Bandaru': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 5, Tuesday, December 19th'], 'Computer Science, Agriculture', ['Veera Singh'], [], 'DeepQC: A Deep Learning System for Automatic Quality Control of In-situ Soil Moisture Sensor  Time Series Data '], 'Michael Tsegaye': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st'], 'Biology', ['nan'], [], 'Using Phylogenetic Comparative Methods to Analyze Binary State Speciation/Extinction Data in Squamates'], 'Catherine Tenny': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['Aileen Sharma'], [], 'Assessing the Viability of Cisco Packet Tracer as Automotive Security'], 'Kelly Chen': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['Esme Liao'], [], 'Characterization of Novel Bispecific Antibodies Against SARS-CoV-2 by Evaluation of Binding Kinetics and Neutralization Assays'], 'Ryan Zhao': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st'], 'Computer Science', ['Zory Teselko'], [], 'Using SpireTag Data and Breathing Patterns to Classify Respiratory Events with Human-Learn'], 'Daniel Mathew': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science, Biology', ['nan'], ['Elizabeth Issac', 'Devon Chen', 'Neel Bhattacharyya'], 'MiniMesh: Real-Time 5,000-Node Anatomical Human Body Mesh Reconstruction for Portable Devices'], 'Akhil Raman': [['PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['Pranav Gaddam'], [], 'WRF HDF5 Reader Integration into Paraview'], 'Hannah Chen': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['Lakshmi Sangireddi [DENIED]'], [], 'Assessing the effect of BomS2 knockdown in drosophila melanogaster glial cells on immune response'], 'Sean Radimer': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['nan'], [], 'How CTF Skill Level Reception to Guidance Influences Performance'], 'Avyukth Selvadurai': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['Daniel Ling'], ['Sachet Korada', 'Larson Ozbun', 'Muhammad Ahmad', 'Patrick Le', 'Ethan Nee'], 'The Effect of Cross Laminated Timber on Fire Dynamics'], 'Larson Ozbun': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['nan'], ['Sachet Korada', 'Avyukth Selvadurai', 'Muhammad Ahmad', 'Patrick Le', 'Ethan Nee'], 'Validation of an Autonomous Dynamic Indoor Quadcopter Testing Methodology'], 'Sarah Yu': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science', ['Rachel Zhang'], [], 'Dead Reckoning with TinyML'], 'Milo Stammers': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Math', ['Sumedh Vangara'], [], 'Elementary Generation of SL2 Over Integer Rings of Imaginary Function Fields'], 'sumedh vangara': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Physics', ['milo stammers'], [], 'Electron transport through a 1D chain of dopant-based quantum dots'], 'Tarini Nagenalli': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st'], 'Material Science', ['Priscilla Kim (DENIED]'], [], 'Improvement of Electrolytes in Batteries Designed for Wearable Technology by Comparison of 20% and 30% PVA Solutions\n'], 'Aaron Zhu': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['nan'], [], 'Emotion Recognition in MIDI Files: Leveraging Long Short-Term Memory with a Novel Feature-Extraction Technique'], 'Eddie Wu': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['Muhammad Ahmad'], [], 'Optimizing Sensor Data Transmission in IoT Networks through MQTT Broker-Based Algorithmic Efficiency'], 'Srinidhi Guruvayurappan': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st'], 'Earth science/Geology', ['Tanya Bait'], [], 'Determining the Metamorphic Temperatures of Rocks in the Raspas Complex using Zirconium-in-Rutile Thermometry to Compare to Computer Models'], 'Katherine Saeed': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['nan'], [], 'Comparative Analysis of Short-Read, Long-Read, and Hybrid Bacterial Genome Assembly Across Differen Sequencing Platforms'], 'Lakshmi Sangireddi': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Soil Studies', ['Hannah Chen [DENIED]'], [], 'Investigating Field Capacity Dynamics for Precision Irrigation Management: A Case Study in Agricultural Settings'], 'Patrick Foley': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'nan', ['Aditya Lahiri'], [], 'Geolocation as a Language ID Proxy with Pre-trained Transformers'], 'Nicholas McGonigle': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['nan'], [], 'GPT-Verilog: Enhancing Verilog Generation Using Large Language Models'], 'Zory Teselko': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st'], 'Computer Science', ['Ryan Zhao'], [], 'Temporal Analysis of Respiratory Data for Investigating Speech Rate Variability in Health Monitoring'], 'Muhammad Ahmad': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['Eddie Wu'], ['Sachet Korada', 'Avyukth Selvadurai', 'Larson Ozbun', 'Patrick Le', 'Ethan Nee'], 'Precise Light Coupling Apparatus for Optical Waveguide Chips'], 'Devon Chen': [['PD 4, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science, Biology', ['Daniel Ling'], ['Elizabeth Issac', 'Daniel Mathew', 'Neel Bhattacharyya'], 'Role of Amygdala Projections to the Ventral Pallidum in Regulating Stress-Induced Behaviors'], 'Aidan Paul': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['Aaron Zhu'], [], 'Music Generation using Artificial Neural Networks'], 'Priscilla Kim': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Biology', ['Hannah Chen'], [], 'Finding the underlying mechanism behind PDE11A4 formation '], 'Patrick Le': [['PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['Sachet Korada'], ['Sachet Korada', 'Avyukth Selvadurai', 'Larson Ozbun', 'Muhammad Ahmad', 'Ethan Nee'], 'Mechanical Design of a 3D-Printable Miniature Robotics Platform'], 'Chris Ramos': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st'], 'Computer Science', ['Catherine Tenny'], [], 'Analyzing the Effects of Resampling Techniques on Multiclass Imbalanced Datasets using t-SNE visualizations'], 'Jay Wankhede': [['PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science', ['Neel Bhattacharyya'], [], 'Developing a Large Language Model Powered Algorithm for Enhanced Research Paper Summarization'], 'Nikhil Kakani': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science', ['Ritviik Ravi'], [], 'Optimizing IP Geolocation Algorithm Accuracies: An Integrated Approach Using MLP Neural Network and Reverse DNS Querying Technique'], 'Ritviik Ravi': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th'], 'Computer Science', ['Nikhil Kakani'], [], 'Predicting the Stock Value of NFL Athletes: An Advanced Model Using Gradient-Boosted Trees'], 'Neel Bhattacharyya': [['PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science, Biology', ['Jay Wankhede'], ['Elizabeth Issac', 'Daniel Mathew', 'Devon Chen'], 'Identifying Predictors of Non-Home Discharge Dispositions Using Artificial Intelligence Among Critically Ill Patients Undergoing Coronary Artery Bypass Grafting'], 'Aileen Sharma': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science', ['Catherine Tenny'], [], 'Aligning Classroom Recording Transcripts with Common Core State Standards using Keyword Extraction'], 'Aditya Lahiri': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['Patrick Foley'], [], 'A Preliminary Method for Identifying Ice Movement in the Arctic'], 'James Tan': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['David Ruan'], [], 'Characterization of Breathing Types: Optimizing Data Collection and Cleaning Process for Spire Tag Sensor Analysis'], 'Jeffery Westlake': [['PD 4, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 4, Thursday, December 21st'], 'Computer Science, Engineering', ['nan'], ['Elizabeth Ivanova', 'Sanvika Thimmasamudram'], 'Laser Rangefinding in Explosive Testing'], 'Sanvika Thimmasamudram': [['PD 4, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science, Engineering', ['Elizabeth Isaac'], ['Elizabeth Ivanova', 'Jeffery Westlake'], 'Using MATLAB to Test Camera Sensitivity and for Motion Tracking to Identify Inaccuracies in the Camera used to Record a Building Collapse'], 'Ethan Nee': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['nan'], ['Sachet Korada', 'Avyukth Selvadurai', 'Larson Ozbun', 'Muhammad Ahmad', 'Patrick Le'], 'Spatial assessments of desalination of groundwater for almond irrigation in California'], 'Pranav Gaddam': [['PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Computer Science', ['nan'], [], 'Hyperparameter Optimization and Performance Analysis of Convolutional Neural Networks'], 'Snigdha Chelluri': [['PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['Leavy Hu'], [], 'CRISPR-Based Mitochondrial Regulation in Neuro2a Cells'], 'Rachel Zhang': [['PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science', ['Sarah Yu'], [], 'Automatic Color Flatting of Illustration Linearts'], 'Daniel Ling': [['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['Devon Chen'], [], 'Unveiling the Role of AND-1 in Tumorigenesis'], 'Archit Ashok': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Computer Science', ['nan'], [], 'Using the Kalman Filter to Project the Motion of Ground-Based Obstacles to Prevent Collisions during Autonomous Drone Landings']}
-    roomToTimes={'Room 195': {'Day 1': ['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Day 2': ['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st']}, 'Room 198': {'Day 1': ['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Day 2': ['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st']}, 'Room 199': {'Day 1': ['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th'], 'Day 2': ['PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st']}}
-    personsPerTime=2
-    
-    return render_template('hola.html')
+def generateStep1():
+    return render_template('generateStep1.html')
 
 realInitRoomDistribution={}
 capacityDict={}
@@ -92,49 +84,80 @@ def submit_availability():
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
     
     
-    maintopics = {element for value in rawdataDict.values() for element in value[1].split(", ")}
     rawMaintopics = {value[1] for value in rawdataDict.values()}
-    roomData = {}
-    for maintopic in maintopics:
-        roomData[maintopic]=[]
-    
-    
+
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     
-    backupRoomDict={}
+    def splitRooms(topic, rooms):
+        global rawRoomData
+        global topicsByRoom
+        global specialGroups
+        global rawdataDict
+        roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
+        students=rawRoomData[topic]
+        #print(students)
+        rooms= list(sorted(rooms, key=lambda item: item[1]))
+        for specialGroup in specialGroups:
+            if all(student in students for student in specialGroup):
+                #print(rooms)
+                for i in range(len(rooms)):
+                    if rooms[i][1]>=len(specialGroup):
+                        roomDistribution[rooms[i][0]].extend(specialGroup)
+                        rooms[i][1]-=len(specialGroup)
+                        for student in specialGroup:
+                            students.remove(student)
+                        break
+        rooms= list(sorted(rooms, key=lambda item: item[1]))
+        i=0
+        while i<len(rooms) and rooms[i][1]==0:
+            rooms.remove(rooms[i])
+            i+=1
+    
+        noFriends=[]
+        for student in students:
+            if not rawdataDict[student][2]:
+                roomDistribution[rooms[0]].append(student)
+                rooms[0][1]-=1
+                noFriends.append(student)
+                rooms= list(sorted(rooms, key=lambda item: item[1]))
+                i=0
+                while i<len(rooms) and rooms[i][1]==0:
+                    rooms.remove(rooms[i])
+                    i+=1       
+                    
+        students=[student for student in students if student not in noFriends]
+        for student in students:
+            friends={}
+            for room in rooms:
+                if room[1]>0:
+                    friends[room[0]]=len(set(roomDistribution[room[0]]) & set(rawdataDict[student][2]))
+            friends=sorted(friends, key=lambda item: item[1])
+            roomDistribution[friends[0]].append(student)
+            for i in range(len(rooms)):
+                if rooms[i][0]==friends[0]:
+                    rooms[i][1]-=1
+        #print(roomDistribution)
+        return roomDistribution
+    
     rawRoomData={}
     for topic in rawMaintopics:
         rawRoomData[topic]=[]
-        if topic not in maintopics:
-            backupRoomDict[topic]=[]
     
     for key, value in rawdataDict.items():
-        if "," not in value[1]:
-            roomData[value[1]].append(key)
-        else:
-            backupRoomDict[value[1]].append([key,value[4]])
         rawRoomData[value[1]].append(key)
-    
-    roomData = dict(sorted(roomData.items(), key=lambda item: len(item[1]),reverse=True))
+        
     rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
     
-    initRoomDistribution = {room: [] for room in list(roomToTimes.keys())}
-    capacityDictCopy = copy.deepcopy(capacityDict)
+    #print(rawRoomData)
     
-    for maintopic in list(roomData.keys()):
-        #print(capacityDictCopy)
-        capacityDictCopy = dict(sorted(capacityDictCopy.items(), key=lambda item: item[1],reverse=True))
-        initRoomDistribution[list(capacityDictCopy.keys())[0]].append([maintopic, [[name,rawdataDict[name][4]] for name in roomData[maintopic]]])
-        capacityDictCopy[list(capacityDictCopy.keys())[0]]-=len(roomData[maintopic])
-    
-    
-    
-    specialGroups=[]
+    specialGroups=[["Catherine Tenny","Ryan Zhao","Vincent Ha"]]
     
     for value in rawRoomData.values():
         if len(value)<=6 and len(value)>1:
             specialGroups.append(value)
+    
+    specialGroups = sorted(specialGroups, key=len, reverse=True)
     
     for specialGroup in specialGroups:
         for student1 in specialGroup:
@@ -142,27 +165,38 @@ def submit_availability():
                     if student1 != student2:
                         rawdataDict[student1][3].append(student2)
     
-    backupRoomList = []
-    for key, value in backupRoomDict.items():
-        backupRoomList.append([key,value])
+    topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
+    topicsByRoom={'Room 195':{"Computer Science":20},
+                       "Room 198":{"Biology":11,"Neuroscience":1, "Computer Science":2, "Computer Science, Data Science": 1,'Computer Science, Biology': 4},
+                       "Room 199":{"Engineering":6,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Computer Science, Engineering":3, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Computer Science, Agriculture': 1}}
     
-    #print(initRoomDistribution)
-    #print(rawRoomData)
-    #print(backupRoomDict)
+    topicDistribution={}
+    for room, topics in topicsByRoom.items():
+        for topic, size in topics.items():
+            if topic not in list(topicDistribution.keys()):
+                topicDistribution[topic]=[]
+            topicDistribution[topic].append([room,size])
     
-    realInitRoomDistribution={"Multiple Topics":{"Day 1": backupRoomList}}
-    for room, days in roomToTimes.items():
-        realInitRoomDistribution[room]={"Day 1":initRoomDistribution[room]}
-        for day in list(days.keys())[1:]:
-            realInitRoomDistribution[room][day]=[];
-
-    print(realInitRoomDistribution)
-    print(dayCapacityDict)
-    # Send the data to the frontend
-    #return render_template(
-           # "hola.html"
-       # )
-    return render_template('hola.html')
+    roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
+    #print(topicDistribution)
+    for topic, rooms in topicDistribution.items():
+        if len(rooms)==1:
+            roomDistribution[rooms[0][0]].extend(rawRoomData[topic])
+            continue
+        for room, students in splitRooms(topic, rooms).items():
+            roomDistribution[room].extend(students)
+    
+    for room, students in roomDistribution.items():
+        for i in range(len(students)):
+            student=students[i]
+            students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
+    
+    for room, students in roomDistribution.items():
+        print(room)
+        print(len(students))
+        print(students)
+    
+    return render_template('generateStep1.html')
 
 @app.route('/get_data')
 def get_data():
