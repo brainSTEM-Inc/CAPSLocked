@@ -218,7 +218,7 @@
     var capacityDict={};
     var initRoomDistribution;
     var roomsDaysTimes={};	  
-    fetch('/get_data')
+    fetch('/getDataForStep2')
     .then(res => res.json())
     .then(data => {
       capacityDict=data.capacityDict;
