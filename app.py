@@ -13,6 +13,10 @@ def home():
 def generateStep1():
     return render_template('generateStep1.html')
 
+@app.route('/generateStep2')
+def generateStep1():
+    return render_template('generateStep2.html')
+
 roomDistribution={}
 capacityDict={}
 rawdataDict={}
@@ -306,7 +310,8 @@ def receive_schedule():
                     students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
     print(roomDayDistribution) 
-    return jsonify({"status": "success", "message": "Schedule received"})
+    #return jsonify({"status": "success", "message": "Schedule received"})
+    return render_template('generateStep2.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
