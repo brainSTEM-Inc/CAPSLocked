@@ -232,7 +232,8 @@
     Object.entries(allItems).forEach(([roomName, days]) => {  
     	initRoomDistribution[roomName]=days[0][0];
     });
-    
+    console.log(initRoomDistribution);
+	  
     const topicColors = [
       "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
       "#ffffcc", "#ccffe6", "#ffd9ec", "#d6f5d6", "#ebd6ff",
@@ -461,7 +462,7 @@
           	});
             daysContainer.appendChild(dayDiv);
           })
-          roomDiv.style.display="none";
+          roomDiv.style.display="block";
           roomContainer.appendChild(roomDiv);
  
           displayItems(roomName);
