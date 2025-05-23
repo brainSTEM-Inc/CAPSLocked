@@ -14,7 +14,7 @@ def generateStep1():
     return render_template('generateStep1.html')
 
 @app.route('/generateStep2')
-def generateStep1():
+def generateStep2():
     return render_template('generateStep2.html')
 
 roomDistribution={}
