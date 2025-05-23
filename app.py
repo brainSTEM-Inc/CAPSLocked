@@ -141,7 +141,7 @@ def submit_availability():
     
     #print(rawRoomData)
     
-    specialGroups=[["Catherine Tenny","Ryan Zhao","Vincent Ha"]]
+    specialGroups=[]
     
     for value in rawRoomData.values():
         if len(value)<=6 and len(value)>1:
@@ -168,7 +168,8 @@ def submit_availability():
             topicDistribution[topic].append([room,size])
     
     roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
-    #print(topicDistribution)
+    print(topicDistribution)
+    print(rawRoomData)
     for topic, rooms in topicDistribution.items():
         if len(rooms)==1:
             roomDistribution[rooms[0][0]].extend(rawRoomData[topic])
@@ -180,12 +181,13 @@ def submit_availability():
         for i in range(len(students)):
             student=students[i]
             students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
-    
+    '''
     for room, students in roomDistribution.items():
         print(room)
         print(len(students))
         print(students)
-    
+    '''
+    print(roomDistribution)
     return render_template('generateStep1.html')
 
 @app.route('/get_data')
