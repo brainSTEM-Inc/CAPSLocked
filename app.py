@@ -85,7 +85,6 @@ def submit_availability():
     
     def splitRooms(topic, rooms):
         global rawRoomData
-        global topicsByRoom
         global specialGroups
         global rawdataDict
         roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
