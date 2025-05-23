@@ -157,8 +157,8 @@ def submit_availability():
     
     topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
     topicsByRoom={'Room 195':{"Computer Science":20},
-                       "Room 198":{"Biology":11,"Neuroscience":1, "Computer Science":2, "Computer Science, Data Science": 1,'Computer Science, Biology': 4},
-                       "Room 199":{"Engineering":6,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Computer Science, Engineering":3, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Computer Science, Agriculture': 1}}
+                       "Room 198":{"Biology":15,"Neuroscience":1, "Computer Science":2, "Data Science": 1},
+                       "Room 199":{"Engineering":9,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Agriculture': 1}}
     
     topicDistribution={}
     for room, topics in topicsByRoom.items():
