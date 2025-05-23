@@ -63,11 +63,15 @@ def submit_availability():
     roomToTimes = data.get('roomsToTimes')
     #print(allTimes)
     #print(roomToTimes)
-    
+
+
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
+        dayCapacityDict[room]={}
+        for day, daytimes in times.items():
+            dayCapacityDict[room][day]=len(daytimes)*personsPerTime
         
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
