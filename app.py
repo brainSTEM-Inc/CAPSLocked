@@ -205,7 +205,7 @@ def get_data():
         "capacityDict": capacityDict
     })
 
-@app.route('/get_data')
+@app.route('/getDataForStep2')
 def getDataForStep2():
     return jsonify({
         "roomDayDistribution": roomDayDistribution,
