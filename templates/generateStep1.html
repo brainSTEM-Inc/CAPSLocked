@@ -32,18 +32,7 @@
       background-color: #f0f0f0;
       flex-direction: column;
     }
-    
-    .special-label-slot {
-      /*width: 300px;*/
-      min-height: 40px;
-      margin: 1rem;
-      margin-bottom: 0rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #f0f0f0;
-    }
-    
+
     .capacityLabel {
       margin-top: 0;
       display: flex;
@@ -71,7 +60,6 @@
     }
 
     .room {
-      width: 300px;
       min-height: 400px;
       border: 2px solid #333;
       padding: 10px 10px 40px 10px; /* extra bottom padding */
@@ -81,34 +69,12 @@
       gap: 1rem;
       margin: 0px 0px 10px 0px;
     }
-    
-    .day {
-      /*min-height: 400px;*/
-      border: 2px dashed #333;
-      padding: 10px 10px 40px 10px; /* extra bottom padding */
-      background-color: #f9f9f9;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin: 0px 0px 10px 0px;
-    }
-
-    .topic-box {
-      border: 2px solid #4caf50;
-      padding: 10px 10px 20px 10px;
-      min-height: 10px;
-      cursor: move;
-    }
-
-    .topic-title {
-      /*font-weight: bold;*/
-      margin-bottom: 8px;
-    }
 
     .item {
+      min-width: 200px;
       border: 1px solid #555;
       padding: 5px;
-      margin: 5px 0;
+      margin: 0px 0;
       cursor: move;
     }
   </style>
@@ -125,41 +91,32 @@
   <button id="generate" style="display: none;" onclick="generateSchedules()">Generate schedules</button>
   
   <script>
+    
     /*const initRoomDistribution = {
-      "Room Alpha": {"Day 1":
-        [["Solar Energy", [["Alice", "Panels"], ["Bob", "Mirrors"]]]],
-        "Day 2":[["AI", [["Cara", "Chatbots"], ["Dan", "Vision"]]]]
-      },
-      "Room Beta": {
-        "Day 1":[["Gaming", [["Eva", "Wii"], ["Frank", "Switch"]]]],
-        "Day 2":[["Music", [["George", "Guitar"], ["Holly", "Piano"]]]]
-      },
-      "Room Gamma": {
-        "Day 1":[["Art", [["Iris", "Painting"], ["Jack", "Sculpture"]]]]
-      },
-      "Room Delta": {
-        "Day 2":[["Sports", [["Karen", "Tennis"], ["Leo", "Basketball"]]]]
-      }
+      "Room Alpha": [
+        ["Alice", "Solar Energy", "Panels"], ["Bob", "Solar Energy", "Mirrors"],
+        ["Cara", "AI", "Chatbots"], ["Dan", "AI", "Vision"]
+      ],
+      "Room Beta": [
+        ["Eva", "Gaming", "Wii"], ["Frank", "Gaming", "Switch"],
+        ["George", "Music", "Guitar"], ["Holly", "Music", "Piano"]
+      ],
+      "Room Gamma": [
+        ["Iris", "Art", "Painting"], ["Jack", "Art", "Sculpture"]
+      ],
+      "Room Delta": [
+        ["Karen", "Sports", "Tennis"], ["Leo", "Sports", "Basketball"]
+      ]
     };
-    /*var initRoomDistribution = {
-    "Room Alpha": {
-        "Day 1": [
-            ["Solar Panels", [["Alice", "Alice's Topic"]]]
-        ]
-    }
-	};
     
-    console.log(JSON.stringify(initRoomDistribution));
-    
-    const capacityDict={"Room Alpha": 0, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};
-    const roomsDaysTimes = {"Room Alpha": {"Day 1":0,"Day 2":0}, "Room Beta": {"Day 1":2, "Day 2":4}, "Room Gamma": {"Day 1":4}, "Room Delta": {"Day 2":4}}*/
+    const capacityDict={"Room Alpha": 4, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};
+    */
     var capacityDict={};
-    var roomsDaysTimes={};	  
+	  
     fetch('/get_data')
     .then(res => res.json())
     .then(data => {
       capacityDict=data.capacityDict;
-      roomsDaysTimes=data.dayCapacityDict;
       createRoomElements(data.realInitRoomDistribution);
       document.getElementById("generate").style.display = "block";
       // You can store or log `data.backupRoomDict` if needed
@@ -174,230 +131,83 @@
     ];
     const topicColorMap = {};
     let colorIndex = 0;
-    var allTopics={};
-    var allTopicNames=[]
     
     var allRoomNames=[];
     var allRooms={};
-    
-    var allRoomDays={};
-    var allRoomDayNames=[];
-    var daysCapacityDict={};
-    //var allTopicBoxes=[];
-    //var allTopicNumbers=[];
-    
-    
+
     
     function createRoomElements(initRoomDistribution) {
-      console.log(JSON.stringify(roomsDaysTimes));
-	    
-      //const labelContainer = document.getElementById("room-labels");
-      //labelContainer.innerHTML = "";
       const roomContainer = document.getElementById("rooms-container");
       roomContainer.innerHTML = "";
-      var crest=0;
       
-      Object.entries(initRoomDistribution).forEach(([roomName, days], i) => {
-      	console.log(JSON.stringify(days));
+      Object.entries(initRoomDistribution).forEach(([roomName, items], i) => {
         const labelSlot = document.createElement("div");
-        //labelSlot.className = "label-slot";
-        
-        if (crest!=0) {
-          labelSlot.className = "label-slot";
-          labelSlot.ondrop = drop;
-          labelSlot.ondragover = allowDrop;
-		}
-        else {
-        	labelSlot.className="special-label-slot";
-        }
-        
+        labelSlot.className = "label-slot";
+
         const label = document.createElement("div");
         label.className = "label";
-        if (crest!=0) {
-        	label.draggable = true;
-            label.ondragstart = drag;
-        }
+        label.draggable = true;
         label.id = `label-${roomName.replace(/\s+/g, '-')}`;
+        label.ondragstart = drag;
         label.innerText = roomName;
-       
-
+        
         const capacityLabel = document.createElement("div");
         capacityLabel.innerText = "max capacity: "+capacityDict[roomName];
         capacityLabel.className = "capacityLabel";
         capacityLabel.id=`label-${roomName.replace(/\s+/g, '-')}`+"CAPACITY";
-
-            
-        const currentCapacityLabel = document.createElement("div");
+        
+		const currentCapacityLabel = document.createElement("div");
         currentCapacityLabel.innerText = "currently holding: "+0;
         currentCapacityLabel.className = "capacityLabel";
         currentCapacityLabel.style.fontSize="18px";
         currentCapacityLabel.id=`label-${roomName.replace(/\s+/g, '-')}`+"CURRENTCAPACITY";
-
-
-        labelSlot.appendChild(label);
+        
+        
         //labelContainer.appendChild(labelSlot);
 
         const roomDiv = document.createElement("div");
         roomDiv.className = "room";
         roomDiv.id = `room${i+1}`;
-        //roomDiv.ondrop = drop;
-        //roomDiv.ondragover = allowDrop;
-        roomDiv.append(labelSlot);
-
+        roomDiv.ondrop = drop;
+        roomDiv.ondragover = allowDrop;
+        
+        /*labelSlot.appendChild(label);
+		roomDiv.append(labelSlot);*/
+        roomDiv.append(label);
+        
         label.append(capacityLabel);
         roomDiv.append(currentCapacityLabel);
+      
+      	allRoomNames.push(roomName);
+      	allRooms[roomName]=[roomDiv,currentCapacityLabel,0];
+   
+          items.forEach(([person, topic, project]) => {
+          
+            if (!topicColorMap[topic]) {
+              topicColorMap[topic] = topicColors[colorIndex % topicColors.length];
+              colorIndex++;
+            }
 
-        allRoomNames.push(roomName);
-        allRooms[roomName]=[roomDiv,currentCapacityLabel,0];
-
-		Object.entries(days).forEach(([dayName, topics]) => {
-        
-        	console.log(dayName);
-			const dayDiv = document.createElement("div");
-			dayDiv.className="day";
-            dayDiv.ondrop = drop;
-        	dayDiv.ondragover = allowDrop;
-            
-            const dayLabel = document.createElement("div");
-            dayLabel.innerText=dayName;
-            dayLabel.className="label";
-            dayDiv.append(dayLabel);
-            
-            const dayCapacityLabel = document.createElement("div");
-            const dayCapacity = roomsDaysTimes[roomName][dayName];
-            daysCapacityDict[roomName+dayName]=dayCapacity;
-        	dayCapacityLabel.innerText = "max capacity: "+dayCapacity;
-        	dayCapacityLabel.className = "capacityLabel";
-            dayLabel.append(dayCapacityLabel);
-            
-            const dayCurrentLabel = document.createElement("div");
-            dayCurrentLabel.innerText = "currently holding: "+0;
-            dayCurrentLabel.className = "capacityLabel";
-            dayCurrentLabel.style.fontSize="18px";
-            dayDiv.append(dayCurrentLabel);
-            allRoomDayNames.push(roomName+dayName);
-            allRoomDays[roomName+dayName]=[dayDiv,dayCurrentLabel,0];
-            
-            
-            console.log(JSON.stringify(topics));
-            topics.forEach(([topic, items]) => {
-              //console.log(topic);
-              //console.log(items);
-            
-              //const topicId = `${roomDiv.id}-${topic.replace(/\s+/g, '-')}`;
-              //allTopics.push(topic);
-              const topicId = "pranavi"+topic;
-              if (!topicColorMap[topic]) {
-                topicColorMap[topic] = topicColors[colorIndex % topicColors.length];
-                colorIndex++;
-              }
-
-              const topicDiv = document.createElement("div");
-              topicDiv.className = "topic-box";
-              topicDiv.style.backgroundColor = topicColorMap[topic];
-              topicDiv.draggable = true;
-              topicDiv.id = topicId;
-              topicDiv.ondragstart = drag;
-
-              /*var title = document.createElement("div");
-              title.className = "topic-title";
-              title.innerText = topic;
-              topicDiv.appendChild(title);*/
-
-              var topicNumber = 0;
-              allTopics[topic]=[topicDiv,topicNumber];
-              allTopicNames.push(topic);
-              var topicBoxState = document.createElement("div");
-              topicBoxState.className = "topic-title";
-
-              if (crest==0) {
-                topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [hide]";
-              }
-              else {
-                topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [expand]";
-              }
-              topicDiv.appendChild(topicBoxState);
-
-              items.forEach(([person, project]) => {
-                const itemDiv = document.createElement("div");
-                itemDiv.className = "item";
-                itemDiv.style.backgroundColor = topicColorMap[topic];
-                itemDiv.draggable = true;
-                itemDiv.id = `${person.toLowerCase()}-${project.toLowerCase()}`;
-                itemDiv.ondragstart = drag;
-                itemDiv.innerHTML = `${person}<br />${project}`;
-                if (crest!=0) {
-                    itemDiv.style.display="none";
-                }
-                topicDiv.appendChild(itemDiv);
-                itemDiv.classList.add("class");
-              });
-
-
-
-              topicDiv.addEventListener("click", function showHideProjects() {
-                var allElements = topicDiv.querySelectorAll(".item");
-                var bob = true;
-                console.log(allElements);
-                var newtopicNumber = allTopics[topic][1];
-                if (topicBoxState.innerText.includes("expand")) {
-                    topicBoxState.innerHTML = "<b>"+topic+" ("+newtopicNumber+")</b> [hide]";
-                }
-                else {
-                    topicBoxState.innerHTML = "<b>"+topic+" ("+newtopicNumber+")</b> [expand]";
-                    bob = false;
-                }
-                for (var project of allElements) {
-                    if (bob) {
-                        project.style.display = "block";
-                    }
-                    else {
-                        project.style.display = "none";
-                    };
-                }
-                //title.style.display="block";
-                topicBoxState.style.display="block";
-
-              });
-              //updateNumbers(topic);
-              dayDiv.appendChild(topicDiv);
-              
-            });
-            roomDiv.appendChild(dayDiv);
-          })
-          if (crest==0) {
-            roomDiv.style.marginRight="50px";
-          }
-          crest++;
-          roomContainer.appendChild(roomDiv);
+            const itemDiv = document.createElement("div");
+            itemDiv.className = "item";
+            itemDiv.style.backgroundColor = topicColorMap[topic];
+            itemDiv.draggable = true;
+            itemDiv.id = `${person.toLowerCase()}-${project.toLowerCase()}`;
+            itemDiv.ondragstart = drag;
+            itemDiv.innerHTML = `<span style="font-size: 12px;">${topic}<br /><span style="font-size: 16px;">${person}<br />${project}`;
+            roomDiv.appendChild(itemDiv);
+            itemDiv.classList.add("class");
+          });
+          
+        roomContainer.appendChild(roomDiv);
       });
       updateAllNumbers();
     }
 	
-    function updateNumbers(topic) {
-      console.log(allTopics);
-      
-      var topicBox = allTopics[topic][0];
-      var topicNumber = topicBox.querySelectorAll(".item").length;
-      //console.log(topicBox.querySelectorAll(".item"));
-      var topicBoxState = topicBox.querySelector(".topic-title");
-      //console.log(topicBoxState);
-      if (topicBoxState.innerText.includes("expand")) {
-        topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [expand]";
-      }
-      else {
-        topicBoxState.innerHTML = "<b>"+topic+" ("+topicNumber+")</b> [hide]";
-      }
-      allTopics[topic][1]=topicNumber;
-    }
-    
     function updateAllNumbers() {
     
     	var bub = true;
-        allTopicNames.forEach((topic) => {
-        	updateNumbers(topic);
-        });
-        
+
         allRoomNames.forEach((room) => {
         	var currentRoom = allRooms[room][0];
         	var currentRoomCapacityLabel=allRooms[room][1];
@@ -405,28 +215,13 @@
             currentRoomCapacityLabel.innerText = "currently holding: "+currentRoomCapacity;
             if (currentRoomCapacity>capacityDict[room]) {
             	currentRoomCapacityLabel.style.color="red";
+                bub=false;
             }
             else {
             	currentRoomCapacityLabel.style.color="black";
             }
             allRooms[room][2]=currentRoomCapacity;
         });
-        
-        allRoomDayNames.forEach((room) => {
-        	var currentRoom = allRoomDays[room][0];
-        	var currentRoomCapacityLabel=allRoomDays[room][1];
-            var currentRoomCapacity = currentRoom.querySelectorAll(".item").length;
-            currentRoomCapacityLabel.innerText = "currently holding: "+currentRoomCapacity;
-            if (currentRoomCapacity>daysCapacityDict[room]) {
-            	currentRoomCapacityLabel.style.color="red";
-                bub=false;
-            }
-            else {
-            	currentRoomCapacityLabel.style.color="black";
-            }
-            allRoomDays[room][2]=currentRoomCapacity;
-        });
-        
         if (bub==true) {
         	document.getElementById("generate").disabled=false;
         }
@@ -462,95 +257,39 @@
 
 		
       // Item drag
-      if (draggedEl.classList.contains("item") && dropTarget.classList.contains("day")) {
-      	console.log("u alive or smth");
+      if (draggedEl.classList.contains("item") && dropTarget.classList.contains("room")) {
         dropTarget.appendChild(draggedEl);
         updateAllNumbers();
-        return;
-      }
-      
-      // Item drag
-      if (draggedEl.classList.contains("item") && dropTarget.classList.contains("topic-box")) {
-        //dropTarget.appendChild(draggedEl);
-        if (!dropTarget.classList.contains("item") && dropTarget.querySelectorAll(".item").length != 0) {
-        	dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
-        }
-        else {
-        	dropTarget.appendChild(draggedEl);
-        }
-        updateAllNumbers();
-        return;
-      }
-
-      // Topic-box drag
-      if (draggedEl.classList.contains("topic-box") && dropTarget.classList.contains("day")) {
-        dropTarget.appendChild(draggedEl);
-        updateAllNumbers();
-        return;
-      }
-      
-      //no topic box in topic box!!!!!!
-      if ((draggedEl.classList.contains("topic-box")) &&
-          (dropTarget.classList.contains("item")) && dropTarget.parentElement.classList.contains("topic-box")) {
         return;
       }
       
       // Insert above if dropped on another draggable element
-      if ((draggedEl.classList.contains("item") || draggedEl.classList.contains("topic-box")) &&
-          (dropTarget.classList.contains("item") || dropTarget.classList.contains("topic-box"))) {
+      if ((draggedEl.classList.contains("item")) &&
+          (dropTarget.classList.contains("item"))) {
         dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
         updateAllNumbers();
-        return;
-      }
-
-      // Label drag
-      if (draggedEl.classList.contains("label") && dropTarget.classList.contains("label-slot")) {
-        dropTarget.appendChild(draggedEl);
-        updateAllNumbers();
-        return;
-      }
-      
-      
-      //Label drag onto another label
-      if (draggedEl.classList.contains("label") && dropTarget.classList.contains("label") && !(dropTarget.parentElement.classList.contains("special-label-slot"))) {
-        dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
         return;
       }
       
     }
 
     // Initialize page
-    /*createRoomElements(initRoomDistribution);
+    createRoomElements(initRoomDistribution);
 	document.getElementById("generate").style.display = "block";
-	console.log(allTopics);*/
     
     function generateSchedules() {
       const roomDict = {};
-    
-      /*allRoomNames.forEach(room => {
-        roomDict[room]={};
-        
-          allRoomDays[room+dayName][0].querySelectorAll(".item").forEach(item => {
-              item.style.display="block";
-              console.log(item.innerText.split("\n"));
-              roomDict[room][dayName].push(item.innerText.split("\n")[0]);
-          });
-      });*/
-      
-      Object.entries(roomsDaysTimes).forEach(([roomName, daysDict]) => {
-		  roomDict[roomName]={};
-          Object.keys(daysDict).forEach(dayName => {
-          	  roomDict[roomName][dayName]=[];
-              allRoomDays[roomName+dayName][0].querySelectorAll(".item").forEach(item => {
-                item.style.display="block";
-                console.log(item.innerText.split("\n"));
-                roomDict[roomName][dayName].push(item.innerText.split("\n")[0]);
-          	  });
+
+      allRoomNames.forEach((roomName) => {
+		  roomDict[roomName]=[];
+          var room = allRooms[roomName];
+          room[0].querySelectorAll(".item").forEach(item => {
+            roomDict[roomName].push(item.innerText.split("\n")[1]);
           });
       });
       console.log(JSON.stringify(roomDict));
       
-      
+      /*
       // Send to backend
       fetch('/receive_schedule', {
         method: 'POST',
@@ -562,6 +301,7 @@
       .then(res => res.json())
       .then(data => console.log("Success:", data))
       .catch(err => console.error("Error sending schedule:", err));
+      */
     }
   </script>
 </body>
