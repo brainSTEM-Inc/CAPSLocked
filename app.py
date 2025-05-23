@@ -213,11 +213,13 @@ def getDataForStep2():
         "dayCapacityDict": dayCapacityDict
     })
 
+allDayDistributions = []
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     unboxedRoomData = request.get_json()
     print("Received schedule:", unboxedRoomData)
 
+    global allDayDistributions
     global roomDayDistribution
 
     def findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, score):
