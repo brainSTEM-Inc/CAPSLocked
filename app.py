@@ -84,9 +84,6 @@ def submit_availability():
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     
     def splitRooms(topic, rooms):
-        global rawRoomData
-        global specialGroups
-        global rawdataDict
         roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
         students=rawRoomData[topic]
         #print(students)
