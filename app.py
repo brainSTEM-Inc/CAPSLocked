@@ -13,7 +13,7 @@ def home():
 def generateStep1():
     return render_template('generateStep1.html')
 
-realInitRoomDistribution={}
+roomDistribution={}
 capacityDict={}
 rawdataDict={}
 personsPerTime=2
@@ -23,7 +23,7 @@ dayCapacityDict={}
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
 
-    global realInitRoomDistribution
+    global roomDistribution
     global capacityDict
     global dayCapacityDict
     global rawdataDict
@@ -65,14 +65,9 @@ def submit_availability():
     #print(roomToTimes)
     
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
-    capacityDict={"Multiple Topics":0}
-    dayCapacityDict={"Multiple Topics": {"Day 1":0}}
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
-        dayCapacityDict[room]={}
-        for day, daytimes in times.items():
-            dayCapacityDict[room][day]=len(daytimes)*personsPerTime
         
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
@@ -82,7 +77,6 @@ def submit_availability():
             if item in target_string:
                 output_list.append(item)
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
-    
     
     rawMaintopics = {value[1] for value in rawdataDict.values()}
 
@@ -201,9 +195,8 @@ def submit_availability():
 @app.route('/get_data')
 def get_data():
     return jsonify({
-        "realInitRoomDistribution": realInitRoomDistribution,
-        "capacityDict": capacityDict,
-        "dayCapacityDict": dayCapacityDict
+        "realInitRoomDistribution": roomDistribution,
+        "capacityDict": capacityDict
     })
 
 limit=10
