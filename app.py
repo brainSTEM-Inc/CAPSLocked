@@ -205,7 +205,13 @@ def get_data():
         "capacityDict": capacityDict
     })
 
-limit=10
+@app.route('/get_data')
+def getDataForStep2():
+    return jsonify({
+        "roomDayDistribution": roomDayDistribution,
+        "capacityDict": capacityDict,
+        "dayCapacityDict": dayCapacityDict
+    })
 
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
