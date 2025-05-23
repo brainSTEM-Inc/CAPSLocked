@@ -9,7 +9,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/hola')
+@app.route('/generateStep1')
 def generateStep1():
     return render_template('generateStep1.html')
 
@@ -206,33 +206,56 @@ limit=10
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     roomData = request.get_json()
-    del roomData["Multiple Topics"]
     print("Received schedule:", roomData)
-    #print(rawdataDict)
 
-    unboxedRoomData={}
-    for room, days in roomData.items():
-        thisRoom=[]
-        for students in list(days.values()):
-            thisRoom.extend(students)
-        unboxedRoomData[room]=thisRoom
+    global roomDayDistribution
+
+    def findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, score):
+        global allDayDistributions
     
-    print(unboxedRoomData)
+        if not studentAvailability:
+            newScore=score
+            for students in list(roomSchedule.values()):
+                for student in students:
+                    if (len(set(students) & set(rawdataDict[student][2])))>0:
+                        newScore+=5
+            allDayDistributions.append([roomSchedule,newScore])
+            return
+        
+        student = list(studentAvailability.keys())[0]
+        days = studentAvailability[list(studentAvailability.keys())[0]]
     
-    unboxedRoomData={'Room 195': ['Vincent Ha', 'Catherine Tenny', 'Akhil Raman', 'Sean Radimer', 'Sarah Yu', 'Aaron Zhu', 'Eddie Wu', 'Nicholas McGonigle', 'Zory Teselko', 'Jay Wankhede', 'Ritviik Ravi', 'Nikhil Kakani', 'Aileen Sharma', 'Archit Ashok', 'Rachel Zhang', 'Pranav Gaddam', 'James Tan', 'Aditya Lahiri', 'Chris Ramos', 'Aidan Paul'], 'Room 198': ['Alex Shelley', 'Leavy Hu', 'Esme Liao', 'Veera Singh', 'Michael Tsegaye', 'Kelly Chen', 'Hannah Chen', 'Katherine Saeed', 'Priscilla Kim', 'Snigdha Chelluri', 'Daniel Ling', 'Ryan Zhao', 'Elizabeth Issac', 'Daniel Mathew', 'Devon Chen', 'Neel Bhattacharyya', 'David Ruan'], 'Room 199': ['Sachet Korada', 'Avyukth Selvadurai', 'Larson Ozbun', 'Muhammad Ahmad', 'Patrick Le', 'Ethan Nee', 'Tarini Nagenalli', 'Tanya Bait', 'Andrew Sha', 'Patrick Foley', 'sumedh vangara', 'Milo Stammers', 'Lakshmi Sangireddi', 'Srinidhi Guruvayurappan', 'Rohun Sarkar', 'Elizabeth Ivanova', 'Jeffery Westlake', 'Sanvika Thimmasamudram', 'Lahari Bandaru']}
-    #{'Room 195': ['Vincent Ha', 'Catherine Tenny', 'Akhil Raman', 'Sean Radimer', 'Sarah Yu', 'Aaron Zhu', 'Eddie Wu', 'Nicholas McGonigle', 'Zory Teselko', 'Aidan Paul', 'Chris Ramos', 'Nikhil Kakani', 'Pranav Gaddam', 'Ritviik Ravi', 'Aileen Sharma', 'James Tan', 'Archit Ashok', 'Rachel Zhang', 'Aditya Lahiri', 'Jay Wankhede'], 'Room 198': ['Alex Shelley', 'Leavy Hu', 'Esme Liao', 'Veera Singh', 'Michael Tsegaye', 'Kelly Chen', 'Hannah Chen', 'Katherine Saeed', 'Priscilla Kim', 'Snigdha Chelluri', 'Daniel Ling', 'Andrew Sha', 'Elizabeth Issac', 'Daniel Mathew', 'Devon Chen', 'Neel Bhattacharyya', 'Ryan Zhao', 'David Ruan'], 'Room 199': ['Sachet Korada', 'Avyukth Selvadurai', 'Larson Ozbun', 'Muhammad Ahmad', 'Patrick Le', 'Ethan Nee', 'Milo Stammers', 'Patrick Foley', 'sumedh vangara', 'Tanya Bait', 'Srinidhi Guruvayurappan', 'Rohun Sarkar', 'Elizabeth Ivanova', 'Jeffery Westlake', 'Sanvika Thimmasamudram', 'Lahari Bandaru', 'Tarini Nagenalli', 'Lakshmi Sangireddi']}
-    #unboxedRoomData={'Room 195': ['Vincent Ha', 'Catherine Tenny', 'Akhil Raman', 'Sean Radimer', 'Sarah Yu']}
+        globalDays = [day for day, number in thisDayTimes.items() if number>0]
+        
+        availableDays = list(set(globalDays) & set(days))
+        if len(availableDays)==0:
+            #compromised.append(student)
+            print(student)
+            #availableDays=globalDays
+            #break
+            return
+        for day in availableDays:
+            roomSchedule1 = copy.deepcopy(roomSchedule)
+            thisDayTimes1 = copy.deepcopy(thisDayTimes)
+            roomSchedule1[day].append(student)
+            thisDayTimes1[day]-=1
+        
+            studentAvailability1 = copy.deepcopy(studentAvailability)
+            del studentAvailability1[student]
+            newScore = score
+            if len(set(roomSchedule[day]) & set(rawdataDict[student][2]))>0:
+                newScore+=len(set(roomSchedule[day]) & set(rawdataDict[student][2]))
+            
+            findDayDistributions(roomSchedule1, studentAvailability1, thisDayTimes1, newScore)
+    
+    roomDayDistribution={}
     for thisRoom, thisStudents in unboxedRoomData.items():
     
         thisDayTimesFull = roomToTimes[thisRoom]
         thisDayTimes = {key:len(value)*personsPerTime for key,value in roomToTimes[thisRoom].items()}
         thisDays = list(roomToTimes[thisRoom].keys())
         roomSchedule = {key:[] for key in thisDays}
-        print(thisDayTimes)
-        
-        #compromised = []
-        
-        
+    
         studentAvailability = {}
         for student in thisStudents:
             studentTimes = rawdataDict[student][0]
@@ -243,133 +266,46 @@ def receive_schedule():
             studentAvailability[student]=availableDays
         
         studentAvailability = dict(sorted(studentAvailability.items(), key=lambda item: len(item[1])))
-        #print(studentAvailability)
         
-        for student, days in studentAvailability.items():
-            
-            globalDays = [day for day, number in thisDayTimes.items() if number>0]
-            
-            '''print(thisDayTimes)
-            print(roomSchedule)
-            print(globalDays)'''
-            
-            availableDays = list(set(globalDays) & set(days))
-            if len(availableDays)==0:
-                #compromised.append(student)
-                print(student)
-                #availableDays=globalDays
-                break
-            if len(availableDays)==1:
-                roomSchedule[availableDays[0]].append(student)
-                thisDayTimes[availableDays[0]]-=1
-                continue
-            friendDays=[]
-            for day in availableDays:
-                if len(set(roomSchedule[day]) & set(rawdataDict[student][2]))>0:
-                    friendDays.append(day)
-            if not friendDays:
-                day=sorted(availableDays, key=lambda x: thisDayTimes[x], reverse=True)[0]
+        allDayDistributions = []
+        
+        findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, 0)
+        allDayDistributions = sorted(allDayDistributions, key=lambda x: x[1], reverse=True)
+        print(len(allDayDistributions))
+        
+        print(thisRoom)
+        if not allDayDistributions:
+            print("unfortunately, it sucks")
+        else:
+            consideredDistributions = []
+            highScore = allDayDistributions[0][1]
+            i=0
+            n=10
+            while allDayDistributions[i][1]==highScore:
+                i+=1
+            if len(allDayDistributions)<n:
+                for distribution in allDayDistributions:
+                    consideredDistributions.append(distribution)
+            elif i<=n:
+                for distribution in allDayDistributions[:n]:
+                    consideredDistributions.append(distribution)
             else:
-                day=sorted(friendDays, key=lambda x: thisDayTimes[x], reverse=True)[0]
-                
-            roomSchedule[day].append(student)
-            thisDayTimes[day]-=1     
-    
-        #print(roomSchedule)
-        roomData[thisRoom]=roomSchedule
-        
-    def g(current, students, score, maintopic, day):
-        global dataDict
-        global schedules
-        if not students:
-            schedules.append([current,score])
-            return
-        #try:
-        
-        for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic][day])):
-            #print(current)
-            if len(current[time]) < personsPerTime:
-                newSchedule = copy.deepcopy(current)
-                newStudents = copy.deepcopy(students)
-                newScore=score
-                newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
-                if dataDict[students[0]][3]:
-                    newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
-                newSchedule[time].append(students[0])
-                newStudents.remove(students[0])
-                g(newSchedule, newStudents,newScore, maintopic, day)
-                
-    
-    def f(room, maintopic, day):
-        global schedules
-        global dataDict
-        schedules=[]
-        dataDict ={}
-        
-        for key, value in rawdataDict.items():
-            if key in room:
-                dataDict[key] = value
-    
-        realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
-        
-        currentSchedule = {}
-        for time in roomToTimes[maintopic][day]:
-            currentSchedule[time]=[]
+                hop=(int)(i/n)
+                for j in range(0,i,hop):
+                    distribution=allDayDistributions[j]
+                    consideredDistributions.append(distribution)
+            print()
             
-        schedules=[]
-        g(currentSchedule, realFlexibility,0, maintopic, day)
-        if not schedules:
-            return False
-        sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
-        print("Schedule w/ nemesi")
-        for x in sorted_schedules[:10]:
-            print(x)
-        print()
-        return True
+        roomDayDistribution[thisRoom]=consideredDistributions
     
-    allSchedules={}
+    for room, dayChoices in roomDayDistribution.items():
+        for dayChoice in dayChoices:
+            for day, students in dayChoice[0].items():
+                for i in range(len(students)):
+                    student=students[i]
+                    students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
-    for maintopic, dayTimes in roomData.items():
-    #maintopic=list(roomData.keys())[0]
-    #dayTimes=roomData[list(roomData.keys())[0]]
-        allSchedules[maintopic]={}
-    #day=list(dayTimes.keys())[0]
-        for day in list(dayTimes.keys()):
-            allSchedules[maintopic][day]=[]
-            room = roomData[maintopic][day]
-            #print(room)
-            schedules=[]
-            dataDict ={}
-        
-            print(maintopic)
-            print(day)
-            print(room)
-            print()
-        
-        
-            firstTry = f(room,maintopic,day)
-            if firstTry:
-                pass
-                allSchedules[maintopic][day].append(["",firstTry])
-            else:
-                x=True
-                for sacrifice in room:
-                    newRoom = copy.deepcopy(room)
-                    newRoom.remove(sacrifice)
-                    secondTry = f(newRoom,maintopic,day)
-                    if secondTry:
-                       allSchedules[maintopic][day].append([sacrifice,secondTry])
-                       print("Sacrifice: "+sacrifice)
-                       x=False
-        
-                if x:
-                    print("yeah so it sucks")
-        
-            print()
-            print()
-
-                
-        
+    print(roomDayDistribution) 
     return jsonify({"status": "success", "message": "Schedule received"})
 
 if __name__ == '__main__':
