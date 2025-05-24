@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sheets Link</title>
+    <style>
+        .columnnumbers {
+            width: 30px;
+            margin-right: 20px;
+            margin-left: 5px;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="tableContainer"></div>
 
+  	<br>
+    <button id="sendBackend" style="display: none;" onclick="submitAvailability()">Next</button>
+    
+            
+    <script>
+    	const rooms = ["Room 195","Room 198","Room 199"];
+    	const times = ["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th","PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"];
+    	const days = [["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]]
+        
+        function generateTable() {
+			      console.log(JSON.stringify(rooms));
+            console.log(JSON.stringify(times));
+            
+            const container = document.getElementById('tableContainer');
+            container.innerHTML = "";
+
+            // Save current checkbox states
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkboxStates[checkbox.dataset.key] = checkbox.checked;
+            });
+
+            if (rooms.length === 0 || times.length === 0) {
+                container.innerHTML = "<p>Please enter at least one room and one time!</p>";
+                return;
+            }
+
+            const table = document.createElement('table');
+
+            // Header row
+            const headerRow = document.createElement('tr');
+            const cornerHeader = document.createElement('th'); 
+            cornerHeader.innerText = "Time/Room";
+            headerRow.appendChild(cornerHeader);
+
+            rooms.forEach(room => {
+                const th = document.createElement('th');
+                th.innerText = room;
+                headerRow.appendChild(th);
+            });
+
+            table.appendChild(headerRow);
+
+            // Rows
+            times.forEach(time => {
+                const row = document.createElement('tr');
+                const timeCell = document.createElement('th');
+                timeCell.innerText = time;
+                row.appendChild(timeCell);
+
+                rooms.forEach(room => {
+                    const cell = document.createElement('td');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    const key = `${room}|${time}`;
+                    checkbox.dataset.room = room;   // <<< ADD THIS
+                    checkbox.dataset.time = time;
+                    checkbox.checked = true;
+                    
+                    cell.appendChild(checkbox);
+                    row.appendChild(cell);
+                });
+
+                table.appendChild(row);
+            });
+
+            container.appendChild(table);
+            sendBackend.style.display = 'block';
+        }
+		
+        function buildRoomsToTimesByDay(roomsToTimesOld) {
+            const roomsToTimes = {};
+
+            for (const room in roomsToTimesOld) {
+                const availableTimes = new Set(roomsToTimesOld[room]);
+                const dayDict = {};
+
+                days.forEach((timesList, index) => {
+                    const dayLabel = `Day ${index + 1}`;
+                    const timesForDay = timesList.filter(time => availableTimes.has(time));
+                    if (timesForDay.length > 0) {
+                        dayDict[dayLabel] = timesForDay;
+                    }
+                });
+
+                roomsToTimes[room] = dayDict;
+            }
+
+            return roomsToTimes;
+        }
+        
+        generateTable();
+        
+        function submitAvailability() {
+            console.log("Sending data to backend...");
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const roomsToTimesOld = {};
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const room = cb.getAttribute('data-room');
+                    const time = cb.getAttribute('data-time');
+                    if (!roomsToTimesOld[room]) {
+                        roomsToTimesOld[room] = [];
+                    }
+                    roomsToTimesOld[room].push(time);
+                }
+            });
+
+
+            const roomsToTimes = buildRoomsToTimesByDay(roomsToTimesOld);
+            console.log(JSON.stringify(roomsToTimes));
+            
+            
+            
+            // Prepare the data to send
+            const data = {
+                roomsToTimes: roomsToTimes
+            };
+            
+            // Send the data to the backend
+            fetch('/submit_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+            });
+            window.location.href = "/generateStep1";
+        }
+    </script>
+</body>
+</html>
