@@ -1,1 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sheets Link</title>
+    <style>
+        .columnnumbers {
+            width: 30px;
+            margin-right: 20px;
+            margin-left: 5px;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Google Spreadsheet Info</h2>
+    <input id="spreadsheetUrl" type="text" name="url" style="width:1000px;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUTvl8O4D9cuNTR1MBYAu8CgRzM_sI6eK29hoPriy-4edUpz7YUSDL80wLqxBszu0RLV2YYMLgL3pK/pub?output=csv">
+    
+    <p>Number of column containing...</p>
+    <form id="columnForm" class="container" id="columnForm">
+        <p>Last name</p> <input type="number" id="lastName" class="columnnumbers" placeholder="1">
+        <p>First name</p> <input type="number" id="firstName" class="columnnumbers" placeholder="2">
+        <p>Name of project</p> <input type="number" id="projectName" class="columnnumbers" placeholder="3">
+        <p>Project topic</p> <input type="number" id="projectTopic" class="columnnumbers" placeholder="4">
+        <p>Availability</p> <input type="number" id="availability" class="columnnumbers" placeholder="5">
+        <p>Presenting with friend(s)</p> <input type="number" id="friends" class="columnnumbers" placeholder="6">
+        <p>Blurb about project</p> <input type="number" id="blurb" class="columnnumbers" placeholder="7">
+    </form>
 
+    <h2>Rooms</h2>
+    <p>Enter the name of each room on a separate line</p>
+    <textarea id="roomsInput" style="width:200px" rows="5">Room 195
+Room 198
+Room 199</textarea>
+
+    <h2>All possible times</h2>
+    <p>Enter these <i>exactly as they are written</i> as options for the availability question in the Google Form, each time on a separate line</p>
+    <p>Once you press submit you will be able to select which rooms are available at each time.</p>
+    <textarea id="timesInput" style="width:400px" rows="15">PD 2 Tuesday, December 19th
+PD 3, Tuesday, December 19th
+PD 4, Tuesday, December 19th
+PD 5, Tuesday, December 19th
+PD 6, Tuesday, December 19th
+
+PD 2, Thursday, December 21st
+PD 3, Thursday, December 21st
+PD 4, Thursday, December 21st
+PD 5, Thursday, December 21st
+PD 6, Thursday, December 21st</textarea>
+
+    <br><br>
+    <button id="parseData" disabled="true" onclick="parseData()">View Parsed Data</button>
+
+    <br><br>
+    <div id="tableContainer"></div>
+
+  	<br>
+    <button id="sendBackend" style="display: none;" onclick="submitAvailability()">Next</button>
+    
+    <script>
+    	//console.log(document.getElementById("firstName"));  // Should NOT be null
+
+        function checkInputs() {
+            // Get input elements
+            const input0 = document.getElementById("spreadsheetUrl").value.trim();
+            const input1 = document.getElementById("lastName").value.trim();
+            const input2 = document.getElementById("firstName").value.trim();
+            const input3 = document.getElementById("projectName").value.trim();
+            const input4 = document.getElementById("projectTopic").value.trim();
+            const input5 = document.getElementById("availability").value.trim();
+            const input6 = document.getElementById("friends").value.trim();
+            const input7 = document.getElementById("blurb").value.trim();
+            const input8 = document.getElementById("roomsInput").value.trim();
+            const input9 = document.getElementById("timesInput").value.trim();
+            const button = document.getElementById("parseData");
+
+            // Enable button if both fields have values
+            console.log("its being fricig called");
+            button.disabled = !(input0 && input1 && input2 && input3 && input4 && input5 && input6 && input7 && input8 && input9);
+        }
+
+        // Attach event listeners to inputs
+        /*document.getElementById("lastName").addEventListener("input", checkInputs);
+        document.getElementById("firstName").addEventListener("input", checkInputs);
+        document.getElementById("url").addEventListener("input", checkInputs);
+        document.getElementById("projectName").addEventListener("input", checkInputs);
+        document.getElementById("projectTopic").addEventListener("input", checkInputs);
+        document.getElementById("availability").addEventListener("input", checkInputs);
+        document.getElementById("friends").addEventListener("input", checkInputs);
+        document.getElementById("blurb").addEventListener("input", checkInputs);*/
+        document.getElementById("columnForm").addEventListener("input", checkInputs);
+		document.getElementById("roomsInput").addEventListener("input", checkInputs);
+        document.getElementById("timesInput").addEventListener("input", checkInputs);
+	
+        function generateTable() {
+            const rooms = document.getElementById('roomsInput').value.trim().split('\n').filter(x => x.trim() !== '');
+            const times = document.getElementById('timesInput').value.trim().split('\n').filter(x => x.trim() !== '');
+
+            const container = document.getElementById('tableContainer');
+            container.innerHTML = "";
+
+            // Save current checkbox states
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkboxStates[checkbox.dataset.key] = checkbox.checked;
+            });
+
+            if (rooms.length === 0 || times.length === 0) {
+                container.innerHTML = "<p>Please enter at least one room and one time!</p>";
+                return;
+            }
+
+            const table = document.createElement('table');
+
+            // Header row
+            const headerRow = document.createElement('tr');
+            const cornerHeader = document.createElement('th'); 
+            cornerHeader.innerText = "Time/Room";
+            headerRow.appendChild(cornerHeader);
+
+            rooms.forEach(room => {
+                const th = document.createElement('th');
+                th.innerText = room;
+                headerRow.appendChild(th);
+            });
+
+            table.appendChild(headerRow);
+
+            // Rows
+            times.forEach(time => {
+                const row = document.createElement('tr');
+                const timeCell = document.createElement('th');
+                timeCell.innerText = time;
+                row.appendChild(timeCell);
+
+                rooms.forEach(room => {
+                    const cell = document.createElement('td');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    const key = `${room}|${time}`;
+                    checkbox.dataset.room = room;   // <<< ADD THIS
+                    checkbox.dataset.time = time;
+                    checkbox.checked = true;
+                    
+                    cell.appendChild(checkbox);
+                    row.appendChild(cell);
+                });
+
+                table.appendChild(row);
+            });
+
+            container.appendChild(table);
+            sendBackend.style.display = 'block';
+        }
+		
+        
+        function parseTimesByDay(timesRaw) {
+            const days = [];
+            const lines = timesRaw.split("\n");
+            let currentDay = [];
+
+            for (let line of lines) {
+                const trimmed = line.trim();
+                if (trimmed === "") {
+                    if (currentDay.length > 0) {
+                        days.push(currentDay);
+                        currentDay = [];
+                    }
+                } else {
+                    currentDay.push(trimmed);
+                }
+            }
+            if (currentDay.length > 0) {
+                days.push(currentDay);
+            }
+
+            return days;  // [["Time 1", "Time 2", "Time 3"], ["Time 4", "Time 5"]]
+        }
+
+        function buildRoomsToTimesByDay(timesRaw, roomsToTimesOld) {
+            const days = parseTimesByDay(timesRaw);
+            const roomsToTimes = {};
+
+            for (const room in roomsToTimesOld) {
+                const availableTimes = new Set(roomsToTimesOld[room]);
+                const dayDict = {};
+
+                days.forEach((timesList, index) => {
+                    const dayLabel = `Day ${index + 1}`;
+                    const timesForDay = timesList.filter(time => availableTimes.has(time));
+                    if (timesForDay.length > 0) {
+                        dayDict[dayLabel] = timesForDay;
+                    }
+                });
+
+                roomsToTimes[room] = dayDict;
+            }
+
+            return roomsToTimes;
+        }
+        
+        function parseData() {
+        	console.log("Sending data to backend...");
+            // Get the textbox values
+            const url = document.getElementById('spreadsheetUrl').value;
+            const firstNameCol = document.getElementById('firstName').value;
+            const lastNameCol = document.getElementById('lastName').value;
+            const projectNameCol = document.getElementById('projectName').value;
+            const projectTopicCol = document.getElementById('projectTopic').value;
+            const availabilityCol = document.getElementById('availability').value;
+            const friendsCol = document.getElementById('friends').value;
+            const blurbCol = document.getElementById('blurb').value;
+            
+            const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
+			const allRooms = document.getElementById('roomsInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
+
+            
+            
+            // Prepare the data to send
+            const data = {
+                url: url,
+                firstNameCol: firstNameCol,
+                lastNameCol: lastNameCol,
+                projectNameCol: projectNameCol,
+                projectTopicCol: projectTopicCol,
+                availabilityCol: availabilityCol,
+                friendsCol: friendsCol,
+                blurbCol: blurbCol,
+                allTimes: allTimes
+            };
+            
+            console.log(JSON.stringify(data));
+            
+            // Send the data to the backend
+            fetch('/submit_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+        
+        
+        
+        
+        
+        function submitAvailability() {
+            console.log("Sending data to backend...");
+            // Get the textbox values
+            const url = document.getElementById('spreadsheetUrl').value;
+            const firstNameCol = document.getElementById('firstName').value;
+            const lastNameCol = document.getElementById('lastName').value;
+            const projectNameCol = document.getElementById('projectName').value;
+            const projectTopicCol = document.getElementById('projectTopic').value;
+            const availabilityCol = document.getElementById('availability').value;
+            const friendsCol = document.getElementById('friends').value;
+            const blurbCol = document.getElementById('blurb').value;
+
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const roomsToTimesOld = {};
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const room = cb.getAttribute('data-room');
+                    const time = cb.getAttribute('data-time');
+                    if (!roomsToTimesOld[room]) {
+                        roomsToTimesOld[room] = [];
+                    }
+                    roomsToTimesOld[room].push(time);
+                }
+            });
+
+            const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
+			
+            
+            const timesRaw = document.getElementById("timesInput").value;
+            const roomsToTimes = buildRoomsToTimesByDay(timesRaw, roomsToTimesOld);
+            console.log(JSON.stringify(roomsToTimes));
+            
+            
+            
+            // Prepare the data to send
+            const data = {
+                url: url,
+                firstNameCol: firstNameCol,
+                lastNameCol: lastNameCol,
+                projectNameCol: projectNameCol,
+                projectTopicCol: projectTopicCol,
+                availabilityCol: availabilityCol,
+                friendsCol: friendsCol,
+                blurbCol: blurbCol,
+                allTimes: allTimes,
+                roomsToTimes: roomsToTimes
+            };
+            
+            // Send the data to the backend
+            fetch('/submit_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+            window.location.href = "/generateStep1";
+        }
+    </script>
+</body>
+</html>
