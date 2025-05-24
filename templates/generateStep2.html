@@ -224,6 +224,7 @@
       capacityDict=data.capacityDict;
       roomsDaysTimes=data.dayCapacityDict;
       allItems=data.roomDayDistribution;
+      console.log(JSON.stringify(allItems));
       // You can store or log `data.backupRoomDict` if needed
     })
     .catch(err => console.error("Failed to fetch room data:", err));
