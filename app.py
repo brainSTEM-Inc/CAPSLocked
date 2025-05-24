@@ -141,6 +141,7 @@ def submit_availability():
 
     roomToTimes = data.get('roomsToTimes')
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
+    print(roomToTimes)
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
