@@ -157,9 +157,7 @@ PD 6, Thursday, December 21st</textarea>
             
             const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 	    const allRooms = document.getElementById('roomsInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
-
-            
-            
+    
             // Prepare the data to send
             const data = {
                 url: url,
@@ -214,7 +212,6 @@ PD 6, Thursday, December 21st</textarea>
     .then(res => res.json())
     .then(data => {
       allRooms=data.allRooms;
-      console.log(allRooms);
       displayAllTimes=data.displayAllTimes;
       displayAllTimesFromData = data.displayAllTimesFromData;
       displayHeaders=data.displayHeaders;
