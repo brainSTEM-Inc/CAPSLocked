@@ -29,10 +29,10 @@
     
             
     <script>
-    	const rooms = ["Room 195","Room 198","Room 199"];
-    	const times = ["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th","PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"];
-    	const days = [["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]]
-        
+    	var rooms=[];
+	var times=[];
+	var days=[];
+	    
         function generateTable() {
 			      console.log(JSON.stringify(rooms));
             console.log(JSON.stringify(times));
@@ -113,8 +113,15 @@
 
             return roomsToTimes;
         }
-        
-        generateTable();
+        fetch('/getRoomsAndTimes')
+	    .then(res => res.json())
+	    .then(data => {
+	      rooms=data.rooms;
+	      times=data.times;
+	      days=data.days;
+	      generateTable();
+	    })
+	.catch(err => console.error("Failed to fetch room data:", err));
         
         function submitAvailability() {
             console.log("Sending data to backend...");
