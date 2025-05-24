@@ -65,6 +65,7 @@ def parse_data():
     global displayAllTimes
     global displayAllTimesFromData
     global allTimes
+    global days
     
     data = request.get_json()
 
