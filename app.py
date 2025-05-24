@@ -135,38 +135,7 @@ def submit_availability():
     print("🔔 submit_availability was called!")
     data = request.get_json()
 
-    url = data.get('url')
-    firstNameCol1 = data.get('firstNameCol')
-    lastNameCol1 = data.get('lastNameCol')
-    projectNameCol1 = data.get('projectNameCol')
-    projectTopicCol1 = data.get('projectTopicCol')
-    availabilityCol1 = data.get('availabilityCol')
-    friendsCol1 = data.get('friendsCol')
-    blurbCol1 = data.get('blurbCol')
-
-    urlData = requests.get(url).content
-    rawData = pd.read_csv(io.StringIO(urlData.decode('utf-8')))
-    firstNameCol = int(firstNameCol1)-1
-    lastNameCol = int(lastNameCol1)-1
-    availabilityCol = int(availabilityCol1)-1
-    topicCol = int(projectTopicCol1)-1
-    friendsCol = int(friendsCol1)-1
-    blurbCol= int(blurbCol1)-1
-    projectNameCol = int(projectNameCol1)-1
-    
-    personsPerTime=2
-    
-    rawdataDict = {}
-    #allTimes = ["PD 2 Tuesday, December 19th", "PD 3, Tuesday, December 19th", "PD 4, Tuesday, December 19th", "PD 5, Tuesday, December 19th", "PD 6, Tuesday, December 19th", "PD 2, Thursday, December 21st", "PD 3, Thursday, December 21st", "PD 4, Thursday, December 21st", "PD 5, Thursday, December 21st", "PD 6, Thursday, December 21st"]
-    #roomToTimes={element:allTimes for element in ["Room 195","Room 198","Room 199"]}
-    
-    #roomToTimes = {"Room 195":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]},"Room 198":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]},"Room 199":{"Day 1":["PD 2 Tuesday, December 19th","PD 3, Tuesday, December 19th","PD 4, Tuesday, December 19th","PD 5, Tuesday, December 19th","PD 6, Tuesday, December 19th"],"Day 2":["PD 2, Thursday, December 21st","PD 3, Thursday, December 21st","PD 4, Thursday, December 21st","PD 5, Thursday, December 21st","PD 6, Thursday, December 21st"]}}
-    allTimes = data.get('allTimes')
     roomToTimes = data.get('roomsToTimes')
-    #print(allTimes)
-    #print(roomToTimes)
-
-
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     
     for room, times in roomToTimes.items():
@@ -175,15 +144,6 @@ def submit_availability():
         for day, daytimes in times.items():
             dayCapacityDict[room][day]=len(daytimes)*personsPerTime
         
-    for i in range(len(rawData)):
-        x = [str(item) for item in rawData.iloc[i]]
-        target_string = x[availabilityCol]
-        output_list = []
-        for item in allTimes:
-            if item in target_string:
-                output_list.append(item)
-        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
-    
     rawMaintopics = {value[1] for value in rawdataDict.values()}
 
     #Roomdata topic: people, everyone who has only one topic
