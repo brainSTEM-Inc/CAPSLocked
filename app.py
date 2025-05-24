@@ -176,8 +176,8 @@ def submit_availability():
             topicDistribution[topic].append([room,size])
     
     roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
-    print(topicDistribution)
-    print(rawRoomData)
+    #print(topicDistribution)
+    #print(rawRoomData)
     for topic, rooms in topicDistribution.items():
         if len(rooms)==1:
             roomDistribution[rooms[0][0]].extend(rawRoomData[topic])
@@ -195,7 +195,7 @@ def submit_availability():
         print(len(students))
         print(students)
     '''
-    print(roomDistribution)
+    #print(roomDistribution)
     return render_template('generateStep1.html')
 
 @app.route('/get_data')
