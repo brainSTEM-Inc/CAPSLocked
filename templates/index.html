@@ -207,10 +207,10 @@ PD 6, Thursday, December 21st</textarea>
   var displayAllTimesFromData;
   var displayHeaders;
   var dataDict;
-  var orderedIndices;
+  var orderedIndices = orderedIndices=[1,4,0,2];
   
   function showParsedData() {
-      allRooms = ["Room 195", "Room 198", "Room 199"]
+     /* allRooms = ["Room 195", "Room 198", "Room 199"]
       displayAllTimes = [['PD 2 Tuesday, December 19th', 1], ['PD 3, Tuesday, December 19th', 1], ['PD 4, Tuesday, December 19th', 1], ['PD 5, Tuesday, December 19th', 1], ['PD 6, Tuesday, December 19th', 1], ['PD 2, Thursday, December 21st', 1], ['PD 3, Thursday, December 21st', 1], ['PD 4, Thursday, December 21st', 1], ['PD 5, Thursday, December 21st', 1], ['PD 6, Thursday, December 21st', 1]]
 
       displayAllTimesFromData = [['PD 6, Thursday, December 21st', 1], ['PD 6, Tuesday, December 19th', 1], ['PD 3, Tuesday, December 19th', 1], ['PD 5, Tuesday, December 19th', 1], ['PD 4, Tuesday, December 19th', 1], ['PD 4, Thursday, December 21st', 1], ['PD 3, Thursday, December 21st', 1], ['PD 2, Thursday, December 21st', 1], ['PD 2 Tuesday, December 19th', 1], ['PD 5, Thursday, December 21st', 1]]
@@ -218,9 +218,19 @@ PD 6, Thursday, December 21st</textarea>
       displayHeaders=['Senior Name', 'Project topic', 'Name of project', 'Availability', 'Presenting with a friend?','Blurb'];
       dataDict = {'Andrew Sha': [['PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Neuroscience', ['Rohun Sarkar'], [], 'Extracting connectivity signatures of Parkinson’s disease using energy-based analysis', 'nan'], 'Alex Shelley': [['PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['nan'], [], 'Effects of Biosolarization of Apple Pomace on Weed Suppression', 'nan'], 'Sachet Korada': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['Patrick Le'], [], 'Developing a lightweight, robust, open source control system for a differential drive miniature unmanned ground vehicle', 'nan']};
   
-      orderedIndices=[1,4,0,2]
-  
-  
+      orderedIndices=[1,4,0,2] */
+
+    fetch('/getParsedData')
+    .then(res => res.json())
+    .then(data => {
+      allRooms=data.allRooms;
+      displayAllTimes=data.displayAllTimes;
+      displayAllTimesFromData = data.displayAllTimesFromData;
+      displayHeaders=data.displayHeaders;
+      dataDict=data.dataDict;
+    })
+    .catch(err => console.error("Failed to fetch room data:", err));
+	  
       const container = document.createElement("div");
 
       // Add the informational text
