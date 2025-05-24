@@ -207,6 +207,7 @@ def get_data():
 
 @app.route('/getDataForStep2')
 def getDataForStep2():
+    print(roomDayDistribution);
     return jsonify({
         "roomDayDistribution": roomDayDistribution,
         "capacityDict": capacityDict,
