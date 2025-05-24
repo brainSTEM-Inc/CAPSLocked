@@ -23,6 +23,88 @@ rawdataDict={}
 personsPerTime=2
 roomToTimes={}
 dayCapacityDict={}
+displayAllTimes=[]
+displayAllTimesFromData=[]
+allRooms=[]
+displayHeaders=[]
+
+@app.route('/getParsedData')
+def getParsedData():
+    return jsonify({
+        "dataDict": rawdataDict,
+        "displayHeaders": displayHeaders,
+        "allRooms": allRooms,
+        "displayAllTimes": displayAllTimes,
+        "displayAllTimesFromData": displayAllTimesFromData
+    })
+
+
+@app.route('/parse_data', methods=['POST'])
+def parse_data():
+    global roomDistribution
+    global capacityDict
+    global dayCapacityDict
+    global rawdataDict
+    global personsPerTime
+    global roomToTimes
+    data = request.get_json()
+
+    url = data.get('url')
+    firstNameCol1 = data.get('firstNameCol')
+    lastNameCol1 = data.get('lastNameCol')
+    projectNameCol1 = data.get('projectNameCol')
+    projectTopicCol1 = data.get('projectTopicCol')
+    availabilityCol1 = data.get('availabilityCol')
+    friendsCol1 = data.get('friendsCol')
+    blurbCol1 = data.get('blurbCol')
+
+    urlData = requests.get(url).content
+    rawData = pd.read_csv(io.StringIO(urlData.decode('utf-8')),header=None)
+    
+    dataHeaders = rawData.iloc[0].tolist()
+    rawData = rawData.iloc[1:]
+
+    firstNameCol = int(firstNameCol1)-1
+    lastNameCol = int(lastNameCol1)-1
+    availabilityCol = int(availabilityCol1)-1
+    topicCol = int(projectTopicCol1)-1
+    friendsCol = int(friendsCol1)-1
+    blurbCol= int(blurbCol1)-1
+    projectNameCol = int(projectNameCol1)-1
+    
+    personsPerTime=2
+    
+    rawdataDict = {}
+    allTimes = data.get('allTimes')
+    allRooms = data.get('allRooms')
+    
+    for i in range(len(rawData)):
+        x = [str(item) for item in rawData.iloc[i]]
+        target_string = x[availabilityCol]
+        output_list = []
+        for item in allTimes:
+            if item in target_string:
+                output_list.append(item)
+        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
+
+    allTimesFromData = set(time for value in list(rawdataDict.values()) for time in value[0])
+    
+    for time in allTimes:
+        if time in allTimesFromData:
+            displayAllTimes.append([time,1])
+        else:
+            displayAllTimes.append([time,0])
+    for time in allTimesFromData:
+        if time in allTimes:
+            displayAllTimesFromData.append([time,1])
+        else:
+            displayAllTimesFromData.append([time,0])    
+
+    displayHeaders=["Senior Name",dataHeaders[topicCol],dataHeaders[projectNameCol],dataHeaders[availabilityCol],dataHeaders[friendsCol],dataHeaders[blurbCol]]
+    print(displayHeaders)
+    print(displayAllTimes)
+    print(displayAllTimesFromData)
+    return render_template('index.html')
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
