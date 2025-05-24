@@ -216,7 +216,7 @@
 
     var allItems={}
     var capacityDict={};
-    var initRoomDistribution;
+    var initRoomDistribution = {};
     var roomsDaysTimes={};	  
     fetch('/getDataForStep2')
     .then(res => res.json())
@@ -224,16 +224,16 @@
       capacityDict=data.capacityDict;
       roomsDaysTimes=data.dayCapacityDict;
       allItems=data.roomDayDistribution;
-      // You can store or log `data.backupRoomDict` if needed
+      	console.log(JSON.stringify(allItems));
+	Object.entries(allItems).forEach(([roomName, days]) => {  
+		initRoomDistribution[roomName]=days[0][0];
+	});
+	console.log(JSON.stringify(initRoomDistribution));
+	createRoomElements(initRoomDistribution);
+    	/*document.getElementById("defaultOpen").click();*/
+    	document.getElementById("generate").style.display = "block";
     })
     .catch(err => console.error("Failed to fetch room data:", err));
-
-    console.log(JSON.stringify(allItems));
-    var initRoomDistribution={};
-    Object.entries(allItems).forEach(([roomName, days]) => {  
-    	initRoomDistribution[roomName]=days[0][0];
-    });
-    console.log(JSON.stringify(initRoomDistribution));
 	  
     const topicColors = [
       "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
@@ -561,14 +561,15 @@
             }
         });
     }
-
+	  
+    /*
     createRoomElements(initRoomDistribution);
     
 
     // Get the element with id="defaultOpen" and click on it
-    /*document.getElementById("defaultOpen").click();*/
+    /*document.getElementById("defaultOpen").click();
     document.getElementById("generate").style.display = "block";
-    
+    */
     
     
     function generateSchedules() {
