@@ -104,7 +104,7 @@ def parse_data():
     print(displayHeaders)
     print(displayAllTimes)
     print(displayAllTimesFromData)
-    return render_template('index.html')
+    return render_template('1a.html')
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
