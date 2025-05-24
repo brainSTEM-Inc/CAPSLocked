@@ -30,6 +30,8 @@ displayHeaders=[]
 
 @app.route('/getParsedData')
 def getParsedData():
+    print(allRooms)
+    print(displayHeaders)
     return jsonify({
         "dataDict": rawdataDict,
         "displayHeaders": displayHeaders,
@@ -47,6 +49,11 @@ def parse_data():
     global rawdataDict
     global personsPerTime
     global roomToTimes
+    global displayHeaders
+    global allRooms
+    global displayAllTimes
+    global displayAllTimesFromData
+    
     data = request.get_json()
 
     url = data.get('url')
