@@ -27,11 +27,11 @@ displayAllTimes=[]
 displayAllTimesFromData=[]
 allRooms=[]
 displayHeaders=[]
+days=[]
+allTimes=[]
 
 @app.route('/getParsedData')
 def getParsedData():
-    print(allRooms)
-    print(displayHeaders)
     return jsonify({
         "dataDict": rawdataDict,
         "displayHeaders": displayHeaders,
@@ -40,6 +40,13 @@ def getParsedData():
         "displayAllTimesFromData": displayAllTimesFromData
     })
 
+@app.route('/getRoomsAndTimes')
+def getRoolsAndTimes():
+    return jsonify({
+        "rooms": allRooms,
+        "times": allTimes,
+        "days": days
+    })
 
 @app.route('/parse_data', methods=['POST'])
 def parse_data():
@@ -53,6 +60,7 @@ def parse_data():
     global allRooms
     global displayAllTimes
     global displayAllTimesFromData
+    global allTimes
     
     data = request.get_json()
 
@@ -64,6 +72,7 @@ def parse_data():
     availabilityCol1 = data.get('availabilityCol')
     friendsCol1 = data.get('friendsCol')
     blurbCol1 = data.get('blurbCol')
+    days = data.get('days')
 
     urlData = requests.get(url).content
     rawData = pd.read_csv(io.StringIO(urlData.decode('utf-8')),header=None)
