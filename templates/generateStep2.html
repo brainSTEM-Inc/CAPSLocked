@@ -144,7 +144,6 @@
     }
     
     .button {
-      background-color: #04AA6D; /* Green */
       border: none;
       color: white;
       padding: 15px 32px;
@@ -230,7 +229,7 @@
 	});
 	console.log(JSON.stringify(initRoomDistribution));
 	createRoomElements(initRoomDistribution);
-    	/*document.getElementById("defaultOpen").click();*/
+    	document.getElementById("defaultOpen").click();
     	document.getElementById("generate").style.display = "block";
     })
     .catch(err => console.error("Failed to fetch room data:", err));
