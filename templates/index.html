@@ -19,6 +19,48 @@
             padding: 5px;
             text-align: center;
         }
+
+
+	/* Style the tab */
+	.tab {
+	  overflow: hidden;
+	  border: 1px solid #ccc;
+	  background-color: #f1f1f1;
+	}
+	
+	/* Style the buttons inside the tab */
+	.tab button {
+	  background-color: inherit;
+	  float: left;
+	  border: none;
+	  outline: none;
+	  cursor: pointer;
+	  padding: 14px 16px;
+	  transition: 0.3s;
+	  font-size: 17px;
+	}
+	
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+	  background-color: #ddd;
+	}
+	
+	/* Create an active/current tablink class */
+	.tab button.active {
+	  background-color: #ccc;
+	}
+	
+	/* Style the tab content */
+	.tabcontent {
+	  display: none;
+	  padding: 6px 12px;
+	  border: 1px solid #ccc;
+	  border-top: none;
+	}
+	
+	.timesContainer {
+	  margin-right: 50px;
+	}
     </style>
 </head>
 <body>
@@ -155,9 +197,193 @@ PD 6, Thursday, December 21st</textarea>
                 alert('An error occurred. Please try again.');
             });
 
-	    window.location.href = "/1a";	
+	    showParsedData();	
         }
-        
+
+
+
+  var allRooms;
+  var displayAllTimes;
+  var displayAllTimesFromData;
+  var displayHeaders;
+  var dataDict;
+  var orderedIndices;
+  
+  function showParsedData() {
+      allRooms = ["Room 195", "Room 198", "Room 199"]
+      displayAllTimes = [['PD 2 Tuesday, December 19th', 1], ['PD 3, Tuesday, December 19th', 1], ['PD 4, Tuesday, December 19th', 1], ['PD 5, Tuesday, December 19th', 1], ['PD 6, Tuesday, December 19th', 1], ['PD 2, Thursday, December 21st', 1], ['PD 3, Thursday, December 21st', 1], ['PD 4, Thursday, December 21st', 1], ['PD 5, Thursday, December 21st', 1], ['PD 6, Thursday, December 21st', 1]]
+
+      displayAllTimesFromData = [['PD 6, Thursday, December 21st', 1], ['PD 6, Tuesday, December 19th', 1], ['PD 3, Tuesday, December 19th', 1], ['PD 5, Tuesday, December 19th', 1], ['PD 4, Tuesday, December 19th', 1], ['PD 4, Thursday, December 21st', 1], ['PD 3, Thursday, December 21st', 1], ['PD 2, Thursday, December 21st', 1], ['PD 2 Tuesday, December 19th', 1], ['PD 5, Thursday, December 21st', 1]]
+
+      displayHeaders=['Senior Name', 'Project topic', 'Name of project', 'Availability', 'Presenting with a friend?','Blurb'];
+      dataDict = {'Andrew Sha': [['PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Neuroscience', ['Rohun Sarkar'], [], 'Extracting connectivity signatures of Parkinson’s disease using energy-based analysis', 'nan'], 'Alex Shelley': [['PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Biology', ['nan'], [], 'Effects of Biosolarization of Apple Pomace on Weed Suppression', 'nan'], 'Sachet Korada': [['PD 2 Tuesday, December 19th', 'PD 3, Tuesday, December 19th', 'PD 4, Tuesday, December 19th', 'PD 5, Tuesday, December 19th', 'PD 6, Tuesday, December 19th', 'PD 2, Thursday, December 21st', 'PD 3, Thursday, December 21st', 'PD 4, Thursday, December 21st', 'PD 5, Thursday, December 21st', 'PD 6, Thursday, December 21st'], 'Engineering', ['Patrick Le'], [], 'Developing a lightweight, robust, open source control system for a differential drive miniature unmanned ground vehicle', 'nan']};
+  
+      orderedIndices=[1,4,0,2]
+  
+  
+      const container = document.createElement("div");
+
+      // Add the informational text
+      const infoText = document.createElement("p");
+      infoText.textContent = "Make sure this information is correct.";
+      container.appendChild(infoText);
+
+      // Create tab button container
+      const tabContainer = document.createElement("div");
+      tabContainer.classList.add("tab");
+
+      // Create first button
+      const button1 = document.createElement("button");
+      button1.classList.add("tablinks");
+      button1.setAttribute("onclick", "openData(event, 'Senior Responses')");
+      button1.setAttribute("id", "defaultOpen");
+      button1.textContent = "Senior Responses";
+      tabContainer.appendChild(button1);
+
+      // Create second button
+      const button2 = document.createElement("button");
+      button2.classList.add("tablinks");
+      button2.setAttribute("onclick", "openData(event, 'Rooms/Times')");
+      button2.textContent = "Rooms/Times";
+      tabContainer.appendChild(button2);
+
+      container.appendChild(tabContainer);
+
+      // Create tab content sections
+      const seniorResponsesDiv = document.createElement("div");
+      seniorResponsesDiv.classList.add("tabcontent");
+      seniorResponsesDiv.setAttribute("id", "Senior Responses");
+
+      const roomsTimesDiv = document.createElement("div");
+      roomsTimesDiv.classList.add("tabcontent");
+      roomsTimesDiv.setAttribute("id", "Rooms/Times");
+
+      container.appendChild(seniorResponsesDiv);
+      container.appendChild(roomsTimesDiv);
+
+      // Append the whole structure to the document body or a specific container
+      document.body.appendChild(container);
+      document.getElementById("defaultOpen").click();
+  }
+
+
+  function openData(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+    if ((tabName)=="Senior Responses") {
+      document.getElementById("Senior Responses").innerHTML = "";
+      generateTable(displayHeaders, dataDict, orderedIndices);
+    }
+
+    if ((tabName)=="Rooms/Times") {
+      document.getElementById("Rooms/Times").innerHTML = "";
+
+      const directions = document.createElement("p");
+      directions.textContent = "Make sure all timeslots that appear in responses are in the manually entered timeslots column (they appear green). The timeslots in the responses may not appear in the same order as the manually entered timeslots, but that is fine as long as the two columns contain the same information.";
+      directions.style.color = "black";
+      document.getElementById("Rooms/Times").appendChild(directions);
+
+      const roomNames = document.createElement("h4");
+      roomNames.textContent = "Rooms";
+      roomNames.style.color = "black";
+      document.getElementById("Rooms/Times").appendChild(roomNames);
+
+      allRooms.forEach((text) => {
+	  const roomName = document.createElement("p");
+	  roomName.textContent = text;
+	  roomName.style.color = "green";
+	  document.getElementById("Rooms/Times").appendChild(roomName);
+      });
+
+      const newContainer = document.createElement("div");
+      newContainer.id = "dynamicContainer";  // Assign an ID if needed
+      newContainer.style.display = "flex";
+      newContainer.style.flexDirection="row";
+      document.getElementById("Rooms/Times").appendChild(newContainer);  // Append it to the page
+
+      const userContainer = document.createElement("div");
+      userContainer.className="timesContainer";
+      newContainer.appendChild(userContainer);
+      // Now you can add your colored text inside it!
+
+      const p = document.createElement("h4");
+      p.textContent = "Manually Entered Timeslots";
+      p.style.color = "black";
+      userContainer.appendChild(p);
+
+      displayAllTimes.forEach(([text, value]) => {
+	  const p = document.createElement("p");
+	  p.textContent = text;
+	  p.style.color = value === 1 ? "green" : "red";
+	  userContainer.appendChild(p);
+      });
+
+      const computerContainer = document.createElement("div");
+      computerContainer.className="timesContainer";
+      newContainer.appendChild(computerContainer);
+      // Now you can add your colored text inside it!
+
+      const q = document.createElement("h4");
+      q.textContent = "All Timeslots in Responses";
+      q.style.color = "black";
+      computerContainer.appendChild(q);
+
+      displayAllTimesFromData.forEach(([text, value]) => {
+	  const p = document.createElement("p");
+	  p.textContent = text;
+	  p.style.color = value === 1 ? "green" : "red";
+	  computerContainer.appendChild(p);
+      });
+
+    }
+  }
+
+  function generateTable(displayHeaders, dataDict, orderedIndices) {
+      const table = document.createElement("table");
+      table.border = "1"; // Just for visibility
+
+      // Create table header row
+      const headerRow = document.createElement("tr");
+      displayHeaders.forEach(header => {
+	  const th = document.createElement("th");
+	  th.textContent = header;
+	  headerRow.appendChild(th);
+      });
+      table.appendChild(headerRow);
+
+      // Create rows with keys in the first column, followed by ordered values
+      Object.entries(dataDict).forEach(([key, values]) => {
+	  const row = document.createElement("tr");
+
+	  // First cell contains the key
+	  const keyCell = document.createElement("td");
+	  keyCell.textContent = key;
+	  row.appendChild(keyCell);
+
+	  // Fill in the rest of the row based on ordered indices
+	  orderedIndices.forEach(index => {
+	      const valueCell = document.createElement("td");
+	      valueCell.textContent = values[index] !== undefined ? values[index] : ""; // Handle missing values
+	      row.appendChild(valueCell);
+	  });
+
+	  table.appendChild(row);
+      });
+
+      // Append table to the document body or a specific container
+      document.getElementById("Senior Responses").appendChild(table); // Change this if needed
+  }
+    
     </script>
 </body>
 </html>
