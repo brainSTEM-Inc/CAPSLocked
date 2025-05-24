@@ -214,6 +214,7 @@ PD 6, Thursday, December 21st</textarea>
     .then(res => res.json())
     .then(data => {
       allRooms=data.allRooms;
+      console.log(allRooms);
       displayAllTimes=data.displayAllTimes;
       displayAllTimesFromData = data.displayAllTimesFromData;
       displayHeaders=data.displayHeaders;
@@ -310,6 +311,7 @@ PD 6, Thursday, December 21st</textarea>
       roomNames.style.color = "black";
       document.getElementById("Rooms/Times").appendChild(roomNames);
 
+      console.log(allRooms);	    
       allRooms.forEach((text) => {
 	  const roomName = document.createElement("p");
 	  roomName.textContent = text;
@@ -365,6 +367,7 @@ PD 6, Thursday, December 21st</textarea>
       table.border = "1"; // Just for visibility
 
       // Create table header row
+      console.log(displayHeaders);
       const headerRow = document.createElement("tr");
       displayHeaders.forEach(header => {
 	  const th = document.createElement("th");
