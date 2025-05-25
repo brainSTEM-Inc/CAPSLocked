@@ -1,0 +1,8 @@
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #000; margin: 0;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <img src="https://www.blog.motionisland.com/wp-content/uploads/2022/03/Loading_1.gif" alt="Loading" width="500">
+    <p style="color: white; font-family: Arial; font-size: 30px; margin-top: 20px;">
+      Generating Schedules. Please Wait.
+    </p>
+  </div>
+</body>
