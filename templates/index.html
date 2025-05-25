@@ -37,7 +37,7 @@
 	  cursor: pointer;
 	  padding: 14px 16px;
 	  transition: 0.3s;
-	  font-size: 17px;
+	  font-size: 22px;
 	}
 	
 	/* Change background color of buttons on hover */
@@ -61,33 +61,60 @@
 	.timesContainer {
 	  margin-right: 50px;
 	}
+
+    h1 {
+        font-size: 50px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    p {
+        font-size: 22px;
+    }
     </style>
 </head>
-<body>
-    <h2>Google Spreadsheet Info</h2>
-    <input id="spreadsheetUrl" type="text" name="url" style="width:1000px;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUTvl8O4D9cuNTR1MBYAu8CgRzM_sI6eK29hoPriy-4edUpz7YUSDL80wLqxBszu0RLV2YYMLgL3pK/pub?output=csv">
+<body style="margin: 20px;">
+    <h1 style="color:white; background-color:#B51111; text-align: center;">SMCS Symposium Schedule Generator</h1>
+    <!---<h2>Google Spreadsheet Info</h2>--->
+
+    <h2 style="color:#B51111">Spreadsheet Link</h2>
+    <p>Enter the spreadsheet link below</p>
+    <input id="spreadsheetUrl" type="text" name="url" style="width:500px; font-size: 22px; font-family: Times New Roman;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUTvl8O4D9cuNTR1MBYAu8CgRzM_sI6eK29hoPriy-4edUpz7YUSDL80wLqxBszu0RLV2YYMLgL3pK/pub?output=csv">
     
+    <br><br><br>
+    <hr>
+    <h2 style="color:#B51111">Columns</h2>
     <p>Number of column containing...</p>
-    <form id="columnForm" class="container" id="columnForm">
-        <p>Last name</p> <input type="number" id="lastName" class="columnnumbers" placeholder="1">
-        <p>First name</p> <input type="number" id="firstName" class="columnnumbers" placeholder="2">
-        <p>Name of project</p> <input type="number" id="projectName" class="columnnumbers" placeholder="3">
-        <p>Project topic</p> <input type="number" id="projectTopic" class="columnnumbers" placeholder="4">
-        <p>Availability</p> <input type="number" id="availability" class="columnnumbers" placeholder="5">
-        <p>Presenting with friend(s)</p> <input type="number" id="friends" class="columnnumbers" placeholder="6">
-        <p>Blurb about project</p> <input type="number" id="blurb" class="columnnumbers" placeholder="7">
+    <form id="columnForm" class="container" id="columnForm" style="font-size: 22px;">
+        <p>Last name</p> <input type="number" id="lastName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="1">
+        <p>First name</p> <input type="number" id="firstName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="2">
+        <p>Name of project</p> <input type="number" id="projectName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="3">
+        <p>Project topic</p> <input type="number" id="projectTopic" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="4">
+    </form>
+    <form id="columnForm" class="container" id="columnForm" style="font-size: 22px;">
+        <p>Availability</p> <input type="number" id="availability" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="5">
+        <p>Presenting with friend(s)</p> <input type="number" id="friends" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="6">
+        <p>Blurb about project</p> <input type="number" id="blurb" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="7">
     </form>
 
-    <h2>Rooms</h2>
-    <p>Enter the name of each room on a separate line</p>
-    <textarea id="roomsInput" style="width:200px" rows="5">Room 195
+    <br>
+    <hr>
+    <h2 style="color:#B51111">Rooms</h2>
+    <p>Enter each room the symposium will be held in on a separate line, using the same format as the text below.</p>
+    <textarea id="roomsInput" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5">Room 195
 Room 198
 Room 199</textarea>
 
-    <h2>All possible times</h2>
-    <p>Enter these <i>exactly as they are written</i> as options for the availability question in the Google Form, each time on a separate line</p>
-    <p>Separate days by a single empty line.</p>
-    <textarea id="timesInput" style="width:400px" rows="15">PD 2 Tuesday, December 19th
+    <br><br><br>
+    <hr>
+    <h2 style="color:#B51111">All Possible Times</h2>
+    <p>Enter all possible times the symposium can be held in the text box below, using the same format.
+    <br>
+    Days are separated by a single empty line.
+    </p>
+    <textarea id="timesInput" style="width:400px; font-size: 22px; font-family: Times New Roman;" rows="15">PD 2, Tuesday, December 19th
 PD 3, Tuesday, December 19th
 PD 4, Tuesday, December 19th
 PD 5, Tuesday, December 19th
@@ -100,8 +127,8 @@ PD 5, Thursday, December 21st
 PD 6, Thursday, December 21st</textarea>
 
     <br><br>
-    <button id="parseData" disabled="true" onclick="parseData()">View Parsed Data</button>
-    <button id="nextPage" disabled="true" onclick="nextPage()">Next</button>
+    <button id="parseData" style="width:200px; font-size: 22px; font-family: Times New Roman; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
+    <button id="nextPage" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5" disabled="true" onclick="nextPage()">Next</button>
     <script>
         function checkInputs() {
             // Get input elements
