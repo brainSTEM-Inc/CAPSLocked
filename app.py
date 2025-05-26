@@ -434,7 +434,8 @@ def final_distribution():
                     newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
                 newSchedule[time].append(students[0])
                 newStudents.remove(students[0])
-                g(newSchedule, newStudents,newScore, maintopic, day)
+                if len(schedules)<10:
+                    g(newSchedule, newStudents,newScore, maintopic, day)
                 
     
     def f(room, maintopic, day, debug=False):
