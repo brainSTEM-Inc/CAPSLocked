@@ -283,7 +283,7 @@ def getDataForStep2():
     })
 
 @app.route('/getFinalDistribution')
-def getDataForStep2():
+def getDataForStep3():
     print(daysRoomsTimes);
     return jsonify({
         "daysRoomsTimes":daysRoomsTimes
