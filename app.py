@@ -470,7 +470,7 @@ def final_distribution():
         n=10
         schedulesToReturn = []
         
-        while sorted_schedules[i][1]==highScore:
+        while i<len(sorted_schedules) and sorted_schedules[i][1]==highScore:
             i+=1
         if len(sorted_schedules)<n:
             for schedule in sorted_schedules:
