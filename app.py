@@ -22,7 +22,7 @@ def generateStep2():
     return render_template('generateStep2.html')
 
 @app.route('/4')
-def generateStep2():
+def goto4():
     return render_template('4.html')
 
 roomDistribution={}
