@@ -410,6 +410,9 @@ def final_distribution():
 
     def g(current, students, score, maintopic, day):
         global schedules
+        global dataDict
+        global roomsToTimes
+        global personsPerTime
         if not students:
             schedules.append([current,score])
             return
