@@ -132,7 +132,7 @@ PD 6, Thursday, December 21st</textarea>
     <br><br>
     <button id="parseData" style="width:200px; font-size: 22px; font-family: Times New Roman; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
     <button id="nextPage" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5" disabled="true" onclick="nextPage()">Next</button>
-    <p id="troubleshoot" style="display:none;">Problems with input will appear here.</p>
+    <p id="troubleshoot">Problems with input will appear here.</p>
     <script>
         function checkInputs() {
             // Get input elements
@@ -171,7 +171,7 @@ PD 6, Thursday, December 21st</textarea>
         function parseData() {
         	console.log("Sending data to backend...");
             // Get the textbox values
-		document.getElementById("troubleshoot").style.display="none";
+		//document.getElementById("troubleshoot").style.display="none";
 		
             const url = document.getElementById('spreadsheetUrl').value;
             const firstNameCol = document.getElementById('firstName').value;
