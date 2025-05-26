@@ -21,6 +21,10 @@ def generateStep1():
 def generateStep2():
     return render_template('generateStep2.html')
 
+@app.route('/4')
+def generateStep2():
+    return render_template('4.html')
+
 roomDistribution={}
 capacityDict={}
 rawdataDict={}
@@ -276,6 +280,13 @@ def getDataForStep2():
         "roomDayDistribution": roomDayDistribution,
         "capacityDict": capacityDict,
         "dayCapacityDict": dayCapacityDict
+    })
+
+@app.route('/getFinalDistribution')
+def getDataForStep2():
+    print(daysRoomsTimes);
+    return jsonify({
+        "daysRoomsTimes":daysRoomsTimes
     })
 
 allDayDistributions = []
