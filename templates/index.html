@@ -186,7 +186,7 @@ PD 6, Thursday, December 21st</textarea>
 	    const allRooms = document.getElementById('roomsInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 
 	    const timesRaw = document.getElementById("timesInput").value;
-	    var days = {};
+	    var days = [];
 	    const lines = timesRaw.split("\n");
 	    var currentDay = [];
 	
@@ -201,10 +201,8 @@ PD 6, Thursday, December 21st</textarea>
 		    currentDay.push(trimmed);
 		}
 	    }
-	    var i=1;
 	    if (currentDay.length > 0) {
-		days["Day "+i]=currentDay;
-		i++;
+		days.push(currentDay);
 	    }
 		
             // Prepare the data to send
