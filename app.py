@@ -106,8 +106,9 @@ def parse_data():
     days1={}
     i=1
     for day in days:
-        day1["Day "+str(i)]=day
-    days=day1
+        print(day)
+        days1["Day "+str(i)]=day
+    days=days1
     
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
