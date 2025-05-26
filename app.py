@@ -468,7 +468,7 @@ def final_distribution():
         #print(highScore)
         i=0
         n=10
-        schedulesToReturn = [sorted_schedules[0]]
+        schedulesToReturn = [sorted_schedules[0][0]]
         '''
         while i<len(sorted_schedules) and sorted_schedules[i][1]==highScore:
             i+=1
