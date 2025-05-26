@@ -461,7 +461,7 @@ def final_distribution():
         if not schedules:
             return []
         sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
-        print(schedules)
+        #print(schedules)
         #print("Schedule w/ nemesi")
         highScore = sorted_schedules[0][1]
     
@@ -495,6 +495,14 @@ def final_distribution():
             dataDict ={}
             if day not in list(daysRoomsTimes.keys()):
                 daysRoomsTimes[day]={}
+            print(thisRoom)
+            print(roomName)
+            print(day)
+            try:
+                thisSchedule=f(thisRoom,roomName,day)
+            except:
+                print(f(thisRoom,roomName,day))
+                
             daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
     
     #print(daysRoomsTimes)
