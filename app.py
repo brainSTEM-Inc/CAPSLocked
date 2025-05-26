@@ -458,7 +458,7 @@ def final_distribution():
             
         schedules=[]
         g(currentSchedule, realFlexibility,0, maintopic, day)
-        print(schedules)
+        #print(schedules)
         if not schedules:
             return []
         sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
