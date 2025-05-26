@@ -54,9 +54,15 @@
 <body>
 <button id="generateSpreadsheet" class="button" onclick="downloadCSV()">Download spreadsheet</button>
 <script>
-
-const data = {'Day 1': {'Room 195': {'2': [['Sarah Yu', 'Computer Science', 'Dead Reckoning with TinyML'], ['Archit Ashok', 'Computer Science', 'Using the Kalman Filter to Project the Motion of Ground-Based Obstacles to Prevent Collisions during Autonomous Drone Landings']], '3': [['Ritviik Ravi', 'Computer Science', 'Predicting the Stock Value of NFL Athletes: An Advanced Model Using Gradient-Boosted Trees'], ['Nikhil Kakani', 'Computer Science', 'Optimizing IP Geolocation Algorithm Accuracies: An Integrated Approach Using MLP Neural Network and Reverse DNS Querying Technique']], '4': [['Zory Teselko', 'Computer Science', 'Temporal Analysis of Respiratory Data for Investigating Speech Rate Variability in Health Monitoring'], ['Chris Ramos', 'Computer Science', 'Analyzing the Effects of Resampling Techniques on Multiclass Imbalanced Datasets using t-SNE visualizations']], '5': [['Jay Wankhede', 'Computer Science', 'Developing a Large Language Model Powered Algorithm for Enhanced Research Paper Summarization'], ['Rachel Zhang', 'Computer Science', 'Automatic Color Flatting of Illustration Linearts']], '6': [['Aileen Sharma', 'Computer Science', 'Aligning Classroom Recording Transcripts with Common Core State Standards using Keyword Extraction'], ['Catherine Tenny', 'Computer Science', 'Assessing the Viability of Cisco Packet Tracer as Automotive Security']]}}, 'Day 2': {'Room 195': {'2': [['Eddie Wu', 'Computer Science', 'Optimizing Sensor Data Transmission in IoT Networks through MQTT Broker-Based Algorithmic Efficiency'], ['Aditya Lahiri', 'Computer Science', 'A Preliminary Method for Identifying Ice Movement in the Arctic']], '3': [['Aaron Zhu', 'Computer Science', 'Emotion Recognition in MIDI Files: Leveraging Long Short-Term Memory with a Novel Feature-Extraction Technique'], ['Aidan Paul', 'Computer Science', 'Music Generation using Artificial Neural Networks']], '4': [['Nicholas McGonigle', 'Computer Science', 'GPT-Verilog: Enhancing Verilog Generation Using Large Language Models'], ['Vincent Ha', 'Computer Science', 'Improving Depth Estimation In Video Frame Interpolation Using Stereo Vision and Epipolar Geometry']], '5': [['Akhil Raman', 'Computer Science', 'WRF HDF5 Reader Integration into Paraview'], ['Pranav Gaddam', 'Computer Science', 'Hyperparameter Optimization and Performance Analysis of Convolutional Neural Networks']], '6': [['James Tan', 'Computer Science', 'Characterization of Breathing Types: Optimizing Data Collection and Cleaning Process for Spire Tag Sensor Analysis'], ['Sean Radimer', 'Computer Science', 'How CTF Skill Level Reception to Guidance Influences Performance']]}}};
-
+var finalRoomDistribution={};
+    fetch('/getDataForStep3')
+    .then(res => res.json())
+    .then(data => {
+      finalRoomDistribution=data.daysRoomsTimes();
+      createRoomElements(finalRoomDistribution);
+    })
+    .catch(err => console.error("Failed to fetch room data:", err));
+	
   const topicColors = [
     "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
     "#ffffcc", "#ccffe6", "#ffd9ec", "#d6f5d6", "#ebd6ff",
@@ -208,7 +214,7 @@ function createRoomElements(data) {
       // Append table to document body
       document.body.appendChild(table);
   }
-  createRoomElements(data);  
+  //createRoomElements(data);  
 
 function collectTableData() {
     const tableData = {};
@@ -271,11 +277,6 @@ function downloadCSV() {
 }
 
 
-// Example usage:
-
-// Example usage:
-
-//querySelector(".period").  
 </script>
 
 </body>
