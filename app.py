@@ -494,9 +494,9 @@ def final_distribution():
             dataDict ={}
             if day not in list(daysRoomsTimes.keys()):
                 daysRoomsTimes[day]={}
-            print(thisRoom)
-            print(roomName)
-            print(day)
+            #print(thisRoom)
+            #print(roomName)
+            #print(day)
             try:
                 thisSchedule=f(thisRoom,roomName,day)
             except:
