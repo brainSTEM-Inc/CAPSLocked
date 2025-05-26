@@ -126,9 +126,6 @@ def parse_data():
             displayAllTimesFromData.append([time,0])    
 
     displayHeaders=["Senior Name",dataHeaders[topicCol],dataHeaders[projectNameCol],dataHeaders[availabilityCol],dataHeaders[friendsCol],dataHeaders[blurbCol]]
-    print(displayHeaders)
-    print(displayAllTimes)
-    print(displayAllTimesFromData)
     return render_template('index.html')
 
 @app.route('/submit_availability', methods=['POST'])
@@ -146,7 +143,7 @@ def submit_availability():
 
     roomToTimes = data.get('roomsToTimes')
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
-    print(roomToTimes)
+    #print(roomToTimes)
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
@@ -275,7 +272,7 @@ def get_data():
 
 @app.route('/getDataForStep2')
 def getDataForStep2():
-    print(roomDayDistribution);
+    #print(roomDayDistribution);
     return jsonify({
         "roomDayDistribution": roomDayDistribution,
         "capacityDict": capacityDict,
@@ -284,7 +281,7 @@ def getDataForStep2():
 
 @app.route('/getFinalDistribution')
 def getDataForStep3():
-    print(daysRoomsTimes);
+    #print(daysRoomsTimes);
     return jsonify({
         "daysRoomsTimes":daysRoomsTimes
     })
@@ -318,7 +315,7 @@ def receive_schedule():
         availableDays = list(set(globalDays) & set(days))
         if len(availableDays)==0:
             #compromised.append(student)
-            print(student)
+            #print(student)
             #availableDays=globalDays
             #break
             return
