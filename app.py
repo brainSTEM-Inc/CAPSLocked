@@ -435,6 +435,8 @@ def final_distribution():
     def f(room, maintopic, day):
         global schedules
         global dataDict
+        global rawdataDict
+        global roomToTimes
         schedules=[]
         dataDict ={}
         
