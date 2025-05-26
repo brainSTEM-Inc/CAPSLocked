@@ -467,7 +467,8 @@ def final_distribution():
         #print(highScore)
         i=0
         n=10
-        schedulesToReturn = []
+        schedulesToReturn = [sorted_schedules[0]]
+        '''
         while i<len(sorted_schedules) and sorted_schedules[i][1]==highScore:
             i+=1
         if len(sorted_schedules)<n:
@@ -484,6 +485,7 @@ def final_distribution():
                 #print(sorted_schedules[j])
                 schedulesToReturn.append(sorted_schedules[j][0])
         #print()
+        '''
         return schedulesToReturn
     
     daysRoomsTimes = {}
