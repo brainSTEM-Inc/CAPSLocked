@@ -132,7 +132,7 @@ PD 6, Thursday, December 21st</textarea>
     <br><br>
     <button id="parseData" style="width:200px; font-size: 22px; font-family: Times New Roman; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
     <button id="nextPage" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5" disabled="true" onclick="nextPage()">Next</button>
-    <p id="troubleshoot">Problems with input will appear here.</p>
+    <p id="troubleshoot" style="display: none;">Problems with input will appear here.</p>
     <script>
         function checkInputs() {
             // Get input elements
@@ -171,7 +171,7 @@ PD 6, Thursday, December 21st</textarea>
         function parseData() {
         	console.log("Sending data to backend...");
             // Get the textbox values
-		//document.getElementById("troubleshoot").style.display="none";
+		document.getElementById("troubleshoot").style.display="none";
 		
             const url = document.getElementById('spreadsheetUrl').value;
             const firstNameCol = document.getElementById('firstName').value;
@@ -231,7 +231,11 @@ PD 6, Thursday, December 21st</textarea>
                 body: JSON.stringify(data)
             })
             .then(response => {
-                console.log("✅ Received response from backend!");
+                console.log("✅ Received response from backend!"); 
+		document.getElementById("troubleshoot").style.display="block";
+		if (!response.ok) {
+			document.getElementById("troubleshoot").innerText="An error occurred. Try the following: 1. Check that your csv link is correct. Click 'Instructions on getting a link' for help. 2. Please make sure your column numbers correct. There should be at least one value in that column of the spreadsheet. The number of the leftmost column is 1. 3. If you are sure that you entered all inputs correctly, please fill out the following form: [insert form link here] to report the error. If possible, right click and hit Inspect Element, then go to the Console tab to retrieve the error message. We are very sorry for the inconvenience (unless ur member of capslocked in which case u get to tell the bozo programmer that they need to fix this IMMEDIATLEY).";	
+		}
 		displayTable();
                 return response.text();
             })
@@ -242,16 +246,6 @@ PD 6, Thursday, December 21st</textarea>
             .catch(error => {
                 console.error('❌ Error:', error);
                 //alert('An error occurred. Please try again.');
-		document.getElementById("troubleshoot").style.display="block";
-		    if (error instanceof requests.exceptions.ConnectionError) {
-		      document.getElementById("troubleshoot").innerText="Please check that your csv link is correct. Click 'Instructions on getting a link' for help.";
-		    } 
-		    else if (error instanceof KeyError) {
-		      document.getElementById("troubleshoot").innerText="Please make sure your column numbers correct. There should be at least one value in that column of the spreadsheet. The number of the leftmost column is 1.";
-		    }
-		    else {
-		    	document.getElementById("troubleshoot").innerText="A different error occurred. Please fill out the following form: [insert form link here] to report the error. If possible, right click and hit Inspect Element, then go to the Console tab to retrieve the error message.";
-		    }
     
             });
         }
