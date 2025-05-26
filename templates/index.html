@@ -132,6 +132,7 @@ PD 6, Thursday, December 21st</textarea>
     <br><br>
     <button id="parseData" style="width:200px; font-size: 22px; font-family: Times New Roman; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
     <button id="nextPage" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5" disabled="true" onclick="nextPage()">Next</button>
+    <p id="troubleshoot" style="display:none;">Problems with input will appear here.</p>
     <script>
         function checkInputs() {
             // Get input elements
@@ -170,6 +171,8 @@ PD 6, Thursday, December 21st</textarea>
         function parseData() {
         	console.log("Sending data to backend...");
             // Get the textbox values
+		document.getElementById("troubleshoot").style.display="none";
+		
             const url = document.getElementById('spreadsheetUrl').value;
             const firstNameCol = document.getElementById('firstName').value;
             const lastNameCol = document.getElementById('lastName').value;
@@ -238,7 +241,18 @@ PD 6, Thursday, December 21st</textarea>
             })
             .catch(error => {
                 console.error('❌ Error:', error);
-                alert('An error occurred. Please try again.');
+                //alert('An error occurred. Please try again.');
+		document.getElementById("troubleshoot").style.display="block";
+		    if (error instanceof requests.exceptions.ConnectionError) {
+		      document.getElementById("troubleshoot").innerText="Please check that your csv link is correct. Click 'Instructions on getting a link' for help.";
+		    } 
+		    else if (error instanceof KeyError) {
+		      document.getElementById("troubleshoot").innerText="Please make sure your column numbers correct. There should be at least one value in that column of the spreadsheet. The number of the leftmost column is 1.";
+		    }
+		    else {
+		    	document.getElementById("troubleshoot").innerText="A different error occurred. Please fill out the following form: [insert form link here] to report the error. If possible, right click and hit Inspect Element, then go to the Console tab to retrieve the error message.";
+		    }
+    
             });
         }
 
