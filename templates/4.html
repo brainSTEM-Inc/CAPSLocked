@@ -58,7 +58,7 @@ var finalRoomDistribution={};
     fetch('/getFinalDistribution')
     .then(res => res.json())
     .then(data => {
-      finalRoomDistribution=data.daysRoomsTimes();
+      finalRoomDistribution=data.daysRoomsTimes;
       createRoomElements(finalRoomDistribution);
     })
     .catch(err => console.error("Failed to fetch room data:", err));
