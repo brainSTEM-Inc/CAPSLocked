@@ -251,12 +251,12 @@ function downloadCSV() {
     // Loop through the dictionary and format it as CSV
     let csvContent = "";
 
-    Object.entries(dataObject).forEach(([day, periods]) => {
+    Object.entries(dataObject).forEach(([day, rooms]) => {
         csvContent += `"${day}"\n`; // Merged header for each day
         csvContent += "Period,Room,Name,Title of project/presentation\n"; // Column headers
 
-        Object.entries(periods).forEach(([period, rooms]) => {
-            Object.entries(rooms).forEach(([room, students]) => {
+        Object.entries(rooms).forEach(([room, periods]) => {
+            Object.entries(periods).forEach(([period, students]) => {
                 students.forEach(([student, project]) => {
                     csvContent += `${period},${room},"${student}","${project}"\n`;
                 });
