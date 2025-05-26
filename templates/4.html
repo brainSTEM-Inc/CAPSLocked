@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+    .item {
+      min-width: 200px;
+      border: 1px solid #555;
+      padding: 5px;
+      /*margin: 0px 0;*/
+      cursor: move;
+    }
+    
+    .period {
+      /*min-height: 200px;*/
+      display: block;
+      min-height: inherit;
+      border: 2px #333;
+      padding: 10px 10px 20px 10px; /* extra bottom padding */
+      background-color: red;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 0px 0px 0px 0px;
+    }
+    
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto; /* Adds nice spacing */
+    font-family: Arial, sans-serif;
+    }
+
+    th, td {
+        position: relative; /* Ensures div fills up correctly */
+        border: 2px solid #ddd; /* Subtle border */
+        padding: 12px;
+    }
+
+    th {
+        background-color: #007bff; /* Nice blue header */
+        color: white;
+        font-size: 18px;
+    }
+
+    td {
+        background-color: #f8f9fa; /* Light gray background */
+        font-size: 16px;
+    }
+
+    
+</style>
+</head>
+<body>
+<button id="generateSpreadsheet" class="button" onclick="downloadCSV()">Download spreadsheet</button>
+<script>
+
+const data = {'Day 1': {'Room 195': {'2': [['Sarah Yu', 'Computer Science', 'Dead Reckoning with TinyML'], ['Archit Ashok', 'Computer Science', 'Using the Kalman Filter to Project the Motion of Ground-Based Obstacles to Prevent Collisions during Autonomous Drone Landings']], '3': [['Ritviik Ravi', 'Computer Science', 'Predicting the Stock Value of NFL Athletes: An Advanced Model Using Gradient-Boosted Trees'], ['Nikhil Kakani', 'Computer Science', 'Optimizing IP Geolocation Algorithm Accuracies: An Integrated Approach Using MLP Neural Network and Reverse DNS Querying Technique']], '4': [['Zory Teselko', 'Computer Science', 'Temporal Analysis of Respiratory Data for Investigating Speech Rate Variability in Health Monitoring'], ['Chris Ramos', 'Computer Science', 'Analyzing the Effects of Resampling Techniques on Multiclass Imbalanced Datasets using t-SNE visualizations']], '5': [['Jay Wankhede', 'Computer Science', 'Developing a Large Language Model Powered Algorithm for Enhanced Research Paper Summarization'], ['Rachel Zhang', 'Computer Science', 'Automatic Color Flatting of Illustration Linearts']], '6': [['Aileen Sharma', 'Computer Science', 'Aligning Classroom Recording Transcripts with Common Core State Standards using Keyword Extraction'], ['Catherine Tenny', 'Computer Science', 'Assessing the Viability of Cisco Packet Tracer as Automotive Security']]}}, 'Day 2': {'Room 195': {'2': [['Eddie Wu', 'Computer Science', 'Optimizing Sensor Data Transmission in IoT Networks through MQTT Broker-Based Algorithmic Efficiency'], ['Aditya Lahiri', 'Computer Science', 'A Preliminary Method for Identifying Ice Movement in the Arctic']], '3': [['Aaron Zhu', 'Computer Science', 'Emotion Recognition in MIDI Files: Leveraging Long Short-Term Memory with a Novel Feature-Extraction Technique'], ['Aidan Paul', 'Computer Science', 'Music Generation using Artificial Neural Networks']], '4': [['Nicholas McGonigle', 'Computer Science', 'GPT-Verilog: Enhancing Verilog Generation Using Large Language Models'], ['Vincent Ha', 'Computer Science', 'Improving Depth Estimation In Video Frame Interpolation Using Stereo Vision and Epipolar Geometry']], '5': [['Akhil Raman', 'Computer Science', 'WRF HDF5 Reader Integration into Paraview'], ['Pranav Gaddam', 'Computer Science', 'Hyperparameter Optimization and Performance Analysis of Convolutional Neural Networks']], '6': [['James Tan', 'Computer Science', 'Characterization of Breathing Types: Optimizing Data Collection and Cleaning Process for Spire Tag Sensor Analysis'], ['Sean Radimer', 'Computer Science', 'How CTF Skill Level Reception to Guidance Influences Performance']]}}};
+
+  const topicColors = [
+    "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
+    "#ffffcc", "#ccffe6", "#ffd9ec", "#d6f5d6", "#ebd6ff",
+    "#ffebcc", "#e6f7ff", "#f0fff0", "#fff5cc", "#f5e6ff",
+    "#ffe6e6", "#e0ffe0", "#f9f9cc", "#e6e6ff", "#e0f7fa"
+  ];
+  
+  var periodDivs=[];
+  var periodHeights=[];
+
+function createRoomElements(data) {
+  // Create the table container
+      var topicColorMap = {};
+      var colorIndex = 0;
+      const table = document.createElement("table");
+      table.border = "1";
+      table.style.width = "100%";
+
+      // Create header row
+      const headerRow = document.createElement("tr");
+      const headerPeriod = document.createElement("th");
+      headerPeriod.textContent = "Period";
+      headerRow.appendChild(headerPeriod);
+
+      // Add days & rooms to headers
+      Object.entries(data).forEach(([day, rooms]) => {
+          const dayHeader = document.createElement("th");
+          dayHeader.colSpan = Object.keys(rooms).length;
+          dayHeader.textContent = day;
+          headerRow.appendChild(dayHeader);
+      });
+      table.appendChild(headerRow);
+
+      // Room row
+      const roomRow = document.createElement("tr");
+      roomRow.appendChild(document.createElement("th")); // Empty corner cell
+      Object.values(data).forEach(rooms => {
+          Object.keys(rooms).forEach(room => {
+              const roomHeader = document.createElement("th");
+              roomHeader.textContent = room;
+              roomRow.appendChild(roomHeader);
+          });
+      });
+      table.appendChild(roomRow);
+
+      // Generate rows for each period
+      const allPeriods = new Set();
+      Object.values(data).forEach(rooms => {
+          Object.values(rooms).forEach(periods => {
+              Object.keys(periods).forEach(period => allPeriods.add(period));
+          });
+      });
+
+      [...allPeriods].sort((a, b) => a - b).forEach(period => {
+          const periodRow = document.createElement("tr");
+          const periodCell = document.createElement("td");
+          periodCell.textContent = period;
+          periodRow.appendChild(periodCell);
+
+          Object.entries(data).forEach(([day, rooms]) => {
+              Object.entries(rooms).forEach(([room, periods]) => {
+                  const studentCell = document.createElement("td");
+                  studentCell.classList.add("droppable");
+                  studentCell.dataset.room = room;
+				  
+                const periodDiv = document.createElement("div");
+                periodDiv.className="period";
+                periodDiv.ondrop = drop;
+                periodDiv.ondragover = allowDrop;
+                studentCell.appendChild(periodDiv);
+                
+                  (periods[period] || []).forEach(student => {
+                      /*const studentDiv = document.createElement("div");
+                      studentDiv.textContent = student;
+                      studentDiv.className="item";
+                      studentDiv.draggable = true;
+                      studentDiv.classList.add("draggable");
+                      studentDiv.addEventListener("dragstart", e => {
+                          e.dataTransfer.setData("text", student);
+                      });
+                      studentCell.appendChild(studentDiv);*/
+                      
+                      
+                      
+                      var person=student[0];
+                      var topic = student[1];
+                      var project = student[2];
+                      if (!topicColorMap[topic]) {
+                        topicColorMap[topic] = topicColors[colorIndex % topicColors.length];
+                        colorIndex++;
+                      }
+
+                      const itemDiv = document.createElement("div");
+                      itemDiv.className = "item";
+                      itemDiv.style.backgroundColor = topicColorMap[topic];
+                      itemDiv.draggable = true;
+                      itemDiv.id = `${person.toLowerCase()}-${project.toLowerCase()}`;
+                      itemDiv.ondragstart = drag;
+                      itemDiv.innerHTML = `<span style="font-size: 12px;">${topic}<br /><span style="font-size: 16px;">${person}<br />${project}`;
+                      periodDiv.appendChild(itemDiv);
+                      //itemDiv.classList.add("class");
+
+                  });
+
+                  periodRow.appendChild(studentCell);
+              });
+          });
+
+          table.appendChild(periodRow);
+
+      });
+      
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+
+      function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        const data = ev.dataTransfer.getData("text");
+        const draggedEl = document.getElementById(data);
+
+        //if (!draggedEl || ev.target.contains(draggedEl)) return;
+
+        let dropTarget = ev.target;
+        while (dropTarget && 
+               !dropTarget.classList.contains("item") &&
+               !dropTarget.classList.contains("period")) {
+          dropTarget = dropTarget.parentElement;
+        }
+
+
+        // Item drag
+        if (draggedEl.classList.contains("item") && dropTarget.classList.contains("period")) {
+          dropTarget.appendChild(draggedEl);
+          return;
+        }
+
+        if ((draggedEl.classList.contains("item")) &&
+            (dropTarget.classList.contains("item"))) {
+          dropTarget.parentElement.insertBefore(draggedEl, dropTarget);
+          return;
+        } 
+      }
+
+      // Append table to document body
+      document.body.appendChild(table);
+  }
+  createRoomElements(data);  
+
+function collectTableData() {
+    const tableData = {};
+
+    document.querySelectorAll("table tr").forEach((row, rowIndex) => {
+        if (rowIndex === 0 || rowIndex === 1) return; // Skip headers
+
+        const period = row.cells[0].textContent.trim(); // First cell is the period
+        row.querySelectorAll("td:not(:first-child)").forEach((cell, cellIndex) => {
+            const room = document.querySelectorAll("table tr:nth-child(2) th")[cellIndex+1].textContent.trim();
+            const day = document.querySelectorAll("table tr:nth-child(1) th")[cellIndex+1].textContent.trim();
+
+            if (!tableData[day]) tableData[day] = {};
+            if (!tableData[day][room]) tableData[day][room] = {};
+            if (!tableData[day][room][period]) tableData[day][room][period] = [];
+
+            cell.querySelector(".period").querySelectorAll(".item").forEach(itemDiv => {
+            	var lines = itemDiv.innerText.split("\n");
+                tableData[day][room][period].push([lines[1], lines[2]]);
+            });
+        });
+    });
+
+    console.log(JSON.stringify(tableData));
+    return tableData;
+}
+
+
+function downloadCSV() {
+	const dataObject = collectTableData();
+    const headers = ["Day", "Room", "Period", "Students"];
+    //let csvContent = headers.join(",") + "\n"; // Add headers
+
+    // Loop through the dictionary and format it as CSV
+    let csvContent = "";
+
+    Object.entries(dataObject).forEach(([day, periods]) => {
+        csvContent += `"${day}"\n`; // Merged header for each day
+        csvContent += "Period,Room,Name,Title of project/presentation\n"; // Column headers
+
+        Object.entries(periods).forEach(([period, rooms]) => {
+            Object.entries(rooms).forEach(([room, students]) => {
+                students.forEach(([student, project]) => {
+                    csvContent += `${period},${room},"${student}","${project}"\n`;
+                });
+            });
+        });
+
+        csvContent += "\n"; // Space between different days
+    });
+
+    // Create and trigger download
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "schedule.csv"; // Set filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
+// Example usage:
+
+// Example usage:
+
+//querySelector(".period").  
+</script>
+
+</body>
+</html>
