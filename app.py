@@ -410,12 +410,12 @@ def final_distribution():
     global schedules
     roomData = request.get_json()
     print("Received schedule:", roomData)
-    #roomData = {'Room 195': {'Day 1': ['Sarah Yu', 'Jay Wankhede', 'Nikhil Kakani', 'Ritviik Ravi', 'Aileen Sharma', 'Rachel Zhang', 'Archit Ashok', 'Catherine Tenny', 'Sean Radimer', 'Chris Ramos'], 'Day 2': ['Eddie Wu', 'Aditya Lahiri', 'James Tan', 'Ryan Zhao', 'Akhil Raman', 'Aaron Zhu', 'Nicholas McGonigle', 'Zory Teselko', 'Aidan Paul', 'Pranav Gaddam']}}
-    periodMap={'PD 2, Tuesday, December 19th':"2", 'PD 3, Tuesday, December 19th':"3", 'PD 4, Tuesday, December 19th':"4", 'PD 5, Tuesday, December 19th':"5", 'PD 6, Tuesday, December 19th':"6", 'PD 2, Thursday, December 21st':"2", 'PD 3, Thursday, December 21st':"3", 'PD 4, Thursday, December 21st':"4", 'PD 5, Thursday, December 21st':"5", 'PD 6, Thursday, December 21st':"6"}
-    roomData={'Room 195': {'Day 2': ['Eddie Wu', 'Aditya Lahiri', 'James Tan', 'Ryan Zhao', 'Akhil Raman', 'Aaron Zhu', 'Nicholas McGonigle', 'Zory Teselko', 'Aidan Paul', 'Pranav Gaddam']}, 'Room 198': {'Day 1': ['Elizabeth Issac', 'Veera Singh', 'Priscilla Kim', 'David Ruan', 'Vincent Ha', 'Alex Shelley', 'Esme Liao', 'Michael Tsegaye', 'Kelly Chen', 'Hannah Chen']}}
-    
+    roomData={'Room 198': {'Day 1': ['Elizabeth Issac', 'Veera Singh', 'Priscilla Kim', 'David Ruan', 'Vincent Ha', 'Alex Shelley', 'Esme Liao', 'Michael Tsegaye', 'Kelly Chen', 'Hannah Chen']}}
+    periodMap={'PD 2 Tuesday, December 19th':"2", 'PD 3, Tuesday, December 19th':"3", 'PD 4, Tuesday, December 19th':"4", 'PD 5, Tuesday, December 19th':"5", 'PD 6, Tuesday, December 19th':"6", 'PD 2, Thursday, December 21st':"2", 'PD 3, Thursday, December 21st':"3", 'PD 4, Thursday, December 21st':"4", 'PD 5, Thursday, December 21st':"5", 'PD 6, Thursday, December 21st':"6"}
+
+
     def g(current, students, score, maintopic, day):
-        global schedules    
+        global schedules
         global dataDict
         global roomsToTimes
         global personsPerTime
@@ -438,7 +438,7 @@ def final_distribution():
                 g(newSchedule, newStudents,newScore, maintopic, day)
                 
     
-    def f(room, maintopic, day):
+    def f(room, maintopic, day, debug=False):
         global schedules
         global dataDict
         global rawdataDict
@@ -465,11 +465,10 @@ def final_distribution():
         #print(schedules)
         #print("Schedule w/ nemesi")
         highScore = sorted_schedules[0][1]
-    
+        #print(highScore)
         i=0
         n=10
         schedulesToReturn = []
-        
         while i<len(sorted_schedules) and sorted_schedules[i][1]==highScore:
             i+=1
         if len(sorted_schedules)<n:
@@ -502,7 +501,7 @@ def final_distribution():
             try:
                 thisSchedule=f(thisRoom,roomName,day)
             except:
-                print(f(thisRoom,roomName,day))
+                print(f(thisRoom,roomName,day,True))
                 
             daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
     
