@@ -359,9 +359,9 @@ def receive_schedule():
         
         findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, 0)
         allDayDistributions = sorted(allDayDistributions, key=lambda x: x[1], reverse=True)
-        print(len(allDayDistributions))
+        #print(len(allDayDistributions))
         
-        print(thisRoom)
+        #print(thisRoom)
         if not allDayDistributions:
             print("unfortunately, it sucks")
         else:
@@ -382,7 +382,7 @@ def receive_schedule():
                 for j in range(0,i,hop):
                     distribution=allDayDistributions[j]
                     consideredDistributions.append(distribution)
-            print()
+            #print()
             
         roomDayDistribution[thisRoom]=consideredDistributions
     
@@ -393,7 +393,7 @@ def receive_schedule():
                     student=students[i]
                     students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
-    print(roomDayDistribution) 
+    #print(roomDayDistribution) 
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('generateStep2.html')
 
