@@ -113,7 +113,7 @@ def parse_data():
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
 
     allTimesFromData = set(time for value in list(rawdataDict.values()) for time in value[0])
-    
+    print(allTimesFromData)
     for time in allTimes:
         if time in allTimesFromData:
             displayAllTimes.append([time,1])
@@ -418,12 +418,13 @@ def final_distribution():
         global roomsToTimes
         global personsPerTime
         if not students:
+            print([current,score])
             schedules.append([current,score])
             return
         #try:
         
         for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic][day])):
-            print(current)
+            #print(current)
             if len(current[time]) < personsPerTime:
                 newSchedule = copy.deepcopy(current)
                 newStudents = copy.deepcopy(students)
