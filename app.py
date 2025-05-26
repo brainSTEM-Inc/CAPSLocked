@@ -102,6 +102,12 @@ def parse_data():
     rawdataDict = {}
     allTimes = data.get('allTimes')
     allRooms = data.get('allRooms')
+
+    days1={}
+    i=1
+    for day in days:
+        day1["Day "+str(i)]=day
+    days=day1
     
     for i in range(len(rawData)):
         x = [str(item) for item in rawData.iloc[i]]
