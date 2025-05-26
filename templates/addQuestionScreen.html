@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+    }
+    .container {
+      background-color: #ddd;
+      width: 400px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-shadow: 0 0 10px #000;
+    }
+    .header {
+      background-color: #400000;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .button {
+      background-color: #b00;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .question {
+      margin-top: 20px;
+    }
+    .label {
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      background-color: #d55;
+      color: white;
+      border: none;
+      font-size: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 20px;
+      border: none;
+      background-color: #d55;
+      color: white;
+      box-sizing: border-box;
+    }
+    input[type="text"]::placeholder {
+      color: white;
+    }
+    .trash {
+      float: right;
+      cursor: pointer;
+      font-size: 18px;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .button:hover {
+      background-color: #9f0f0f;
+    }
+
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 35px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu div {
+      height: 5px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background-color: #d9d9d9;
+      border: 1px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .dropdown a:last-child {
+      color: red;
+      border-bottom: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #ccc;
+    }
+
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+  </style>
+</head>
+<body>
+  <!-- Menu Icon -->
+  <div class="menu" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Dropdown Popup Menu -->
+  <div id="dropdownMenu" class="dropdown">
+    <a href="#">Return to Home</a>
+    <a href="#">Help</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // hide menu if clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('dropdownMenu');
+      const hamburger = document.querySelector('.menu');
+      if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  </script>
+
+  <div class="container">
+    <div class="header">Student Questionnaire</div>
+    <div class="button">Add Question</div>
+
+    <div class="question">
+      <div class="label">Example <span class="trash">🗑️</span></div>
+      <select>
+        <option>-- Select One --</option>
+      </select>
+    </div>
+
+    <div class="question">
+      <div class="label">Example <span class="trash">🗑️</span></div>
+      <input type="text" placeholder=" Text Entry"/>
+      </select>
+    </div>
+
+    <div class="question">
+      <div class="label">Example <span class="trash">🗑️</span></div>
+      <select>
+        <option>Yes/No</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <div class="button">Finish</div>
+  </div>
+</body>
+</html>
