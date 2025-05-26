@@ -398,10 +398,16 @@ def receive_schedule():
     return render_template('generateStep2.html')
 
 daysRoomsTimes={}
+schedules=[]
+dataDict ={}
 @app.route('/final_distribution', methods=['POST'])
 def final_distribution():
     global daysRoomsTimes
-    
+    global dataDict
+    global rawdataDict
+    global roomToTimes 
+    global personsPerTime
+    global schedules
     roomData = request.get_json()
     print("Received schedule:", roomData)
 
