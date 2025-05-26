@@ -461,6 +461,7 @@ def final_distribution():
         if not schedules:
             return []
         sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
+        print(schedules)
         #print("Schedule w/ nemesi")
         highScore = sorted_schedules[0][1]
     
