@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+<title>juniorQuestionnare</title>
+<style>
+	body{
+    	margin: 0;
+        padding: 40px;
+        display: flex;
+    	background-color: black;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Assistant', sans-serif;
+    }
+    .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+      	border-radius: 10px;
+      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+    h2{
+    	text-align: center;
+        color:white;
+    }
+    p{
+    	color: black;
+        text-align: left;
+        font-size: 20px;
+     }
+    .header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td {
+      border: 1px solid #000;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .checkbox-cell input[type="checkbox"] {
+      transform: scale(1.5);
+      cursor: pointer;
+    }
+    .label-cell {
+      font-weight: bold;
+      background-color:#eb9494ff;
+      color: black;
+      
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    /* Dropdown button */
+    .dropdown-button {
+      background-color: #cb5151ff;
+      color: black;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #cb5151ff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    /* Dropdown items */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    /* Highlight item on hover */
+    .dropdown-content a:hover {
+      background-color: #a83737ff;
+    }
+    
+    button[type="submit"]{
+    	background-color: #B51111;
+        color: white;
+        text-align: center;
+        margin: 0px;
+        padding: 18px 36px;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        margin-top: 30px;
+        width: 100%;
+    }  
+    button[type="submit"]:hover {
+  background-color: #870c0cff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+  </style>
+</head>
+<body>
+<div class="formContainer">
+<div class="header">
+<h2>Junior Questionnare</h2>
+</div>
+<form>
+	<p>Name:</p>
+    	<div class="dropdown">
+  			<button class="dropdown-button">Select Option</button>
+  			<div class="dropdown-content">
+   			 <a href="#">Option 1</a>
+    		<a href="#">Option 2</a>
+   		 <a href="#">Option 3</a>
+ 	 </div>
+	</div>
+    
+   	<p>Select Availability</p>
+    
+ <table>
+   <tr>
+    <td class="label-cell"></td> 
+    <td class="label-cell">Day 1</td>
+    <td class="label-cell">Day 2</td>
+  </tr> 
+    
+  <tr>
+    <td class="label-cell">Period 2</td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-0-0"></td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-0-1"></td>
+  </tr>
+  <tr>
+    <td class="label-cell">Period 3</td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-1-0"></td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-1-1"></td>
+  </tr>
+  <tr>
+    <td class="label-cell">Period 4</td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-2-0"></td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-2-1"></td>
+  </tr>
+  <tr>
+  	<td class="label-cell">Period 5</td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-3-0"></td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-3-1"></td>
+   </tr>
+   
+   <tr>
+   	<td class="label-cell">Period 6</td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-4-0"></td>
+    <td class="checkbox-cell"><input type="checkbox" name="cell-4-1"></td>
+  </tr>
+   
+</table>
+
+<!--need to update url-->
+<form action="/submit-url" method="post">
+  
+  
+  <button type="submit">Submit</button>
+</form>
+
+
+</form>
+</div>
+</body>
+</html>
+
+
