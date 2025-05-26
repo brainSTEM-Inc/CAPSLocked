@@ -418,7 +418,7 @@ def final_distribution():
         global roomsToTimes
         global personsPerTime
         if not students:
-            print([current,score])
+            #print([current,score])
             schedules.append([current,score])
             return
         #try:
