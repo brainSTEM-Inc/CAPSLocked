@@ -33,123 +33,168 @@
 	var times=[];
 	var days=[];
 	    
-        function generateTable() {
-	    console.log(JSON.stringify(rooms));
-            console.log(JSON.stringify(times));
-            
-            const container = document.getElementById('tableContainer');
-            container.innerHTML = "";
+function generateScheduleTable(allTimes, dayPeriods, rooms) {
+    const container = document.getElementById("tableContainer"); // Where the table goes
+    container.innerHTML = ""; // Clear previous table
 
-            // Save current checkbox states
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkboxStates[checkbox.dataset.key] = checkbox.checked;
-            });
+    Object.entries(dayPeriods).forEach(([day, periods]) => {
+        // Create table container with spacing
+        const tableWrapper = document.createElement("div");
+        tableWrapper.style.marginBottom = "30px"; // Add spacing between tables
 
-            if (rooms.length === 0 || times.length === 0) {
-                container.innerHTML = "<p>Please enter at least one room and one time!</p>";
-                return;
+        // Create table
+        const table = document.createElement("table");
+        table.border = "1";
+        table.style.width = "100%"; // Full width for better layout
+        table.style.borderCollapse = "collapse"; // Clean table style
+
+        // Create header row with centered editable title
+        const headerRow = document.createElement("tr");
+        const dayCell = document.createElement("th");
+        dayCell.colSpan = rooms.length + 2; // Merge across all columns (+1 for dropdown column)
+        dayCell.style.textAlign = "center"; // Center the text
+        const dayInput = document.createElement("input");
+        dayInput.type = "text";
+        dayInput.value = day;
+        dayInput.style.textAlign = "center"; // Ensure text aligns inside input
+        dayCell.appendChild(dayInput);
+        headerRow.appendChild(dayCell);
+        table.appendChild(headerRow);
+
+        // Create room header row
+        const roomRow = document.createElement("tr");
+        const emptyHeader = document.createElement("th");
+        emptyHeader.textContent = "Periods";
+        roomRow.appendChild(emptyHeader);
+
+        const periodLabelHeader = document.createElement("th");
+        periodLabelHeader.textContent = "Select Period";
+        roomRow.appendChild(periodLabelHeader); // New column for dropdowns
+
+        rooms.forEach(room => {
+            const roomCell = document.createElement("th");
+            roomCell.textContent = room;
+            roomRow.appendChild(roomCell);
+        });
+        table.appendChild(roomRow);
+
+        // Create period rows
+        periods.forEach(period => {
+            const periodRow = document.createElement("tr");
+
+            // Period Label Cell
+            const periodCell = document.createElement("td");
+            periodCell.textContent = period;
+            periodRow.appendChild(periodCell);
+
+            // Dropdown Column
+            const dropdownCell = document.createElement("td");
+            const dropdown = document.createElement("select");
+            for (let i = 1; i <= 8; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = `${i}`;
+                dropdown.appendChild(option);
             }
+            dropdownCell.appendChild(dropdown);
+            periodRow.appendChild(dropdownCell);
 
-            const table = document.createElement('table');
-
-            // Header row
-            const headerRow = document.createElement('tr');
-            const cornerHeader = document.createElement('th'); 
-            cornerHeader.innerText = "Time/Room";
-            headerRow.appendChild(cornerHeader);
-
-            rooms.forEach(room => {
-                const th = document.createElement('th');
-                th.innerText = room;
-                headerRow.appendChild(th);
+            // Room availability checkboxes
+            rooms.forEach(() => {
+                const cell = document.createElement("td");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked=true;
+                cell.appendChild(checkbox);
+                periodRow.appendChild(cell);
             });
 
-            table.appendChild(headerRow);
+            table.appendChild(periodRow);
+        });
 
-            // Rows
-            times.forEach(time => {
-                const row = document.createElement('tr');
-                const timeCell = document.createElement('th');
-                timeCell.innerText = time;
-                row.appendChild(timeCell);
+        tableWrapper.appendChild(table);
+        container.appendChild(tableWrapper);
+    });
+}
 
-                rooms.forEach(room => {
-                    const cell = document.createElement('td');
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    const key = `${room}|${time}`;
-                    checkbox.dataset.room = room;   // <<< ADD THIS
-                    checkbox.dataset.time = time;
-                    checkbox.checked = true;
-                    
-                    cell.appendChild(checkbox);
-                    row.appendChild(cell);
-                });
+// **Example Usage**
+/*const allTimes = ["Pd2, Tuesday", "Pd3, Thursday", "Pd3, Tuesday", "Pd5, Thursday"];
+const dayPeriods = {
+    "Day 1": ["Pd2, Tuesday", "Pd3, Thursday"],
+    "Day 2": ["Pd3, Tuesday", "Pd5, Thursday"]
+};
+const rooms = ["Room 1", "Room 2", "Room 3"];*/
 
-                table.appendChild(row);
+
+function collectTableData() {
+    let roomAvailability = {};
+    let timeToPeriod = {};
+
+    document.querySelectorAll("table").forEach((table) => {
+        // Get the day name from the editable text box
+        let day = table.querySelector("th input").value.trim();
+
+        table.querySelectorAll("tr").forEach((row, rowIndex) => {
+            if (rowIndex === 0 || rowIndex === 1) return; // Skip headers
+
+            let periodText = row.cells[0].textContent.trim(); // Time (Pd2, Tuesday)
+            let selectedPeriod = row.cells[1].querySelector("select").value.trim(); // Dropdown period
+
+            // Store period mapping
+            timeToPeriod[periodText] = selectedPeriod.toString();
+
+            // Iterate through room columns (starting from cell index 2)
+            row.querySelectorAll("td:nth-child(n+3)").forEach((cell, cellIndex) => {
+                let roomName = document.querySelectorAll("table tr:nth-child(2) th")[cellIndex+2].textContent.trim();
+
+                if (!roomAvailability[roomName]) roomAvailability[roomName] = {};
+                if (!roomAvailability[roomName][day]) roomAvailability[roomName][day] = [];
+
+                // If checkbox is checked, add time to the room's availability list
+                let checkbox = cell.querySelector("input[type='checkbox']");
+                if (checkbox && checkbox.checked) {
+                    roomAvailability[roomName][day].push(periodText);
+                }
             });
+        });
+    });
 
-            container.appendChild(table);
-            sendBackend.style.display = 'block';
-        }
-		
-        function buildRoomsToTimesByDay(roomsToTimesOld) {
-            const roomsToTimes = {};
+    //console.log("Room Availability:", JSON.stringify(roomAvailability, null, 2));
+    //console.log("Time to Period Mapping:", JSON.stringify(timeToPeriod, null, 2));
+    console.log(JSON.stringify(roomAvailability));
+    console.log(JSON.stringify(timeToPeriod));
+	
+    return [roomAvailability, timeToPeriod];
+}
 
-            for (const room in roomsToTimesOld) {
-                const availableTimes = new Set(roomsToTimesOld[room]);
-                const dayDict = {};
 
-                days.forEach((timesList, index) => {
-                    const dayLabel = `Day ${index + 1}`;
-                    const timesForDay = timesList.filter(time => availableTimes.has(time));
-                    if (timesForDay.length > 0) {
-                        dayDict[dayLabel] = timesForDay;
-                    }
-                });
+// Call function to generate table
+//generateScheduleTable(allTimes, dayPeriods, rooms);
 
-                roomsToTimes[room] = dayDict;
-            }
-
-            return roomsToTimes;
-        }
         fetch('/getRoomsAndTimes')
 	    .then(res => res.json())
 	    .then(data => {
 	      rooms=data.rooms;
 	      times=data.times;
 	      days=data.days;
-	      generateTable();
+	      generateScheduleTable(times, days, rooms)
 	    })
 	.catch(err => console.error("Failed to fetch room data:", err));
         
         function submitAvailability() {
             console.log("Sending data to backend...");
 
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const roomsToTimesOld = {};
-
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    const room = cb.getAttribute('data-room');
-                    const time = cb.getAttribute('data-time');
-                    if (!roomsToTimesOld[room]) {
-                        roomsToTimesOld[room] = [];
-                    }
-                    roomsToTimesOld[room].push(time);
-                }
-            });
-
-
-            const roomsToTimes = buildRoomsToTimesByDay(roomsToTimesOld);
-            console.log(JSON.stringify(roomsToTimes));
+            let oldData = collectTableData();
+    		console.log(oldData);
             
             
             
             // Prepare the data to send
             const data = {
-                roomsToTimes: roomsToTimes
+                roomsToTimes: oldData[0],
+                periodMap: oldData[1]
             };
+            console.log(data);
             
             // Send the data to the backend
             fetch('/submit_availability', {
@@ -172,6 +217,7 @@
             });
             window.location.href = "/generateStep1";
         }
+        
     </script>
 </body>
 </html>
