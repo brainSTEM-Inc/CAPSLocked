@@ -234,7 +234,11 @@ PD 6, Thursday, December 21st</textarea>
                 console.log("✅ Received response from backend!"); 
 		document.getElementById("troubleshoot").style.display="block";
 		if (!response.ok) {
-			document.getElementById("troubleshoot").innerText="An error occurred. Try the following: 1. Check that your csv link is correct. Click 'Instructions on getting a link' for help. 2. Please make sure your column numbers correct. There should be at least one value in that column of the spreadsheet. The number of the leftmost column is 1. 3. If you are sure that you entered all inputs correctly, please fill out the following form: [insert form link here] to report the error. If possible, right click and hit Inspect Element, then go to the Console tab to retrieve the error message. We are very sorry for the inconvenience (unless ur member of capslocked in which case u get to tell the bozo programmer that they need to fix this IMMEDIATLEY).";	
+			document.getElementById("troubleshoot").innerText="An error occurred. Try the following: 1. Check that your csv link is correct. Click 'Instructions on getting a link' for help. 2. Please make sure your column numbers are correct. There should be at least one value in that column of the spreadsheet. The number of the leftmost column is 1. 3. If you are sure that you entered all inputs correctly, please fill out the following form: [insert form link here] to report the error. If possible, right click and hit Inspect Element, then go to the Console tab to retrieve the error message. We are very sorry for the inconvenience (unless ur member of capslocked in which case u get to tell the bozo programmer that they need to fix this IMMEDIATLEY).";	
+			document.getElementById("nextPage").disabled=true;
+		}
+		else {
+			document.getElementById("nextPage").disabled=false;
 		}
 		displayTable();
                 return response.text();
@@ -275,7 +279,6 @@ PD 6, Thursday, December 21st</textarea>
   }
 	    
   function showParsedData() {
-      document.getElementById("nextPage").disabled=false;
      /* allRooms = ["Room 195", "Room 198", "Room 199"]
       displayAllTimes = [['PD 2 Tuesday, December 19th', 1], ['PD 3, Tuesday, December 19th', 1], ['PD 4, Tuesday, December 19th', 1], ['PD 5, Tuesday, December 19th', 1], ['PD 6, Tuesday, December 19th', 1], ['PD 2, Thursday, December 21st', 1], ['PD 3, Thursday, December 21st', 1], ['PD 4, Thursday, December 21st', 1], ['PD 5, Thursday, December 21st', 1], ['PD 6, Thursday, December 21st', 1]]
 
