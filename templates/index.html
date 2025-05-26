@@ -84,13 +84,13 @@
     <hr>
     <h2 style="color:#B51111">Columns</h2>
     <p>Number of column containing...</p>
-    <form id="columnForm" class="container" id="columnForm" style="font-size: 22px;">
+    <form id="columnForm1" class="container" id="columnForm" style="font-size: 22px;">
         <p>Last name</p> <input type="number" id="lastName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="1">
         <p>First name</p> <input type="number" id="firstName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="2">
         <p>Name of project</p> <input type="number" id="projectName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="3">
         <p>Project topic</p> <input type="number" id="projectTopic" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="4">
     </form>
-    <form id="columnForm" class="container" id="columnForm" style="font-size: 22px;">
+    <form id="columnForm2" class="container" id="columnForm" style="font-size: 22px;">
         <p>Availability</p> <input type="number" id="availability" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="5">
         <p>Presenting with friend(s)</p> <input type="number" id="friends" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="6">
         <p>Blurb about project</p> <input type="number" id="blurb" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" placeholder="7">
@@ -155,7 +155,8 @@ PD 6, Thursday, December 21st</textarea>
         document.getElementById("availability").addEventListener("input", checkInputs);
         document.getElementById("friends").addEventListener("input", checkInputs);
         document.getElementById("blurb").addEventListener("input", checkInputs);*/
-        document.getElementById("columnForm").addEventListener("input", checkInputs);
+        document.getElementById("columnForm1").addEventListener("input", checkInputs);
+	document.getElementById("columnForm2").addEventListener("input", checkInputs);
 	document.getElementById("roomsInput").addEventListener("input", checkInputs);
         document.getElementById("timesInput").addEventListener("input", checkInputs);
 
