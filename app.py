@@ -386,5 +386,110 @@ def receive_schedule():
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('generateStep2.html')
 
+daysRoomsTimes={}
+@app.route('/final_distribution', methods=['POST'])
+def final_distribution():
+    global daysRoomsTimes
+    
+    roomData = request.get_json()
+    print("Received schedule:", roomData)
+
+    periodMap={'PD 2 Tuesday, December 19th':"2", 'PD 3, Tuesday, December 19th':"3", 'PD 4, Tuesday, December 19th':"4", 'PD 5, Tuesday, December 19th':"5", 'PD 6, Tuesday, December 19th':"6", 'PD 2, Thursday, December 21st':"2", 'PD 3, Thursday, December 21st':"3", 'PD 4, Thursday, December 21st':"4", 'PD 5, Thursday, December 21st':"5", 'PD 6, Thursday, December 21st':"6"}
+
+
+    def g(current, students, score, maintopic, day):
+        global schedules
+        if not students:
+            schedules.append([current,score])
+            return
+        #try:
+        
+        for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic][day])):
+            #print(current)
+            if len(current[time]) < personsPerTime:
+                newSchedule = copy.deepcopy(current)
+                newStudents = copy.deepcopy(students)
+                newScore=score
+                newScore+=len(set(newSchedule[time]) & set(dataDict[students[0]][2]))
+                if dataDict[students[0]][3]:
+                    newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
+                newSchedule[time].append(students[0])
+                newStudents.remove(students[0])
+                g(newSchedule, newStudents,newScore, maintopic, day)
+                
+    
+    def f(room, maintopic, day):
+        global schedules
+        global dataDict
+        schedules=[]
+        dataDict ={}
+        
+        for key, value in rawdataDict.items():
+            if key in room:
+                dataDict[key] = value
+    
+        realFlexibility = sorted(dataDict, key=lambda x: len(dataDict[x][0]))
+        
+        currentSchedule = {}
+        for time in roomToTimes[maintopic][day]:
+            currentSchedule[time]=[]
+            
+        schedules=[]
+        g(currentSchedule, realFlexibility,0, maintopic, day)
+        if not schedules:
+            return []
+        sorted_schedules = sorted(schedules, key=lambda x: x[1], reverse=True)
+        #print("Schedule w/ nemesi")
+        highScore = sorted_schedules[0][1]
+    
+        i=0
+        n=10
+        schedulesToReturn = []
+        
+        while sorted_schedules[i][1]==highScore:
+            i+=1
+        if len(sorted_schedules)<n:
+            for schedule in sorted_schedules:
+                #print(schedule)
+                schedulesToReturn.append(schedule[0])
+        elif i<=n:
+            for schedule in sorted_schedules[:n]:
+                #print(schedule)
+                schedulesToReturn.append(schedule[0])
+        else:
+            hop=(int)(i/n)
+            for j in range(0,i,hop):
+                #print(sorted_schedules[j])
+                schedulesToReturn.append(sorted_schedules[j][0])
+        #print()
+        return schedulesToReturn
+    
+    daysRoomsTimes = {}
+    
+    for roomName, roomInfo in roomData.items():
+        for day, thisRoom in roomInfo.items():
+            schedules=[]
+            dataDict ={}
+            if day not in list(daysRoomsTimes.keys()):
+                daysRoomsTimes[day]={}
+            daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
+    
+    #print(daysRoomsTimes)
+    
+    for day, rooms in daysRoomsTimes.items():
+        for room, periods in rooms.items():
+            updated_periods = {periodMap.get(period, period): value for period, value in periods.items()}
+            daysRoomsTimes[day][room]=updated_periods
+            for period, students in periods.items():
+                for i in range(len(students)):
+                    student=students[i]
+                    students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
+    
+    
+    print(daysRoomsTimes)
+    #return jsonify({"status": "success", "message": "Schedule received"})
+    return render_template('4.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
