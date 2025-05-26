@@ -108,6 +108,7 @@ def parse_data():
     for day in days:
         print(day)
         days1["Day "+str(i)]=day
+        i+=1
     days=days1
     
     for i in range(len(rawData)):
