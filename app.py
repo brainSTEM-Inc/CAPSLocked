@@ -419,12 +419,11 @@ def final_distribution():
         global personsPerTime
         if not students:
             schedules.append([current,score])
-            print(current)
             return
         #try:
         
         for time in list(set(dataDict[students[0]][0]) & set(roomToTimes[maintopic][day])):
-            #print(current)
+            print(current)
             if len(current[time]) < personsPerTime:
                 newSchedule = copy.deepcopy(current)
                 newStudents = copy.deepcopy(students)
