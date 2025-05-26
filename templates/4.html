@@ -55,7 +55,7 @@
 <button id="generateSpreadsheet" class="button" onclick="downloadCSV()">Download spreadsheet</button>
 <script>
 var finalRoomDistribution={};
-    fetch('/getDataForStep3')
+    fetch('/getFinalDistribution')
     .then(res => res.json())
     .then(data => {
       finalRoomDistribution=data.daysRoomsTimes();
