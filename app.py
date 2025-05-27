@@ -307,6 +307,7 @@ def receive_schedule():
 
     global allDayDistributions
     global roomDayDistribution
+    global days
 
     def findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, score):
         global allDayDistributions
@@ -398,6 +399,7 @@ def receive_schedule():
     
     for room, dayChoices in roomDayDistribution.items():
         for dayChoice in dayChoices:
+            dayChoice[0]={day: dayChoice[0][day] for day in list(days.keys())}
             for day, students in dayChoice[0].items():
                 for i in range(len(students)):
                     student=students[i]
