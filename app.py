@@ -18,7 +18,7 @@ def upload():
     return render_template('upload.html')
 
 @app.route('/select')
-def upload():
+def select():
     return render_template('select.html')
 
 @app.route('/generateStep1')
