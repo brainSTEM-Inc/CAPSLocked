@@ -138,10 +138,10 @@ def parse_data():
 
 
 periodMap = {}
-
+dayOrder=[]
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
-    
+    global dayOrder
     global roomDistribution
     global capacityDict
     global dayCapacityDict
@@ -157,6 +157,7 @@ def submit_availability():
     periodMap = data.get('periodMap')
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     #print(roomToTimes)
+    dayOrder = data.get('dayOrder')
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
@@ -399,7 +400,7 @@ def receive_schedule():
     
     for room, dayChoices in roomDayDistribution.items():
         for dayChoice in dayChoices:
-            dayChoice[0]={day: dayChoice[0][day] for day in set(key for key in list(days.keys()) for days in list(roomsToTimes.values()))}
+            dayChoice[0]={day: dayChoice[0][day] for day in dayOrder}
             for day, students in dayChoice[0].items():
                 for i in range(len(students)):
                     student=students[i]
