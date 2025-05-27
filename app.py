@@ -399,7 +399,7 @@ def receive_schedule():
     
     for room, dayChoices in roomDayDistribution.items():
         for dayChoice in dayChoices:
-            dayChoice[0]={day: dayChoice[0][day] for day in list(days.keys())}
+            dayChoice[0]={day: dayChoice[0][day] for day in set(key for key in list(days.keys()) for days in list(roomsToTimes.values()))}
             for day, students in dayChoice[0].items():
                 for i in range(len(students)):
                     student=students[i]
