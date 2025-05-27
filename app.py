@@ -415,7 +415,7 @@ def receive_schedule():
 offenders=[]
 
 @app.route('/check_distribution', methods=['POST'])
-def final_distribution():
+def check_distribution():
     global rawdataDict
     global roomToTimes
     global offenders
