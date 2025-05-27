@@ -56,6 +56,18 @@
       cursor: pointer;
       margin-top: 10px;
     }
+    
+     .spreadsheet-button {
+      color: blue;
+      background: transparent;
+      border: none;
+      /*padding: 15px;*/
+      width: 100%;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: underline;
+    }
 
     .login-button:hover {
       background-color: #a10000;
@@ -70,6 +82,12 @@
       <input type="text" placeholder="Username">
       <input type="password" placeholder="Password">
       <button class="login-button"><b>Login</b></button>
+      <button class="spreadsheet-button" onclick="spreadsheet()"><b>Generate schedules from spreadsheet</b></button>
     </div>
   </div>
+  <script>
+  function spreadsheet() {
+  	window.location.href = "upload";
+  }
+  </script>
 </body>
