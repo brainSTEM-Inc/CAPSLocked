@@ -37,6 +37,7 @@ allRooms=[]
 displayHeaders=[]
 days=[]
 allTimes=[]
+dayOrder=[]
 
 @app.route('/getParsedData')
 def getParsedData():
@@ -157,7 +158,7 @@ def submit_availability():
     periodMap = data.get('periodMap')
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
     #print(roomToTimes)
-    dayOrder = data.get('dayOrder')
+    dayOrder = list(data.get('dayOrder').values())
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
