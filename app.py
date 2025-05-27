@@ -13,6 +13,10 @@ def home():
 def logistics():
     return render_template('logistics.html')
 
+@app.route('/upload')
+def upload():
+    return render_template('upload.html')
+
 @app.route('/generateStep1')
 def generateStep1():
     return render_template('generateStep1.html')
