@@ -408,9 +408,37 @@ def receive_schedule():
                     student=students[i]
                     students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
-    print(roomDayDistribution) 
+    #print(roomDayDistribution) 
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('generateStep2.html')
+
+offenders=[]
+
+@app.route('/check_distribution', methods=['POST'])
+def final_distribution():
+    global rawdataDict
+    global roomToTimes
+    global offenders
+    roomData = request.get_json()
+    #print("Received schedule:", roomData)
+    offenders=[]
+    for room, days in roomData.items():
+        for day, students in days.items():
+            for student in students:
+                x=True
+                for time in rawdataDict[student][0]:
+                    if time in roomToTimes[day]:
+                        x=False
+                        break
+                if x:
+                    offenders.append(student)
+    return render_template('generateStep2.html')
+
+@app.route('/get_offenders')
+def get_offenders():
+    return jsonify({
+        "offenders": offenders
+    })
 
 daysRoomsTimes={}
 schedules=[]
