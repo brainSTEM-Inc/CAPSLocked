@@ -373,6 +373,7 @@
     function createRoomElements(initRoomDistribution) {
     	clearScreen();
 		document.getElementById("generate").innerText = "Generate Schedules";
+	    	document.getElementById("check").innerText = "Check";
     
     	var topicColorMap = {};
     	var colorIndex = 0;
@@ -539,9 +540,9 @@
         if (bub==true) {
         	document.getElementById("generate").disabled=false;
         }
-        else {
+        /*else {
         	document.getElementById("generate").disabled=true;
-        }
+        }*/
     }
     
     function allowDrop(ev) {
