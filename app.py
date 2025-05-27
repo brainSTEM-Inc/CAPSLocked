@@ -402,7 +402,9 @@ def receive_schedule():
     print(dayOrder)
     for room, dayChoices in roomDayDistribution.items():
         for dayChoice in dayChoices:
-            dayChoice[0]={day: dayChoice[0][day] for day in dayOrder}
+            ordered_dict={day: dayChoice[0][day] for day in dayOrder}
+            dayChoice[0].clear()
+            dayChoice[0].update(ordered_dict)
             for day, students in dayChoice[0].items():
                 for i in range(len(students)):
                     student=students[i]
