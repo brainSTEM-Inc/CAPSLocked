@@ -352,13 +352,13 @@
                 dayDiv.style.padding="10px 10px 10px 10px";
                 insideDaysContainer.appendChild(dayDiv);
             })
-            //daysContainer.style.border="dashed";
-            //daysContainer.style.borderColor="black";
+            daysContainer.style.border="dashed";
+            daysContainer.style.borderColor="black";
             
-            //if (JSON.stringify(days)==JSON.stringify(initRoomDistribution[roomName])) {
-            //	daysContainer.style.border="solid";
-            //    daysContainer.style.borderColor="blue";
-            //}
+            if (JSON.stringify(days)==JSON.stringify(initRoomDistribution[roomName])) {
+            	daysContainer.style.border="solid";
+                daysContainer.style.borderColor="blue";
+            }
             daysContainer.addEventListener("click", function() {
             	initRoomDistribution[roomName]=days;
                 createRoomElements(initRoomDistribution);
