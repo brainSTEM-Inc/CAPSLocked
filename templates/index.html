@@ -81,13 +81,17 @@
       <h2 style="text-align: center;">Please Log In</h2>
       <input type="text" placeholder="Username">
       <input type="password" placeholder="Password">
-      <button class="login-button"><b>Login</b></button>
+      <button class="login-button" onclick="select()"><b>Login</b></button>
       <button class="spreadsheet-button" onclick="spreadsheet()"><b>Generate schedules from spreadsheet</b></button>
     </div>
   </div>
   <script>
   function spreadsheet() {
   	window.location.href = "upload";
+  }
+
+  function select() {
+    window.location.href = "select";
   }
   </script>
 </body>
