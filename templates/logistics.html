@@ -168,6 +168,22 @@ function collectTableData() {
 }
 
 
+function collectDayNameChanges(dayPeriods) {
+    let dayNameChanges = {};
+
+    document.querySelectorAll("table").forEach((table, index) => {
+        let oldDayName = Object.keys(dayPeriods)[index]; // Get original day name
+        let newDayName = table.querySelector("th input").value.trim(); // Get user-edited name
+
+        if (oldDayName !== newDayName) {
+            dayNameChanges[oldDayName] = newDayName; // Store change
+        }
+    });
+
+    console.log("Day Name Changes:", JSON.stringify(dayNameChanges, null, 2));
+    return dayNameChanges;
+}
+	    
 // Call function to generate table
 //generateScheduleTable(allTimes, dayPeriods, rooms);
 
@@ -185,14 +201,14 @@ function collectTableData() {
             console.log("Sending data to backend...");
 
             let oldData = collectTableData();
-    		console.log(oldData);
-            
+    	    let dayOrder = collectDayNameChanges(days);
             
             
             // Prepare the data to send
             const data = {
                 roomsToTimes: oldData[0],
-                periodMap: oldData[1]
+                periodMap: oldData[1],
+		dayOrder: dayOrder
             };
             console.log(data);
             
