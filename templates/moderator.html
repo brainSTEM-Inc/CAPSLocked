@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+<style>
+	body {
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        background-color: #000000;
+        align-items: center;
+        justify-content: space-around;
+        font-family: 'Assistant', sans-serif;
+        align-content: center;
+    }
+    .infoInputs {
+    	width: 40%;
+        length: 90%;
+        background: #d9d9d9;
+        padding: 10px;
+        margin: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        align-content: stretch;
+    }
+    .generateStart {
+    	width: 30%;
+        length: 70%;
+        background-color: #d9d9d9;
+        margin: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: space-around;
+        justify-content: center;
+        align-content: stretch;
+    }
+    .heading {
+    	width: 90%;
+        background-color: #580C1F;
+        align-self: flex;
+        padding: 15px;
+        text-align: center;
+        color: #ffffff;
+        font-size: 20px;
+    }
+    .button {
+    	width: 100%;
+        background-color: #B51111;
+        align-self: center;
+        padding: 15px;
+        text-align: center;
+        color: #ffffff;
+        margin-top: 20px;
+        border: none;
+        cursor: pointer;
+    }
+    .startButton {
+    	width: 100%;
+        background-color: #B51111;
+        align-self: center;
+        padding: 40px;
+        text-align: center;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+	<div class="infoInputs">
+        <div class="heading">
+        	<b>Moderator Control</b>
+        </div>
+        <button class="button" onclick="rosters()">
+        	<b>Student Rosters</b>
+        </button>
+        <button class="button" onclick="availability()">
+        	<b>Symposium Availability</b>
+        </button>
+        <button class="button" onclick="addQuestion()">
+        	<b>Student Questionnaire</b>
+        </button>
+        <div class="button" onclick="topics()">
+        	<b>Project Topics</b>
+        </div>
+        <div class="button" onclick="viewResponses()">
+        	<b>View Responses</b>
+        </div>
+    </div>
+	<div class="generateStart">
+    	<button class="startButton">
+        	<b>Begin Schedule<br>Generation</b>
+        </button>
+    </div>
+    <script>
+    function rosters() {
+    	window.location.href="rosters";
+    }
+    
+    function availability() {
+    	window.location.href="availability";
+    }
+    
+    function addQuestion() {
+    	window.location.href="addQuestion";
+    }
+    
+    
+    function topics() {
+    	window.location.href="topics";
+    }
+    
+    
+    function viewResponses() {
+    	window.location.href="viewResponses";
+    }
+    </script>
+</body>
+</html>
