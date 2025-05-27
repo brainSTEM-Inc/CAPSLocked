@@ -21,11 +21,35 @@ def upload():
 def select():
     return render_template('select.html')
 
-'''
+
 @app.route('/seniorQuestionnaire')
 def seniorQuestionnaire():
     return render_template('seniorQuestionnaire.html')
-'''
+
+@app.route('/moderator')
+def moderator():
+    return render_template('moderator.html')
+
+@app.route('/viewResponses')
+def viewResponses():
+    return render_template('viewResponses.html')
+
+@app.route('/availability')
+def availability():
+    return render_template('availability.html')
+
+@app.route('/rosters')
+def rosters():
+    return render_template('rosters.html')
+
+@app.route('/topics')
+def topics():
+    return render_template('topics.html')
+
+@app.route('/addQuestion')
+def addQuestion():
+    return render_template('addQuestion.html')
+
 @app.route('/generateStep1')
 def generateStep1():
     return render_template('generateStep1.html')
