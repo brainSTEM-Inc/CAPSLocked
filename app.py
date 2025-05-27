@@ -17,6 +17,10 @@ def logistics():
 def upload():
     return render_template('upload.html')
 
+@app.route('/select')
+def upload():
+    return render_template('select.html')
+
 @app.route('/generateStep1')
 def generateStep1():
     return render_template('generateStep1.html')
