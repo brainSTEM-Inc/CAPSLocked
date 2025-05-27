@@ -10,6 +10,11 @@
       padding: 0;
     }
 
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+	  
     .room-labels {
       display: flex;
       justify-content: center;
@@ -195,7 +200,7 @@
     <!-- Rooms will be populated here from JS -->
   </div>
   
-
+  <button id="check" class="button" onclick="checkDistribution()">Check</button>	
   <button id="generate" class="button" onclick="generateSchedules()">Generate schedules</button>
   
   
@@ -256,6 +261,7 @@
 	createRoomElements(initRoomDistribution);
     	document.getElementById("defaultOpen").click();
     	document.getElementById("generate").style.display = "block";
+	document.getElementById("check").style.display = "block";
     })
     .catch(err => console.error("Failed to fetch room data:", err));
 	  
@@ -380,7 +386,7 @@
       
       var first=0;
       Object.entries(initRoomDistribution).forEach(([roomName, days], i) => {
-      
+      	console.log(JSON.stringify(days));
       	const roomButton = document.createElement('button');
         roomButton.className = "tablinks";
         roomButton.innerText=roomName;
@@ -594,9 +600,12 @@
 	console.log(JSON.stringify(initRoomDistribution));
 	createRoomElements(initRoomDistribution);
     document.getElementById("defaultOpen").click();
-    document.getElementById("generate").style.display = "block";*/
+    document.getElementById("generate").style.display = "block";
+    document.getElementById("check").style.display = "block";*/
     
-    
+    function checkDistribution() {
+    	document.getElementById("check").style.display = "block";
+    }
     
     function generateSchedules() {
       var roomDict = {};
