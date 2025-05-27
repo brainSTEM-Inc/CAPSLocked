@@ -21,8 +21,8 @@ def upload():
 def select():
     return render_template('select.html')
 
-@app.route('/questionnaire')
-def questionnaire():
+@app.route('/seniorQuestionnaire')
+def seniorQuestionnaire():
     return render_template('seniorQuestionnaire.html')
 
 @app.route('/generateStep1')
