@@ -23,7 +23,7 @@ def select():
 
 @app.route('/questionaire')
 def questionaire():
-    return render_template('seniorQuestionaire.html')
+    return render_template('seniorQuestionnaire.html')
 
 @app.route('/generateStep1')
 def generateStep1():
