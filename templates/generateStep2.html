@@ -183,7 +183,7 @@
       font-size: 16px;
       cursor: pointer;
     }*/
-    
+	  
   </style>
 </head>
 <body>
@@ -199,9 +199,10 @@
   <div class="rooms" id="rooms-container">
     <!-- Rooms will be populated here from JS -->
   </div>
-  
+
+  <p id="checkMessage" style="display: none; color:white;">All good!</p>
   <button id="check" class="button" onclick="checkDistribution()">Check</button>	
-  <button id="generate" class="button" onclick="generateSchedules()">Generate schedules</button>
+  <button id="generate" class="button" onclick="generateSchedules() disabled=true">Generate schedules</button>
   
   
   <script>
@@ -604,7 +605,8 @@
     document.getElementById("check").style.display = "block";*/
     
     function checkDistribution() {
-    	document.getElementById("check").style.display = "block";
+    	document.getElementById("checkMessage").style.display = "block";
+	document.getElementById("generate").disabled=false;
     }
     
     function generateSchedules() {
