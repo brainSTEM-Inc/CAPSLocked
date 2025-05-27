@@ -92,7 +92,9 @@
       padding: 5px;
       margin: 0px 0;
       cursor: move;
-      border: none;
+      border: solid;
+      border-width: 1px;
+      border-color: #360000;
     }
 
     .button {
@@ -198,7 +200,7 @@
   
   
   <script>
-	var initRoomDistribution = {};
+    /*var initRoomDistribution = {};
       
       var allItems = {
       "Room Alpha": [[{
@@ -234,9 +236,9 @@
     
     const capacityDict={"Room Alpha": 10, "Room Beta": 6, "Room Gamma":4, "Room Delta": 4};
     const roomsDaysTimes = {"Room Alpha": {"Day 1":5,"Day 2":5}, "Room Beta": {"Day 1":4}, "Room Gamma": {"Day 1":4}, "Room Delta": {"Day 2":4}}
-    
+    */
 
-    /*var allItems={}
+    var allItems={}
     var capacityDict={};
     var initRoomDistribution = {};
     var roomsDaysTimes={};	  
@@ -255,7 +257,7 @@
     	document.getElementById("defaultOpen").click();
     	document.getElementById("generate").style.display = "block";
     })
-    .catch(err => console.error("Failed to fetch room data:", err));*/
+    .catch(err => console.error("Failed to fetch room data:", err));
 	  
     const topicColors = [
       "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
@@ -585,14 +587,14 @@
     }
 	  
     
-    console.log(JSON.stringify(allItems));
+    /*console.log(JSON.stringify(allItems));
 	Object.entries(allItems).forEach(([roomName, days]) => {  
 		initRoomDistribution[roomName]=days[0][0];
 	});
 	console.log(JSON.stringify(initRoomDistribution));
 	createRoomElements(initRoomDistribution);
     document.getElementById("defaultOpen").click();
-    document.getElementById("generate").style.display = "block";
+    document.getElementById("generate").style.display = "block";*/
     
     
     
