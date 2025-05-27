@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>adjustingRoomQuantity</title>
+  <style>
+    body { 
+    	margin: 0;
+        padding: 40px;
+        display: flex;
+    	background-color: black;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Assistant', sans-serif;
+
+    }
+ 
+    
+    .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+        align-items: center;
+      	border-radius: 10px;
+      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .room { 
+    	border: 1px solid #ccc; 
+      padding: 10px; 
+      margin-top: 20px;
+      margin-bottom: 20px; 
+      color: white;
+      width:100%;
+      background-color: #cb5151ff;
+      text-align: center;
+      }
+      
+    .topic-row { 
+    text-align: left;
+    margin-bottom: 8px; 
+    color: white;
+    }
+    
+    h2{
+    	text-align: center;
+        color:white;
+    }
+
+	.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        width: 100%;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    
+     button[type="submit"] {
+      background-color: #B51111;
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      font-weight: bold;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      wisth: 100%;
+      background-color: #870c0cff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    
+  </style>
+</head>
+<body>
+
+<div class="formContainer">
+<div class="header">
+  <h2>Project Topics</h2>
+</div>
+<button type="submit">Edit Topics</button>
+
+  <div id="app"></div>
+  
+  
+  
+ 
+
+
+
+ <script>
+    const topics = {
+      "Biology/Biotech": 14,
+      "Computer Science/AI": 15,
+      "Chemistry/Materials Science": 7,
+      "Engineering": 8,
+      "Math": 5,
+      "Physics": 9,
+      "Earth & Space Systems Science": 10,
+      "Economics & Social Issues": 3
+    };
+
+    const rooms = {
+      "1602": 20,
+      "1620": 20,
+      "1702": 20
+    };
+
+    const assignments = {};
+    const totalAssignedPerTopic = {};
+
+    for (const room in rooms) {
+      assignments[room] = {};
+    }
+    for (const topic in topics) {
+      totalAssignedPerTopic[topic] = 0;
+    }
+
+    const app = document.getElementById("app");
+
+    function totalAssignedInRoom(room) {
+      return Object.values(assignments[room]).reduce((a,b) => a + b, 0);
+    }
+
+    
+    const availabilitySpans = {}; 
+
+    for (const room in rooms) {
+      const capacity = rooms[room];
+      const roomDiv = document.createElement("div");
+      roomDiv.className = "room";
+
+      const title = document.createElement("h3");
+      title.textContent = `${room} (Capacity: ${capacity})`;
+      roomDiv.appendChild(title);
+
+      for (const topic in topics) {
+        const topicCount = topics[topic];
+
+        const row = document.createElement("div");
+        row.className = "topic-row";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `${room}-${topic}-chk`;
+        checkbox.dataset.room = room;
+        checkbox.dataset.topic = topic;
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = topic + " ";
+
+        const availabilitySpan = document.createElement("span");
+        availabilitySpan.className = "availability";
+        availabilitySpan.textContent = `(Available: ${topicCount})`;
+        label.appendChild(availabilitySpan);
+
+        // Save the span in the array for this topic
+        if (!availabilitySpans[topic]) {
+          availabilitySpans[topic] = [];
+        }
+        availabilitySpans[topic].push(availabilitySpan);
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = 1;
+        input.value = "";
+        input.disabled = true;
+        input.style.marginLeft = "10px";
+        input.style.width = "50px";
+
+        assignments[room][topic] = 0;
+
+        checkbox.addEventListener("change", () => {
+          const r = checkbox.dataset.room;
+          const t = checkbox.dataset.topic;
+
+          if (checkbox.checked) {
+            input.disabled = false;
+            input.value = 1;
+            assignments[r][t] = 1;
+            totalAssignedPerTopic[t] += 1;
+          } else {
+            input.disabled = true;
+            totalAssignedPerTopic[t] -= assignments[r][t];
+            assignments[r][t] = 0;
+            input.value = "";
+          }
+          updateAvailability(t);
+        });
+
+        input.addEventListener("input", () => {
+          const r = checkbox.dataset.room;
+          const t = checkbox.dataset.topic;
+          let val = parseInt(input.value) || 0;
+
+          if (val < 1) {
+            val = 1;
+            input.value = val;
+          }
+
+          const roomTotalWithoutCurrent = totalAssignedInRoom(r) - assignments[r][t];
+          if (val + roomTotalWithoutCurrent > rooms[r]) {
+            val = rooms[r] - roomTotalWithoutCurrent;
+            input.value = val;
+          }
+
+          const topicTotalWithoutCurrent = totalAssignedPerTopic[t] - assignments[r][t];
+          if (val + topicTotalWithoutCurrent > topics[t]) {
+            val = topics[t] - topicTotalWithoutCurrent;
+            input.value = val;
+          }
+
+          totalAssignedPerTopic[t] += val - assignments[r][t];
+          assignments[r][t] = val;
+          updateAvailability(t);
+        });
+
+        row.appendChild(checkbox);
+        row.appendChild(label);
+        row.appendChild(input);
+        roomDiv.appendChild(row);
+      }
+
+      app.appendChild(roomDiv);
+    }
+
+    function updateAvailability(topic) {
+  const remaining = topics[topic] - totalAssignedPerTopic[topic];
+  if (availabilitySpans[topic]) {
+    availabilitySpans[topic].forEach(span => {
+      span.textContent = `(Available: ${remaining})`;
+      span.style.fontWeight = remaining === 0 ? "700" : "600";
+    });
+  }
+}
+
+
+    function logOutput() {
+      const cleanOutput = {};
+      for (const room in assignments) {
+        cleanOutput[room] = {};
+        for (const topic in assignments[room]) {
+          if (assignments[room][topic] > 0) {
+            cleanOutput[room][topic] = assignments[room][topic];
+          }
+        }
+      }
+      console.log("Final Output:", cleanOutput);
+      alert("Check the console for the final output!");
+    }
+  </script>
+ </div>
+</body>
+</html>
