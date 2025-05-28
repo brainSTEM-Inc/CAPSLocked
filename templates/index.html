@@ -1,4 +1,5 @@
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -7,10 +8,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
+      font-family: Assistant, sans-serif;
     }
 
-    .container {
+    .backing {
       background-color: #d9d9d9;
       width: 350px;
       padding: 20px;
@@ -28,7 +29,7 @@
       margin-bottom: 20px;
     }
 
-    .content h2 {
+    .contentHeading {
       margin-top: 0;
       margin-bottom: 20px;
       font-size: 20px;
@@ -46,7 +47,7 @@
       box-sizing: border-box;
     }
 
-    .login-button {
+    .button {
       background-color: #B51111;
       color: white;
       border: none;
@@ -75,13 +76,13 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="backing">
     <div class="header">Welcome Back!</div>
-    <div class="content">
+    <div class="contentHeading">
       <h2 style="text-align: center;">Please Log In</h2>
       <input type="text" placeholder="Username">
       <input type="password" placeholder="Password">
-      <button class="login-button" onclick="select()"><b>Login</b></button>
+      <button class="button" onclick="select()"><b>Login</b></button>
       <button class="spreadsheet-button" onclick="spreadsheet()"><b>Generate schedules from spreadsheet</b></button>
     </div>
   </div>
