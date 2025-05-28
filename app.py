@@ -18,6 +18,22 @@ conn.commit()
 
 print("✅ Connected to Neon DB!")
 
+def insert_data(conn, name):
+    cur = conn.cursor()
+    cur.execute("INSERT INTO test (name) VALUES (%s);", (name,))
+    conn.commit()
+    print(f"✅ Data inserted: {name}")
+
+def fetch_data(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM test;")
+    rows = cur.fetchall()
+    for row in rows:
+        print(f"📝 ID: {row[0]}, Name: {row[1]}")
+
+insert_data(conn, "BestieCopilot")  # Adds a test entry
+fetch_data(conn)  # Displays all entries in the database
+
 app = Flask(__name__)
 
 @app.route('/')
