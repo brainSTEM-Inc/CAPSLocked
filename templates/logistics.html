@@ -3,10 +3,25 @@
 <head>
     <title>Google Sheets Link</title>
     <style>
+    	body {
+        	background-color: black;
+        }
+        
+        .header {
+            background-color: #360000;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+         }
+    
         .columnnumbers {
             width: 30px;
             margin-right: 20px;
             margin-left: 5px;
+            
         }
         .container {
             display: flex;
@@ -18,20 +33,51 @@
             border-collapse: collapse;
             padding: 5px;
             text-align: center;
+            background-color: #D9D9D9;
         }
+        .button {
+          background-color: #b51111;
+          color: white;
+          font-size: 20px;
+          padding: 15px;
+          width: 100%;
+          border: none;
+          border-radius: 0;
+          margin-bottom: 10px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+
+        .button:hover {
+          background-color: #9f0f0f;
+        }
+        
+        input[type="text"] {
+          width: 100%;
+          padding: 15px;
+          margin-bottom: 15px;
+          font-size: 20px;
+          border: none;
+          background-color: #fff;
+          color: #444;
+          box-sizing: border-box;
+          font-family: Times New Roman;
+          font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
     <div id="tableContainer"></div>
 
   	<br>
-    <button id="sendBackend" style="display: block;" onclick="submitAvailability()">Next</button>
+    <button class="button" id="sendBackend" style="display: block;" onclick="submitAvailability()">Next</button>
     
             
     <script>
-    	var rooms=[];
+    	/*var rooms=[];
 	var times=[];
-	var days=[];
+	var days=[];*/
 	    
 function generateScheduleTable(allTimes, dayPeriods, rooms) {
     const container = document.getElementById("tableContainer"); // Where the table goes
@@ -118,12 +164,12 @@ function generateScheduleTable(allTimes, dayPeriods, rooms) {
 }
 
 // **Example Usage**
-/*const allTimes = ["Pd2, Tuesday", "Pd3, Thursday", "Pd3, Tuesday", "Pd5, Thursday"];
+const allTimes = ["Pd2, Tuesday", "Pd3, Thursday", "Pd3, Tuesday", "Pd5, Thursday"];
 const dayPeriods = {
     "Day 1": ["Pd2, Tuesday", "Pd3, Thursday"],
     "Day 2": ["Pd3, Tuesday", "Pd5, Thursday"]
 };
-const rooms = ["Room 1", "Room 2", "Room 3"];*/
+const rooms = ["Room 1", "Room 2", "Room 3"];
 
 
 function collectTableData() {
@@ -185,8 +231,8 @@ function collectDayNameChanges(dayPeriods) {
 }
 	    
 // Call function to generate table
-//generateScheduleTable(allTimes, dayPeriods, rooms);
-
+generateScheduleTable(allTimes, dayPeriods, rooms);
+/*
         fetch('/getRoomsAndTimes')
 	    .then(res => res.json())
 	    .then(data => {
@@ -196,7 +242,7 @@ function collectDayNameChanges(dayPeriods) {
 	      generateScheduleTable(times, days, rooms)
 	    })
 	.catch(err => console.error("Failed to fetch room data:", err));
-        
+        */
         function submitAvailability() {
             console.log("Sending data to backend...");
 
