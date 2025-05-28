@@ -2,6 +2,21 @@ from flask import Flask, request, jsonify, render_template, redirect
 import requests, pandas as pd, io, copy, sys
 sys.setrecursionlimit(2000)
 
+import os
+import psycopg2
+
+# Get the database URL from Render's environment variables
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Connect to the database
+conn = psycopg2.connect(DATABASE_URL)
+cur = conn.cursor()
+
+# Test query: Create a simple table (optional)
+cur.execute("CREATE TABLE IF NOT EXISTS test (id SERIAL PRIMARY KEY, name TEXT);")
+conn.commit()
+
+print("✅ Connected to Neon DB!")
 
 app = Flask(__name__)
 
