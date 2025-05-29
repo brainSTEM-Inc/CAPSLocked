@@ -147,7 +147,7 @@
       <div class="login-header">Committee Member Login</div>
       <br><br><br>
       <input type="text" placeholder="Enter Code" />
-      <button class="login-button">Login</button>
+      <button class="login-button" onclick="moderator()">Login</button>
     </div>
   </div>
 
@@ -167,7 +167,11 @@
     });
     
     function seniorQuestionnaire() {
-    	/*window.location.href = "seniorQuestionnaire";*/
+    	window.location.href = "seniorQuestionnaire";
+    }
+
+    function moderator() {
+    	window.location.href = "moderator";
     }
   </script>
 </body>
