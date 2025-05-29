@@ -3,41 +3,59 @@
   <meta charset="UTF-8">
   <style>
     body {
+      margin: 0px;
+      height: 100vh;
       background-color: #000;
-      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      position: relative;
+      font-family: Assistant, sans-serif;
+position: relative;
+padding: 0px;
     }
-    .container {
-      background-color: #ddd;
-      width: 400px;
-      border: 1px solid #ccc;
-      padding: 20px;
-      box-shadow: 0 0 10px #000;
+
+    .backing {
+      width: 50%;
+        length: 90%;
+        background: #d9d9d9;
+        padding: 10px;
+        margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        align-content: stretch;
     }
+
     .header {
-      background-color: #400000;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
+      width: 90%;
+        background-color: #580C1F;
+        align-self: flex;
+        padding: 15px;
+        text-align: center;
+        color: #ffffff;
+        font-size: 24px;
+margin-top: 10px;
+margin-bottom: 10px;
+font-weight: bold;
+
     }
+
     .button {
-      background-color: #b00;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 20px;
+      width: 90%;
+        background-color: #B51111;
+        align-self: center;
+        padding: 15px;
+        text-align: center;
+        color: #ffffff;
+        margin-top: 10px;
+margin-bottom: 10px;
+font-size: 20px;
+font-weight: bold;
     }
     .question {
-      margin-top: 20px;
+      width: 100%;
+      margin-bottom: 10px;
     }
     .label {
       margin-bottom: 5px;
@@ -50,6 +68,7 @@
       color: white;
       border: none;
       font-size: 20px;
+      cursor: pointer;
     }
     input[type="text"] {
       width: 100%;
@@ -73,6 +92,7 @@
 
     .button:hover {
       background-color: #9f0f0f;
+      cursor: pointer;
     }
 
     /* Menu */
@@ -164,7 +184,7 @@
     });
   </script>
 
-  <div class="container">
+  <div class="backing">
     <div class="header">Student Questionnaire</div>
     <div class="button">Add Question</div>
 
