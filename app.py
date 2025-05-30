@@ -109,7 +109,7 @@ displayHeaders=[]
 days=[]
 allTimes=[]
 dayOrder=[]
-juniorDataDict={}
+juniorRawdataDict={}
 juniorDisplayAllTimesFromData=[]
 juniorDisplayHeaders=[]
 juniorDisplayAllTimes=[]
@@ -122,7 +122,7 @@ def getParsedData():
         "allRooms": allRooms,
         "displayAllTimes": displayAllTimes,
         "displayAllTimesFromData": displayAllTimesFromData,
-        "juniorDataDict": juniorDataDict,
+        "juniorDataDict": juniorRawdataDict,
         "juniorDisplayHeaders": juniorDisplayHeaders,
         "juniorDisplayAllTimesFromData": juniorDisplayAllTimesFromData,
         "juniorDisplayAllTimes": juniorDisplayAllTimes
@@ -148,6 +148,7 @@ def parse_data():
     global allRooms
     global displayAllTimes
     global displayAllTimesFromData
+    global juniorRawdataDict
     global juniorDisplayHeaders
     global juniorDisplayAllTimes
     global juniorDisplayAllTimesFromData
@@ -281,7 +282,7 @@ def parse_data():
     juniorDisplayHeaders=["Junior Name",juniorDataHeaders[juniorTopicsCol],juniorDataHeaders[juniorAvailabilityCol]]
     print(juniorDisplayHeaders)
     print(juniorRawdataDict)
-
+    print(juniorDisplayAllTimesFromData)
     
     return render_template('index.html')
 
