@@ -240,10 +240,8 @@ PD 6, Thursday, December 21st</textarea>
           var formData = new FormData();
           formData.append("file", fileInput.files[0]);
         }
-        
             // Prepare the data to send
             const data = {
-            	csv: formData,
                 url: url,
                 firstNameCol: firstNameCol,
                 lastNameCol: lastNameCol,
@@ -258,7 +256,7 @@ PD 6, Thursday, December 21st</textarea>
 		presider: presider,
 		presiderIntro: presiderIntro
             };
-            
+            formData.append("json", JSON.stringify(data));
             console.log(JSON.stringify(data));
             
             // Send the data to the backend
@@ -267,7 +265,7 @@ PD 6, Thursday, December 21st</textarea>
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: formData
             })
             .then(response => {
                 console.log("✅ Received response from backend!"); 
