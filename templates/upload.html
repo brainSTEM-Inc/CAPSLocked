@@ -386,8 +386,8 @@ PD 6, Thursday, December 21st</textarea>
       juniorDisplayAllTimesFromData = data.juniorDisplayAllTimesFromData;
       juniorDisplayHeaders=data.juniorDisplayHeaders;
       juniorDataDict=data.juniorDataDict;
-      console.log(juniorDataDict);
-      console.log(juniorDisplayHeaders);
+      console.log(JSON.stringify(juniorDataDict));
+      console.log(JSON.stringify(juniorDisplayHeaders));
       showParsedData();	
     })
     .catch(err => console.error("Failed to fetch room data:", err));	
