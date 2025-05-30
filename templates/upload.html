@@ -262,9 +262,6 @@ PD 6, Thursday, December 21st</textarea>
             // Send the data to the backend
             fetch('/parse_data', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: formData
             })
             .then(response => {
