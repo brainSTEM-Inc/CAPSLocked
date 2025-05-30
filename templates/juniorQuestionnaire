@@ -133,6 +133,13 @@
   background-color: #870c0cff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
+
+   .optionsColor{
+   		
+     	background-color: #cb5151ff;
+        padding: 10px;
+        font-size: 18px;
+      }
   </style>
 </head>
 <body>
@@ -150,6 +157,28 @@
    		 <a href="#">Option 3</a>
  	 </div>
 	</div>
+    
+    
+    <p>What topic do you want to present for?</p>
+    <div class = "optionsColor">    
+    <input type="radio" id="bio" name="projTopic" value="Biology/Biotech">
+    <label for="bio">Biology/Biotech</label><br>
+    <input type="radio" id="chem" name="projTopic" value="Chemistry/Materials Science">
+    <label for="chem">Chemistry/Materials Science</label><br>
+    <input type = "radio" id="compsci" name="projTopic" value="Computer Science/AI">
+    <label for="compsci">Computer Science/AI</label><br>
+    <input type="radio" id="ess" name="projTopic" value="Earth Space Systems Science">
+    <label for="ess">Earth Space Systems Science</label><br>
+    <input type="radio" id="econ" name="projTopic" value="Economics/Social Issues">
+    <label for="econ">Economics/Social Issues</label><br>
+    <input type="radio" id="engineer" name="projTopic" value="Engineering">
+    <label for="engineer">Engineering</label><br>
+    <input type="radio" id="math" name="projTopic" value="Math">
+    <label for="math">Math</label><br>
+    <input type="radio" id="physics" name="projTopic" value="Physics">
+    <label for="physics">Physics</label><br>
+</div>
+    
     
    	<p>Select Availability</p>
     
