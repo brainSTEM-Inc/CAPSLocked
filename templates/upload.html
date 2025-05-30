@@ -233,12 +233,11 @@ PD 6, Thursday, December 21st</textarea>
 	    }
 		
         const fileInput = document.getElementById("csvFile");
-        if (fileInput.files.length === 0) {
-			var formData="none";
-  		}
-		else {
-          var formData = new FormData();
+	var formData = new FormData();
+	var csv="none";
+        if (fileInput.files.length !=0)
           formData.append("file", fileInput.files[0]);
+	  csv="notnone";
         }
             // Prepare the data to send
             const data = {
