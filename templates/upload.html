@@ -206,7 +206,9 @@ PD 6, Thursday, December 21st</textarea>
             const availabilityCol = document.getElementById('availability').value;
             const friendsCol = document.getElementById('friends').value;
             const blurbCol = document.getElementById('blurb').value;
-            
+            const presider = document.getElementById('presider').value;
+	    const presiderIntro = document.getElementById('presiderIntro').value;	
+		    
             const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 	    const allRooms = document.getElementById('roomsInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 
@@ -252,7 +254,9 @@ PD 6, Thursday, December 21st</textarea>
                 blurbCol: blurbCol,
                 allTimes: allTimes,
                 allRooms: allRooms,
-                days: days
+                days: days,
+		presider: presider,
+		presiderIntro: presiderIntro
             };
             
             console.log(JSON.stringify(data));
