@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect
-import requests, pandas as pd, io, copy, sys
+import requests, pandas as pd, io, copy, sys, json
+
 sys.setrecursionlimit(2000)
 
 import os
