@@ -121,35 +121,6 @@ width:50px;
 
     <br>
     <hr>
-    
-    
-    <h2 style="color:#B51111">Junior Responses - Add Spreadsheet</h2>
-    <p>Download the spreadsheet as a csv file and upload it here</p>
-
-    <form id="juniorUploadForm" enctype="multipart/form-data">
-    	<input class="custom-file-upload" type="file" id="juniorCsvFile" accept=".csv" required>
-	</form>
-    
-    <p>OR</p>
-    
-    <p>Make the spreadsheet public and enter the link below</p>
-    <input id="juniorSpreadsheetUrl" type="text" name="url" style="width:100%; font-size: 22px; font-family: Times New Roman;" placeholder="Paste spreadsheet csv here..." value="">
-    
-    <br><br><br>
-    <hr>
-    <h2 style="color:#B51111">Junior Responses - Columns</h2>
-    <p>Number of column containing...</p>
-    <form id="columnForm3" class="container" id="columnForm" style="font-size: 22px;">
-        <p>Last name</p> <input type="number" id="juniorLastName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="1">
-        <p>First name</p> <input type="number" id="juniorFirstName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="2">
-        <p>Preferred Topics</p> <input type="number" id="juniorTopics" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="3">
-        <p>Availability</p> <input type="number" id="juniorAvailability" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="4">
-    </form>
-    <br>
-    <hr>
-    
-    
-    
     <h2 style="color:#B51111">Rooms</h2>
     <p>Enter each room the symposium will be held in on a separate line, using the same format as the text below.</p>
     <textarea id="roomsInput" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5">Room 195
@@ -182,7 +153,7 @@ PD 6, Thursday, December 21st</textarea>
     <script>
         function checkInputs() {
             // Get input elements
-            const input20 = document.getElementById("csvFile").files.length;
+            const input20 = document.getElementById("csvFile").files.length
             const input0 = document.getElementById("spreadsheetUrl").value;
             const input1 = document.getElementById("lastName").value.trim();
             const input2 = document.getElementById("firstName").value.trim();
@@ -195,18 +166,10 @@ PD 6, Thursday, December 21st</textarea>
             const input9 = document.getElementById("timesInput").value.trim();
             const input10 = document.getElementById("presider").value.trim();
             const input11 = document.getElementById("presiderIntro").value.trim();
-            
-            const input30 = document.getElementById("juniorCsvFile").files.length;
-            const input31 = document.getElementById("juniorSpreadsheetUrl").value;
-            const input32 = document.getElementById("juniorLastName").value.trim();
-            const input33 = document.getElementById("juniorFirstName").value.trim();
-            const input34 = document.getElementById("juniorTopics").value.trim();
-            const input35 = document.getElementById("juniorAvailability").value.trim();
-            
             const button = document.getElementById("parseData");
 	
             // Enable button if both fields have values
-            button.disabled = !((input0 || (input20!=0)) && input1 && input2 && input3 && input4 && input5 && input6 && input7 && input8 && input9 && input10 && input11 && input32 && input33 && input34 && input35 && (input31 || (input30!=0)));
+            button.disabled = !((input0 || (input20!=0)) && input1 && input2 && input3 && input4 && input5 && input6 && input7 && input8 && input9 && input10 && input11);
         }
 	checkInputs();
         // Attach event listeners to inputs
@@ -220,12 +183,8 @@ PD 6, Thursday, December 21st</textarea>
         document.getElementById("blurb").addEventListener("input", checkInputs);*/
         document.getElementById("csvFile").addEventListener("input", checkInputs);
         document.getElementById("spreadsheetUrl").addEventListener("input", checkInputs);
-        document.getElementById("juniorCsvFile").addEventListener("input", checkInputs);
-        document.getElementById("juniorSpreadsheetUrl").addEventListener("input", checkInputs);
-        
         document.getElementById("columnForm1").addEventListener("input", checkInputs);
 		document.getElementById("columnForm2").addEventListener("input", checkInputs);
-        document.getElementById("columnForm3").addEventListener("input", checkInputs);
 		document.getElementById("roomsInput").addEventListener("input", checkInputs);
         document.getElementById("timesInput").addEventListener("input", checkInputs);
 
@@ -247,20 +206,8 @@ PD 6, Thursday, December 21st</textarea>
             const availabilityCol = document.getElementById('availability').value;
             const friendsCol = document.getElementById('friends').value;
             const blurbCol = document.getElementById('blurb').value;
-            const presiderCol = document.getElementById('presider').value;
-	    	const presiderIntroCol = document.getElementById('presiderIntro').value;
-        
-        
-           	var juniorUrl = document.getElementById('juniorSpreadsheetUrl').value;
-            if (!(juniorUrl)) {
-            	juniorUrl="none";
-            }
-            
-        	const juniorFirstNameCol = document.getElementById('juniorFirstName').value;
-            const juniorLastNameCol = document.getElementById('juniorLastName').value;
-            const juniorTopicsCol = document.getElementById('juniorTopics').value;
-            const juniorAvailabilityCol = document.getElementById('juniorAvailability').value;
-        
+            const presider = document.getElementById('presider').value;
+	    const presiderIntro = document.getElementById('presiderIntro').value;	
 		    
             const allTimes = document.getElementById('timesInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
 	    const allRooms = document.getElementById('roomsInput').value.trim().split('\n').map(t => t.trim()).filter(t => t !== '');
@@ -292,19 +239,9 @@ PD 6, Thursday, December 21st</textarea>
           formData.append("file", fileInput.files[0]);
 	  csv="notnone";
         }
-        
-        const juniorFileInput = document.getElementById("juniorCsvFile");
-	var juniorCsv="none";
-        if (juniorFileInput.files.length !=0) {
-          formData.append("juniorFile", juniorFileInput.files[0]);
-	  	  juniorCsv="notnone";
-        }
-        
             // Prepare the data to send
             const data = {
 		csv:csv,
-        juniorCsv: juniorCsv,
-        juniorUrl: juniorUrl,
                 url: url,
                 firstNameCol: firstNameCol,
                 lastNameCol: lastNameCol,
@@ -316,12 +253,8 @@ PD 6, Thursday, December 21st</textarea>
                 allTimes: allTimes,
                 allRooms: allRooms,
                 days: days,
-		presiderCol: presiderCol,
-		presiderIntroCol: presiderIntroCol,
-        juniorFirstNameCol: juniorFirstNameCol,
-        juniorLastNameCol: juniorLastNameCol,
-        juniorTopicsCol: juniorTopicsCol,
-        juniorAvailabilityCol: juniorAvailabilityCol
+		presider: presider,
+		presiderIntro: presiderIntro
             };
             formData.append("json", JSON.stringify(data));
             console.log(JSON.stringify(data));
@@ -362,8 +295,7 @@ PD 6, Thursday, December 21st</textarea>
   var displayAllTimesFromData;
   var displayHeaders;
   var dataDict;
-  var orderedIndices =[1,4,0,2,5,6,7];
-  var juniorOrderedIndices = [0,1]; 
+  var orderedIndices = [1,4,0,2,5,6,7];
   var container = document.createElement("div");
 	    
   function displayTable() {
@@ -375,11 +307,6 @@ PD 6, Thursday, December 21st</textarea>
       displayAllTimesFromData = data.displayAllTimesFromData;
       displayHeaders=data.displayHeaders;
       dataDict=data.dataDict;
-      
-      juniorDisplayAllTimesFromData = data.juniorDisplayAllTimesFromData;
-      juniorDisplayHeaders=data.juniorDisplayHeaders;
-      juniorDataDict=data.juniorDataDict;
-      
       showParsedData();	
     })
     .catch(err => console.error("Failed to fetch room data:", err));	
@@ -414,16 +341,7 @@ PD 6, Thursday, December 21st</textarea>
       button1.textContent = "Senior Responses";
       tabContainer.appendChild(button1);
 
-
       // Create second button
-      const button3 = document.createElement("button");
-      button3.classList.add("tablinks");
-      button3.setAttribute("onclick", "openData(event, 'Junior Responses')");
-      button3.setAttribute("id", "defaultOpen");
-      button3.textContent = "Junior Responses";
-      tabContainer.appendChild(button3);
-
-      // Create third button
       const button2 = document.createElement("button");
       button2.classList.add("tablinks");
       button2.setAttribute("onclick", "openData(event, 'Rooms/Times')");
@@ -436,11 +354,6 @@ PD 6, Thursday, December 21st</textarea>
       const seniorResponsesDiv = document.createElement("div");
       seniorResponsesDiv.classList.add("tabcontent");
       seniorResponsesDiv.setAttribute("id", "Senior Responses");
-
-      const juniorResponsesDiv = document.createElement("div");
-      juniorResponsesDiv.classList.add("tabcontent");
-      juniorResponsesDiv.setAttribute("id", "Junior Responses");
-
 
       const roomsTimesDiv = document.createElement("div");
       roomsTimesDiv.classList.add("tabcontent");
@@ -470,12 +383,7 @@ PD 6, Thursday, December 21st</textarea>
 
     if ((tabName)=="Senior Responses") {
       document.getElementById("Senior Responses").innerHTML = "";
-      generateTable(displayHeaders, dataDict, orderedIndices, tabName);
-    }
-    
-    if ((tabName)=="Junior Responses") {
-      document.getElementById("Junior Responses").innerHTML = "";
-      generateTable(juniorDisplayHeaders, juniorDataDict, juniorOrderedIndices, tabName);
+      generateTable(displayHeaders, dataDict, orderedIndices);
     }
 
     if ((tabName)=="Rooms/Times") {
@@ -528,7 +436,7 @@ PD 6, Thursday, December 21st</textarea>
       // Now you can add your colored text inside it!
 
       const q = document.createElement("h4");
-      q.textContent = "All Timeslots in Senior Responses";
+      q.textContent = "All Timeslots in Responses";
       q.style.color = "black";
       computerContainer.appendChild(q);
 
@@ -538,28 +446,11 @@ PD 6, Thursday, December 21st</textarea>
 	  p.style.color = value === 1 ? "green" : "red";
 	  computerContainer.appendChild(p);
       });
-      
-      const juniorContainer = document.createElement("div");
-      juniorContainer.className="timesContainer";
-      newContainer.appendChild(juniorContainer);
-      // Now you can add your colored text inside it!
-
-      const r = document.createElement("h4");
-      r.textContent = "All Timeslots in Junior Responses";
-      r.style.color = "black";
-      juniorContainer.appendChild(r);
-
-      juniorDisplayAllTimesFromData.forEach(([text, value]) => {
-	  const p = document.createElement("p");
-	  p.textContent = text;
-	  p.style.color = value === 1 ? "green" : "red";
-	  juniorContainer.appendChild(p);
-      });
 
     }
   }
 
-  function generateTable(displayHeaders, dataDict, orderedIndices, tabName) {
+  function generateTable(displayHeaders, dataDict, orderedIndices) {
       const table = document.createElement("table");
       table.border = "1"; // Just for visibility
 
@@ -593,7 +484,7 @@ PD 6, Thursday, December 21st</textarea>
       });
 
       // Append table to the document body or a specific container
-      document.getElementById(tabName).appendChild(table); // Change this if needed
+      document.getElementById("Senior Responses").appendChild(table); // Change this if needed
   }
 
 	function nextPage() {
