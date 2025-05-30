@@ -362,6 +362,12 @@ PD 6, Thursday, December 21st</textarea>
   var displayAllTimesFromData;
   var displayHeaders;
   var dataDict;
+
+  var juniorDisplayAllTimes;
+  var juniorDisplayAllTimesFromData;
+  var juniorDisplayHeaders;
+  var juniorDataDict;
+	    
   var orderedIndices =[1,4,0,2,5,6,7];
   var juniorOrderedIndices = [0,1]; 
   var container = document.createElement("div");
@@ -380,7 +386,8 @@ PD 6, Thursday, December 21st</textarea>
       juniorDisplayAllTimesFromData = data.juniorDisplayAllTimesFromData;
       juniorDisplayHeaders=data.juniorDisplayHeaders;
       juniorDataDict=data.juniorDataDict;
-      
+      console.log(juniorDataDict);
+      console.log(juniorDisplayHeaders);
       showParsedData();	
     })
     .catch(err => console.error("Failed to fetch room data:", err));	
