@@ -1,91 +1,100 @@
 <!DOCTYPE html>
-<html>
 <head>
-<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
-<style>
-	body {
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        background-color: #000000;
-        align-items: center;
-        justify-content: space-between;
-        font-family: 'Assistant', sans-serif;
-        align-content: center;
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0px;
+      height: 100vh;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Assistant, sans-serif;
+position: relative;
+padding: 0px;
     }
-    
-    
-    .infoInputs {
-    	width: 40%;
+
+    .backing {
+      width: 50%;
         length: 90%;
         background: #d9d9d9;
         padding: 10px;
-        margin: 10px;
-        margin-top: 10px;
+        margin: 0px;
         display: flex;
-        height: 100%;
         flex-wrap: wrap;
-        height: 100%;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
-        align-content: center;
-    }
-    .generateStart {
-    	width: 30%;
-        length: 70%;
-        background-color: #d9d9d9;
-        margin: 10px;
-        padding: 20px;
-        display: flex;
-        align-items: space-around;
-        justify-content: center;
         align-content: stretch;
     }
-    .heading {
-      width: 90%;
-      background-color: #580C1F;
-      align-self: flex;
-      padding: 15px;
-      text-align: center;
-      color: #ffffff;
-      font-size: 24px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-weight: bold;
 
-    }
-    .button {
-      width: 100%;
-      background-color: #B51111;
-      align-self: center;
-      padding: 15px;
-      text-align: center;
-      color: #ffffff;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      font-size: 20px;
-      font-weight: bold;
-      border: none;
-    }
-    .startButton {
-    	width: 100%;
-        background-color: #B51111;
-        align-self: center;
-        padding: 40px;
+    .header {
+      width: 90%;
+        background-color: #580C1F;
+        align-self: flex;
+        padding: 15px;
         text-align: center;
         color: #ffffff;
-        border: none;
-        cursor: pointer;
-        font-size: 20px;
-        font-weight: bold;
-
+        font-size: 24px;
+margin-top: 10px;
+margin-bottom: 10px;
+font-weight: bold;
 
     }
-    .button:hover, .startButton:hover {
+
+    .button {
+      width: 90%;
+        background-color: #B51111;
+        align-self: center;
+        padding: 15px;
+        text-align: center;
+        color: #ffffff;
+        margin-top: 10px;
+margin-bottom: 10px;
+font-size: 20px;
+font-weight: bold;
+    }
+    .question {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .label {
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      background-color: #d55;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 20px;
+      border: none;
+      background-color: #d55;
+      color: white;
+      box-sizing: border-box;
+    }
+    input[type="text"]::placeholder {
+      color: white;
+    }
+    .trash {
+      float: right;
+      cursor: pointer;
+      font-size: 18px;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .button:hover {
       background-color: #9f0f0f;
       cursor: pointer;
     }
-    
+
     /* Menu */
     .menu {
       position: absolute;
@@ -135,10 +144,17 @@
     .dropdown a:hover {
       background-color: #ccc;
     }
-</style>
+
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+  </style>
 </head>
 <body>
-<!-- Menu Icon -->
+  <!-- Menu Icon -->
   <div class="menu" onclick="toggleMenu()">
     <div></div>
     <div></div>
@@ -167,53 +183,34 @@
       }
     });
   </script>
-	<div class="infoInputs">
-        <div class="heading">
-        	<b>Moderator Control</b>
-        </div>
-        <button class="button" onclick="rosters()">
-        	<b>Student Rosters</b>
-        </button>
-        <button class="button" onclick="availability()">
-        	<b>Symposium Availability</b>
-        </button>
-        <button class="button" onclick="addQuestion()">
-        	<b>Student Questionnaire</b>
-        </button>
-        <div class="button" onclick="topics()">
-        	<b>Project Topics</b>
-        </div>
-        <div class="button" onclick="viewResponses()">
-        	<b>View Responses</b>
-        </div>
+
+  <div class="backing">
+    <div class="header">Student Questionnaire</div>
+    <div class="button">Add Question</div>
+
+    <div class="question">
+      <div class="label">Example <span class="trash">🗑️</span></div>
+      <select>
+        <option>-- Select One --</option>
+      </select>
     </div>
-	<div class="generateStart">
-    	<button class="startButton">
-        	<b>Begin Schedule<br>Generation</b>
-        </button>
+
+    <div class="question">
+      <div class="label">Example <span class="trash">🗑️</span></div>
+      <input type="text" placeholder=" Text Entry"/>
+      </select>
     </div>
-    <script>
-    function rosters() {
-    	window.location.href="rosters";
-    }
-    
-    function availability() {
-    	window.location.href="availability";
-    }
-    
-    function addQuestion() {
-    	window.location.href="addQuestion";
-    }
-    
-    
-    function topics() {
-    	window.location.href="topics";
-    }
-    
-    
-    function viewResponses() {
-    	window.location.href="viewResponses";
-    }
-    </script>
+
+    <div class="question">
+      <div class="label">Example <span class="trash">🗑️</span></div>
+      <select>
+        <option>Yes/No</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+
+    <div class="button">Finish</div>
+  </div>
 </body>
 </html>
