@@ -109,6 +109,10 @@ displayHeaders=[]
 days=[]
 allTimes=[]
 dayOrder=[]
+juniorDataDict={}
+juniorDisplayAllTimesFromData=[]
+juniorDisplayHeaders=[]
+juniorDisplayAllTimes=[]
 
 @app.route('/getParsedData')
 def getParsedData():
@@ -117,7 +121,11 @@ def getParsedData():
         "displayHeaders": displayHeaders,
         "allRooms": allRooms,
         "displayAllTimes": displayAllTimes,
-        "displayAllTimesFromData": displayAllTimesFromData
+        "displayAllTimesFromData": displayAllTimesFromData,
+        "juniorDataDict": juniorDataDict,
+        "juniorDisplayHeaders": juniorDisplayHeaders,
+        "juniorDisplayAllTimesFromData": juniorDisplayAllTimesFromData,
+        "juniorDisplayAllTimes": juniorDisplayAllTimes
     })
 
 @app.route('/getRoomsAndTimes')
@@ -140,6 +148,8 @@ def parse_data():
     global allRooms
     global displayAllTimes
     global displayAllTimesFromData
+    global juniorDisplayAllTimes
+    global juniorDisplayAllTimes
     global allTimes
     global days
     
@@ -159,7 +169,12 @@ def parse_data():
     presiderCol1=data.get('presider')
     presiderIntroCol1=data.get('presiderIntro')
     csv=data.get('csv')
-    
+
+    juniorCsv=data.get('juniorCsv')
+    juniorFirstNameCol1 = data.get('juniorFirstNameCol')
+    juniorLastNameCol1 = data.get('juniorLastNameCol')
+    juniorTopicsCol1=data.get('juniorTopics')
+    juniorAvailabilityCol1=data.get('juniorAvailability')
 
     if csv!="none":
         file = request.files['file']
@@ -183,6 +198,27 @@ def parse_data():
     personsPerTime=2
     
     rawdataDict = {}
+
+
+    
+    if juniorCsv!="none":
+        juniorFile = request.files['juniorFile']
+        juniorRawData = pd.read_csv(io.StringIO(juniorFile.stream.read().decode('utf-8')), header=None)
+    else:
+        juniorUrlData = requests.get(juniorUrl).content
+        juniorRawData = pd.read_csv(io.StringIO(juniorUrlData.decode('utf-8')),header=None)
+    
+    juniorDataHeaders = juniorRawData.iloc[0].tolist()
+    juniorRawData = juniorRawData.iloc[1:]
+
+    juniorFirstNameCol = int(juniorFirstNameCol1)-1
+    juniorLastNameCol = int(juniorLastNameCol1)-1
+    juniorAvailabilityCol = int(juniorAvailabilityCol1)-1
+    juniorTopicsCol = int(juniorTopicsCol1)-1
+    
+    juniorRawdataDict = {}
+
+    
     allTimes = data.get('allTimes')
     allRooms = data.get('allRooms')
 
@@ -217,6 +253,34 @@ def parse_data():
             displayAllTimesFromData.append([time,0])    
 
     displayHeaders=["Senior Name",dataHeaders[topicCol],dataHeaders[projectNameCol],dataHeaders[availabilityCol],dataHeaders[friendsCol],dataHeaders[blurbCol],dataHeaders[presiderCol],dataHeaders[presiderIntroCol]]
+
+
+    
+    for i in range(len(juniorRawData)):
+        x = [str(item) for item in juniorRawData.iloc[i]]
+        target_string = x[juniorAvailabilityCol]
+        output_list = []
+        for item in allTimes:
+            if item in target_string:
+                output_list.append(item)
+        juniorRawdataDict[x[juniorFirstNameCol].strip()+" "+x[juniorLastNameCol].strip()]=[x[juniorTopicsCol],output_list]
+
+    juniorAllTimesFromData = set(time for value in list(juniorRawdataDict.values()) for time in value[0])
+    for time in allTimes:
+        if time in juniorAllTimesFromData:
+            juniorDisplayAllTimes.append([time,1])
+        else:
+            juniorDisplayAllTimes.append([time,0])
+    for time in juniorAllTimesFromData:
+        if time in allTimes:
+            juniorDisplayAllTimesFromData.append([time,1])
+        else:
+            juniorDisplayAllTimesFromData.append([time,0])    
+
+    juniorDisplayHeaders=["Junior Name",juniorDataHeaders[juniorTopicsCol],juniorDataHeaders[juniorAvailabilityCol]]
+
+
+    
     return render_template('index.html')
 
 
