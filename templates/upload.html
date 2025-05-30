@@ -235,7 +235,7 @@ PD 6, Thursday, December 21st</textarea>
         const fileInput = document.getElementById("csvFile");
 	var formData = new FormData();
 	var csv="none";
-        if (fileInput.files.length !=0)
+        if (fileInput.files.length !=0) {
           formData.append("file", fileInput.files[0]);
 	  csv="notnone";
         }
@@ -290,9 +290,8 @@ PD 6, Thursday, December 21st</textarea>
                 //alert('An error occurred. Please try again.');
     
             });
-        }
 
-
+	}
 
   var allRooms;
   var displayAllTimes;
