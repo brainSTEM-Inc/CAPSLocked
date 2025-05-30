@@ -174,8 +174,8 @@ def parse_data():
     juniorCsv=data.get('juniorCsv')
     juniorFirstNameCol1 = data.get('juniorFirstNameCol')
     juniorLastNameCol1 = data.get('juniorLastNameCol')
-    juniorTopicsCol1=data.get('juniorTopics')
-    juniorAvailabilityCol1=data.get('juniorAvailability')
+    juniorTopicsCol1=data.get('juniorTopicsCol')
+    juniorAvailabilityCol1=data.get('juniorAvailabilityCol')
 
     if csv!="none":
         file = request.files['file']
