@@ -242,12 +242,15 @@ def parse_data():
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol],x[presiderIntroCol]]
 
     allTimesFromData = set(time for value in list(rawdataDict.values()) for time in value[0])
-    print(allTimesFromData)
+    #print(allTimesFromData)
+    '''
     for time in allTimes:
         if time in allTimesFromData:
             displayAllTimes.append([time,1])
         else:
             displayAllTimes.append([time,0])
+    '''
+    
     for time in allTimesFromData:
         if time in allTimes:
             displayAllTimesFromData.append([time,1])
@@ -268,17 +271,27 @@ def parse_data():
         juniorRawdataDict[x[juniorFirstNameCol].strip()+" "+x[juniorLastNameCol].strip()]=[x[juniorTopicsCol],output_list]
 
     juniorAllTimesFromData = set(time for value in list(juniorRawdataDict.values()) for time in value[1])
+
+    '''
     for time in allTimes:
         if time in juniorAllTimesFromData:
             juniorDisplayAllTimes.append([time,1])
         else:
             juniorDisplayAllTimes.append([time,0])
+    '''
+            
     for time in juniorAllTimesFromData:
         if time in allTimes:
             juniorDisplayAllTimesFromData.append([time,1])
         else:
             juniorDisplayAllTimesFromData.append([time,0])    
 
+    for time in allTimes:
+        if time in allTimesFromData and time in juniorAllTimesFromData:
+            displayAllTimes.append([time,1])
+        else:
+            displayAllTimes.append([time,0])
+    
     juniorDisplayHeaders=["Junior Name",juniorDataHeaders[juniorTopicsCol],juniorDataHeaders[juniorAvailabilityCol]]
     print(juniorDisplayHeaders)
     print(juniorRawdataDict)
