@@ -153,9 +153,17 @@ def parse_data():
     friendsCol1 = data.get('friendsCol')
     blurbCol1 = data.get('blurbCol')
     days = data.get('days')
-
+    presiderCol1=data.get('presider')
+    presiderIntroCol1=data.get('presiderIntro')
+    csv=data.get('csv')
+    
     urlData = requests.get(url).content
-    rawData = pd.read_csv(io.StringIO(urlData.decode('utf-8')),header=None)
+
+    if csv!="none":
+        file = request.files['file']
+        rawData = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
+    else:
+        rawData = pd.read_csv(io.StringIO(urlData.decode('utf-8')),header=None)
     
     dataHeaders = rawData.iloc[0].tolist()
     rawData = rawData.iloc[1:]
