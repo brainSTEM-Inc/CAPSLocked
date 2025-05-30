@@ -144,6 +144,7 @@ def parse_data():
     global days
     
     #data = request.get_json()
+    print(request.form.get('json'))
     data = json.loads(request.form.get('json'))
     
     url = data.get('url')
