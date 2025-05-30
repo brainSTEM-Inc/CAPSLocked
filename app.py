@@ -178,7 +178,8 @@ def parse_data():
     friendsCol = int(friendsCol1)-1
     blurbCol= int(blurbCol1)-1
     projectNameCol = int(projectNameCol1)-1
-    
+    presiderCol = int(presiderCol1)-1
+    presiderIntroCol = int(presiderIntroCol1)-1
     personsPerTime=2
     
     rawdataDict = {}
@@ -200,7 +201,7 @@ def parse_data():
         for item in allTimes:
             if item in target_string:
                 output_list.append(item)
-        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol]]
+        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol],x[presiderIntroCol]]
 
     allTimesFromData = set(time for value in list(rawdataDict.values()) for time in value[0])
     print(allTimesFromData)
@@ -215,7 +216,7 @@ def parse_data():
         else:
             displayAllTimesFromData.append([time,0])    
 
-    displayHeaders=["Senior Name",dataHeaders[topicCol],dataHeaders[projectNameCol],dataHeaders[availabilityCol],dataHeaders[friendsCol],dataHeaders[blurbCol]]
+    displayHeaders=["Senior Name",dataHeaders[topicCol],dataHeaders[projectNameCol],dataHeaders[availabilityCol],dataHeaders[friendsCol],dataHeaders[blurbCol],dataHeaders[presiderCol],dataHeaders[presiderIntroCol]]
     return render_template('index.html')
 
 
