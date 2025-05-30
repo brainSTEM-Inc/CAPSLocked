@@ -267,7 +267,7 @@ def parse_data():
                 output_list.append(item)
         juniorRawdataDict[x[juniorFirstNameCol].strip()+" "+x[juniorLastNameCol].strip()]=[x[juniorTopicsCol],output_list]
 
-    juniorAllTimesFromData = set(time for value in list(juniorRawdataDict.values()) for time in value[0])
+    juniorAllTimesFromData = set(time for value in list(juniorRawdataDict.values()) for time in value[1])
     for time in allTimes:
         if time in juniorAllTimesFromData:
             juniorDisplayAllTimes.append([time,1])
