@@ -31,9 +31,10 @@ def fetch_data(conn):
     for row in rows:
         print(f"📝 ID: {row[0]}, Name: {row[1]}")
 
+'''
 insert_data(conn, "BestieCopilot")  # Adds a test entry
 fetch_data(conn)  # Displays all entries in the database
-
+'''
 app = Flask(__name__)
 
 @app.route('/')
