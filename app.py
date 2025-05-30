@@ -279,7 +279,8 @@ def parse_data():
             juniorDisplayAllTimesFromData.append([time,0])    
 
     juniorDisplayHeaders=["Junior Name",juniorDataHeaders[juniorTopicsCol],juniorDataHeaders[juniorAvailabilityCol]]
-
+    print(juniorDisplayHeaders)
+    print(juniorRawdataDict)
 
     
     return render_template('index.html')
