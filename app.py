@@ -148,8 +148,9 @@ def parse_data():
     global allRooms
     global displayAllTimes
     global displayAllTimesFromData
+    global juniorDisplayHeaders
     global juniorDisplayAllTimes
-    global juniorDisplayAllTimes
+    global juniorDisplayAllTimesFromData
     global allTimes
     global days
     
@@ -166,8 +167,8 @@ def parse_data():
     friendsCol1 = data.get('friendsCol')
     blurbCol1 = data.get('blurbCol')
     days = data.get('days')
-    presiderCol1=data.get('presider')
-    presiderIntroCol1=data.get('presiderIntro')
+    presiderCol1=data.get('presiderCol')
+    presiderIntroCol1=data.get('presiderIntroCol')
     csv=data.get('csv')
 
     juniorCsv=data.get('juniorCsv')
