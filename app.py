@@ -142,8 +142,9 @@ def parse_data():
     global allTimes
     global days
     
-    data = request.get_json()
-
+    #data = request.get_json()
+    data = json.loads(request.form.get('json'))
+    
     url = data.get('url')
     firstNameCol1 = data.get('firstNameCol')
     lastNameCol1 = data.get('lastNameCol')
