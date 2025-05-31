@@ -341,10 +341,10 @@ function downloadCSV() {
     });
 
     csvContent += "=== Presider Info ===\n"; // Separator
-    const headers = ["Senior Presenter", "Junior Presider", "Script"];
+    const headers1 = ["Senior Presenter", "Junior Presider", "Script"];
     const rows = Object.entries(presiderInfo).map(([senior, [junior, script]]) => [senior, junior, script]);
 
-    csvContent += headers.join(",") + "\n"; // Add headers
+    csvContent += headers1.join(",") + "\n"; // Add headers
     csvContent += rows.map(row => row.join(",")).join("\n") + "\n"; // Add data
 
 	
