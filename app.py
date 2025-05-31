@@ -114,7 +114,7 @@ juniorDisplayAllTimesFromData=[]
 juniorDisplayHeaders=[]
 juniorDisplayAllTimes=[]
 
-presiderMap={}
+presiderDict={}
 juniorsList=[]
 seniorsList=[]
 
@@ -159,7 +159,7 @@ def parse_data():
     global allTimes
     global days
 
-    global presiderMap
+    global presiderDict
     global juniorsList
     global seniorsList
     
@@ -263,13 +263,13 @@ def parse_data():
             sharedTimes=list(set(output_list) & set(juniorRawdataDict[x[presiderCol]][1]))
             if len(sharedTimes)>0:
                 output_list=sharedTimes
-            presiderMap[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
+            presiderDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol],x[presiderIntroCol]]
     seniorsList=list(rawdataDict.keys())
     for senior in seniorsList:
-        if senior not in list(presiderMap.keys()):
-            presiderMap[senior]=""
-    print(presiderMap)
+        if senior not in list(presiderDict.keys()):
+            presiderDict[senior]=""
+    print(presiderDict)
     allTimesFromData = set(time for value in list(rawdataDict.values()) for time in value[0])
     
     for time in allTimesFromData:
