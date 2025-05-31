@@ -4,68 +4,57 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
 <style>
 	body {
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        background-color: #000000;
-        align-items: center;
-        justify-content: space-between;
-        font-family: 'Assistant', sans-serif;
-        align-content: center;
+      height: 100vh;
+      background-color: #000;
+      font-family: Assistant, sans-serif;
+      position: relative;
+      padding: 30px;
+    }
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 100px;
+      height: 90%;
+    }
+    .box {
+    	background-color: #d9d9d9;
+        padding: 40px;
+        box-sizing: border-box;
+        width: 500px;
+        margin-top: 40px;
     }
     
-    
-    .infoInputs {
-    	width: 40%;
-        length: 90%;
-        background: #d9d9d9;
-        padding: 10px;
-        margin: 10px;
-        margin-top: 10px;
-        display: flex;
-        height: 100%;
-        flex-wrap: wrap;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-    }
-    .generateStart {
-    	width: 30%;
-        length: 70%;
-        background-color: #d9d9d9;
-        margin: 10px;
-        padding: 20px;
-        display: flex;
-        align-items: space-around;
-        justify-content: center;
-        align-content: stretch;
-    }
     .heading {
-      width: 90%;
-      background-color: #580C1F;
-      align-self: flex;
-      padding: 15px;
-      text-align: center;
-      color: #ffffff;
+      background-color: #360000;
+      color: white;
       font-size: 24px;
-      margin-top: 10px;
-      margin-bottom: 10px;
       font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 10px;
 
     }
     .button {
-      width: 100%;
-      background-color: #B51111;
+     
       align-self: center;
-      padding: 15px;
+      
       text-align: center;
-      color: #ffffff;
+      
       margin-top: 10px;
       margin-bottom: 10px;
       font-size: 20px;
       font-weight: bold;
+      
+      
+      background-color: #b51111;
+      color: white;
+      
+      padding: 20px;
+      width: 100%;
       border: none;
+      cursor: pointer;
+      font-family: Assistant, sans-serif;
     }
     .startButton {
     	width: 100%;
@@ -78,7 +67,7 @@
         cursor: pointer;
         font-size: 20px;
         font-weight: bold;
-
+		font-family: 'Assistant', sans-serif;
 
     }
     .button:hover, .startButton:hover {
@@ -167,30 +156,32 @@
       }
     });
   </script>
-	<div class="infoInputs">
+  <div class="wrapper">
+	<div class="box">
         <div class="heading">
-        	<b>Moderator Control</b>
+        	Moderator Control
         </div>
         <button class="button" onclick="rosters()">
-        	<b>Student Rosters</b>
+        	Student Rosters
         </button>
         <button class="button" onclick="availability()">
-        	<b>Symposium Availability</b>
+        	Symposium Availability
         </button>
         <button class="button" onclick="addQuestion()">
-        	<b>Student Questionnaire</b>
+        	Student Questionnaire
         </button>
-        <div class="button" onclick="topics()">
-        	<b>Project Topics</b>
-        </div>
-        <div class="button" onclick="viewResponses()">
-        	<b>View Responses</b>
-        </div>
+        <button class="button" onclick="topics()">
+        	Project Topics
+        </button>
+        <button class="button" onclick="viewResponses()">
+        	View Responses
+        </button>
     </div>
-	<div class="generateStart">
+	<div class="box">
     	<button class="startButton">
         	<b>Begin Schedule<br>Generation</b>
         </button>
+    </div>
     </div>
     <script>
     function rosters() {
