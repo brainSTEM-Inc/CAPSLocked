@@ -460,8 +460,12 @@ def getDataForStep2():
 @app.route('/getFinalDistribution')
 def getDataForStep3():
     #print(daysRoomsTimes);
+    presiderInfo={}
+        for senior, junior in presiderDict.items():
+            presiderInfo[senior]=[junior,rawdataDict[senior][7]]
     return jsonify({
-        "daysRoomsTimes":daysRoomsTimes
+        "daysRoomsTimes":daysRoomsTimes,
+        "presiderInfo":presiderInfo
     })
 
 allDayDistributions = []
