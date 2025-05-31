@@ -260,7 +260,7 @@ def parse_data():
             if item in target_string:
                 output_list.append(item)
         if x[presiderCol] in juniorsList:
-            sharedTimes=set(output_list) & set(juniorRawData[x[presiderCol]][1])
+            sharedTimes=set(output_list) & set(juniorRawdataDict[x[presiderCol]][1])
             if len(sharedTimes)>0:
                 output_list=sharedTimes
             presiderMap[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
