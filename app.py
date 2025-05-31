@@ -716,7 +716,7 @@ def final_distribution():
                 
             daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
     
-    #print(daysRoomsTimes)
+    print(daysRoomsTimes)
     
     for day, rooms in daysRoomsTimes.items():
         for room, periods in rooms.items():
@@ -728,7 +728,7 @@ def final_distribution():
                     students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
     
-    print(daysRoomsTimes)
+    #print(daysRoomsTimes)
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('4.html')
 
