@@ -346,7 +346,7 @@ function downloadCSV() {
     const rows = Object.entries(presiderInfo).map(([senior, [junior, script]]) => [senior, junior, script]);
 
     csvContent += headers1.join(",") + "\n"; // Add headers
-    csvContent += rows.map(row => row.map(cell => `"${cell}"`).join(",")).join("\n") + "\n";
+    csvContent += rows.map(row => row.map(cell => `"${cell.replace(/\n/g, ' ')}"`).join(",")).join("\n") + "\n";
 
 	
     // Create and trigger download
