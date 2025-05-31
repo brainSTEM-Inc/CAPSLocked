@@ -16,23 +16,38 @@
     }
  
     
-    .formContainer{
-     	background-color: #D9D9D9;
-      	padding: 40px;
-      	width: 100%;
-      	max-width: 600px;
-        align-items: center;
-      	border-radius: 10px;
-      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-    }
+
+/* Optional wrapper if you want extra control */
+.wrapper {
+  width: 100%;
+  max-width: 680px; /* 600px form + 40px margin each side */
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.formContainer {
+  background-color: #D9D9D9;
+  padding: 40px;
+  width: 100%;      /* fill wrapper width */
+  max-width: 600px; /* constrain max width */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;   /* center inside wrapper */
+}
+.formContainer > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+
     
     .room { 
-    	border: 1px solid #ccc; 
       padding: 10px; 
       margin-top: 20px;
       margin-bottom: 20px; 
       color: white;
-      width:100%;
+      width: 100%;
       background-color: #cb5151ff;
       text-align: center;
       }
@@ -57,30 +72,110 @@
         padding: 10px;
     }
     
-     button[type="submit"] {
+    button[type="submit"] {
       background-color: #B51111;
       color: white;
       padding: 16px 32px;
       border: none;
       font-size: 20px;
       cursor: pointer;
-      margin-top: 15px;
+      margin: 15px auto 0 auto;
+      display: block;
       width: 100%;
       font-weight: bold;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      /* transition: background-color 0.3s ease, box-shadow 0.3s ease; */
     }
 
     button[type="submit"]:hover {
-      width: 100%;
       background-color: #870c0cff;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
-    
+
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 35px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu div {
+      height: 5px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background-color: #d9d9d9;
+      border: 1px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .dropdown a:last-child {
+      color: red;
+      border-bottom: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #ccc;
+    }
   </style>
 </head>
 <body>
+<!-- Menu Icon -->
+  <div class="menu" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 
+  <!-- Dropdown Popup Menu -->
+  <div id="dropdownMenu" class="dropdown">
+    <a href="#">Return to Home</a>
+    <a href="#">Help</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // hide menu if clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('dropdownMenu');
+      const hamburger = document.querySelector('.menu');
+      if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  </script>
+
+  
+  
 <div class="formContainer">
 <div class="header">
   <h2>Project Topics</h2>
