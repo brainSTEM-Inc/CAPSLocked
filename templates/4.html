@@ -88,10 +88,12 @@ font-weight: bold;
 <script>
 
 var finalRoomDistribution={};
+var presiderInfo={};
     fetch('/getFinalDistribution')
     .then(res => res.json())
     .then(data => {
       finalRoomDistribution=data.daysRoomsTimes;
+      presiderInfo=data.presiderInfo;
       createRoomElements(finalRoomDistribution);
     })
     .catch(err => console.error("Failed to fetch room data:", err));
