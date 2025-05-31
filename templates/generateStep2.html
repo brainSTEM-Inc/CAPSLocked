@@ -505,7 +505,7 @@
     }
     
     function updateAllNumbers() {
-    
+    	document.getElementById("generate").disabled=true;
     	var bub = true;
         
         allRoomNames.forEach((room) => {
@@ -610,6 +610,35 @@
 	document.getElementById("checkMessage").style.color = "white";
 	document.getElementById("checkMessage").style.innerText = "All good!";    
 	document.getElementById("generate").disabled=false;
+
+	var roomDict = {};
+    
+	Object.entries(roomsDaysTimes).forEach(([roomName, daysDict]) => {
+		  roomDict[roomName]={};
+	  Object.keys(daysDict).forEach(dayName => {
+		  roomDict[roomName][dayName]=[];
+	      allRooms[roomName][0].style.display="block";
+	      allRoomDays[roomName+dayName][0].querySelectorAll(".item").forEach(item => {
+		roomDict[roomName][dayName].push(item.innerText.split("\n")[1]);
+		  });
+	  });
+	});
+	console.log(JSON.stringify(roomDict));
+	debug.innerText=JSON.stringify(roomDict);
+	createRoomElements(initRoomDistribution);
+	document.getElementById("defaultOpen").click();
+	
+	// Send to backend
+	fetch('/check_distribution', {
+	method: 'POST',
+	headers: {
+	  'Content-Type': 'application/json'
+	},
+	body: JSON.stringify(roomDict)
+	})
+	.then(res => res.json())
+	.then(data => console.log("Success:", data))
+	.catch(err => console.error("Error sending schedule:", err));    
     }
     
     function generateSchedules() {
