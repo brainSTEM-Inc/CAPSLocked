@@ -85,7 +85,7 @@
 <div class="header">
   <h2>Project Topics</h2>
 </div>
-<button type="submit">Edit Topics</button>
+<button type="submit" onclick="logOutput()">Edit Topics</button>
 
   <div id="app"></div>
   
@@ -98,12 +98,12 @@
  <script>
     const topics = {
       "Biology/Biotech": 14,
-      "Computer Science/AI": 15,
-      "Chemistry/Materials Science": 7,
+      "Computer Science/AI": 22,
+      "Chemistry/Materials Science": 1,
       "Engineering": 8,
-      "Math": 5,
-      "Physics": 9,
-      "Earth & Space Systems Science": 10,
+      "Math": 3,
+      "Physics": 2,
+      "Earth & Space Systems Science": 5,
       "Economics & Social Issues": 3
     };
 
@@ -112,12 +112,15 @@
       "1620": 20,
       "1702": 20
     };
-
+	
+    var roomCurrentCapacities={};
+    
     const assignments = {};
     const totalAssignedPerTopic = {};
 
     for (const room in rooms) {
       assignments[room] = {};
+      roomCurrentCapacities[room]=0;
     }
     for (const topic in topics) {
       totalAssignedPerTopic[topic] = 0;
@@ -134,11 +137,12 @@
 
     for (const room in rooms) {
       const capacity = rooms[room];
+      var currentCapacity=roomCurrentCapacities[room];
       const roomDiv = document.createElement("div");
       roomDiv.className = "room";
 
       const title = document.createElement("h3");
-      title.textContent = `${room} (Capacity: ${capacity})`;
+      title.textContent = `${room} (${currentCapacity}/${capacity})`;
       roomDiv.appendChild(title);
 
       for (const topic in topics) {
@@ -187,15 +191,26 @@
             /*input.value = 1;
             assignments[r][t] = 1;
             totalAssignedPerTopic[t] += 1;*/
-            input.value = topics[t];
-            assignments[r][t] = topics[t];
-            totalAssignedPerTopic[t] += topics[t];
+			var leftOver = topics[topic] - totalAssignedPerTopic[topic];
+            currentCapacity=roomCurrentCapacities[room];
+            var defaultValue=Math.min(capacity-currentCapacity,leftOver);
+            input.value = defaultValue;
+            assignments[r][t] = defaultValue;
+            totalAssignedPerTopic[t] += defaultValue;
+            currentCapacity+=defaultValue;
+            roomCurrentCapacities[room]=currentCapacity;
           } else {
             input.disabled = true;
             totalAssignedPerTopic[t] -= assignments[r][t];
+            currentCapacity=roomCurrentCapacities[room];
+            currentCapacity-=assignments[r][t];
+            roomCurrentCapacities[room]=currentCapacity;
+            
             assignments[r][t] = 0;
             input.value = "";
           }
+          
+          title.textContent = `${room} (${currentCapacity}/${capacity})`;
           updateAvailability(t);
         });
 
