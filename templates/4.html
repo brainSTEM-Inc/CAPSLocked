@@ -94,6 +94,7 @@ var presiderInfo={};
     .then(data => {
       finalRoomDistribution=data.daysRoomsTimes;
       presiderInfo=data.presiderInfo;
+      console.log(presiderInfo);
       createRoomElements(finalRoomDistribution);
     })
     .catch(err => console.error("Failed to fetch room data:", err));
