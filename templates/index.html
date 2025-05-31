@@ -13,49 +13,52 @@
 
     .backing {
       background-color: #d9d9d9;
-      width: 350px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      box-sizing: border-box;
+        padding: 40px;
+        box-sizing: border-box;
+        width: 350px;
+        margin-top: 0px;
     }
 
     .header {
       background-color: #360000;
-      color: #fff;
-      text-align: center;
-      padding: 15px;
+      color: white;
       font-size: 24px;
       font-weight: bold;
-      margin-bottom: 20px;
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 30px;
+      font-family: Assistant, sans-serif;
     }
 
     .contentHeading {
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
       font-size: 20px;
       color: #222;
+      font-family: Assistant, sans-serif;
     }
 
     input[type="text"], input[type="password"] {
       width: 100%;
       padding: 15px;
-      margin-bottom: 15px;
       font-size: 20px;
+      margin-bottom: 15px;
       border: none;
       background-color: #f3f3f3;
-      color: #444;
       box-sizing: border-box;
+      font-family: Assistant, sans-serif;
     }
 
     .button {
-      background-color: #B51111;
+      background-color: #b51111;
       color: white;
-      border: none;
-      padding: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      padding: 20px;
       width: 100%;
-      font-size: 20px;
+      border: none;
       cursor: pointer;
-      margin-top: 10px;
+      font-family: Assistant, sans-serif;
     }
     
      .spreadsheet-button {
@@ -79,7 +82,7 @@
   <div class="backing">
     <div class="header">Welcome Back!</div>
     <div class="contentHeading">
-      <h2 style="text-align: center;">Please Log In</h2>
+      <p style="text-align: center;"><b>Please Log In</b></p>
       <input type="text" placeholder="Username">
       <input type="password" placeholder="Password">
       <button class="button" onclick="select()"><b>Login</b></button>
