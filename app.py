@@ -616,6 +616,7 @@ def check_distribution():
                         break
                 if x:
                     offenders.append(student)
+    print(offenders)
     return render_template('generateStep2.html')
 
 @app.route('/get_offenders')
