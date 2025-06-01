@@ -305,6 +305,7 @@ periodMap = {}
 dayOrder=[]
 rawRoomData={}
 topicQuantity={}
+specialGroups=[]
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
@@ -318,6 +319,7 @@ def submit_availability():
     global periodMap
     global rawRoomData
     global topicQuantity
+    global specialGroups
     
     print("🔔 submit_availability was called!")
     data = request.get_json()
@@ -346,8 +348,6 @@ def submit_availability():
     rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
     
     #print(rawRoomData)
-    
-    specialGroups=[]
     
     for value in rawRoomData.values():
         if len(value)<=6 and len(value)>1:
@@ -378,6 +378,7 @@ def set_topics():
     global periodMap
     global rawRoomData
     global topicQuantity
+    global specialGroups
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     data = request.get_json()
