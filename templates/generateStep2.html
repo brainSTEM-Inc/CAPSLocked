@@ -649,6 +649,7 @@
     .then(res => res.json())
     .then(data => {
       offenders=data.getOffenders;
+	    console.log(offenders);
 	document.getElementById("checkMessage").style.innerText = "The following seniors cannot present during the day they are currently in: "+JSON.stringify(offenders);    
     })
     .catch(err => console.error("Failed to fetch room data:", err));
