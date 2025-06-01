@@ -630,18 +630,18 @@
 	
 	// Send to backend
 	fetch('/check_distribution', {
-	method: 'POST',
-	headers: {
-	  'Content-Type': 'application/json'
-	},
-	body: JSON.stringify(roomDict)
+	    method: 'POST',
+	    headers: {
+	        'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify(roomDict)
 	})
-	.then(res => res.json())
-	.then(data => {console.log("Success:", data);
-		      //document.getElementById("checkMessage").style.innerText = "NO CRYING PAST THIS POINT";
-		      showOffenders();
-		      })
-	.catch(err => console.error("Error sending schedule:", err));    
+	.then(() => {
+	    console.log("Data sent successfully.");
+	    showOffenders();  // ✅ Runs strictly AFTER sending data
+	})
+	.catch(err => console.error("Error sending schedule:", err));
+
     }
 
    function showOffenders() {
