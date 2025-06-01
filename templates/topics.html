@@ -219,8 +219,6 @@ fetch('/get_data')
       topics=data.topics;
 	console.log(JSON.stringify(rooms));
 	console.log(JSON.stringify(topics));
-    /*})
-    .catch(err => console.error("Failed to fetch room data:", err));*/
 	
     var roomCurrentCapacities={};
     
@@ -244,6 +242,8 @@ fetch('/get_data')
     
     const availabilitySpans = {}; 
 
+	 
+	 
     for (const room in rooms) {
       const capacity = rooms[room];
       var currentCapacity=roomCurrentCapacities[room];
@@ -358,9 +358,6 @@ fetch('/get_data')
 
       app.appendChild(roomDiv);
     }
-	    
-    })
-    .catch(err => console.error("Failed to fetch room data:", err));
 	 
     function updateAvailability(topic) {
   const remaining = topics[topic] - totalAssignedPerTopic[topic];
@@ -413,6 +410,9 @@ fetch('/get_data')
 	    
       //alert("Check the console for the final output!");
     }
+
+	 })
+    .catch(err => console.error("Failed to fetch room data:", err));
   </script>
  </div>
 </body>
