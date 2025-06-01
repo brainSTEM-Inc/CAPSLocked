@@ -621,6 +621,7 @@ def check_distribution():
 
 @app.route('/get_offenders')
 def get_offenders():
+    global offenders
     return jsonify({
         "offenders": offenders
     })
