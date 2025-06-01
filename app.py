@@ -609,6 +609,8 @@ def check_distribution():
             for student in students:
                 x=True
                 for time in rawdataDict[student][0]:
+                    print(day)
+                    print(roomToTimes)
                     if time in roomToTimes[day]:
                         x=False
                         break
@@ -644,7 +646,7 @@ def final_distribution():
     def g(current, students, score, maintopic, day):
         global schedules
         global dataDict
-        global roomsToTimes
+        global roomToTimes
         global personsPerTime
         if not students:
             #print([current,score])
