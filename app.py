@@ -348,7 +348,7 @@ def set_topics():
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     data = request.get_json()
-    topicsByRoom=data.get('topicsByRoom')
+    topicsByRoom=data.get('topicDistribution')
     
     def splitRooms(topic, rooms):
         roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
