@@ -96,6 +96,11 @@ def generateStep2():
 def goto4():
     return render_template('4.html')
 
+@app.route('/topics')
+def topics():
+    return render_template('topics.html')
+
+
 roomDistribution={}
 capacityDict={}
 rawdataDict={}
@@ -300,7 +305,7 @@ def parse_data():
     
     return render_template('index.html')
 
-
+rawMaintopics=[]
 periodMap = {}
 dayOrder=[]
 @app.route('/submit_availability', methods=['POST'])
@@ -313,6 +318,7 @@ def submit_availability():
     global personsPerTime
     global roomToTimes
     global periodMap
+    global rawMaintopics
     
     print("🔔 submit_availability was called!")
     data = request.get_json()
@@ -458,7 +464,8 @@ def set_topics():
 def get_data():
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
-        "capacityDict": capacityDict
+        "capacityDict": capacityDict,
+        "topics": rawMaintopics
     })
 
 @app.route('/getDataForStep2')
