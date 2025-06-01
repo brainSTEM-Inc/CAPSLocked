@@ -217,6 +217,8 @@ fetch('/get_data')
     .then(data => {
       rooms=data.capacityDict;
       topics=data.topics;
+	console.log(JSON.stringify(rooms));
+	console.log(JSON.stringify(topics));
     })
     .catch(err => console.error("Failed to fetch room data:", err));
 	
