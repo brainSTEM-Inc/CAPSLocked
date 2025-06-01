@@ -637,7 +637,9 @@
 	body: JSON.stringify(roomDict)
 	})
 	.then(res => res.json())
-	.then(data => console.log("Success:", data))
+	.then(data => {console.log("Success:", data);
+		      document.getElementById("checkMessage").style.innerText = "NO CRYING PAST THIS POINT";    
+		      })
 	.catch(err => console.error("Error sending schedule:", err));    
     }
     
