@@ -264,7 +264,7 @@ def parse_data():
             if len(sharedTimes)>0:
                 output_list=sharedTimes
             presiderDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
-        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol],x[presiderIntroCol]]
+        rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol.strip()],x[presiderIntroCol]]
     seniorsList=list(rawdataDict.keys())
     for senior in seniorsList:
         if senior not in list(presiderDict.keys()):
