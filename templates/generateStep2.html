@@ -638,10 +638,21 @@
 	})
 	.then(res => res.json())
 	.then(data => {console.log("Success:", data);
-		      document.getElementById("checkMessage").style.innerText = "NO CRYING PAST THIS POINT";    
+		      //document.getElementById("checkMessage").style.innerText = "NO CRYING PAST THIS POINT";
+		      showOffenders();
 		      })
 	.catch(err => console.error("Error sending schedule:", err));    
     }
+
+   function showOffenders() {
+   fetch('/get_offenders')
+    .then(res => res.json())
+    .then(data => {
+      offenders=data.getOffenders;
+	document.getElementById("checkMessage").style.innerText = "The following seniors cannot present during the day they are currently in: "+JSON.stringify(offenders);    
+    })
+    .catch(err => console.error("Failed to fetch room data:", err));
+   }
     
     function generateSchedules() {
       var roomDict = {};
