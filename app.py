@@ -96,10 +96,6 @@ def generateStep2():
 def goto4():
     return render_template('4.html')
 
-@app.route('/topics')
-def topics():
-    return render_template('topics.html')
-
 
 roomDistribution={}
 capacityDict={}
