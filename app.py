@@ -24,7 +24,7 @@ def clear_table(table_name):
     global conn
     global cur
     """Deletes all rows in the specified table."""
-    cur.execute(f"DELETE FROM {table_name};")
+    cur.execute(f'DELETE FROM "{table_name}";')
     conn.commit()
     print(f"✅ Table '{table_name}' has been cleared!")
 
