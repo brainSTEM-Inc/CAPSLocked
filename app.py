@@ -331,7 +331,7 @@ def submit_availability():
         for day, daytimes in times.items():
             dayCapacityDict[room][day]=len(daytimes)*personsPerTime
         
-    rawMaintopics = {value[1] for value in rawdataDict.values()}
+    rawMaintopics = list({value[1] for value in rawdataDict.values()})
 
 
 @app.route('/set_topics', methods=['POST'])
@@ -343,7 +343,8 @@ def set_topics():
     global rawdataDict
     global personsPerTime
     global roomToTimes
-    global periodMap    
+    global periodMap
+    global rawMaintopics
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     data = request.get_json()
