@@ -369,6 +369,9 @@ fetch('/get_data')
   }
 }
 
+	 })
+    .catch(err => console.error("Failed to fetch room data:", err));
+
 
     function logOutput() {
       const cleanOutput = {};
@@ -396,6 +399,7 @@ fetch('/get_data')
             })
             .then(response => {
                 console.log("✅ Received response from backend!");
+		window.location.href = "/generateStep1";
                 return response.text();
             })
             .then(message => {
@@ -405,14 +409,9 @@ fetch('/get_data')
             .catch(error => {
                 console.error('❌ Error:', error);
             });
-            window.location.href = "/generateStep1";
-
 	    
       //alert("Check the console for the final output!");
     }
-
-	 })
-    .catch(err => console.error("Failed to fetch room data:", err));
   </script>
  </div>
 </body>
