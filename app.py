@@ -331,8 +331,21 @@ def submit_availability():
         
     rawMaintopics = {value[1] for value in rawdataDict.values()}
 
+
+@app.route('/set_topics', methods=['POST'])
+def set_topics():
+    global dayOrder
+    global roomDistribution
+    global capacityDict
+    global dayCapacityDict
+    global rawdataDict
+    global personsPerTime
+    global roomToTimes
+    global periodMap    
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
+    data = request.get_json()
+    topicsByRoom=data.get('topicsByRoom')
     
     def splitRooms(topic, rooms):
         roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
@@ -407,9 +420,9 @@ def submit_availability():
                         rawdataDict[student1][3].append(student2)
     
     topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
-    topicsByRoom={'Room 195':{"Computer Science":20},
-                       "Room 198":{"Biology":15,"Neuroscience":1, "Computer Science":2, "Data Science": 1},
-                       "Room 199":{"Engineering":9,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Agriculture': 1}}
+    #topicsByRoom={'Room 195':{"Computer Science":20},
+    #                   "Room 198":{"Biology":15,"Neuroscience":1, "Computer Science":2, "Data Science": 1},
+    #                   "Room 199":{"Engineering":9,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Agriculture': 1}}
     
     topicDistribution={}
     for room, topics in topicsByRoom.items():
