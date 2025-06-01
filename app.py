@@ -611,7 +611,7 @@ def check_distribution():
                 for time in rawdataDict[student][0]:
                     print(day)
                     print(roomToTimes)
-                    if time in roomToTimes[day]:
+                    if time in roomToTimes[room][day]:
                         x=False
                         break
                 if x:
