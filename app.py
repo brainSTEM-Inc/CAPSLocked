@@ -301,9 +301,11 @@ def parse_data():
     
     return render_template('index.html')
 
-rawMaintopics=[]
 periodMap = {}
 dayOrder=[]
+rawRoomData={}
+topicQuantity={}
+
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
     global dayOrder
@@ -314,7 +316,8 @@ def submit_availability():
     global personsPerTime
     global roomToTimes
     global periodMap
-    global rawMaintopics
+    global rawRoomData
+    global topicQuantity
     
     print("🔔 submit_availability was called!")
     data = request.get_json()
@@ -332,6 +335,35 @@ def submit_availability():
             dayCapacityDict[room][day]=len(daytimes)*personsPerTime
         
     rawMaintopics = list({value[1] for value in rawdataDict.values()})
+
+    rawRoomData={}
+    for topic in rawMaintopics:
+        rawRoomData[topic]=[]
+    
+    for key, value in rawdataDict.items():
+        rawRoomData[value[1]].append(key)
+        
+    rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
+    
+    #print(rawRoomData)
+    
+    specialGroups=[]
+    
+    for value in rawRoomData.values():
+        if len(value)<=6 and len(value)>1:
+            specialGroups.append(value)
+    
+    specialGroups = sorted(specialGroups, key=len, reverse=True)
+    
+    for specialGroup in specialGroups:
+        for student1 in specialGroup:
+                for student2 in specialGroup:
+                    if student1 != student2:
+                        rawdataDict[student1][3].append(student2)
+    
+    topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
+
+    
     return render_template('topics.html')
 
 @app.route('/set_topics', methods=['POST'])
@@ -344,7 +376,8 @@ def set_topics():
     global personsPerTime
     global roomToTimes
     global periodMap
-    global rawMaintopics
+    global rawRoomData
+    global topicQuantity
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     data = request.get_json()
@@ -397,32 +430,6 @@ def set_topics():
         #print(roomDistribution)
         return roomDistribution
     
-    rawRoomData={}
-    for topic in rawMaintopics:
-        rawRoomData[topic]=[]
-    
-    for key, value in rawdataDict.items():
-        rawRoomData[value[1]].append(key)
-        
-    rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
-    
-    #print(rawRoomData)
-    
-    specialGroups=[]
-    
-    for value in rawRoomData.values():
-        if len(value)<=6 and len(value)>1:
-            specialGroups.append(value)
-    
-    specialGroups = sorted(specialGroups, key=len, reverse=True)
-    
-    for specialGroup in specialGroups:
-        for student1 in specialGroup:
-                for student2 in specialGroup:
-                    if student1 != student2:
-                        rawdataDict[student1][3].append(student2)
-    
-    topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
     #topicsByRoom={'Room 195':{"Computer Science":20},
     #                   "Room 198":{"Biology":15,"Neuroscience":1, "Computer Science":2, "Data Science": 1},
     #                   "Room 199":{"Engineering":9,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Agriculture': 1}}
@@ -462,7 +469,7 @@ def get_data():
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
         "capacityDict": capacityDict,
-        "topics": rawMaintopics
+        "topics": topicQuantity
     })
 
 @app.route('/getDataForStep2')
