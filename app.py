@@ -603,7 +603,6 @@ def check_distribution():
     global offenders
     roomData = request.get_json()
     print("CHECKING FOR OFFENDERS:", roomData)
-    print(roomsToTimes)
     offenders=[]
     for room, days in roomData.items():
         for day, students in days.items():
@@ -664,7 +663,7 @@ def final_distribution():
                     newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
                 newSchedule[time].append(students[0])
                 newStudents.remove(students[0])
-                if len(schedules)<100:
+                if len(schedules)<1000:
                     g(newSchedule, newStudents,newScore, maintopic, day)
                 
     
