@@ -479,6 +479,7 @@ def getDataForStep2():
 def getDataForStep3():
     #print(daysRoomsTimes);
     presiderInfo={}
+    print(presiderDict)
     for senior, junior in presiderDict.items():
         presiderInfo[senior]=[junior,rawdataDict[senior][7]]
     return jsonify({
