@@ -320,7 +320,7 @@ def submit_availability():
     roomToTimes = data.get('roomsToTimes')
     periodMap = data.get('periodMap')
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
-    print(roomsToTimes)
+    #print(roomsToTimes)
     dayOrder = list(data.get('dayOrder').values())
     print(dayOrder)
     
