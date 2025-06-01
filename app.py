@@ -332,7 +332,7 @@ def submit_availability():
             dayCapacityDict[room][day]=len(daytimes)*personsPerTime
         
     rawMaintopics = list({value[1] for value in rawdataDict.values()})
-
+    return render_template('topics.html')
 
 @app.route('/set_topics', methods=['POST'])
 def set_topics():
