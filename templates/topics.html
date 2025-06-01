@@ -191,6 +191,7 @@
 
 
  <script>
+/*
     const topics = {
       "Biology/Biotech": 14,
       "Computer Science/AI": 22,
@@ -207,6 +208,17 @@
       "1620": 20,
       "1702": 20
     };
+    */
+
+	 var rooms={};
+	 var topics={};
+fetch('/get_data')
+    .then(res => res.json())
+    .then(data => {
+      rooms=data.capacityDict;
+      topics=data.topics;
+    })
+    .catch(err => console.error("Failed to fetch room data:", err));
 	
     var roomCurrentCapacities={};
     
@@ -367,7 +379,7 @@
         }
       }
       console.log("Final Output:", cleanOutput);
-      alert("Check the console for the final output!");
+      //alert("Check the console for the final output!");
     }
   </script>
  </div>
