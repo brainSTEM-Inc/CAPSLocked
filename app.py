@@ -6,7 +6,7 @@ sys.setrecursionlimit(2000)
 import os
 import psycopg2
 
-'''
+
 # Get the database URL from Render's environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -20,22 +20,15 @@ conn.commit()
 
 print("✅ Connected to Neon DB!")
 
-def insert_data(conn, name):
-    cur = conn.cursor()
-    cur.execute("INSERT INTO test (name) VALUES (%s);", (name,))
+def clear_table(table_name):
+    global conn
+    global cur
+    """Deletes all rows in the specified table."""
+    cur.execute(f"DELETE FROM {table_name};")
     conn.commit()
-    print(f"✅ Data inserted: {name}")
+    print(f"✅ Table '{table_name}' has been cleared!")
 
-def fetch_data(conn):
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM test;")
-    rows = cur.fetchall()
-    for row in rows:
-        print(f"📝 ID: {row[0]}, Name: {row[1]}")
-
-insert_data(conn, "BestieCopilot")  # Adds a test entry
-fetch_data(conn)  # Displays all entries in the database
-'''
+clear_table("Accounts")
 
 app = Flask(__name__)
 
