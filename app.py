@@ -288,9 +288,9 @@ def parse_data():
             displayAllTimes.append([time,0])
     
     juniorDisplayHeaders=["Junior Name",juniorDataHeaders[juniorTopicsCol],juniorDataHeaders[juniorAvailabilityCol]]
-    print(juniorDisplayHeaders)
-    print(juniorRawdataDict)
-    print(juniorDisplayAllTimesFromData)
+    #print(juniorDisplayHeaders)
+    #print(juniorRawdataDict)
+    #print(juniorDisplayAllTimesFromData)
     
     return render_template('index.html')
 
@@ -320,8 +320,9 @@ def submit_availability():
     roomToTimes = data.get('roomsToTimes')
     periodMap = data.get('periodMap')
     roomToTimes = dict(sorted(roomToTimes.items(), key=lambda item: len(item[1]),reverse=True))
-    #print(roomToTimes)
+    print(roomsToTimes)
     dayOrder = list(data.get('dayOrder').values())
+    print(dayOrder)
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
@@ -449,13 +450,7 @@ def set_topics():
         for i in range(len(students)):
             student=students[i]
             students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
-    '''
-    for room, students in roomDistribution.items():
-        print(room)
-        print(len(students))
-        print(students)
-    '''
-    #print(roomDistribution)
+            
     return render_template('generateStep1.html')
 
 @app.route('/get_data')
@@ -607,7 +602,8 @@ def check_distribution():
     global roomToTimes
     global offenders
     roomData = request.get_json()
-    #print("Received schedule:", roomData)
+    print("CHECKING FOR OFFENDERS:", roomData)
+    print(roomsToTimes)
     offenders=[]
     for room, days in roomData.items():
         for day, students in days.items():
