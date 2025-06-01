@@ -137,6 +137,7 @@ function generateScheduleTable(allTimes, dayPeriods, rooms) {
             // Dropdown Column
             const dropdownCell = document.createElement("td");
             const dropdown = document.createElement("select");
+            dropdown.style = "cursor: pointer"
             for (let i = 1; i <= 8; i++) {
                 const option = document.createElement("option");
                 option.value = i;
@@ -150,6 +151,7 @@ function generateScheduleTable(allTimes, dayPeriods, rooms) {
             rooms.forEach(() => {
                 const cell = document.createElement("td");
                 const checkbox = document.createElement("input");
+                checkbox.style = "cursor: pointer";
                 checkbox.type = "checkbox";
                 checkbox.checked=true;
                 cell.appendChild(checkbox);
