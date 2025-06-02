@@ -609,7 +609,6 @@
     	document.getElementById("checkMessage").style.display = "block";
 	document.getElementById("checkMessage").style.color = "white";
 	document.getElementById("checkMessage").style.innerText = "All good!";    
-	document.getElementById("generate").disabled=false;
 
 	var roomDict = {};
     
@@ -649,10 +648,18 @@
     .then(res => res.json())
     .then(data => {
       offenders=data.offenders;
-	    console.log(offenders);
-	document.getElementById("checkMessage").style.innerText = "The following seniors cannot present during the day they are currently in: "+JSON.stringify(offenders);    
+	console.log(JSON.stringify(offenders));
+	if (!(offenders.length)) {
+		document.getElementById("checkMessage").style.innerText = "No availability issues!";  
+		document.getElementById("generate").disabled=false;
+	}
+	    else {
+	document.getElementById("checkMessage").style.innerText = "The following seniors cannot present on the day they are currently in: "+JSON.stringify(offenders);
+		    document.getElementById("generate").disabled=true;
+	    }
     })
     .catch(err => console.error("Failed to fetch room data:", err));
+	   
    }
     
     function generateSchedules() {
