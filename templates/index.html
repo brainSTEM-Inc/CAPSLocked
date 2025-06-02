@@ -108,7 +108,10 @@
         console.log(data);
         
         // Send the data to the backend
-        fetch('/checkLogin', {
+
+        .then(message => {
+            console.log("📢 Backend says:", message);
+                    fetch('/checkLogin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -126,9 +129,6 @@
     .catch(err => console.error("Failed to fetch room data:", err));	
             return response.text();
         })
-        .then(message => {
-            console.log("📢 Backend says:", message);
-            //alert(message); // still alert the user nicely
         })
         .catch(error => {
             console.error('❌ Error:', error);
