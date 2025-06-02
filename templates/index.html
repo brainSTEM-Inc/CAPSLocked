@@ -118,7 +118,6 @@
         .then(response => {
             console.log("✅ Received response from backend!");
             fetch('/isAdmin')
-    .then(res => res.json())
     .then(data => {
       if (data.isAdmin) {
         window.location.href="/moderator";
