@@ -6,11 +6,6 @@ sys.setrecursionlimit(2000)
 import os
 import psycopg2
 
-@app.before_request
-def initialize_session():
-    if "user" not in session:
-        session["user"] = "none"
-
 # Get the database URL from Render's environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -36,6 +31,11 @@ def clear_table(table_name):
 clear_table("Accounts")
 
 app = Flask(__name__)
+
+@app.before_request
+def initialize_session():
+    if "user" not in session:
+        session["user"] = "none"
 
 @app.route('/')
 def home():
