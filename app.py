@@ -25,6 +25,7 @@ def clear_table(table_name):
     global conn
     global cur
     """Deletes all rows in the specified table."""
+    cur = conn.cursor() 
     cur.execute(f'DELETE FROM "{table_name}";')
     conn.commit()
     print(f"✅ Table '{table_name}' has been cleared!")
@@ -96,6 +97,7 @@ def checkLogin():
     global conn
     global cur
     global admin
+    cur = conn.cursor() 
     cur.execute('SELECT "Username" FROM public."Admin" LIMIT 1;')
     actualUsername=cur.fetchone()[0]
     cur.execute('SELECT "Password" FROM public."Admin" LIMIT 1;')
