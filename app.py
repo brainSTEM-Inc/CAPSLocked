@@ -36,8 +36,8 @@ app.secret_key = os.urandom(24)
 
 @app.before_request
 def initialize_session():
-    if "user" not in session:
-        session["user"] = "none"
+    #if "user" not in session:
+    session["user"] = "none"
 
 @app.route('/')
 def home():
@@ -113,12 +113,22 @@ def checkLogin():
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
         session["user"]="Admin";
         print("u are the smartest person alive")
-    else:
-        print("u got wrong username password BOZO")
+    
+    cur = conn.cursor()
+    query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
+    cur.execute(query, (username, password))
+    result = cur.fetchone()  # ✅ Fetch matched row
+
+    if result:  # If user exists
+        session["user"] = result[0]  
+        session["name"] = result[2] 
+        session["message"] = result[3] 
+        session["class"] = result[4] 
     return render_template('index.html')    
 
 @app.route('/getUser')
 def isAdmin():
+    print(session.get("user"))
     return jsonify({
         "user":session.get("user")
     })
