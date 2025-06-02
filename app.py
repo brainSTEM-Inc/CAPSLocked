@@ -6,7 +6,10 @@ sys.setrecursionlimit(2000)
 import os
 import psycopg2
 
-session["user"] = "none"
+@app.before_request
+def initialize_session():
+    if "user" not in session:
+        session["user"] = "none"
 
 # Get the database URL from Render's environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -115,7 +118,7 @@ def checkLogin():
 @app.route('/getUser')
 def isAdmin():
     return jsonify({
-        "user":session[user]
+        "user":session.get(user)
     })
     
 roomDistribution={}
