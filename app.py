@@ -90,10 +90,12 @@ def goto4():
     return render_template('4.html')
 
 
+admin=False
 @app.route('/checkLogin', methods=['POST'])
 def checkLogin():
     global conn
     global cur
+    global admin
     cur.execute('SELECT "Username" FROM public."Admin" LIMIT 1;')
     actualUsername=cur.fetchone()[0]
     cur.execute('SELECT "Password" FROM public."Admin" LIMIT 1;')
@@ -102,11 +104,15 @@ def checkLogin():
     print(actualPassword)
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
-        moderator()
-        return render_template('moderator.html')
+        admin=True
     else:
         print("u got wrong username password BOZO")
     return render_template('index.html')    
+
+@app.route('/isAdmin')
+def isAdmin():
+    global admin
+    return admin
     
 roomDistribution={}
 capacityDict={}
