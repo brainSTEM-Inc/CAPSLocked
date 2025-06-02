@@ -32,6 +32,8 @@ clear_table("Accounts")
 
 app = Flask(__name__)
 
+app.secret_key = os.urandom(24) 
+
 @app.before_request
 def initialize_session():
     if "user" not in session:
