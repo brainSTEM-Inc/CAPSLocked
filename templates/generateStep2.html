@@ -116,6 +116,14 @@
     .button:hover {
       background-color: #9f0f0f;
     }
+
+.button:disabled {
+    background-color: gray;  /* Changes background */
+    color: white;  /* Adjusts text color */
+    cursor: not-allowed;  /* Prevents hover effect */
+    pointer-events: none;  /* Makes button unclickable & unhoverable */
+}
+
     
     .daycontainer {
       display: flex;
@@ -608,7 +616,7 @@
     function checkDistribution() {
     	document.getElementById("checkMessage").style.display = "block";
 	document.getElementById("checkMessage").style.color = "white";
-	document.getElementById("checkMessage").style.innerText = "All good!";    
+	document.getElementById("checkMessage").innerText = "All good!";    
 
 	var roomDict = {};
     
@@ -650,11 +658,11 @@
       offenders=data.offenders;
 	console.log(JSON.stringify(offenders));
 	if (!(offenders.length)) {
-		document.getElementById("checkMessage").style.innerText = "No availability issues!";  
+		document.getElementById("checkMessage").innerText = "No availability issues!";  
 		document.getElementById("generate").disabled=false;
 	}
 	    else {
-	document.getElementById("checkMessage").style.innerText = "The following seniors cannot present on the day they are currently in: "+JSON.stringify(offenders);
+	document.getElementById("checkMessage").innerText = "The following seniors cannot present on the day they are currently in: "+JSON.stringify(offenders);
 		    document.getElementById("generate").disabled=true;
 	    }
     })
