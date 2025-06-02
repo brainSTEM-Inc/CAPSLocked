@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, session
 import requests, pandas as pd, io, copy, sys, json
 
 sys.setrecursionlimit(2000)
@@ -6,6 +6,7 @@ sys.setrecursionlimit(2000)
 import os
 import psycopg2
 
+session["user"] = "none"
 
 # Get the database URL from Render's environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -90,7 +91,6 @@ def goto4():
     return render_template('4.html')
 
 
-admin="False"
 @app.route('/checkLogin', methods=['POST'])
 def checkLogin():
     global conn
@@ -104,18 +104,16 @@ def checkLogin():
     print(actualPassword)
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
-        admin="True"
+        session[user]="Admin";
         print("u are the smartest person alive")
     else:
         print("u got wrong username password BOZO")
     return render_template('index.html')    
 
-@app.route('/isAdmin')
+@app.route('/getUser')
 def isAdmin():
-    global admin
-    print(admin)
     return jsonify({
-        "isAdmin":admin
+        "user":session[user]
     })
     
 roomDistribution={}
