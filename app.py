@@ -112,6 +112,7 @@ def checkLogin():
 @app.route('/isAdmin')
 def isAdmin():
     global admin
+    print(admin)
     return jsonify({
         "isAdmin":admin
     })
