@@ -111,7 +111,7 @@ def checkLogin():
     print(actualPassword)
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
-        session[user]="Admin";
+        session["user"]="Admin";
         print("u are the smartest person alive")
     else:
         print("u got wrong username password BOZO")
@@ -120,7 +120,7 @@ def checkLogin():
 @app.route('/getUser')
 def isAdmin():
     return jsonify({
-        "user":session.get(user)
+        "user":session.get("user")
     })
     
 roomDistribution={}
