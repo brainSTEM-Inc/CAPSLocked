@@ -67,7 +67,7 @@
       border: none;
       /*padding: 15px;*/
       width: 100%;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       margin-top: 10px;
       text-decoration: underline;
@@ -84,8 +84,8 @@
     <div class="header">Welcome Back!</div>
     <div class="contentHeading">
       <p style="text-align: center;"><b>Please Log In</b></p>
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
+      <input type="text" id="Username" placeholder="Username">
+      <input type="password" id="Password" placeholder="Password">
       <button class="button" onclick="select()"><b>Login</b></button>
       <button class="spreadsheet-button" onclick="spreadsheet()"><b>Generate schedules from spreadsheet</b></button>
     </div>
@@ -96,7 +96,36 @@
   }
 
   function select() {
-    window.location.href = "select";
+    //window.location.href = "select";
+    let username = document.getElementById("Username").value;
+    let password = document.getElementById("Password").value;
+    
+        // Prepare the data to send
+        const data = {
+            username: username,
+            password: password
+        };
+        console.log(data);
+        
+        // Send the data to the backend
+        fetch('/checkLogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            console.log("✅ Received response from backend!");
+            return response.text();
+        })
+        .then(message => {
+            console.log("📢 Backend says:", message);
+            //alert(message); // still alert the user nicely
+        })
+        .catch(error => {
+            console.error('❌ Error:', error);
+        });
   }
   </script>
 </body>
