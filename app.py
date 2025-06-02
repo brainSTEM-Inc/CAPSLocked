@@ -90,7 +90,7 @@ def goto4():
     return render_template('4.html')
 
 
-admin=False
+admin="False"
 @app.route('/checkLogin', methods=['POST'])
 def checkLogin():
     global conn
@@ -104,7 +104,7 @@ def checkLogin():
     print(actualPassword)
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
-        admin=True
+        admin="True"
     else:
         print("u got wrong username password BOZO")
     return render_template('index.html')    
@@ -112,7 +112,9 @@ def checkLogin():
 @app.route('/isAdmin')
 def isAdmin():
     global admin
-    return admin
+    return jsonify({
+        "isAdmin":admin
+    })
     
 roomDistribution={}
 capacityDict={}
