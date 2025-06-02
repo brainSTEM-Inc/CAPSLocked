@@ -105,6 +105,7 @@ def checkLogin():
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
         admin="True"
+        print("u are the smartest person alive")
     else:
         print("u got wrong username password BOZO")
     return render_template('index.html')    
