@@ -115,15 +115,16 @@ def checkLogin():
         print("u are the smartest person alive")
     
     cur = conn.cursor()
-    query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
+    #query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
+    query = """SELECT "Username", "Name", "Message", "Class" FROM "Accounts" WHERE "Username" = %s AND "Password" = %s;"""
     cur.execute(query, (data.get("username"), data.get("password")))
     result = cur.fetchone()  # ✅ Fetch matched row
 
     if result:  # If user exists
         session["user"] = result[0]  
-        session["name"] = result[2] 
-        session["message"] = result[3] 
-        session["class"] = result[4] 
+        session["name"] = result[1] 
+        session["message"] = result[2] 
+        session["class"] = result[3] 
     return render_template('index.html')    
 
 @app.route('/getUser')
