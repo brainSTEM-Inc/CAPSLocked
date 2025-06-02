@@ -23,6 +23,7 @@ def clear_table(table_name):
     global conn
     global cur
     """Deletes all rows in the specified table."""
+    conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor() 
     cur.execute(f'DELETE FROM "{table_name}";')
     conn.commit()
@@ -102,6 +103,7 @@ def checkLogin():
     global conn
     global cur
     global admin
+    conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor() 
     cur.execute('SELECT "Username" FROM public."Admin" LIMIT 1;')
     actualUsername=cur.fetchone()[0]
@@ -113,7 +115,8 @@ def checkLogin():
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
         session["user"]="Admin";
         print("u are the smartest person alive")
-    
+
+    conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
     #query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
     query = """SELECT "Username", "Name", "Message", "Class" FROM "Accounts" WHERE "Username" = %s AND "Password" = %s;"""
