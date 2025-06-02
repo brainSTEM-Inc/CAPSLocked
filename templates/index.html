@@ -117,6 +117,14 @@
         })
         .then(response => {
             console.log("✅ Received response from backend!");
+            fetch('/isAdmin')
+    .then(res => res.json())
+    .then(data => {
+      if (data.isAdmin) {
+        window.location.href="/moderator";
+      }
+    })
+    .catch(err => console.error("Failed to fetch room data:", err));	
             return response.text();
         })
         .then(message => {
