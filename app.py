@@ -95,9 +95,9 @@ def checkLogin():
     global conn
     global cur
     cur.execute('SELECT "Username" FROM public."Admin" LIMIT 1;')
-    actualUsername=mycursor.fetchone()
+    actualUsername=cur.fetchone()
     cur.execute('SELECT "Password" FROM public."Admin" LIMIT 1;')
-    actualPassword=mycursor.fetchone()
+    actualPassword=cur.fetchone()
     print(actualUsername)
     print(actualPassword)
     data = request.get_json()
