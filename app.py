@@ -95,17 +95,19 @@ def checkLogin():
     global conn
     global cur
     cur.execute('SELECT "Username" FROM public."Admin" LIMIT 1;')
-    actualUsername=cur.fetchone()
+    actualUsername=cur.fetchone()[0]
     cur.execute('SELECT "Password" FROM public."Admin" LIMIT 1;')
-    actualPassword=cur.fetchone()
+    actualPassword=cur.fetchone()[0]
     print(actualUsername)
     print(actualPassword)
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
         moderator()
+        return render_template('moderator.html')
     else:
         print("u got wrong username password BOZO")
-        
+    return render_template('index.html')    
+    
 roomDistribution={}
 capacityDict={}
 rawdataDict={}
