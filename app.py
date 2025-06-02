@@ -116,7 +116,7 @@ def checkLogin():
     
     cur = conn.cursor()
     query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
-    cur.execute(query, (username, password))
+    cur.execute(query, (data.get("username"), data.get("password")))
     result = cur.fetchone()  # ✅ Fetch matched row
 
     if result:  # If user exists
