@@ -119,7 +119,7 @@
             console.log("✅ Received response from backend!");
             fetch('/isAdmin')
     .then(data => {
-      if (data.isAdmin) {
+      if (data.isAdmin=="True") {
         window.location.href="/moderator";
       }
     })
