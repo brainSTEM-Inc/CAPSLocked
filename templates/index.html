@@ -96,43 +96,36 @@
   }
 
   function select() {
-    //window.location.href = "select";
     let username = document.getElementById("Username").value;
     let password = document.getElementById("Password").value;
-    
-        // Prepare the data to send
-        const data = {
-            username: username,
-            password: password
-        };
-        console.log(data);
-        
-        // Send the data to the backend
 
-        .then(message => {
-            console.log("📢 Backend says:", message);
-                    fetch('/checkLogin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            console.log("✅ Received response from backend!");
-            fetch('/isAdmin')
-    .then(data => {
-      if (data.isAdmin=="True") {
-        window.location.href="/moderator";
-      }
+    const data = { username, password };
+    console.log(data);
+
+    fetch('/checkLogin', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
     })
-    .catch(err => console.error("Failed to fetch room data:", err));	
-            return response.text();
-        })
-        })
-        .catch(error => {
-            console.error('❌ Error:', error);
-        });
-  }
+    .then(response => {
+        console.log("✅ Received response from backend!");
+        return response.text();
+    })
+    .then(message => {
+        console.log("📢 Backend says:", message);
+
+        return fetch('/isAdmin');
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.isAdmin === "True") {
+            window.location.href = "/moderator";
+        }
+        // else maybe redirect to user page or display error
+    })
+    .catch(error => {
+        console.error('❌ Error:', error);
+    });
+}
   </script>
 </body>
