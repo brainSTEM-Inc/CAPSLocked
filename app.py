@@ -35,6 +35,9 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(24) 
 
+app.config['SESSION_PERMANENT'] = True  # ✅ Ensures session persists
+#app.config['SESSION_TYPE'] = 'filesystem'
+
 @app.before_request
 def initialize_session():
     #if "user" not in session:
