@@ -382,7 +382,7 @@
     	clearScreen();
 		document.getElementById("generate").innerText = "Generate Schedules";
 	    	document.getElementById("check").innerText = "Check";
-    		document.getElementById("checkMessage").innerText = "All good!";
+    		//document.getElementById("checkMessage").innerText = "All good!";
     	var topicColorMap = {};
     	var colorIndex = 0;
     
@@ -545,12 +545,12 @@
             allRoomDays[room][2]=currentRoomCapacity;
         });
         
-        if (bub==true) {
+        /*if (bub==true) {
         	document.getElementById("generate").disabled=false;
-        }
-        /*else {
-        	document.getElementById("generate").disabled=true;
         }*/
+        if (!(bub)) {
+        	document.getElementById("generate").disabled=true;
+        }
     }
     
     function allowDrop(ev) {
