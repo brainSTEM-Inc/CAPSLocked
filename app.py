@@ -157,7 +157,33 @@ def isAdmin():
         "message":session.get("message"),
         "class":session.get("class"),
     })
-    
+
+@app.route('/committeeCredentials', methods=['POST'])
+def checkLogin():
+    global conn
+    global cur
+
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor() 
+    cur.execute('SELECT "Code" FROM public."Admin" LIMIT 1;')
+    actualCode=cur.fetchone()[0]
+    data = request.get_json()
+    if data.get("code")==actualCode:
+        session["committeeMember"]="True";
+        print("pleaides says ur a committee member! good job committing handsome")
+        session.modified = True
+
+    print(session.get("committeeMember"))
+    return render_template('select.html')    
+
+@app.route('/isCommitteeMember')
+def isCommitteeMember():
+    print(session.get("committeeMember"))
+    return jsonify({
+        "committeeMember":session.get("committeeMember")
+    })
+
+
 roomDistribution={}
 capacityDict={}
 rawdataDict={}
