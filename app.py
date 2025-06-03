@@ -66,6 +66,10 @@ def select():
 def seniorQuestionnaire():
     return render_template('seniorQuestionnaire.html')
 
+@app.route('/juniorQuestionnaire')
+def juniorQuestionnaire():
+    return render_template('juniorQuestionnaire.html')
+
 @app.route('/moderator')
 def moderator():
     return render_template('moderator.html')
