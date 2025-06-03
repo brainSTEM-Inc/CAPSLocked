@@ -29,7 +29,7 @@ def clear_table(table_name):
     conn.commit()
     print(f"✅ Table '{table_name}' has been cleared!")
 
-clear_table("Accounts")
+#clear_table("Accounts")
 
 app = Flask(__name__)
 
@@ -112,8 +112,8 @@ def checkLogin():
     actualUsername=cur.fetchone()[0]
     cur.execute('SELECT "Password" FROM public."Admin" LIMIT 1;')
     actualPassword=cur.fetchone()[0]
-    print(actualUsername)
-    print(actualPassword)
+    #print(actualUsername)
+    #print(actualPassword)
     data = request.get_json()
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
         session["user"]="Admin";
@@ -134,6 +134,8 @@ def checkLogin():
         session["message"] = result[2] 
         session["class"] = result[3] 
         session.modified = True
+
+    print(session.get("user"))
     return render_template('index.html')    
 
 @app.route('/getUser')
