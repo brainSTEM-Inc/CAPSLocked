@@ -187,7 +187,7 @@ def isCommitteeMember():
 
 
 
-@app.route('/makeJuniorAccounts', methods=['POST'])
+@app.route('/makeAccounts', methods=['POST'])
 def makeJuniorAccounts():
     global conn
     global cur
