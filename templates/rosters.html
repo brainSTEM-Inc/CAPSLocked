@@ -36,21 +36,22 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 10px;
+      margin: 10px;
     }
 
     .upload-group {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
+      width: 90%;
       max-width: 200px;
     }
 
     .upload-label {
       background-color: #cb5151ff;
-      width: 100%;
+      width: 80%;
       text-align: center;
-      height: 350px;
+      height: 100px;
       padding: 20px;
       font-weight: bold;
       font-size: 18px;
@@ -74,7 +75,7 @@
       margin-top: 10px;
       width: 100%;
       padding: 10px;
-      font-size: 20px;
+      font-size: 10px;
       border: none;
       background-color: #eb9494ff;
       color: white;
@@ -83,6 +84,14 @@
 
     input[type="text"]::placeholder {
       color: white;
+      top: 5px; /* Moves label to the top */
+	  position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: 0.3s ease-in-out;
+      font-size: 16px;
+
     }
 
     button[type="submit"] {
@@ -117,7 +126,11 @@
       flex-direction: column;
       justify-content: space-between;
     }
-
+	
+    .text {
+    	height: 360px;
+    }
+    
     .menu div {
       height: 5px;
       background-color: white;
@@ -198,27 +211,27 @@
         <div class="upload-group">
           <label class="upload-label">
             <p>Upload<br>Junior<br>Roster</p>
-            <input type="file" name="juniorRoster">
+            <input type="file" name="juniorRoster" accept=".csv">
           </label>
-          <input type="text" placeholder="Junior Text Entry" name="juniorText">
+          <input type="text" class="text" placeholder="(Data will appear here)" name="juniorText">
         </div>
 
         <!-- Senior Group -->
         <div class="upload-group">
           <label class="upload-label">
             <p>Upload<br>Senior<br>Roster</p>
-            <input type="file" name="seniorRoster">
+            <input type="file" name="seniorRoster" accept=".csv">
           </label>
-          <input type="text" placeholder="Senior Text Entry" name="seniorText">
+          <input type="text" class="text" placeholder="(Data will appear here)" name="seniorText">
         </div>
 
         <!-- Mentor Group -->
         <div class="upload-group">
           <label class="upload-label">
             <p>Upload<br>Mentor<br>List</p>
-            <input type="file" name="mentorList">
+            <input type="file" name="mentorList" accept=".csv">
           </label>
-          <input type="text" placeholder="Mentor Text Entry" name="mentorText">
+          <input type="text" class="text" placeholder="(Data will appear here)" name="mentorText">
         </div>
       </div>
 
