@@ -270,7 +270,7 @@ function uploadFiles() {
     formData.append("mentorList", mentorFile ? mentorFile : "none");
             
             // Send the data to the backend
-            fetch('/parse_data', {
+            fetch('/makeAccounts', {
                 method: 'POST',
                 body: formData
             })
