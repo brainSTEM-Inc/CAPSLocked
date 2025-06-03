@@ -27,6 +27,7 @@ def clear_table(table_name):
     cur = conn.cursor() 
     cur.execute(f'DELETE FROM "{table_name}";')
     conn.commit()
+    print("im doing something im not supposed to be doing yk wut these error messages are kinda funny lets write a story so basiclaly once upon a itme")
     print(f"✅ Table '{table_name}' has been cleared!")
 
 #clear_table("Accounts")
