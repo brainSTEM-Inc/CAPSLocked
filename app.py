@@ -162,7 +162,7 @@ def isAdmin():
 def committeeCredentials():
     global conn
     global cur
-
+    session.pop("committeeMember", None)
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor() 
     cur.execute('SELECT "Code" FROM public."Admin" LIMIT 1;')
