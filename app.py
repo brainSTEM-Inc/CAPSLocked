@@ -167,7 +167,9 @@ def committeeCredentials():
     cur = conn.cursor() 
     cur.execute('SELECT "Code" FROM public."Admin" LIMIT 1;')
     actualCode=cur.fetchone()[0]
+    print(actualCode)
     data = request.get_json()
+    print(data.get("code"))
     if data.get("code")==actualCode:
         session["committeeMember"]="True";
         print("pleaides says ur a committee member! good job committing handsome")
