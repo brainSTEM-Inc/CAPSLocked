@@ -114,7 +114,11 @@
     .then(message => {
         console.log("📢 Backend says:", message);
 
-        return fetch('/getUser');
+        return fetch('/getUser', {
+    method: 'GET',
+    credentials: 'include'  // ✅ Sends session cookies!
+});
+
     })
     .then(res => res.json())
     .then(data => {
