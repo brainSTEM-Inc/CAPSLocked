@@ -167,6 +167,11 @@
     .dropdown a:hover {
       background-color: #ccc;
     }
+    
+    .file-name {
+    	height: 50px;
+        margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -211,8 +216,10 @@
         <div class="upload-group">
           <label class="upload-label">
             <p>Upload<br>Junior<br>Roster</p>
-            <input type="file" name="juniorRoster" accept=".csv">
+            <input type="file" name="juniorRoster" accept=".csv" onchange="updateFileDisplay(this, 'juniorFileName')">
           </label>
+          <span id="juniorFileName" class="file-name">No file uploaded</span>
+
           <input type="text" class="text" placeholder="(Data will appear here)" name="juniorText">
         </div>
 
@@ -220,8 +227,9 @@
         <div class="upload-group">
           <label class="upload-label">
             <p>Upload<br>Senior<br>Roster</p>
-            <input type="file" name="seniorRoster" accept=".csv">
+            <input type="file" name="seniorRoster" accept=".csv" onchange="updateFileDisplay(this, 'seniorFileName')">
           </label>
+          <span id="seniorFileName" class="file-name">No file uploaded</span>
           <input type="text" class="text" placeholder="(Data will appear here)" name="seniorText">
         </div>
 
@@ -229,8 +237,9 @@
         <div class="upload-group">
           <label class="upload-label">
             <p>Upload<br>Mentor<br>List</p>
-            <input type="file" name="mentorList" accept=".csv">
+            <input type="file" name="mentorList" accept=".csv" onchange="updateFileDisplay(this, 'mentorFileName')">
           </label>
+          <span id="mentorFileName" class="file-name">No file uploaded</span>
           <input type="text" class="text" placeholder="(Data will appear here)" name="mentorText">
         </div>
       </div>
@@ -240,5 +249,12 @@
       </div>
     </form>
   </div>
+  
+  <script>
+  function updateFileDisplay(fileInput, fileNameId) {
+    const fileName = fileInput.files.length > 0 ? "Uploaded: " + fileInput.files[0].name : "No file uploaded";
+    document.getElementById(fileNameId).textContent = fileName;
+}
+  </script>
 </body>
 </html>
