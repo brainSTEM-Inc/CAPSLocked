@@ -41,11 +41,12 @@ app.config['SESSION_TYPE'] = 'filesystem'
 
 @app.before_request
 def initialize_session():
-    #if "user" not in session:
-    session["user"] = "none"
+    if "user" not in session:
+        session["user"] = "none"
 
 @app.route('/')
 def home():
+    session["user"] = "none"
     return render_template('index.html')
 
 @app.route('/logistics')
