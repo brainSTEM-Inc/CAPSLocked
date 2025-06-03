@@ -127,7 +127,12 @@
             window.location.href = "/moderator";
         }
       else if (data.user!="none"){
-          window.location.href = "/seniorQuestionaire";
+          if (data.class==="Senior") {
+            window.location.href = "/seniorQuestionnaire";
+          }
+          if (data.class==="Junior") {
+            window.location.href = "/select";
+          }
         }
         // else maybe redirect to user page or display error
     })
