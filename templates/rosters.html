@@ -255,6 +255,41 @@
     const fileName = fileInput.files.length > 0 ? "Uploaded: " + fileInput.files[0].name : "No file uploaded";
     document.getElementById(fileNameId).textContent = fileName;
 }
+
+function uploadFiles() {
+    const formData = new FormData();  
+
+    // ✅ Add each file, or "none" if no file is selected
+    const juniorFile = document.querySelector('input[name="juniorRoster"]').files[0];
+    formData.append("juniorRoster", juniorFile ? juniorFile : "none");
+
+    const seniorFile = document.querySelector('input[name="seniorRoster"]').files[0];
+    formData.append("seniorRoster", seniorFile ? seniorFile : "none");
+
+    const mentorFile = document.querySelector('input[name="mentorList"]').files[0];
+    formData.append("mentorList", mentorFile ? mentorFile : "none");
+            
+            // Send the data to the backend
+            fetch('/parse_data', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!"); 
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                //alert('An error occurred. Please try again.');
+    
+            });
+
+}
+
   </script>
 </body>
 </html>
