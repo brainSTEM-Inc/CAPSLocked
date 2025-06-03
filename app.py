@@ -159,7 +159,7 @@ def isAdmin():
     })
 
 @app.route('/committeeCredentials', methods=['POST'])
-def checkLogin():
+def committeeCredentials():
     global conn
     global cur
 
