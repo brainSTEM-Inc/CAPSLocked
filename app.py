@@ -202,9 +202,10 @@ def makeJuniorAccounts():
     for i in range(len(rawData)):
         x = [str(item).strip() for item in rawData.iloc[i]]
         y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Junior"]
-        juniorAccounts.append(x)
+        juniorAccounts.append(y)
 
     for account in juniorAccounts:
+        print(account)
         username, password, name, message, class_name = account  # Unpack list
 
         # ✅ Ensure empty values are stored as empty strings
