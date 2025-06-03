@@ -91,6 +91,23 @@
     </div>
   </div>
   <script>
+
+document.getElementById("Password").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {  // ✅ Checks if Enter was pressed
+        //event.preventDefault();  // ✅ Prevents default form submission (if needed)
+        select();
+    }
+});
+
+document.getElementById("Username").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {  // ✅ Checks if Enter was pressed
+        //event.preventDefault();  // ✅ Prevents default form submission (if needed)
+        select();
+    }
+});
+
+
+    
   function spreadsheet() {
   	window.location.href = "upload";
   }
