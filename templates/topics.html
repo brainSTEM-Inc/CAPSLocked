@@ -348,6 +348,10 @@ fetch('/get_data')
 
           totalAssignedPerTopic[t] += val - assignments[r][t];
           assignments[r][t] = val;
+
+	  roomCurrentCapacities[r] = totalAssignedInRoom(r);  
+    	  title.textContent = `${r} (${roomCurrentCapacities[r]}/${rooms[r]})`;
+		
           updateAvailability(t);
         });
 
