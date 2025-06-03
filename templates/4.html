@@ -353,6 +353,14 @@ function downloadCSV() {
         csvContent += "\n"; // Space between different days
     });
 
+    csvContent += "=== Presider Info ===\n"; // SeparatorAdd commentMore actions
+    const headers1 = ["Senior Presenter", "Junior Presider", "Script"];
+    const rows = Object.entries(presiderInfo).map(([senior, [junior, script]]) => [senior, junior, script]);
+
+    csvContent += headers1.join(",") + "\n"; // Add headers
+    csvContent += rows.map(row => row.map(cell => `"${cell.replace(/\n/g, ' ')}"`).join(",")).join("\n") + "\n";
+
+	
     // Create and trigger download
     const blob = new Blob([csvContent], { type: "text/csv" });
     const link = document.createElement("a");
