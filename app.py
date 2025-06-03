@@ -186,6 +186,51 @@ def isCommitteeMember():
     })
 
 
+
+@app.route('/makeJuniorAccounts', methods=['POST'])
+def makeJuniorAccounts():
+    global conn
+    global cur
+    clear_table("Junior Accounts")
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor() 
+    if request.files['juniorRoster']!="none":
+        file = request.files['juniorRoster']
+        rawData = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
+
+    juniorAccounts=[]
+    for i in range(len(rawData)):
+        x = [str(item).strip() for item in rawData.iloc[i]]
+        y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Junior"]
+        juniorAccounts.append(x)
+
+    for account in juniorAccounts:
+        username, password, name, message, class_name = account  # Unpack list
+
+        # ✅ Ensure empty values are stored as empty strings
+        cursor.execute("""
+            INSERT INTO "Junior Accounts" ("Username", "Password", "Name", "Message", "Class")
+            VALUES (%s, %s, %s, %s, %s);
+        """, (username or "", password or "", name or "", message or "", class_name or ""))
+
+    conn.commit()  # ✅ Save changes
+    print("Accounts inserted successfully!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 roomDistribution={}
 capacityDict={}
 rawdataDict={}
