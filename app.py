@@ -148,8 +148,14 @@ def checkLogin():
 @app.route('/getUser')
 def isAdmin():
     print(session.get("user"))
+    print(session.get("name"))
+    print(session.get("message"))
+    print(session.get("class"))
     return jsonify({
-        "user":session.get("user")
+        "user":session.get("user"),
+        "name":session.get("name"),
+        "message":session.get("message"),
+        "class":session.get("class"),
     })
     
 roomDistribution={}
