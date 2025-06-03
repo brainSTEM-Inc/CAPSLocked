@@ -108,6 +108,7 @@ def checkLogin():
     global conn
     global cur
     global admin
+    session.clear()
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor() 
     cur.execute('SELECT "Username" FROM public."Admin" LIMIT 1;')
