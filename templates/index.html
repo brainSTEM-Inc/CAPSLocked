@@ -126,6 +126,9 @@
         if (data.user === "Admin") {
             window.location.href = "/moderator";
         }
+      else if (data.user!="none"){
+          window.location.href = "/seniorQuestionaire";
+        }
         // else maybe redirect to user page or display error
     })
     .catch(error => {
