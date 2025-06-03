@@ -153,7 +153,7 @@
       <div class="login-header">Committee Member Login</div>
       
       <input type="text" placeholder="Enter Code" />
-      <button class="login-button" onclick="moderator()">Login</button>
+      <button class="login-button" onclick="moderator() id="Code">Login</button>
     </div>
   </div>
 
@@ -176,8 +176,36 @@
     	window.location.href = "juniorQuestionnaire";
     }
 
-    function moderator() {
-    	window.location.href = "moderator";
-    }
+      function moderator() {
+    let code = document.getElementById("Code").value;
+
+    const data = { code };
+
+    fetch('/committeeCredentials', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        console.log("✅ Received response from backend!");
+        return response.text();
+    })
+    .then(message => {
+        console.log("📢 Backend says:", message);
+
+      return fetch('/committeeLogin');
+
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.committeeMember === "True") {
+            window.location.href = "/moderator";
+        }
+        // else maybe redirect to user page or display error
+    })
+    .catch(error => {
+        console.error('❌ Error:', error);
+    });
+}
   </script>
 </body>
