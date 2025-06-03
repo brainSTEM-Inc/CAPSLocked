@@ -193,7 +193,7 @@
     .then(message => {
         console.log("📢 Backend says:", message);
 
-      return fetch('/committeeLogin');
+      return fetch('/isCommitteeMember');
 
     })
     .then(res => res.json())
