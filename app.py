@@ -36,7 +36,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24) 
 
 app.config['SESSION_PERMANENT'] = True  # ✅ Ensures session persists
-#app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 @app.before_request
 def initialize_session():
@@ -118,6 +118,7 @@ def checkLogin():
     if data.get("username")==actualUsername and data.get("password")==actualPassword:
         session["user"]="Admin";
         print("u are the smartest person alive")
+        session.modified = True
 
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
@@ -127,10 +128,12 @@ def checkLogin():
     result = cur.fetchone()  # ✅ Fetch matched row
 
     if result:  # If user exists
+        print("i gave a second chance to cupid jk im not that stupid thats why this works")
         session["user"] = result[0]  
         session["name"] = result[1] 
         session["message"] = result[2] 
         session["class"] = result[3] 
+        session.modified = True
     return render_template('index.html')    
 
 @app.route('/getUser')
