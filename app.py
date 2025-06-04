@@ -187,6 +187,24 @@ def isCommitteeMember():
 
 
 
+@app.route('/getStudents')
+def getStudents():
+    global conn
+    global cur
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor() 
+    cursor.execute('SELECT "Name" FROM "Senior Profiles";')
+    seniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
+    cursor.execute('SELECT "Name" FROM "Junior Profiles";')
+    juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
+    
+    return jsonify({
+        "seniors":seniors,
+        "juniors": juniors
+    })
+
+
+
 @app.route('/makeAccounts', methods=['POST'])
 def makeJuniorAccounts():
     global conn
