@@ -106,6 +106,12 @@ def generateStep2():
 def goto4():
     return render_template('4.html')
 
+@app.route('/thankyou')
+def thankyou():
+    return render_template('thankyou.html')
+
+
+
 
 @app.route('/checkLogin', methods=['POST'])
 def checkLogin():
