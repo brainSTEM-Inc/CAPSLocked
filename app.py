@@ -191,32 +191,43 @@ def isCommitteeMember():
 def makeJuniorAccounts():
     global conn
     global cur
-    clear_table("Junior Accounts")
+    clear_table("Accounts")
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
     if request.files['juniorRoster']!="none":
         file = request.files['juniorRoster']
         rawData = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
+    if request.files['seniorRoster']!="none":
+        file = request.files['seniorRoster']
+        rawData2 = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
 
-    juniorAccounts=[]
+    
+    accounts=[]
     for i in range(len(rawData)):
         x = [str(item).strip() for item in rawData.iloc[i]]
         y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Junior"]
-        juniorAccounts.append(y)
+        accounts.append(y)
+        
+    for i in range(len(rawData2)):
+        x = [str(item).strip() for item in rawData2.iloc[i]]
+        y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Senior"]
+        accounts.append(y)
 
-    for account in juniorAccounts:
+    for account in accounts:
         print(account)
         username, password, name, message, class_name = account  # Unpack list
 
         # ✅ Ensure empty values are stored as empty strings
         cursor.execute("""
-            INSERT INTO "Junior Accounts" ("Username", "Password", "Name", "Message", "Class")
+            INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
             VALUES (%s, %s, %s, %s, %s);
         """, (username or "", password or "", name or "", message or "", class_name or ""))
 
     conn.commit()  # ✅ Save changes
     print("Accounts inserted successfully!")
 
+    
+    return render_template('rosters.html')
 
 
 
