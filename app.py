@@ -329,7 +329,7 @@ def logJuniorResponse():
     conn.rollback()
     cur.execute(update_query, data_tuple)
     conn.commit()
-    return render_template("juniorQuestionnaire.html')
+    return render_template("juniorQuestionnaire.html")
 
 
 
