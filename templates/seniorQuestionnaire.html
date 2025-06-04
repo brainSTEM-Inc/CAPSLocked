@@ -543,6 +543,26 @@ document.querySelectorAll("#availabilityTable tr").forEach(row => {
         selectedFriends,
         availabilityList
     };
+
+	    fetch('/logResponse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+		window.location.href = "/thankyou";
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+            });
     
     console.log(JSON.stringify(data));
 }
