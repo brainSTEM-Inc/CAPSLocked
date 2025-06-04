@@ -408,6 +408,8 @@ const addFriendButton = document.getElementById("addFriendButton");
 addFriendButton.addEventListener("click", (event) => {
     event.preventDefault(); // 🔥 Prevent navigation issue
     friendDropdown.style.display = friendDropdown.style.display === "block" ? "none" : "block";
+	friendDropdown.style.overflowY="auto";
+    friendDropdown.style.maxHeight="200px";
 });
 
 
@@ -422,8 +424,6 @@ seniors.forEach(senior => {
         friendDropdown.style.display = "none"; // Hide dropdown after selection
     });
     friendDropdown.appendChild(option);
-    //friendDropdown.style.overflowY="auto";
-    //friendDropdown.style.maxHeight="200px";
 });
 
 })
@@ -456,55 +456,53 @@ function validateForm() {
     // Check Presentation Title
     const presentationTitle = document.getElementById("presTitle").value.trim();
     if (!presentationTitle) {
-        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check Project Topic Selection
     const projectTopicSelected = document.querySelector("input[name='projTopic']:checked");
     if (!projectTopicSelected) {
-        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check Presider Introduction
     const presiderIntro = document.getElementById("presIntro").value.trim();
     if (!presiderIntro) {
-        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check Additional Presentation Slot Selection
     const additionalSlotSelected = document.querySelector("input[name='extraSlot']:checked");
     if (!additionalSlotSelected) {
-        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check if at least one availability checkbox is checked
     const availabilityChecked = document.querySelectorAll("#availabilityTable input[type='checkbox']:checked").length > 0;
     if (!availabilityChecked) {
-        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Clear error message if form is valid
-    errorMessageContainer.innerText = "";
+    errorMessageContainer.textContent = "";
 
     return true;
 }
 
 
 function completeForm() {
-	//if (validateForm()) {
+	if (validateForm()) {
     	collectFormData();
-    //}
+    }
 }
 
 function collectFormData() {
     // Get presentation title
-	errorMessageContainer.innerText = "Getting response...";
-	
     const presentationTitle = document.getElementById("presTitle").value.trim();
 
     // Get selected junior presider
