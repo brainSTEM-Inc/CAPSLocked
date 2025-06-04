@@ -371,16 +371,34 @@ allPeriods.forEach(period => {
     });
 
     // Get availability
-    const availability = {};
+    /*const availability = {};
     const checkedBoxes = document.querySelectorAll('table input[type="checkbox"]');
     checkedBoxes.forEach(cb => {
       availability[cb.name] = cb.checked;
-    });
+    });*/
+
+const availabilityList = [];
+document.querySelectorAll("#availabilityTable tr").forEach(row => {
+    const periodCell = row.querySelector("td.label-cell");
+    if (periodCell) {
+        const periodText = periodCell.textContent.trim(); // Extract period number
+        const dayCells = row.querySelectorAll("td.checkbox-cell input[type='checkbox']");
+        dayCells.forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                // Fix the index shift issue by referencing the correct header
+                const dayName = document.querySelectorAll("#availabilityTable tr:first-child td.label-cell")[index + 1].textContent.trim();
+                availabilityList.push(`PD ${periodText}, ${dayName}`);
+            }
+        });
+    }
+});
+
+	  
 
     // Send data to Flask backend
 
     var data = {
-        topics, availability
+        topics, availabilityList
     };
 
 
