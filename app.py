@@ -315,8 +315,8 @@ def logJuniorResponse():
     data = request.get_json()
     username=session.get("user")
     topics = data.get("topics")
-    availability = data.get("availabilityList")
-    availability = ', '.join(availability)
+    availabilityList = data.get("availabilityList")
+    availability = ', '.join(availabilityList)
     topics = ', '.join(topics)
     global conn
     global cur
