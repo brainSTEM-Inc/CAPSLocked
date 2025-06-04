@@ -281,11 +281,25 @@
       "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
       "Engineering", "Math", "Physics", "Earth Space Systems Science", "Economics/Social Issues"
     ];
-    const juniorPresiders = ["Alice", "Bob", "Charlie", "Dave"];
+    //const juniorPresiders = ["Alice", "Bob", "Charlie", "Dave"];
+    var juniorPresiders;
+    var seniors;
     const availability = {
       "Wednesday, December 31st": ["2", "3", "4", "5"],
       "Thursday, January 1st": ["2", "3", "4", "5"]
     };
+
+
+    fetch('/getStudents')
+    .then(res => res.json())
+    .then(data => {
+      juniorPresiders=data.juniors;
+      seniors=data.seniors;
+	    
+    /*})
+    .catch(err => console.error("Failed to fetch room data:", err));*/
+	
+	  
 
     // ✅ Populate project topics dynamically
     const projectTopicsContainer = document.getElementById("projectTopics");
@@ -376,7 +390,7 @@ allPeriods.forEach(period => {
   availabilityTable.appendChild(row);
 });
     
-    const seniors = ["Alice", "Bob", "Charlie", "Dave"]; // ✅ Updated from juniorPresiders
+    //const seniors = ["Alice", "Bob", "Charlie", "Dave"]; // ✅ Updated from juniorPresiders
 
 // ✅ Populate the friend dropdown dynamically
 const friendDropdown = document.getElementById("friendDropdown");
@@ -406,6 +420,9 @@ seniors.forEach(senior => {
     friendDropdown.appendChild(option);
 });
 
+})
+    .catch(err => console.error("Failed to fetch room data:", err));
+	    
 // ✅ Add selected senior to display list
 function addSelectedFriend(senior) {
     // Check if already selected
