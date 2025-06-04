@@ -28,6 +28,10 @@
         text-align: left;
         font-size: 20px;
      }
+     
+     .note{
+     	font-size: 17px;
+      }
     .header{
     	background-color: #580C1F;
         text-align: center;
@@ -49,6 +53,7 @@
     
     .checkbox-cell input[type="checkbox"] {
       transform: scale(1.5);
+      background-color: #3c78d8ff;
       cursor: pointer;
     }
     .label-cell {
@@ -140,6 +145,94 @@
         padding: 10px;
         font-size: 18px;
       }
+      
+ .styled-checkbox {
+  width: 15px;
+  height: 15px;
+  accent-color: #3c78d8ff;
+  cursor: pointer;
+}
+
+    .styled-checkbox:checked {
+      background-color: #3c78d8ff;
+      border-color: #3c78d8ff;
+    }
+
+    .styled-checkbox:checked::after {
+      content: '';
+      color: white;
+      position: absolute;
+      top: -1px;
+      left: 4px;
+      width: 3px;
+     }
+      
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #3c78d8ff;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 4px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
   </style>
 </head>
 <body>
@@ -161,26 +254,43 @@
     
     <p>What topic do you want to present for?</p>
     <div class = "optionsColor">    
-    <input type="radio" id="bio" name="projTopic" value="Biology/Biotech">
-    <label for="bio">Biology/Biotech</label><br>
-    <input type="radio" id="chem" name="projTopic" value="Chemistry/Materials Science">
-    <label for="chem">Chemistry/Materials Science</label><br>
-    <input type = "radio" id="compsci" name="projTopic" value="Computer Science/AI">
-    <label for="compsci">Computer Science/AI</label><br>
-    <input type="radio" id="ess" name="projTopic" value="Earth Space Systems Science">
-    <label for="ess">Earth Space Systems Science</label><br>
-    <input type="radio" id="econ" name="projTopic" value="Economics/Social Issues">
-    <label for="econ">Economics/Social Issues</label><br>
-    <input type="radio" id="engineer" name="projTopic" value="Engineering">
-    <label for="engineer">Engineering</label><br>
-    <input type="radio" id="math" name="projTopic" value="Math">
-    <label for="math">Math</label><br>
-    <input type="radio" id="physics" name="projTopic" value="Physics">
-    <label for="physics">Physics</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Biology/Biotech
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Chemistry/Materials Science
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Computer Science/AI
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Earth Space Systems Science
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Economics/Social Issues
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Engineering
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Math
+  <span class="checkmark"></span>
+</label><br>
+    <label class="container">
+  <input type="checkbox" checked="checked">Physics
+  <span class="checkmark"></span>
+</label><br>
 </div>
     
     
    	<p>Select Availability</p>
+    <p><div class="note">NOTE: You should be available for ALL the listed times. If you do have any schedule conflicts, please indicate them below</div></p>
     
  <table>
    <tr>
@@ -191,29 +301,29 @@
     
   <tr>
     <td class="label-cell">Period 2</td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-0-0"></td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-0-1"></td>
+    <td class="checkbox-cell"><input type="checkbox" class="styled-checkbox" checked="checked" name="cell-0-0"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-0-1"></td>
   </tr>
   <tr>
     <td class="label-cell">Period 3</td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-1-0"></td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-1-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-1-0"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-1-1"></td>
   </tr>
   <tr>
     <td class="label-cell">Period 4</td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-2-0"></td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-2-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked ="checked" name="cell-2-0"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-2-1"></td>
   </tr>
   <tr>
   	<td class="label-cell">Period 5</td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-3-0"></td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-3-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-3-0"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-3-1"></td>
    </tr>
    
    <tr>
    	<td class="label-cell">Period 6</td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-4-0"></td>
-    <td class="checkbox-cell"><input type="checkbox" name="cell-4-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-4-0"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-4-1"></td>
   </tr>
    
 </table>
@@ -226,7 +336,7 @@
 </form>
 
 
-</form>
+
 </div>
 </body>
 </html>
