@@ -277,6 +277,7 @@
   <script>
   //OK PRANAVI THE GOAT MADE THIS AND "I" CONVERTED IT TO JAVASCRIPT PRANAVI IS THE GOAT AND COPILOT IS THE INTERN
     // 🚀 Data sources
+    
     const projectTopics = [
       "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
       "Engineering", "Math", "Physics", "Earth Space Systems Science", "Economics/Social Issues"
@@ -295,10 +296,11 @@
     .then(data => {
       juniorPresiders=data.juniors;
       seniors=data.seniors;
+      welcome=data.welcome;
 	    
     /*})
     .catch(err => console.error("Failed to fetch room data:", err));*/
-	
+	document.getElementById("welcomeMessage").innerText=welcome;
 	  
 
     // ✅ Populate project topics dynamically
