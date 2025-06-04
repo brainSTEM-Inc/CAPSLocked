@@ -337,5 +337,52 @@
 
 
 </div>
+
+<script>
+
+  document.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Get name
+    const name = document.querySelector(".dropdown-button").innerText.trim();
+
+    // Get topics
+    const topicCheckboxes = document.querySelectorAll('.optionsColor input[type="checkbox"]');
+    const topics = [];
+    topicCheckboxes.forEach((cb) => {
+      if (cb.checked) {
+        topics.push(cb.parentElement.innerText.trim());
+      }
+    });
+
+    // Get availability
+    const availability = {};
+    const checkedBoxes = document.querySelectorAll('table input[type="checkbox"]');
+    checkedBoxes.forEach(cb => {
+      availability[cb.name] = cb.checked;
+    });
+
+    // Send data to Flask backend
+    fetch("http://localhost:5000/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        topics,
+        availability
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || "Submitted!");
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("Submission failed.");
+    });
+  });
+
+
+</script>
 </body>
 </html>
