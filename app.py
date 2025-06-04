@@ -301,11 +301,11 @@ def logResponse():
     cursor = conn.cursor() 
     # SQL query 
     update_query = """ UPDATE "Senior Responses" SET "Presentation Title" = %s, "Junior Presider" = %s, "Project Topic" = %s, "Additional Slot" = %s, "Friends" = %s, "Availability" = %s WHERE "Username" = %s; """ 
-    data_tuple = (presentationTitle, presider, topic, additionalSlot, friends, availability, username) 
+    data_tuple = (presentationTitle, presider, topic, additionalSlot, friends, availability, username)
+    conn.rollback()
     cur.execute(update_query, data_tuple)
     conn.commit()
-    
-
+    return render_template('seniorQuestionnaire.html')
 
 
 
