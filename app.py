@@ -203,10 +203,11 @@ def getStudents():
     seniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
     cursor.execute('SELECT "Name" FROM "Junior Profiles";')
     juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
-    
+    welcome="Welcome, "+session["name"]+"!"
     return jsonify({
         "seniors":seniors,
-        "juniors": juniors
+        "juniors": juniors,
+        "welcome": welcome
     })
 
 
