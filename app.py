@@ -193,7 +193,7 @@ def makeJuniorAccounts():
     global cur
     clear_table("Junior Accounts")
     conn = psycopg2.connect(DATABASE_URL)
-    cur = conn.cursor() 
+    cursor = conn.cursor() 
     if request.files['juniorRoster']!="none":
         file = request.files['juniorRoster']
         rawData = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
