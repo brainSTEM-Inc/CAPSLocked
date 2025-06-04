@@ -192,6 +192,8 @@ def makeJuniorAccounts():
     global conn
     global cur
     clear_table("Accounts")
+    clear_table("Senior Profiles")
+    clear_table("Junior Profiles")
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
     if request.files['juniorRoster']!="none":
@@ -202,18 +204,20 @@ def makeJuniorAccounts():
         rawData2 = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
 
     
-    accounts=[]
+    juniorAccounts=[]
+    seniorAccounts=[]
     for i in range(len(rawData)):
         x = [str(item).strip() for item in rawData.iloc[i]]
         y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Junior"]
-        accounts.append(y)
+        juniorAccounts.append(y)
         
     for i in range(len(rawData2)):
         x = [str(item).strip() for item in rawData2.iloc[i]]
         y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Senior"]
-        accounts.append(y)
+        seniorAccounts.append(y)
+        
 
-    for account in accounts:
+    for account in juniorAccounts:
         print(account)
         username, password, name, message, class_name = account  # Unpack list
 
@@ -222,6 +226,27 @@ def makeJuniorAccounts():
             INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
             VALUES (%s, %s, %s, %s, %s);
         """, (username or "", password or "", name or "", message or "", class_name or ""))
+
+        cursor.execute("""
+        INSERT INTO "Junior Profiles" ("Name", "Username")
+        VALUES (%s, %s);
+    """, (name or "", username or ""))
+
+
+    for account in seniorAccounts:
+        print(account)
+        username, password, name, message, class_name = account  # Unpack list
+
+        # ✅ Ensure empty values are stored as empty strings
+        cursor.execute("""
+            INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
+            VALUES (%s, %s, %s, %s, %s);
+        """, (username or "", password or "", name or "", message or "", class_name or ""))
+
+        cursor.execute("""
+        INSERT INTO "Senior Profiles" ("Name", "Username")
+        VALUES (%s, %s);
+    """, (name or "", username or ""))
 
     conn.commit()  # ✅ Save changes
     print("Accounts inserted successfully!")
