@@ -222,13 +222,14 @@
   <div class="formContainer">
     <div class="header">
       <h2>Senior Questionnaire</h2>
+      <h3 id="welcomeMessage"></h3>
     </div>
-
+	<h4>Questions marked with * are required.</h4>
     <form>
-      <p>Presentation Title</p>
-      <textarea id="presTitle" rows="3" cols="50" placeholder="Enter here"></textarea>
+      <p>Presentation Title*</p>
+      <textarea id="presTitle" rows="3" cols="50" placeholder="Blimp makes me limp [change if current class is fot]"></textarea>
 
-      <p>Project Topic (Choose 1)</p>
+      <p>Project Topic (Choose 1)*</p>
       <div class="optionsColor" id="projectTopics"></div>
 
       <p>Junior Presider</p>
@@ -236,29 +237,16 @@
         <button id="presiderButton" class="dropdown-button">Select Junior Presider</button>
         <div class="dropdown-content" id="presiderDropdown"></div>
       </div>
-
-      <p>Presider Introduction</p>
-      <textarea id="presIntro" rows="3" cols="50" placeholder="Enter here"></textarea>
-
-<!--
-      <p>Presenting with a friend? 1</p>
+      
+      <p>Backup Presider</p>
       <div class="dropdown">
-        <button id="presiderButton" class="dropdown-button">Select Friend 1</button>
-        <div class="dropdown-content" id="presiderDropdown"></div>
+        <button id="backuppresiderButton" class="dropdown-button">Select Junior Presider</button>
+        <div class="dropdown-content" id="backuppresiderDropdown"></div>
       </div>
       
-       <p>Presenting with a friend? 2</p>
-      <div class="dropdown">
-        <button id="presiderButton" class="dropdown-button">Select Friend 2</button>
-        <div class="dropdown-content" id="presiderDropdown"></div>
-      </div>
-      
-      <p>Presenting with a friend? 3</p>
-      <div class="dropdown">
-        <button id="presiderButton" class="dropdown-button">Select Friend 3</button>
-        <div class="dropdown-content" id="presiderDropdown"></div>
-      </div>
--->
+      <p>Presider Introduction*</p>
+      <textarea id="presIntro" rows="3" cols="50" placeholder="My blimp no fly"></textarea>
+
 
 <p>Presenting with a Friend? (Add as many as you like!)</p>
 <div id="friendContainer">
@@ -268,7 +256,7 @@
 <div id="selectedFriends"></div>
 
 
-      <p>Would you like additional presentation slots?</p>
+      <p>Would you like additional presentation slots?*</p>
       <div class="optionsColor">
         <input type="radio" id="y" name="extraSlot" value="Yes">
         <label for="y">Yes</label>
@@ -276,14 +264,15 @@
         <label for="n">No</label>
       </div>
 
-      <p>Select Availability</p>
+      <p>Select Availability*</p>
       <table id="availabilityTable"></table>
 
-      <button type="submit">Submit</button>
+      <button type="submit" onclick="collectFormData()">Submit</button>
     </form>
   </div>
 
   <script>
+  //OK PRANAVI THE GOAT MADE THIS AND "I" CONVERTED IT TO JAVASCRIPT PRANAVI IS THE GOAT AND COPILOT IS THE INTERN
     // 🚀 Data sources
     const projectTopics = [
       "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
@@ -319,9 +308,24 @@ juniorPresiders.forEach(presider => {
   option.style.cursor = "pointer"; // Make it feel clickable
   option.addEventListener("click", (event) => {
     event.preventDefault(); // Prevents navigation
-    presiderButton.textContent = presider; // Updates button without reload
+    presiderButton.textContent = presider;
   });
   presiderDropdown.appendChild(option);
+});
+
+    // ✅ Populate presider dropdown dynamically
+    const backuppresiderDropdown = document.getElementById("backuppresiderDropdown");
+    const backuppresiderButton = document.getElementById("backuppresiderButton");
+    
+juniorPresiders.forEach(presider => {
+  const option = document.createElement("a");
+  option.textContent = presider; // Display presider name
+  option.style.cursor = "pointer"; // Make it feel clickable
+  option.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevents navigation
+    backuppresiderButton.textContent = presider; // Updates button without reload
+  });
+  backuppresiderDropdown.appendChild(option);
 });
 
 
@@ -418,6 +422,62 @@ function addSelectedFriend(senior) {
     friendDiv.appendChild(removeButton);
     selectedFriends.appendChild(friendDiv);
 }
+
+
+function collectFormData() {
+    // Get presentation title
+    const presentationTitle = document.getElementById("presTitle").value.trim();
+
+    // Get selected junior presider
+    const presiderName = document.getElementById("presiderButton").textContent.trim();
+    const backupPresiderName = document.getElementById("backuppresiderButton").textContent.trim();
+
+    // Get selected project topic
+    const projectTopic = document.querySelector("input[name='projTopic']:checked");
+    const selectedProjectTopic = projectTopic ? projectTopic.value : "";
+
+    // Get additional presentation slot selection
+    const additionalSlotSelection = document.querySelector("input[name='extraSlot']:checked");
+    const selectedAdditionalSlot = additionalSlotSelection ? additionalSlotSelection.value : "";
+
+    // Get list of friends presenting
+    const selectedFriends = [...document.getElementById("selectedFriends").children]
+        .map(friendDiv => friendDiv.textContent.replace("❌", "").trim());
+
+// Get list of availability based on checkboxes
+const availabilityList = [];
+document.querySelectorAll("#availabilityTable tr").forEach(row => {
+    const periodCell = row.querySelector("td.label-cell");
+    if (periodCell) {
+        const periodText = periodCell.textContent.trim(); // Extract period number
+        const dayCells = row.querySelectorAll("td.checkbox-cell input[type='checkbox']");
+        dayCells.forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                // Fix the index shift issue by referencing the correct header
+                const dayName = document.querySelectorAll("#availabilityTable tr:first-child td.label-cell")[index + 1].textContent.trim();
+                availabilityList.push(`PD ${periodText}, ${dayName}`);
+            }
+        });
+    }
+});
+
+	
+    
+    // Return an object containing all collected data
+    var data = {
+        presentationTitle,
+        presiderName,
+        selectedProjectTopic,
+        selectedAdditionalSlot,
+        selectedFriends,
+        availabilityList
+    };
+    
+    console.log(JSON.stringify(data));
+}
+
+// Example usage
+
 
   </script>
 </body>
