@@ -456,40 +456,40 @@ function validateForm() {
     // Check Presentation Title
     const presentationTitle = document.getElementById("presTitle").value.trim();
     if (!presentationTitle) {
-        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check Project Topic Selection
     const projectTopicSelected = document.querySelector("input[name='projTopic']:checked");
     if (!projectTopicSelected) {
-        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check Presider Introduction
     const presiderIntro = document.getElementById("presIntro").value.trim();
     if (!presiderIntro) {
-        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check Additional Presentation Slot Selection
     const additionalSlotSelected = document.querySelector("input[name='extraSlot']:checked");
     if (!additionalSlotSelected) {
-        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Check if at least one availability checkbox is checked
     const availabilityChecked = document.querySelectorAll("#availabilityTable input[type='checkbox']:checked").length > 0;
     if (!availabilityChecked) {
-        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        errorMessageContainer.innerText = "Some required fields are blank. Please check your response.";
         return false;
     }
 
     // Clear error message if form is valid
-    errorMessageContainer.textContent = "";
+    errorMessageContainer.innerText = "";
 
     return true;
 }
@@ -503,6 +503,8 @@ function completeForm() {
 
 function collectFormData() {
     // Get presentation title
+	errorMessageContainer.innerText = "Getting response...";
+	
     const presentationTitle = document.getElementById("presTitle").value.trim();
 
     // Get selected junior presider
