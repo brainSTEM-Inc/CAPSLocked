@@ -500,6 +500,10 @@ function completeForm() {
     }
 }
 
+document.querySelector("form").addEventListener("submit", function (e) {
+	collectFormData();
+}
+
 function collectFormData() {
     // Get presentation title
     const presentationTitle = document.getElementById("presTitle").value.trim();
