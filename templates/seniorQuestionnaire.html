@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>Senior Questionnaire</title>
+  <style>
+	body{
+    	margin: 0;
+      padding: 40px;
+      display: flex;
+    	background-color: black;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Assistant', sans-serif;
+     }
+     .optionsColor{
+     	background-color: #cb5151ff;
+        padding: 10px;
+        font-size: 18px;
+        color: white;
+      }
+     .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+	.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    p{
+    color: black;
+    text-align: left;
+    font-size: 20px;
+    }
+    .selection input[type="radio"]{
+    	width=100%;
+     }
+    
+    button[type="submit"]{
+    	background-color: #B51111;
+        color: white;
+        text-align: center;
+        margin: 0px;
+        padding: 18px 36px;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        margin-top: 30px;
+        width: 100%;
+        font-weight: bold;
+    }  
+    button[type="submit"]:hover {
+  background-color: #870c0cff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      
+    }
+    td {
+      border: 1.5px solid #000;
+      padding: 10px;
+      text-align: center;
+    }
+    .checkbox-cell input[type="checkbox"] {
+      transform: scale(1.5);
+      cursor: pointer;
+      
+    }
+    .label-cell {
+      font-weight: bold;
+      background-color:#eb9494ff;
+      color: black;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown-button {
+      background-color: #cb5151ff;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+   
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #cb5151ff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+      color: white;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+   
+    .dropdown-content a:hover {
+      background-color: #a83737ff;
+    }
+    
+    textarea{
+    	background-color:#cb5151ff;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        padding: 15px;
+        border-color:#cb5151ff;
+        color: white;
+    }
+    
+    .inputBox{
+    	background-color:#C5C1C5;
+        width 200px;
+        paddding: 40px;
+        font-family: Arial, sans-serif;
+      }
+     
+     .side{
+     	display: inline-block;
+     }
+
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 35px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu div {
+      height: 5px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* Dropdown Menu */
+    .dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background-color: #d9d9d9;
+      border: 1px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdownMenu a {
+      display: block;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .dropdownMenu a:last-child {
+      color: red;
+      border-bottom: none;
+    }
+
+    .dropdownMenu a:hover {
+      background-color: #ccc;
+    }
+ textarea::placeholder, input::placeholder {
+  color: white; /* ✅ Makes placeholder text white */
+}
+
+ 
+ 
+  </style>
+</head>
+<body>
+  <div class="formContainer">
+    <div class="header">
+      <h2>Senior Questionnaire</h2>
+    </div>
+
+    <form>
+      <p>Presentation Title</p>
+      <textarea id="presTitle" rows="3" cols="50" placeholder="Enter here"></textarea>
+
+      <p>Project Topic (Choose 1)</p>
+      <div class="optionsColor" id="projectTopics"></div>
+
+      <p>Junior Presider</p>
+      <div class="dropdown">
+        <button id="presiderButton" class="dropdown-button">Select Junior Presider</button>
+        <div class="dropdown-content" id="presiderDropdown"></div>
+      </div>
+
+      <p>Presider Introduction</p>
+      <textarea id="presIntro" rows="3" cols="50" placeholder="Enter here"></textarea>
+
+<!--
+      <p>Presenting with a friend? 1</p>
+      <div class="dropdown">
+        <button id="presiderButton" class="dropdown-button">Select Friend 1</button>
+        <div class="dropdown-content" id="presiderDropdown"></div>
+      </div>
+      
+       <p>Presenting with a friend? 2</p>
+      <div class="dropdown">
+        <button id="presiderButton" class="dropdown-button">Select Friend 2</button>
+        <div class="dropdown-content" id="presiderDropdown"></div>
+      </div>
+      
+      <p>Presenting with a friend? 3</p>
+      <div class="dropdown">
+        <button id="presiderButton" class="dropdown-button">Select Friend 3</button>
+        <div class="dropdown-content" id="presiderDropdown"></div>
+      </div>
+-->
+
+<p>Presenting with a Friend? (Add as many as you like!)</p>
+<div id="friendContainer">
+    <button id="addFriendButton" class="dropdown-button">+ Add Friend</button>
+    <div class="dropdown-content" id="friendDropdown"></div>
+</div>
+<div id="selectedFriends"></div>
+
+
+      <p>Would you like additional presentation slots?</p>
+      <div class="optionsColor">
+        <input type="radio" id="y" name="extraSlot" value="Yes">
+        <label for="y">Yes</label>
+        <input type="radio" id="n" name="extraSlot" value="No">
+        <label for="n">No</label>
+      </div>
+
+      <p>Select Availability</p>
+      <table id="availabilityTable"></table>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // 🚀 Data sources
+    const projectTopics = [
+      "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
+      "Engineering", "Math", "Physics", "Earth Space Systems Science", "Economics/Social Issues"
+    ];
+    const juniorPresiders = ["Alice", "Bob", "Charlie", "Dave"];
+    const availability = {
+      "Wednesday, December 31st": ["2", "3", "4", "5"],
+      "Thursday, January 1st": ["2", "3", "4", "5"]
+    };
+
+    // ✅ Populate project topics dynamically
+    const projectTopicsContainer = document.getElementById("projectTopics");
+    projectTopics.forEach(topic => {
+      const label = document.createElement("label");
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "projTopic";
+      radio.value = topic;
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(topic));
+      projectTopicsContainer.appendChild(label);
+      projectTopicsContainer.appendChild(document.createElement("br"));
+    });
+
+    // ✅ Populate presider dropdown dynamically
+    const presiderDropdown = document.getElementById("presiderDropdown");
+    const presiderButton = document.getElementById("presiderButton");
+    
+juniorPresiders.forEach(presider => {
+  const option = document.createElement("a");
+  option.textContent = presider; // Display presider name
+  option.style.cursor = "pointer"; // Make it feel clickable
+  option.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevents navigation
+    presiderButton.textContent = presider; // Updates button without reload
+  });
+  presiderDropdown.appendChild(option);
+});
+
+
+
+
+    // ✅ Generate availability table dynamically
+const availabilityTable = document.getElementById("availabilityTable");
+
+// Create header row dynamically
+const headerRow = document.createElement("tr");
+headerRow.innerHTML = `<td class="label-cell">PD</td>`;
+Object.keys(availability).forEach(day => {
+  const headerCell = document.createElement("td");
+  headerCell.className = "label-cell";
+  headerCell.textContent = day;
+  headerRow.appendChild(headerCell);
+});
+availabilityTable.appendChild(headerRow);
+
+
+// Create availability rows dynamically
+const allPeriods = new Set(); // ✅ Collects all periods across all days
+
+Object.values(availability).forEach(periods => {
+  periods.forEach(period => allPeriods.add(period)); // ✅ Ensures unique periods across all days
+});
+
+allPeriods.forEach(period => {
+  const row = document.createElement("tr");
+  const labelCell = document.createElement("td");
+  labelCell.className = "label-cell";
+  labelCell.textContent = period;
+  row.appendChild(labelCell);
+
+  Object.keys(availability).forEach(day => {
+    const checkboxCell = document.createElement("td");
+    checkboxCell.className = "checkbox-cell";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = availability[day].includes(period); // ✅ Only checks relevant periods for each day
+    checkboxCell.appendChild(checkbox);
+    row.appendChild(checkboxCell);
+  });
+
+  availabilityTable.appendChild(row);
+});
+    
+    const seniors = ["Alice", "Bob", "Charlie", "Dave"]; // ✅ Updated from juniorPresiders
+
+// ✅ Populate the friend dropdown dynamically
+const friendDropdown = document.getElementById("friendDropdown");
+//const addFriendButton = document.getElementById("addFriendButton");
+const selectedFriends = document.getElementById("selectedFriends");
+
+// Ensure dropdown opens correctly
+const addFriendButton = document.getElementById("addFriendButton");
+
+// Ensure dropdown opens correctly
+addFriendButton.addEventListener("click", (event) => {
+    event.preventDefault(); // 🔥 Prevent navigation issue
+    friendDropdown.style.display = friendDropdown.style.display === "block" ? "none" : "block";
+});
+
+
+// Add seniors to dropdown
+seniors.forEach(senior => {
+    const option = document.createElement("a");
+    option.textContent = senior;
+    option.style.cursor = "pointer";
+    option.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevents page jump
+        addSelectedFriend(senior);
+        friendDropdown.style.display = "none"; // Hide dropdown after selection
+    });
+    friendDropdown.appendChild(option);
+});
+
+// ✅ Add selected senior to display list
+function addSelectedFriend(senior) {
+    // Check if already selected
+    if (document.getElementById(`friend-${senior}`)) return;
+
+    const friendDiv = document.createElement("div");
+    friendDiv.id = `friend-${senior}`;
+    friendDiv.textContent = senior;
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "❌";
+    removeButton.style.marginLeft = "10px";
+    removeButton.addEventListener("click", () => {
+        friendDiv.remove();
+    });
+
+    friendDiv.appendChild(removeButton);
+    selectedFriends.appendChild(friendDiv);
+}
+
+  </script>
+</body>
+</html>
