@@ -218,7 +218,7 @@ def makeJuniorAccounts():
         
 
     for account in juniorAccounts:
-        print(account)
+        #print(account)
         username, password, name, message, class_name = account  # Unpack list
 
         # ✅ Ensure empty values are stored as empty strings
@@ -234,7 +234,7 @@ def makeJuniorAccounts():
 
 
     for account in seniorAccounts:
-        print(account)
+        #print(account)
         username, password, name, message, class_name = account  # Unpack list
 
         # ✅ Ensure empty values are stored as empty strings
