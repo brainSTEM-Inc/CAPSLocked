@@ -310,6 +310,31 @@ def logResponse():
 
 
 
+@app.route('/logJuniorResponse', methods=['POST'])
+def logJuniorResponse():
+    data = request.get_json()
+    username=session.get("user")
+    topics = data.get("topics")
+    availability = data.get("availabilityList")
+    availability = ', '.join(availability)
+    topics = ', '.join(topics)
+    global conn
+    global cur
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor() 
+    # SQL query 
+    update_query = """ UPDATE "Junior Profiles" SET "Preferred Topics" = %s, "Availability" = %s WHERE "Username" = %s; """ 
+    data_tuple = (topics, availability, username)
+    print(data_tuple)
+    conn.rollback()
+    cur.execute(update_query, data_tuple)
+    conn.commit()
+    return render_template("juniorQuestionnaire.html')
+
+
+
+
+
 
 roomDistribution={}
 capacityDict={}
