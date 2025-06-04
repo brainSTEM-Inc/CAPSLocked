@@ -241,11 +241,11 @@
 <body>
 <div class="formContainer">
 <div class="header">
-<h2>Junior Questionnare</h2>
+<h2>Junior Questionnaire</h2>
 </div>
 <form action="/submit" method="POST">
 	
-    <p>What topic do you want to present for?</p>
+    <p>Which topics would you prefer to present for?</p>
     <div class = "optionsColor">    
     <label class="styled-checkbox">
   <input type="checkbox" name="Preferred Topics" checked="checked">Biology/Biotech
@@ -282,50 +282,16 @@
 </div>
     
     
-   	<p>Select Availability</p>
-    <p><div class="note">NOTE: You should be available for ALL the listed times. If you do have any schedule conflicts, please indicate them below</div></p>
     
- <table>
-   <tr>
-    <td class="label-cell"></td> 
-    <td class="label-cell">Day 1</td>
-    <td class="label-cell">Day 2</td>
-  </tr> 
-    
-  <tr>
-    <td class="label-cell">Period 2</td>
-    <td class="checkbox-cell"><input type="checkbox" class="styled-checkbox" checked="checked" name="Availability"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-  </tr>
-  <tr>
-    <td class="label-cell">Period 3</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-1-1"></td>
-  </tr>
-  <tr>
-    <td class="label-cell">Period 4</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked ="checked" name="Availability"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-  </tr>
-  <tr>
-  	<td class="label-cell">Period 5</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-   </tr>
-   
-   <tr>
-   	<td class="label-cell">Period 6</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
-  </tr>
-   
-</table>
+ <p>Select Availability*</p>
+ <div><p class="note">NOTE: You should be available for ALL the listed times. If you do have any schedule conflicts, please indicate them below</p></div>
+      <table id="availabilityTable"></table>
 
 
   
-  <a href="thankyou.html">
+  <!--<a href="thankyou.html">-->
   <button type="submit">Submit</button>
-  </a>
+  <!--</a>-->
 </form>
 
 
@@ -333,6 +299,62 @@
 </div>
 
 <script>
+
+const availability = {
+      "Wednesday, December 31st": ["2", "3", "4", "5"],
+      "Thursday, January 1st": ["2", "3", "4", "5"]
+    };
+
+
+
+    // ✅ Generate availability table dynamically
+const availabilityTable = document.getElementById("availabilityTable");
+
+// Create header row dynamically
+const headerRow = document.createElement("tr");
+headerRow.innerHTML = `<td class="label-cell">PD</td>`;
+Object.keys(availability).forEach(day => {
+  const headerCell = document.createElement("td");
+  headerCell.className = "label-cell";
+  headerCell.textContent = day;
+  headerRow.appendChild(headerCell);
+});
+availabilityTable.appendChild(headerRow);
+
+
+// Create availability rows dynamically
+const allPeriods = new Set(); // ✅ Collects all periods across all days
+
+Object.values(availability).forEach(periods => {
+  periods.forEach(period => allPeriods.add(period)); // ✅ Ensures unique periods across all days
+});
+
+allPeriods.forEach(period => {
+  const row = document.createElement("tr");
+  const labelCell = document.createElement("td");
+  labelCell.className = "label-cell";
+  labelCell.textContent = period;
+  row.appendChild(labelCell);
+
+  Object.keys(availability).forEach(day => {
+    const checkboxCell = document.createElement("td");
+    checkboxCell.className = "checkbox-cell";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = availability[day].includes(period); // ✅ Only checks relevant periods for each day
+    checkboxCell.appendChild(checkbox);
+    row.appendChild(checkboxCell);
+  });
+
+  availabilityTable.appendChild(row);
+});
+    
+    
+    
+    
+    
+    
+
 
   document.querySelector("form").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -356,23 +378,32 @@
     });
 
     // Send data to Flask backend
-    fetch("http://localhost:5000/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        topics,
-        availability
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message || "Submitted!");
-    })
-    .catch(err => {
-      console.error("Error:", err);
-      alert("Submission failed.");
-    });
+
+    var data = {
+        topics, availability
+    };
+
+
+fetch('/logJuniorResponse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+		window.location.href = "/thankyou";
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+            });
+
   });
 
 
