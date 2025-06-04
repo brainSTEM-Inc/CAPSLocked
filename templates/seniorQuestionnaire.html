@@ -328,6 +328,8 @@ juniorPresiders.forEach(presider => {
     presiderButton.textContent = presider;
   });
   presiderDropdown.appendChild(option);
+	presiderDropdown.style.overflowY="auto";
+    presiderDropdown.style.maxHeight="200px";
 });
 
     // ✅ Populate presider dropdown dynamically
@@ -343,6 +345,8 @@ juniorPresiders.forEach(presider => {
     backuppresiderButton.textContent = presider; // Updates button without reload
   });
   backuppresiderDropdown.appendChild(option);
+backuppresiderDropdown.style.overflowY="auto";
+    backuppresiderDropdown.style.maxHeight="200px";
 });
 
 
@@ -404,6 +408,8 @@ const addFriendButton = document.getElementById("addFriendButton");
 addFriendButton.addEventListener("click", (event) => {
     event.preventDefault(); // 🔥 Prevent navigation issue
     friendDropdown.style.display = friendDropdown.style.display === "block" ? "none" : "block";
+	friendDropdown.style.overflowY="auto";
+    friendDropdown.style.maxHeight="200px";
 });
 
 
