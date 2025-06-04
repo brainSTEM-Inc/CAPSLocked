@@ -241,49 +241,39 @@
 <h2>Junior Questionnare</h2>
 </div>
 <form action="/submit" method="POST">
-	<p>Name:</p>
-    	<div class="dropdown">
-  			<button class="dropdown-button">Select Option</button>
-  			<div class="dropdown-content">
-   			 <a href="#">Option 1</a>
-    		<a href="#">Option 2</a>
-   		 <a href="#">Option 3</a>
- 	 </div>
-	</div>
-    
-    
+	
     <p>What topic do you want to present for?</p>
     <div class = "optionsColor">    
     <label class="container">
-  <input type="checkbox" checked="checked">Biology/Biotech
+  <input type="checkbox" name="Preferred Topics" checked="checked">Biology/Biotech
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Chemistry/Materials Science
+  <input type="checkbox" name="Preferred Topics" checked="checked">Chemistry/Materials Science
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Computer Science/AI
+  <input type="checkbox" name="Preferred Topics" checked="checked">Computer Science/AI
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Earth Space Systems Science
+  <input type="checkbox" name="Preferred Topics" checked="checked">Earth Space Systems Science
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Economics/Social Issues
+  <input type="checkbox" name="Preferred Topics" checked="checked">Economics/Social Issues
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Engineering
+  <input type="checkbox" name="Preferred Topics" checked="checked">Engineering
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Math
+  <input type="checkbox" name="Preferred Topics" checked="checked">Math
   <span class="checkmark"></span>
 </label><br>
     <label class="container">
-  <input type="checkbox" checked="checked">Physics
+  <input type="checkbox" name="Preferred Topics" checked="checked">Physics
   <span class="checkmark"></span>
 </label><br>
 </div>
@@ -301,29 +291,29 @@
     
   <tr>
     <td class="label-cell">Period 2</td>
-    <td class="checkbox-cell"><input type="checkbox" class="styled-checkbox" checked="checked" name="cell-0-0"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-0-1"></td>
+    <td class="checkbox-cell"><input type="checkbox" class="styled-checkbox" checked="checked" name="Availability"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
   </tr>
   <tr>
     <td class="label-cell">Period 3</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-1-0"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
     <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-1-1"></td>
   </tr>
   <tr>
     <td class="label-cell">Period 4</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked ="checked" name="cell-2-0"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-2-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked ="checked" name="Availability"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
   </tr>
   <tr>
   	<td class="label-cell">Period 5</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-3-0"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-3-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
    </tr>
    
    <tr>
    	<td class="label-cell">Period 6</td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-4-0"></td>
-    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="cell-4-1"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
+    <td class="checkbox-cell"><input type="checkbox"  class="styled-checkbox" checked="checked" name="Availability"></td>
   </tr>
    
 </table>
@@ -343,8 +333,7 @@
   document.querySelector("form").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Get name
-    const name = document.querySelector(".dropdown-button").innerText.trim();
+    
 
     // Get topics
     const topicCheckboxes = document.querySelectorAll('.optionsColor input[type="checkbox"]');
