@@ -48,7 +48,7 @@ cached_accounts=[]
 @app.before_first_request
 def preload_accounts():
     global cached_accounts
-    cached_accounts = db.query("SELECT * FROM public."Accounts"")
+    cached_accounts = db.query('SELECT * FROM public."Accounts"')
     print(cached_accounts)
 
 @app.route('/')
