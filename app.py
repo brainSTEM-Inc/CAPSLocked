@@ -44,6 +44,13 @@ def initialize_session():
     if "user" not in session:
         session["user"] = "none"
 
+cached_accounts=[]
+@app.before_first_request
+def preload_accounts():
+    global cached_accounts
+    cached_accounts = db.query("SELECT * FROM public."Accounts"")
+    print(cached_accounts)
+
 @app.route('/')
 def home():
     session["user"] = "none"
@@ -358,6 +365,78 @@ juniorDisplayAllTimes=[]
 presiderDict={}
 juniorsList=[]
 seniorsList=[]
+
+
+def getRawData():
+    global rawdataDict
+    global juniorRawdataDict
+
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor() 
+    
+    ordered_columns = [
+        "Availability",
+        "Project Topic",
+        "Friends",
+        # (placeholder for empty list)
+        "Presentation Title",
+        "Presentation Blurb",
+        "Junior Presider",
+        "Presider Intro",
+        "Additional Slot",
+        "Backup Presider",
+        "Mentor Coming"
+    ]
+    
+    sql = f'SELECT "Name", {", ".join(f\'"{col}"\' for col in ordered_columns)} FROM "Senior Profiles"'
+    cursor.execute(sql)
+    
+    # Build the dictionary
+    rawdataDict = {}
+    
+    for row in cursor.fetchall():
+        name = row[0]
+        values = list(row[1:])
+    
+        values[0] = [s.strip() for s in values[0].split(",")] if values[0] else []
+        values[2] = [s.strip() for s in values[2].split(",")] if values[2] else []
+    
+        values.insert(3, [])
+    
+        rawdataDict[name] = values
+
+
+    ordered_columns = [
+    "Preferred Topics",  # index 0
+    "Availability"       # index 1
+    ]
+    
+    # Build the query
+    sql = f'SELECT "Name", {", ".join(f\'"{col}"\' for col in ordered_columns)} FROM "Junior Profiles"'
+    cursor.execute(sql)
+    
+    juniorRawdataDict = {}
+    
+    for row in cursor.fetchall():
+        name = row[0]
+        values = list(row[1:])
+    
+        # 💥 Split those comma-delimited strings into lists
+        values[0] = [s.strip() for s in values[0].split(",")] if values[0] else []
+        values[1] = [s.strip() for s in values[1].split(",")] if values[1] else []
+    
+        juniorRawdataDict[name] = values
+    
+    # Done and done!
+    print(juniorRawdataDict)
+        
+    
+    cursor.close()
+    conn.close()
+
+    print(rawdataDict)
+
+getRawData()
 
 @app.route('/getParsedData')
 def getParsedData():
