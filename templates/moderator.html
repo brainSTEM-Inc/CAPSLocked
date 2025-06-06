@@ -124,6 +124,15 @@
     .dropdown a:hover {
       background-color: #ccc;
     }
+    
+    button:disabled {
+      opacity: 0.5; /* Makes the button appear faded */
+      cursor: not-allowed; /* Indicates it's not clickable */
+      background-color: #ccc; /* Grayish background for a disabled look */
+      color: #777; /* Slightly dimmed text */
+      pointer-events: none;
+    }
+
 </style>
 </head>
 <body>
@@ -178,8 +187,23 @@
         </button>
     </div>
 	<div class="box">
-    	<button class="startButton">
-        	<b>Begin Schedule<br>Generation</b>
+        <div class="heading">
+        	Schedule Generation Pages
+        </div>
+        <button class="button" onclick="topicsByRoom()">
+        	Set Topics by Room
+        </button>
+        <button class="button" onclick="specialGroups()">
+        	Set Special Groups
+        </button>
+        <button class="button" disabled=true onclick="beginScheduleGeneration()">
+        	Begin Schedule Generation
+        </button>
+        <button class="button" disabled=true onclick="viewFinalSchedule()">
+        	View Final Schedule
+        </button>
+        <button class="button" disabled=true onclick="assignPresiders()">
+        	Assign Junior Presiders
         </button>
     </div>
     </div>
@@ -204,6 +228,10 @@
     
     function viewResponses() {
     	window.location.href="viewResponses";
+    }
+    
+    function topicsByRoom() {
+    	window.location.href="topics";	
     }
     </script>
 </body>
