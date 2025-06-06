@@ -159,6 +159,12 @@
     .dropdown a:hover {
       background-color: #ccc;
     }
+    
+input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+    
 </style>
 </head>
 <body onload="refreshSchedule()">
@@ -200,13 +206,13 @@
         <div class="blank">
             
             <div class="button">
-                <b>Periods </b><input type="number" id="periodNum" name="periodNum" min="1" max="8" step="1" value="5" style="background-color: #eb9494;">
+                <b style="color: white;">Periods </b><input type="number" id="periodNum" name="periodNum" min="1" max="8" step="1" value="5" style="background-color: #eb9494;">
             </div>
             <div class="button">
-                <b>Rooms </b><input type="number" id="roomNum" name="roomNum" min="1" max="9" step="1" value="3" style="background-color: #eb9494;">
+                <b style="color: white;">Rooms </b><input type="number" id="roomNum" name="roomNum" min="1" max="9" step="1" value="3" style="background-color: #eb9494;">
             </div>
             <div class="button">
-                <b>Days </b><input type="number" id="dayNum" name="dayNum" min="1" max="9" step="1" value="2" style="background-color: #eb9494;">
+                <b style="color: white;">Days </b><input type="number" id="dayNum" name="dayNum" min="1" max="9" step="1" value="2" style="background-color: #eb9494;">
             </div>
             
         </div>
@@ -233,113 +239,148 @@
     </div>
     
   <script>
-  function refreshSchedule() {
-    function generatePeriodLabels() {
-      const max = parseInt(document.getElementById('periodNum').value, 10);
-      const container = document.getElementById('periodList');
+let savedRoomNames = {}; // Store room names globally
+let savedDayNames = {}; // Store day names globally
+let savedPeriodValues = {}; // Store period numbers globally
 
-      container.innerHTML = '<br/>';
-      
-      if (!isNaN(max)) {
-        for (let i = 1; i <= max; i++) {
-          const periodLabel = document.createElement('input');
-          periodLabel.type = 'number';
-          periodLabel.min = '1';
-          periodLabel.max = '8';
-          periodLabel.step = '1';
-          periodLabel.value = String(i+1);
-          periodLabel.style.width = '30px';
-          //periodLabel.textContent = i;
-          container.appendChild(document.createElement('br'));
-          container.appendChild(periodLabel);
+function refreshSchedule() {
+    function generatePeriodLabels() {
+        const max = parseInt(document.getElementById('periodNum').value, 10);
+        const container = document.getElementById('periodList');
+
+        // Save current period values before clearing
+        document.querySelectorAll('#periodList input[type="number"]').forEach((periodInput, index) => {
+            savedPeriodValues[index] = periodInput.value;
+        });
+
+        container.innerHTML = '<br/>';
+
+        if (!isNaN(max)) {
+            for (let i = 1; i <= max; i++) {
+                const periodLabel = document.createElement('input');
+                periodLabel.type = 'number';
+                periodLabel.min = '1';
+                periodLabel.max = '8';
+                periodLabel.step = '1';
+                periodLabel.value = savedPeriodValues[i - 1] || String(i + 1); // Restore saved values
+                periodLabel.style.width = '30px';
+
+                container.appendChild(document.createElement('br'));
+                container.appendChild(periodLabel);
+            }
+        } else {
+            container.textContent = 'Invalid number.';
         }
-      } else {
-        container.textContent = 'Invalid number.';
-      }
     }
-    
+
     const dayNumInput = document.getElementById('dayNum');
     const roomNumInput = document.getElementById('roomNum');
     const periodNumInput = document.getElementById('periodNum');
     const dayList = document.getElementById('dayList');
-    
-    function updateDayColumns() {
-    	const numDays = parseInt(dayNumInput.value, 10);
-        const numRooms = parseInt(roomNumInput.value, 10);
-        const numPeriods = parseInt(periodNumInput.value, 10);
-        dayList.innerHTML = '';
-        
-        for (let i = 1; i <= numDays; i++) {
-        	const column = document.createElement('div');
-            column.className = 'column';
-            
-            const dayHeader = document.createElement('input');
-            dayHeader.type = 'text';
-            dayHeader.value = `Day ${i}`;
-            dayHeader.style.borderBottom = 'solid black';
-            //dayHeader.style.min-width = '10px';
-            
-            column.appendChild(document.createElement('br'));
-            column.appendChild(dayHeader);
-            
-            const roomList = document.createElement('div');
-            const roomLabel = 
-            roomList.className = 'columnDay';
-            column.appendChild(roomList);
-            
-            for (let j = 1; j <= numRooms; j++) {
-           		const room = document.createElement('div');
-                room.className = 'columnRoom';
-                //room.textContent = `Room ${j}`;
-                roomList.appendChild(room);
-                const roomLabel = document.createElement('input');
-                roomLabel.type = 'text';
-                roomLabel.value = `Room ${j}`;
-                roomLabel.style.width = '50px';
-                room.appendChild(roomLabel);
-                
-                const periodCol = document.createElement('div');
-                periodCol.className = 'period';
-                // periodCol.appendChild(document.createElement('br'));
-                for (let k = 1; k <= numPeriods; k++) {
-                	const period = document.createElement('span');
-                    period.appendChild(document.createElement('br'));
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    period.appendChild(checkbox);
-                  	
-                      period.appendChild(document.createElement('br'));
-                    periodCol.appendChild(period);
-                }
 
-				room.appendChild(periodCol);
-            }
-            
-            dayList.appendChild(column);
+    let savedDayNames = {}; // Store day names dynamically
+
+let savedRoomNames = {}; // Store room names globally
+
+function updateDayColumns() {
+    const numDays = parseInt(dayNumInput.value, 10);
+    const numRooms = parseInt(roomNumInput.value, 10);
+    const numPeriods = parseInt(periodNumInput.value, 10);
+
+    // ✅ Ensure all room names are stored even if unchanged
+    for (let j = 1; j <= numRooms; j++) {
+        if (!savedRoomNames[`Room ${j}`]) {
+            savedRoomNames[`Room ${j}`] = `Room ${j}`; // Default naming for rooms
         }
     }
+
+    dayList.innerHTML = ''; // Clear the list to refresh UI
+
+    for (let i = 1; i <= numDays; i++) {
+        const column = document.createElement('div');
+        column.className = 'column';
+
+        const dayHeader = document.createElement('input');
+        dayHeader.type = 'text';
+        dayHeader.value = savedDayNames[`Day ${i}`] || `Day ${i}`;
+        dayHeader.style.borderBottom = 'solid black';
+
+        dayHeader.addEventListener('input', () => {
+            savedDayNames[`Day ${i}`] = dayHeader.value;
+        });
+
+        column.appendChild(document.createElement('br'));
+        column.appendChild(dayHeader);
+
+        const roomList = document.createElement('div');
+        roomList.className = 'columnDay';
+        column.appendChild(roomList);
+
+        for (let j = 1; j <= numRooms; j++) {
+            const room = document.createElement('div');
+            room.className = 'columnRoom';
+
+
+            const roomLabel = document.createElement('input');
+            roomLabel.type = 'text';
+            roomLabel.value = savedRoomNames[`Room ${j}`]; // Consistent across all instances
+            roomLabel.style.width = '50px';
+
+            roomLabel.addEventListener('input', (event) => {
+                const newName = event.target.value;
+                const oldName = savedRoomNames[`Room ${j}`];
+
+                savedRoomNames[`Room ${j}`] = newName;
+
+                document.querySelectorAll('.columnRoom input[type="text"]').forEach((input) => {
+                    if (input.value === oldName) {
+                        input.value = newName;
+                    }
+                });
+
+                event.target.focus();
+            });
+
+            room.appendChild(roomLabel);
+            roomList.appendChild(room);
+
+            const periodCol = document.createElement('div');
+            periodCol.className = 'period';
+
+            for (let k = 1; k <= numPeriods; k++) {
+                const period = document.createElement('span');
+                period.appendChild(document.createElement('br'));
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = true;
+
+                period.appendChild(checkbox);
+                period.appendChild(document.createElement('br'));
+                periodCol.appendChild(period);
+            }
+
+            room.appendChild(periodCol);
+        }
+
+        dayList.appendChild(column);
+    }
+}
 
     // Run once when the page loads
     updateDayColumns();
     generatePeriodLabels();
 
-    // Add event listener to update live when input changes
-    const input = document.getElementById('periodNum');
-    input.addEventListener('input', generatePeriodLabels);
+    // Add event listeners to update dynamically
     dayNumInput.addEventListener('input', updateDayColumns);
     roomNumInput.addEventListener('input', updateDayColumns);
     periodNumInput.addEventListener('input', updateDayColumns);
-  }
+    document.getElementById('periodNum').addEventListener('input', generatePeriodLabels);
+}
 
-  refreshSchedule();
+refreshSchedule();
 </script>
   
     
 </body>
 </html>
-
-
-
-
-
-
