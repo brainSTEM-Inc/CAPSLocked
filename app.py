@@ -38,15 +38,13 @@ app.secret_key = os.urandom(24)
 
 app.config['SESSION_PERMANENT'] = True  # ✅ Ensures session persists
 app.config['SESSION_TYPE'] = 'filesystem'
+cached_accounts=[]
 
 @app.before_request
 def initialize_session():
     if "user" not in session:
         session["user"] = "none"
 
-cached_accounts=[]
-@app.before_first_request
-def preload_accounts():
     global cached_accounts
     cached_accounts = db.query('SELECT * FROM public."Accounts"')
     print(cached_accounts)
