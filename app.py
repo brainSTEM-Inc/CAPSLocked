@@ -44,6 +44,8 @@ cached_accounts=[]
 def initialize_session():
     if "user" not in session:
         session["user"] = "none"
+    conn = psycopg2.connect(DATABASE_URL)
+    db = conn.cursor()
 
     global cached_accounts
     cached_accounts = db.query('SELECT * FROM public."Accounts"')
@@ -368,7 +370,8 @@ seniorsList=[]
 def getRawData():
     global rawdataDict
     global juniorRawdataDict
-
+    global allTimes
+    
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
     
@@ -397,8 +400,13 @@ def getRawData():
     for row in cursor.fetchall():
         name = row[0]
         values = list(row[1:])
-    
-        values[0] = [s.strip() for s in values[0].split(",")] if values[0] else []
+
+        output_list = []
+        for item in allTimes:
+            if item in values[0]:
+                output_list.append(item)
+        
+        values[0] = output_list if values[0] else []
         values[2] = [s.strip() for s in values[2].split(",")] if values[2] else []
     
         values.insert(3, [])
@@ -424,7 +432,13 @@ def getRawData():
     
         # 💥 Split those comma-delimited strings into lists
         values[0] = [s.strip() for s in values[0].split(",")] if values[0] else []
-        values[1] = [s.strip() for s in values[1].split(",")] if values[1] else []
+
+        output_list = []
+        for item in allTimes:
+            if item in values[1]:
+                output_list.append(item)
+        
+        values[1] = output_list if values[1] else []
     
         juniorRawdataDict[name] = values
     
