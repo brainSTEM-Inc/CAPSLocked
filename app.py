@@ -388,7 +388,8 @@ def getRawData():
         "Mentor Coming"
     ]
     
-    sql = f'SELECT "Name", {", ".join(f\'"{col}"\' for col in ordered_columns)} FROM "Senior Profiles"'
+    sql = f'SELECT "Name", {", ".join(f'"{col}"' for col in ordered_columns)} FROM "Senior Profiles"'
+
     cursor.execute(sql)
     
     # Build the dictionary
@@ -412,7 +413,7 @@ def getRawData():
     ]
     
     # Build the query
-    sql = f'SELECT "Name", {", ".join(f\'"{col}"\' for col in ordered_columns)} FROM "Junior Profiles"'
+    sql = f'SELECT "Name", {", ".join(f'"{col}"' for col in ordered_columns)} FROM "Junior Profiles"'
     cursor.execute(sql)
     
     juniorRawdataDict = {}
