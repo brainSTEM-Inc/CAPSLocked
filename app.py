@@ -48,7 +48,7 @@ def initialize_session():
     db = conn.cursor()
 
     global cached_accounts
-    cached_accounts = db.query('SELECT * FROM public."Accounts"')
+    cached_accounts = db.execute('SELECT * FROM public."Accounts"')
     print(cached_accounts)
 
 @app.route('/')
