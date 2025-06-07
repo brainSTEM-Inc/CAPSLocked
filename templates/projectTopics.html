@@ -235,7 +235,7 @@ Physics
 Earth Space Systems Science
 Economics/Social Issues</textarea>
 
-      <button type="submit" onclick="getProjectTopics()">Submit</button>
+      <button type="submit" onclick="getProjectTopics()">Save Topics</button>
     </form>
   </div>
 
@@ -263,8 +263,11 @@ Economics/Social Issues</textarea>
     .then(data => console.log("Response from backend:", data))
     .catch(error => console.error("Error sending project topics:", error));
 
-    return topics; // Returning the list in case you want to use it elsewhere
+    //return topics; // Returning the list in case you want to use it elsewhere
+    window.location.href = "/moderator";
 }
+
+	  
 
   </script>
 </body>
