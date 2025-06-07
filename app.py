@@ -485,7 +485,9 @@ def setProjectTopics():
     cursor.execute("""
         UPDATE "Availability"
         SET "rawMaintopics" = %s
-    """, (json.dumps(rawMaintopics),)) 
+        WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
+    """, (json.dumps(rawMaintopics),))
+
 
     
     print("Received topics:", rawMaintopics)  # Debugging log
