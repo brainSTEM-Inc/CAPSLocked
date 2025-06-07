@@ -493,7 +493,66 @@ def setSymposiumAvailability():
         dayCapacityDict[room]={}
         for day, daytimes in times.items():
             dayCapacityDict[room][day]=len(daytimes)*personsPerTime
+
+
+    # Connect to the PostgreSQL database
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE "Availability"
+        SET roomToTimes = %s,
+            periodMap = %s,
+            allRooms = %s,
+            allTimes = %s
+    """, (json.dumps(roomToTimes), json.dumps(periodMap), json.dumps(allRooms), json.dumps(allTimes)))
+
+    # Commit transaction
+    conn.commit()
+    print("Data inserted successfully!")
+
+
+    
+    
     return render_template('availability.html')
+
+def setGlobalVariables():
+    global roomToTimes
+    global periodMap
+    global allTimes
+    global allRooms
+    
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    # Fetch data from Availability table (assuming only one row)
+    cursor.execute("""
+        SELECT roomToTimes, periodMap, allRooms, allTimes FROM Availability LIMIT 1;
+    """)
+    
+    row = cursor.fetchone()  # Get the first row
+
+    if row:
+        # Convert JSON strings back to Python objects
+        roomToTimes = json.loads(row[0])
+        periodMap = json.loads(row[1])
+        allRooms = json.loads(row[2])
+        allTimes = json.loads(row[3])
+
+        print("roomToTimes:", roomToTimes)
+        print("periodMap:", periodMap)
+        print("allRooms:", allRooms)
+        print("allTimes:", allTimes)
+
+
+    capacityDict={}
+    dayCapacityDict={}
+    
+    for room, times in roomToTimes.items():
+        capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
+        dayCapacityDict[room]={}
+        for day, daytimes in times.items():
+            dayCapacityDict[room][day]=len(daytimes)*personsPerTime
 
 
 @app.route('/getTopicDistribution', methods=['POST'])
@@ -520,6 +579,26 @@ def getTopicDistribution():
 
     
     return render_template('topics.html')
+
+
+def getTopicQuantity():    
+    global rawMaintopics
+    global rawdataDict
+    global personsPerTime
+    global roomToTimes
+    global rawRoomData
+    global topicQuantity
+
+    rawRoomData={}
+    for topic in rawMaintopics:
+        rawRoomData[topic]=[]
+    
+    for key, value in rawdataDict.items():
+        rawRoomData[value[1]].append(key)
+        
+    rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
+    
+    topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
 
 
 @app.route('/fixSpecialGroups', methods=['POST'])
@@ -894,6 +973,10 @@ def set_topics():
 
 @app.route('/get_data')
 def get_data():
+    setGlobalVariables()
+    getRawData()
+    getTopicQuantity()
+    
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
         "capacityDict": capacityDict,
