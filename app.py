@@ -480,7 +480,8 @@ def setProjectTopics():
     data = request.json  # Extract JSON data from request
     rawMaintopics = data.get("topics", [])  # Get 'topics' list or default to empty
 
-
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
     cursor.execute("""
         UPDATE "Availability"
         SET "rawMaintopics" = %s
