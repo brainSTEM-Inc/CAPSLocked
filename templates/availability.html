@@ -235,6 +235,9 @@ input[type="checkbox"] {
         <div class="returnButton" style="margin-top:10px" onclick="getData()">
         	<b>Set Schedule</b>
         </div>
+	<div class="returnButton" style="margin-top:10px" onclick="goBack()">
+        	<b>Return to Moderator Page</b>
+        </div>
         
     </div>
     
@@ -466,11 +469,13 @@ console.log("roomsToTimes:", JSON.stringify(roomsToTimes));
             .catch(error => {
                 console.error('❌ Error:', error);
             });
-            //window.location.href = "/topics";
 
 
 }
 
+function goBack() {
+	window.location.href = "/moderator";
+}
 
 refreshSchedule();
 </script>
