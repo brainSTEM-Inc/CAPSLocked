@@ -488,7 +488,7 @@ def setProjectTopics():
     """, (json.dumps(rawMaintopics),)) 
 
     
-    print("Received topics:", topics)  # Debugging log
+    print("Received topics:", rawMaintopics)  # Debugging log
     return render_template('projectTopics.html')
 
 
