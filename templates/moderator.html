@@ -176,13 +176,13 @@
         <button class="button" onclick="availability()">
         	Symposium Availability
         </button>
-        <button class="button" onclick="addQuestion()">
-        	Student Questionnaire
-        </button>
         <button class="button" onclick="topics()">
         	Project Topics
         </button>
-        <button class="button" onclick="viewResponses()">
+        <button class="button" onclick="publish()">
+        	Publish Questionnaire
+        </button>
+        <button class="button" disabled=true onclick="viewResponses()">
         	View Responses
         </button>
     </div>
@@ -216,8 +216,8 @@
     	window.location.href="availability";
     }
     
-    function addQuestion() {
-    	window.location.href="addQuestion";
+    function publish() {
+    	window.location.href="seniorQuestionnaire";
     }
     
     
