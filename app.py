@@ -570,11 +570,11 @@ def setGlobalVariables():
 
     if row:
         # Convert JSON strings back to Python objects
-        roomToTimes = json.loads(row[0])
-        periodMap = json.loads(row[1])
-        allRooms = json.loads(row[2])
-        allTimes = json.loads(row[3])
-        rawMaintopics = json.loads(row[4])
+        roomToTimes = row[0]
+        periodMap = row[1]
+        allRooms = row[2]
+        allTimes = row[3]
+        rawMaintopics = row[4]
 
         print("roomToTimes:", roomToTimes)
         print("periodMap:", periodMap)
