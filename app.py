@@ -488,7 +488,7 @@ def setProjectTopics():
         WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
     """, (json.dumps(rawMaintopics),))
 
-
+    conn.commit()
     
     print("Received topics:", rawMaintopics)  # Debugging log
     return render_template('projectTopics.html')
