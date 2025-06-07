@@ -371,6 +371,14 @@ juniorsList=[]
 seniorsList=[]
 
 
+periodMap = {}
+dayOrder=[]
+rawRoomData={}
+topicQuantity={}
+specialGroups=[]
+
+rawMaintopics=[]
+
 def getRawData():
     global rawdataDict
     global juniorRawdataDict
@@ -457,6 +465,96 @@ def getRawData():
 
 getRawData()
 
+
+
+
+@app.route('/setSymposiumAvailability', methods=['POST'])
+def setSymposiumAvailability():
+    global capacityDict
+    global dayCapacityDict
+    global personsPerTime
+    global roomToTimes
+    global allRooms
+    global allTimes
+    global days
+    global periodMap
+    
+    data = request.get_json()
+    roomToTimes = data.get('roomsToTimes')
+    periodMap=data.get('periodMap')
+    allRooms = data.get('allRooms')
+    allTimes = data.get('allTimes')
+
+    capacityDict={}
+    dayCapacityDict={}
+    
+    for room, times in roomToTimes.items():
+        capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
+        dayCapacityDict[room]={}
+        for day, daytimes in times.items():
+            dayCapacityDict[room][day]=len(daytimes)*personsPerTime
+    return render_template('availability.html')
+
+
+@app.route('/getTopicDistribution', methods=['POST'])
+def getTopicDistribution():    
+    global rawMaintopics
+    global rawdataDict
+    global personsPerTime
+    global roomToTimes
+    global rawRoomData
+    global topicQuantity
+
+    rawRoomData={}
+    for topic in rawMaintopics:
+        rawRoomData[topic]=[]
+    
+    for key, value in rawdataDict.items():
+        rawRoomData[value[1]].append(key)
+        
+    rawRoomData = dict(sorted(rawRoomData.items(), key=lambda item: len(item[1]),reverse=True))
+    
+    #print(rawRoomData)
+    
+    topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
+
+    
+    return render_template('topics.html')
+
+
+@app.route('/fixSpecialGroups', methods=['POST'])
+def fixSpecialGroups()
+    global specialGroups
+    global rawRoomData
+    global rawdataDict
+    
+    for value in rawRoomData.values():
+        if len(value)<=6 and len(value)>1:
+            specialGroups.append(value)
+    
+    specialGroups = sorted(specialGroups, key=len, reverse=True)
+    
+    for specialGroup in specialGroups:
+        for student1 in specialGroup:
+                for student2 in specialGroup:
+                    if student1 != student2:
+                        rawdataDict[student1][3].append(student2)
+
+
+    return render_template('index.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/getParsedData')
 def getParsedData():
     return jsonify({
@@ -478,6 +576,7 @@ def getRoolsAndTimes():
         "times": allTimes,
         "days": days
     })
+
 
 @app.route('/parse_data', methods=['POST'])
 def parse_data():
@@ -639,11 +738,6 @@ def parse_data():
     
     return render_template('index.html')
 
-periodMap = {}
-dayOrder=[]
-rawRoomData={}
-topicQuantity={}
-specialGroups=[]
 
 @app.route('/submit_availability', methods=['POST'])
 def submit_availability():
