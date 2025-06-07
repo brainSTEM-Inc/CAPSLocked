@@ -628,6 +628,8 @@ def getTopicQuantity():
     global rawRoomData
     global topicQuantity
 
+    print(rawMaintopics)
+    print(rawRoomData)
     rawRoomData={}
     for topic in rawMaintopics:
         rawRoomData[topic]=[]
