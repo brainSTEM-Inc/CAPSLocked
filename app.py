@@ -498,7 +498,11 @@ def setSymposiumAvailability():
     # Connect to the PostgreSQL database
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
-
+    print(roomToTimes)
+    print(periodMap)
+    print(allRooms)
+    print(allTimes)
+    
     cursor.execute("""
         UPDATE "Availability"
         SET roomToTimes = %s,
