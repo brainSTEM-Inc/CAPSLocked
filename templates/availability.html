@@ -278,7 +278,7 @@ function refreshSchedule() {
     const periodNumInput = document.getElementById('periodNum');
     const dayList = document.getElementById('dayList');
 
-    let savedDayNames = {}; // Store day names dynamically
+    //let savedDayNames = {}; // Store day names dynamically
 
 //var savedRoomNames = {}; // Store room names globally
 
@@ -417,13 +417,36 @@ for (let i = 1; i <= numDays; i++) {
             periodMap[periodLabel] = k;
             
             // Add to allTimes
-            allTimes.push(periodLabel);
+            if (!allTimes.includes(periodLabel)) {
+    allTimes.push(periodLabel);
+}
+
             
             // Check if checkbox is checked (assuming checkboxes are in order)
-            const checkbox = document.querySelector(`.columnRoom:nth-child(${j}) .period input:nth-child(${k})`);
+           /* const checkbox = document.querySelector(`.columnRoom:nth-child(${j}) .period input:nth-child(${k})`);
             if (checkbox && checkbox.checked) {
                 roomsToTimes[roomName][dayName].add(periodLabel);
-            }
+            }*/
+            
+           const columnList = document.querySelectorAll(".column");  // Get all day columns
+const dayColumn = columnList[i]; // Select the correct day column (zero-based index)
+if (dayColumn) {
+    const roomList = dayColumn.querySelectorAll(".columnRoom");
+    const roomElement = roomList[j - 1]; // Select the correct room within the day
+    if (roomElement) {
+        const periodBoxes = roomElement.querySelectorAll(".period input[type='checkbox']");
+        const checkbox = periodBoxes[k - 1]; // Select the correct period checkbox
+
+        if (checkbox && checkbox.checked) {
+        	console.log(periodLabel);
+            roomsToTimes[roomName][dayName].add(periodLabel);
+        }
+    }
+}
+            
+            
+            
+            
         }
     }
 }
