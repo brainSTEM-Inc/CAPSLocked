@@ -232,16 +232,16 @@ input[type="checkbox"] {
             </div>
         </div>
         
-        <div class="returnButton" style="margin-top:10px" onclick="window.location.href='moderator.html'">
+        <div class="returnButton" style="margin-top:10px" onclick="getData()">
         	<b>Set Schedule</b>
         </div>
         
     </div>
     
   <script>
-let savedRoomNames = {}; // Store room names globally
-let savedDayNames = {}; // Store day names globally
-let savedPeriodValues = {}; // Store period numbers globally
+var savedRoomNames = {}; // Store room names globally
+var savedDayNames = {}; // Store day names globally
+var savedPeriodValues = {}; // Store period numbers globally
 
 function refreshSchedule() {
     function generatePeriodLabels() {
@@ -280,7 +280,7 @@ function refreshSchedule() {
 
     let savedDayNames = {}; // Store day names dynamically
 
-let savedRoomNames = {}; // Store room names globally
+//var savedRoomNames = {}; // Store room names globally
 
 function updateDayColumns() {
     const numDays = parseInt(dayNumInput.value, 10);
@@ -339,7 +339,12 @@ function updateDayColumns() {
                 });
 
                 event.target.focus();
+                console.log(JSON.stringify(savedRoomNames));
             });
+            
+           
+            
+            
 
             room.appendChild(roomLabel);
             roomList.appendChild(room);
@@ -377,6 +382,95 @@ function updateDayColumns() {
     periodNumInput.addEventListener('input', updateDayColumns);
     document.getElementById('periodNum').addEventListener('input', generatePeriodLabels);
 }
+
+
+function getData() {
+// Extract all room names
+const allRooms = Object.values(savedRoomNames);
+console.log(JSON.stringify(savedRoomNames));
+// Extract all times
+const allTimes = [];
+const periodMap = {};
+const roomsToTimes = {};
+
+const numDays = parseInt(document.getElementById('dayNum').value, 10);
+const numRooms = parseInt(document.getElementById('roomNum').value, 10);
+const numPeriods = parseInt(document.getElementById('periodNum').value, 10);
+
+for (let i = 1; i <= numDays; i++) {
+    const dayName = savedDayNames[`Day ${i}`] || `Day ${i}`;
+    
+    for (let j = 1; j <= numRooms; j++) {
+        const roomName = savedRoomNames[`Room ${j}`];
+        
+        if (!roomsToTimes[roomName]) {
+            roomsToTimes[roomName] = {};
+        }
+        if (!roomsToTimes[roomName][dayName]) {
+            roomsToTimes[roomName][dayName] = new Set();
+        }
+        
+        for (let k = 1; k <= numPeriods; k++) {
+            const periodLabel = `PD ${k}, ${dayName}`;
+            
+            // Store period mapping
+            periodMap[periodLabel] = k;
+            
+            // Add to allTimes
+            allTimes.push(periodLabel);
+            
+            // Check if checkbox is checked (assuming checkboxes are in order)
+            const checkbox = document.querySelector(`.columnRoom:nth-child(${j}) .period input:nth-child(${k})`);
+            if (checkbox && checkbox.checked) {
+                roomsToTimes[roomName][dayName].add(periodLabel);
+            }
+        }
+    }
+}
+
+// Convert Sets to Arrays for consistency
+Object.keys(roomsToTimes).forEach(room => {
+    Object.keys(roomsToTimes[room]).forEach(day => {
+        roomsToTimes[room][day] = Array.from(roomsToTimes[room][day]);
+    });
+});
+
+// Log results
+console.log("allRooms:", JSON.stringify(allRooms));
+console.log("allTimes:", JSON.stringify(allTimes));
+console.log("periodMap:", JSON.stringify(periodMap));
+console.log("roomsToTimes:", JSON.stringify(roomsToTimes));
+		
+            const data = {
+                roomsToTimes: roomsToTimes,
+                periodMap: periodMap,
+                allRooms: allRooms,
+                allTimes: allTimes
+            };
+        
+            fetch('/setSymposiumAvailability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+            });
+            window.location.href = "/topics";
+
+
+}
+
 
 refreshSchedule();
 </script>
