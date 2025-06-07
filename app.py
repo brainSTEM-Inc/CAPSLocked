@@ -377,7 +377,10 @@ rawRoomData={}
 topicQuantity={}
 specialGroups=[]
 
-rawMaintopics=[]
+rawMaintopics=[
+      "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
+      "Engineering", "Math", "Physics", "Earth Space Systems Science", "Economics/Social Issues"
+    ]
 
 def getRawData():
     global rawdataDict
@@ -505,10 +508,10 @@ def setSymposiumAvailability():
     
     cursor.execute("""
         UPDATE "Availability"
-        SET roomToTimes = %s,
-            periodMap = %s,
-            allRooms = %s,
-            allTimes = %s
+        SET "roomToTimes" = %s,
+            "periodMap" = %s,
+            "allRooms" = %s,
+            "allTimes" = %s
     """, (json.dumps(roomToTimes), json.dumps(periodMap), json.dumps(allRooms), json.dumps(allTimes)))
 
     # Commit transaction
@@ -531,7 +534,7 @@ def setGlobalVariables():
 
     # Fetch data from Availability table (assuming only one row)
     cursor.execute("""
-        SELECT roomToTimes, periodMap, allRooms, allTimes FROM Availability LIMIT 1;
+        SELECT "roomToTimes", "periodMap", "allRooms", "allTimes" FROM "Availability" LIMIT 1;
     """)
     
     row = cursor.fetchone()  # Get the first row
