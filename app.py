@@ -483,9 +483,9 @@ def setProjectTopics():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE "Availability"
-        SET "rawMaintopics" = %s
-    """, (json.dumps(rawMaintopics)))
+    UPDATE "Availability"
+    SET "rawMaintopics" = %s
+""", (json.dumps(rawMaintopics),)) 
 
     
     print("Received topics:", topics)  # Debugging log
