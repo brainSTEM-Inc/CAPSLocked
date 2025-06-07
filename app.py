@@ -81,6 +81,10 @@ def seniorQuestionnaire():
 def juniorQuestionnaire():
     return render_template('juniorQuestionnaire.html')
 
+@app.route('/projectTopics')
+def projectTopics():
+    return render_template('projectTopics.html')
+
 @app.route('/moderator')
 def moderator():
     return render_template('moderator.html')
