@@ -233,10 +233,7 @@ input[type="checkbox"] {
         </div>
         
         <div class="returnButton" style="margin-top:10px" onclick="getData()">
-        	<b>Set Schedule</b>
-        </div>
-	<div class="returnButton" style="margin-top:10px" onclick="goBack()">
-        	<b>Return to Moderator Page</b>
+        	<b>Save Availability</b>
         </div>
         
     </div>
@@ -460,6 +457,7 @@ console.log("roomsToTimes:", JSON.stringify(roomsToTimes));
             })
             .then(response => {
                 console.log("✅ Received response from backend!");
+		window.location.href = "/moderator";
                 return response.text();
             })
             .then(message => {
@@ -471,10 +469,6 @@ console.log("roomsToTimes:", JSON.stringify(roomsToTimes));
             });
 
 
-}
-
-function goBack() {
-	window.location.href = "/moderator";
 }
 
 refreshSchedule();
