@@ -474,6 +474,20 @@ getRawData()
 
 
 
+@app.route('/setProjectTopics', methods=['POST'])
+def setProjectTopics():
+    global rawMaintopics
+    data = request.json  # Extract JSON data from request
+    rawMaintopics = data.get("topics", [])  # Get 'topics' list or default to empty
+
+    print("Received topics:", topics)  # Debugging log
+    return render_template('projectTopics.html')
+
+
+
+
+
+
 
 @app.route('/setSymposiumAvailability', methods=['POST'])
 def setSymposiumAvailability():
