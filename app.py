@@ -523,7 +523,7 @@ def getTopicDistribution():
 
 
 @app.route('/fixSpecialGroups', methods=['POST'])
-def fixSpecialGroups()
+def fixSpecialGroups():
     global specialGroups
     global rawRoomData
     global rawdataDict
