@@ -61,8 +61,8 @@ def logistics():
     return render_template('logistics.html')
 
 @app.route('/login')
-def logistics():
-    return render_template('logistics.html')
+def login():
+    return render_template('login.html')
 
 @app.route('/upload')
 def upload():
