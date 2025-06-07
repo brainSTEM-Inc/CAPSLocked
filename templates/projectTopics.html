@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>Senior Questionnaire</title>
+  <style>
+	body{
+    	margin: 0;
+      padding: 40px;
+      display: flex;
+    	background-color: black;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Assistant', sans-serif;
+     }
+     .optionsColor{
+     	background-color: #cb5151ff;
+        padding: 10px;
+        font-size: 18px;
+        color: white;
+      }
+     .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+	.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    p{
+    color: black;
+    text-align: left;
+    font-size: 20px;
+    }
+    .selection input[type="radio"]{
+    	width=100%;
+     }
+    
+    button[type="submit"]{
+    	background-color: #B51111;
+        color: white;
+        text-align: center;
+        margin: 0px;
+        padding: 18px 36px;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        margin-top: 30px;
+        width: 100%;
+        font-weight: bold;
+    }  
+    button[type="submit"]:hover {
+  background-color: #870c0cff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      
+    }
+    td {
+      border: 1.5px solid #000;
+      padding: 10px;
+      text-align: center;
+    }
+    .checkbox-cell input[type="checkbox"] {
+      transform: scale(1.5);
+      cursor: pointer;
+      
+    }
+    .label-cell {
+      font-weight: bold;
+      background-color:#eb9494ff;
+      color: black;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown-button {
+      background-color: #cb5151ff;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+   
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #cb5151ff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+      color: white;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+   
+    .dropdown-content a:hover {
+      background-color: #a83737ff;
+    }
+    
+    textarea{
+    	background-color:#cb5151ff;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        padding: 15px;
+        border-color:#cb5151ff;
+        color: white;
+    }
+    
+    .inputBox{
+    	background-color:#C5C1C5;
+        width 200px;
+        paddding: 40px;
+        font-family: Arial, sans-serif;
+      }
+     
+     .side{
+     	display: inline-block;
+     }
+
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 35px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu div {
+      height: 5px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* Dropdown Menu */
+    .dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background-color: #d9d9d9;
+      border: 1px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdownMenu a {
+      display: block;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .dropdownMenu a:last-child {
+      color: red;
+      border-bottom: none;
+    }
+
+    .dropdownMenu a:hover {
+      background-color: #ccc;
+    }
+ textarea::placeholder, input::placeholder {
+  color: white; /* ✅ Makes placeholder text white */
+}
+
+ 
+ 
+  </style>
+</head>
+<body>
+  <div class="formContainer">
+    <div class="header">
+      <h2>Senior Questionnaire</h2>
+      <h3 id="welcomeMessage"></h3>
+    </div>
+    <form>
+      <p>Enter the possible topics here, one topic per row.</p>
+      <textarea id="projectTopics" rows="10" cols="50">Biology/Biotech
+Chemistry/Materials Science
+Computer Science/AI
+Engineering
+Math
+Physics
+Earth Space Systems Science
+Economics/Social Issues</textarea>
+
+      <button type="submit" onclick="getProjectTopics()">Submit</button>
+    </form>
+  </div>
+
+  <script>
+  function getProjectTopics() {
+    // Get textarea content
+    const textarea = document.getElementById("projectTopics");
+    if (!textarea) {
+        console.error("Element with id 'projectTopics' not found.");
+        return;
+    }
+
+    // Split text into a list (removing extra spaces & newlines)
+    const topics = textarea.value.split("\n").map(line => line.trim()).filter(line => line !== "");
+	console.log(topics);
+    // Send the list to the backend via POST request
+    fetch("/setProjectTopics", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ topics })
+    })
+    .then(response => response.json())
+    .then(data => console.log("Response from backend:", data))
+    .catch(error => console.error("Error sending project topics:", error));
+
+    return topics; // Returning the list in case you want to use it elsewhere
+}
+
+  </script>
+</body>
+</html>
