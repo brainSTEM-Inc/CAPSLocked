@@ -250,7 +250,7 @@ Economics/Social Issues</textarea>
 
     // Split text into a list (removing extra spaces & newlines)
     const topics = textarea.value.split("\n").map(line => line.trim()).filter(line => line !== "");
-	console.log(topics);
+	console.log(JSON.stringify(topics));
     // Send the list to the backend via POST request
     fetch("/setProjectTopics", {
         method: "POST",
@@ -260,11 +260,12 @@ Economics/Social Issues</textarea>
         body: JSON.stringify({ topics })
     })
     .then(response => response.json())
-    .then(data => console.log("Response from backend:", data))
+    .then(data => {console.log("Response from backend:", data);
+	window.location.href = "/moderator";
+		  })
     .catch(error => console.error("Error sending project topics:", error));
 
     //return topics; // Returning the list in case you want to use it elsewhere
-    window.location.href = "/moderator";
 }
 
 	  
