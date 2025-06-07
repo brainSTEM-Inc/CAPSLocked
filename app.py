@@ -480,6 +480,13 @@ def setProjectTopics():
     data = request.json  # Extract JSON data from request
     rawMaintopics = data.get("topics", [])  # Get 'topics' list or default to empty
 
+
+    cursor.execute("""
+        UPDATE "Availability"
+        SET "rawMaintopics" = %s
+    """, (json.dumps(rawMaintopics)))
+
+    
     print("Received topics:", topics)  # Debugging log
     return render_template('projectTopics.html')
 
@@ -546,13 +553,16 @@ def setGlobalVariables():
     global periodMap
     global allTimes
     global allRooms
+    global rawMaintopics
+    global capacityDict
+    global dayCapacityDict
     
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
 
     # Fetch data from Availability table (assuming only one row)
     cursor.execute("""
-        SELECT "roomToTimes", "periodMap", "allRooms", "allTimes" FROM "Availability" LIMIT 1;
+        SELECT "roomToTimes", "periodMap", "allRooms", "allTimes", "rawMaintopics" FROM "Availability" LIMIT 1;
     """)
     
     row = cursor.fetchone()  # Get the first row
@@ -563,12 +573,13 @@ def setGlobalVariables():
         periodMap = json.loads(row[1])
         allRooms = json.loads(row[2])
         allTimes = json.loads(row[3])
+        rawMaintopics = json.loads(row[4])
 
         print("roomToTimes:", roomToTimes)
         print("periodMap:", periodMap)
         print("allRooms:", allRooms)
         print("allTimes:", allTimes)
-
+        print("rawMaintopics:", rawMaintopics)
 
     capacityDict={}
     dayCapacityDict={}
