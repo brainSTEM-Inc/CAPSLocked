@@ -1312,7 +1312,7 @@ def receive_schedule():
             #while i<len(allDayDistributions) and allDayDistributions[i][1]==highScore:
             x=len(allDayDistributions)
             print(x)
-            while i<100 and i<len(allDayDistributions) and allDayDistributions[i][1]==highScore:
+            while i<100 and allDayDistributions[i][1]==highScore:
                 i+=1
                 
             if len(allDayDistributions)<n:
@@ -1327,7 +1327,7 @@ def receive_schedule():
                     distribution=allDayDistributions[j]
                     consideredDistributions.append(distribution)
             #print()
-            
+        print(thisRoom,"considered distributions",consideredDistributions)    
         roomDayDistribution[thisRoom]=consideredDistributions
 
     #print(dayOrder)
