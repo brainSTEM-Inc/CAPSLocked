@@ -72,6 +72,11 @@ def upload():
 def select():
     return render_template('select.html')
 
+@app.route('/topicsByRoom')
+def topicsByRoom():
+    return render_template('topicsByRoom.html')
+
+
 
 @app.route('/seniorQuestionnaire')
 def seniorQuestionnaire():
@@ -381,10 +386,9 @@ rawRoomData={}
 topicQuantity={}
 specialGroups=[]
 
-rawMaintopics=[
-      "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
-      "Engineering", "Math", "Physics", "Earth Space Systems Science", "Economics/Social Issues"
-    ]
+topicsByRooms={}
+
+rawMaintopics=[]
 
 def getRawData():
     global rawdataDict
@@ -662,6 +666,150 @@ def fixSpecialGroups():
 
 
     return render_template('index.html')
+
+
+@app.route('/setNewTopics', methods=['POST'])
+def setNewTopics():
+    #Roomdata topic: people, everyone who has only one topic
+    #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
+    data = request.get_json()
+    topicsByRoom=data.get('topicDistribution')
+    print(topicsByRoom)
+    
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE "Availability"
+        SET "topicsByRoom" = %s
+        WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
+    """, (json.dumps(topicsByRoom),))
+
+    conn.commit()
+
+    
+    
+    return render_template('moderator.html')
+
+    
+def getRoomDistribution():
+    global dayOrder
+    global roomDistribution
+    global capacityDict
+    global dayCapacityDict
+    global rawdataDict
+    global personsPerTime
+    global roomToTimes
+    global periodMap
+    global rawRoomData
+    global topicQuantity
+    global specialGroups
+    #Roomdata topic: people, everyone who has only one topic
+    #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
+    data = request.get_json()
+    topicsByRoom=data.get('topicDistribution')
+    print(topicsByRoom)
+    
+    def splitRooms(topic, rooms):
+        roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
+        students=rawRoomData[topic]
+        #print(students)
+        rooms= list(sorted(rooms, key=lambda item: item[1]))
+        for specialGroup in specialGroups:
+            if all(student in students for student in specialGroup):
+                #print(rooms)
+                for i in range(len(rooms)):
+                    if rooms[i][1]>=len(specialGroup):
+                        roomDistribution[rooms[i][0]].extend(specialGroup)
+                        rooms[i][1]-=len(specialGroup)
+                        for student in specialGroup:
+                            students.remove(student)
+                        break
+        rooms= list(sorted(rooms, key=lambda item: item[1]))
+        i=0
+        while i<len(rooms) and rooms[i][1]==0:
+            rooms.remove(rooms[i])
+            i+=1
+    
+        noFriends=[]
+        for student in students:
+            if not rawdataDict[student][2]:
+                roomDistribution[rooms[0]].append(student)
+                rooms[0][1]-=1
+                noFriends.append(student)
+                rooms= list(sorted(rooms, key=lambda item: item[1]))
+                i=0
+                while i<len(rooms) and rooms[i][1]==0:
+                    rooms.remove(rooms[i])
+                    i+=1       
+                    
+        students=[student for student in students if student not in noFriends]
+        for student in students:
+            friends={}
+            for room in rooms:
+                if room[1]>0:
+                    friends[room[0]]=len(set(roomDistribution[room[0]]) & set(rawdataDict[student][2]))
+            friends=sorted(friends, key=lambda item: item[1])
+            roomDistribution[friends[0]].append(student)
+            for i in range(len(rooms)):
+                if rooms[i][0]==friends[0]:
+                    rooms[i][1]-=1
+        #print(roomDistribution)
+        return roomDistribution
+    
+    #topicsByRoom={'Room 195':{"Computer Science":20},
+    #                   "Room 198":{"Biology":15,"Neuroscience":1, "Computer Science":2, "Data Science": 1},
+    #                   "Room 199":{"Engineering":9,"Math":1,"Physics":1, "Material Science":1, "Astronomy":1, "Earth science/Geology":1, 'nan':1, "Soil Studies":1, 'Agriculture': 1}}
+    
+    topicDistribution={}
+    for room, topics in topicsByRoom.items():
+        for topic, size in topics.items():
+            if topic not in list(topicDistribution.keys()):
+                topicDistribution[topic]=[]
+            topicDistribution[topic].append([room,size])
+    
+    roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
+    #print(topicDistribution)
+    #print(rawRoomData)
+    for topic, rooms in topicDistribution.items():
+        if len(rooms)==1:
+            roomDistribution[rooms[0][0]].extend(rawRoomData[topic])
+            continue
+        for room, students in splitRooms(topic, rooms).items():
+            roomDistribution[room].extend(students)
+    
+    for room, students in roomDistribution.items():
+        for i in range(len(students)):
+            student=students[i]
+            students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
+
+    return render_template('moderator.html')
+
+
+def setAllGlobalVariables():
+    setGlobalVariables()
+    getRawData()
+    getTopicQuantity()
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
