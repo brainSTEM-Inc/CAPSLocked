@@ -76,6 +76,9 @@ def select():
 def topicsByRoom():
     return render_template('topicsByRoom.html')
 
+@app.route('/specialGroups')
+def specialGroups():
+    return render_template('specialGroups.html')
 
 
 @app.route('/seniorQuestionnaire')
