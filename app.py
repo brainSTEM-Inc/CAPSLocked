@@ -1329,7 +1329,7 @@ def receive_schedule():
                     distribution=allDayDistributions[j]
                     consideredDistributions.append(distribution)
             #print()
-        print(thisRoom,"considered distributions",consideredDistributions)    
+        #print(thisRoom,"considered distributions",consideredDistributions)    
         roomDayDistribution[thisRoom]=consideredDistributions
 
     #print(dayOrder)
@@ -1342,7 +1342,7 @@ def receive_schedule():
                     student=students[i]
                     students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
-    #print(roomDayDistribution) 
+    print(roomDayDistribution) 
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('generateStep2.html')
 
