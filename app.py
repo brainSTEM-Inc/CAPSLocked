@@ -690,6 +690,27 @@ def setNewTopics():
     
     return render_template('moderator.html')
 
+
+def setTopicsByRoom():
+    global topicsByRoom
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT "topicsByRoom" FROM "Availability" LIMIT 1;
+    """)
+
+    result = cursor.fetchone()
+
+    if result:
+        topicsByRoom = json.loads(result[0])  # Convert JSON string to dictionary
+        print("Topics by Room:", topicsByRoom)
+
+    cursor.close()
+    conn.close()
+
+
+
     
 def getRoomDistribution():
     global dayOrder
@@ -703,11 +724,10 @@ def getRoomDistribution():
     global rawRoomData
     global topicQuantity
     global specialGroups
+    global topicsByRoom
     #Roomdata topic: people, everyone who has only one topic
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
-    data = request.get_json()
-    topicsByRoom=data.get('topicDistribution')
-    print(topicsByRoom)
+    setTopicsByRoom();
     
     def splitRooms(topic, rooms):
         roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
@@ -789,8 +809,6 @@ def setAllGlobalVariables():
     setGlobalVariables()
     getRawData()
     getTopicQuantity()
-    
-
 
 
 
@@ -1175,7 +1193,6 @@ def get_data():
 
 @app.route('/getDataForStep2')
 def getDataForStep2():
-    #print(roomDayDistribution);
     return jsonify({
         "roomDayDistribution": roomDayDistribution,
         "capacityDict": capacityDict,
