@@ -1578,14 +1578,15 @@ def final_distribution():
     
     for day, rooms in daysRoomsTimes.items():
         for room, schedules in rooms.items():
+            daysRoomsTimes[day][room]=[]
             for periods in schedules:
                 updated_periods = {periodMap.get(period, period): value for period, value in periods.items()}
-                daysRoomsTimes[day][room]=updated_periods
+                
                 for period, students in periods.items():
                     for i in range(len(students)):
                         student=students[i]
                         students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
-        
+                daysRoomsTimes[day][room].append(updated_periods)
     
     #print(daysRoomsTimes)
     #return jsonify({"status": "success", "message": "Schedule received"})
