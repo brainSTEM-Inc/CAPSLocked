@@ -1168,8 +1168,10 @@ def set_topics():
             topicDistribution[topic].append([room,size])
     
     roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
-    #print(topicDistribution)
+    
+    print("please why does this work? topic distribution:", topicDistribution)
     #print(rawRoomData)
+    
     for topic, rooms in topicDistribution.items():
         if len(rooms)==1:
             roomDistribution[rooms[0][0]].extend(rawRoomData[topic])
@@ -1193,8 +1195,6 @@ def get_data():
     if session.get("user") != "none":
         setAllGlobalVariables()
         setRoomDistribution()
-    
-    print("TOPIC DISTRIBUTION:",topicDistribution)
     
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
