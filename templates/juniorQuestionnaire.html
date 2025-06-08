@@ -465,8 +465,9 @@ fetch('/logJuniorResponse', {
             .catch(error => {
                 console.error('❌ Error:', error);
             });
-
-  };
+    console.log(JSON.stringify(data));
+    window.location.href = "/thankyou";
+  }
 
 </script>
 </body>
