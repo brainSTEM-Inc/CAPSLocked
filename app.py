@@ -703,7 +703,7 @@ def setTopicsByRoom():
     result = cursor.fetchone()
 
     if result:
-        topicsByRoom = json.loads(result[0])  # Convert JSON string to dictionary
+        topicsByRoom = result[0]  # Convert JSON string to dictionary
         print("Topics by Room:", topicsByRoom)
 
     cursor.close()
