@@ -1184,8 +1184,9 @@ def set_topics():
 @app.route('/get_data')
 def get_data():
     global roomDistribution
-    setAllGlobalVariables()
-    setRoomDistribution()
+    if not roomDistribution:
+        setAllGlobalVariables()
+        setRoomDistribution()
     
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
