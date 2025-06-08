@@ -1319,18 +1319,21 @@ def receive_schedule():
                 i+=1
                 
             if len(allDayDistributions)<n:
+                print("uh wut")
                 for distribution in allDayDistributions:
                     consideredDistributions.append(distribution)
             elif i<=n:
+                print("dreaming abt all the things that we could be")
                 for distribution in allDayDistributions[:n]:
                     consideredDistributions.append(distribution)
             else:
+                print("lately ive been ive been losing sleep")
                 hop=(int)(i/n)
                 for j in range(0,i,hop):
                     distribution=allDayDistributions[j]
                     consideredDistributions.append(distribution)
             #print()
-        #print(thisRoom,"considered distributions",consideredDistributions)    
+        print(thisRoom,"considered distributions",consideredDistributions)    
         roomDayDistribution[thisRoom]=consideredDistributions
 
     #print(dayOrder)
