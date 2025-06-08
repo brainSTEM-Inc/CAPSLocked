@@ -1492,8 +1492,11 @@ def final_distribution():
                 thisSchedule=f(thisRoom,roomName,day)
             except:
                 print(f(thisRoom,roomName,day,True))
-                
-            daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
+
+            x=f(thisRoom,roomName,day)
+            if x:
+                daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
+            #daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
     
     print(daysRoomsTimes)
     
