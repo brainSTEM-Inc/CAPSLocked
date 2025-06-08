@@ -110,6 +110,7 @@ font-weight: bold;
 
 
 <button id="generateSpreadsheet" class="button" onclick="downloadCSV()">Download spreadsheet</button>
+<button id="generateSpreadsheet" class="button" onclick="moderator()">Return to Moderator Page</button>
 <p> SMCS Symposium Schedule</p>
 
 <script>
@@ -465,6 +466,11 @@ csvContent += rows.map(row => row.map(cell =>
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+
+function moderator() {
+	window.location.href="/moderator";
 }
 
 //createRoomElements(finalRoomDistribution);
