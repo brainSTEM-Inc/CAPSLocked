@@ -1335,6 +1335,7 @@ def receive_schedule():
             #print()
         print(thisRoom,"considered distributions",consideredDistributions)    
         roomDayDistribution[thisRoom]=consideredDistributions
+        print(roomDayDistribution)
 
     #print(dayOrder)
     for room, dayChoices in roomDayDistribution.items():
