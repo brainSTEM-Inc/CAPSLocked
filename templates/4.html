@@ -441,12 +441,20 @@ function downloadCSV() {
         csvContent += "\n"; // Space between different days
     });
 
-    csvContent += "=== Presider Info ===\n"; // SeparatorAdd commentMore actions
-    const headers1 = ["Senior Presenter", "Junior Presider", "Script"];
-    const rows = Object.entries(presiderInfo).map(([senior, [junior, script]]) => [senior, junior, script]);
+    csvContent += "Presider Info\n"; // Separator
+const headers1 = ["Senior Presenter", "Junior Presider", "Script"];
+const rows = Object.entries(presiderInfo).map(([senior, [junior, script]]) => [
+    senior,
+    junior || "", // Ensuring junior is always a string
+    script || ""  // Ensuring script is always a string
+]);
 
-    csvContent += headers1.join(",") + "\n"; // Add headers
-    csvContent += rows.map(row => row.map(cell => `"${cell.replace(/\n/g, ' ')}"`).join(",")).join("\n") + "\n";
+csvContent += headers1.join(",") + "\n"; // Add headers
+
+csvContent += rows.map(row => row.map(cell => 
+    `"${(cell ?? "").toString().replace(/\n/g, ' ')}"`
+).join(",")).join("\n") + "\n";
+
 
 	
     // Create and trigger download
