@@ -104,7 +104,7 @@
   </style>
 </head>
 <body>
-   <div id="notification" class="notification hidden"></div>
+   <div id="notification" class="notification hide">Invalid Credentials</div>
   <div class="backing">
     <div class="header">Welcome Back!</div>
     <div class="contentHeading">
@@ -138,6 +138,7 @@ document.getElementById("Username").addEventListener("keydown", function(event) 
   }
 
   function select() {
+  	//document.getElementById("notification").className="notification show";
     let username = document.getElementById("Username").value;
     let password = document.getElementById("Password").value;
 
@@ -176,6 +177,9 @@ document.getElementById("Username").addEventListener("keydown", function(event) 
             window.location.href = "/juniorQuestionnaire";
           }
         }
+      else {
+      	document.getElementById("notification").className="notification show";
+      }
         // else maybe redirect to user page or display error
     })
     .catch(error => {
