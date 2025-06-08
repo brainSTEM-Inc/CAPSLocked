@@ -662,12 +662,48 @@ def getTopicQuantity():
     topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
 
 
-@app.route('/fixSpecialGroups', methods=['POST'])
-def fixSpecialGroups():
+
+@app.route('/saveGroups', methods=['POST'])
+def putSpecialGroupsInNeon():
     global specialGroups
     global rawRoomData
     global rawdataDict
+    data = request.get_json()
+
+    specialGroups = data.get('specialGroups')
     
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE "Availability"
+        SET "specialGroups" = %s
+        WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
+    """, (json.dumps(specialGroups),))
+
+    conn.commit()
+
+    return render_template('index.html')
+
+def setSpecialGroups():
+    global rawRoomData
+    global specialGroups
+    global rawdataDict
+
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT "specialGroups" FROM "Availability" LIMIT 1;
+    """)
+
+    result = cursor.fetchone()
+
+    if result:
+        specialGroups = result[0]  # Convert JSON string to dictionary
+        print("Special Groups:", specialGroups)
+    else:
+        specialGroups=[]
+        
     for value in rawRoomData.values():
         if len(value)<=6 and len(value)>1:
             specialGroups.append(value)
@@ -678,10 +714,11 @@ def fixSpecialGroups():
         for student1 in specialGroup:
                 for student2 in specialGroup:
                     if student1 != student2:
-                        rawdataDict[student1][3].append(student2)
+                        if student2 not in rawdataDict[student1][3]:
+                            rawdataDict[student1][3].append(student2)
 
 
-    return render_template('index.html')
+
 
 
 @app.route('/setNewTopics', methods=['POST'])
@@ -825,11 +862,13 @@ def setRoomDistribution():
     return render_template('moderator.html')
 
 
+
+
 def setAllGlobalVariables():
     setGlobalVariables()
     getRawData()
     getTopicQuantity()
-
+    setSpecialGroups()
 
 
 
