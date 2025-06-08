@@ -1313,8 +1313,8 @@ def receive_schedule():
             x=len(allDayDistributions)
             print(x)
             print(allDayDistributions[:5])
-            
-            while i<100 and allDayDistributions[i][1]==highScore:
+            while i<100 and i<len(allDayDistributions) and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
+            #while i<100 and allDayDistributions[i][1]==highScore:
                 print(i,allDayDistributions[i])
                 i+=1
                 
@@ -1343,7 +1343,7 @@ def receive_schedule():
                     student=students[i]
                     students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
     
-    print(roomDayDistribution) 
+    print("my room day distribution yay!", roomDayDistribution) 
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('generateStep2.html')
 
