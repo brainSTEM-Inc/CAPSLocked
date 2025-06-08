@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>adjustingRoomQuantity</title>
+  <style>
+    body { 
+    	margin: 0;
+        padding: 40px;
+        display: flex;
+    	background-color: black;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Assistant', sans-serif;
+
+    }
+ 
+    
+
+/* Optional wrapper if you want extra control */
+.wrapper {
+  width: 100%;
+  max-width: 680px; /* 600px form + 40px margin each side */
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.formContainer {
+  background-color: #D9D9D9;
+  padding: 40px;
+  width: 100%;      /* fill wrapper width */
+  max-width: 600px; /* constrain max width */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;   /* center inside wrapper */
+}
+.formContainer > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+    
+    .room { 
+      padding: 10px; 
+      margin-top: 20px;
+      margin-bottom: 20px; 
+      color: white;
+      width: 100%;
+      background-color: #cb5151ff;
+      text-align: center;
+      }
+      
+    .topic-row { 
+    text-align: left;
+    margin-bottom: 8px; 
+    color: white;
+    }
+    
+    h2{
+    	text-align: center;
+        color:white;
+    }
+
+	.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        width: 100%;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    
+    button[type="submit"] {
+      background-color: #B51111;
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      margin: 15px auto 0 auto;
+      display: block;
+      width: 100%;
+      font-weight: bold;
+      /* transition: background-color 0.3s ease, box-shadow 0.3s ease; */
+    }
+
+    button[type="submit"]:hover {
+      background-color: #870c0cff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    /* Menu */
+    .menu {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 35px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu div {
+      height: 5px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* Dropdown Menu */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background-color: #d9d9d9;
+      border: 1px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .dropdown a:last-child {
+      color: red;
+      border-bottom: none;
+    }
+
+    .dropdown a:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+<!-- Menu Icon -->
+  <div class="menu" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Dropdown Popup Menu -->
+  <div id="dropdownMenu" class="dropdown">
+    <a href="#">Return to Home</a>
+    <a href="#">Help</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // hide menu if clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('dropdownMenu');
+      const hamburger = document.querySelector('.menu');
+      if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+        menu.style.display = 'none';
+      }
+    });
+  </script>
+
+  
+  
+<div class="formContainer">
+<div class="header">
+  <h2>Project Topics</h2>
+</div>
+
+  <div id="app"></div>
+<button type="submit" onclick="logOutput()">Set Topics</button>
+  
+  
+  
+ 
+
+
+
+ <script>
+/*
+    const topics = {
+      "Biology/Biotech": 14,
+      "Computer Science/AI": 22,
+      "Chemistry/Materials Science": 1,
+      "Engineering": 8,
+      "Math": 3,
+      "Physics": 2,
+      "Earth & Space Systems Science": 5,
+      "Economics & Social Issues": 3
+    };
+
+    const rooms = {
+      "1602": 20,
+      "1620": 20,
+      "1702": 20
+    };
+    */
+
+    var assignments = {};
+	 var rooms={};
+	 var topics={};
+fetch('/get_data')
+    .then(res => res.json())
+    .then(data => {
+      rooms=data.capacityDict;
+      topics=data.topics;
+	console.log(JSON.stringify(rooms));
+	console.log(JSON.stringify(topics));
+	
+    var roomCurrentCapacities={};
+    
+    //const assignments = {};
+    const totalAssignedPerTopic = {};
+
+    for (const room in rooms) {
+      assignments[room] = {};
+      roomCurrentCapacities[room]=0;
+    }
+    for (const topic in topics) {
+      totalAssignedPerTopic[topic] = 0;
+    }
+
+    const app = document.getElementById("app");
+
+    function totalAssignedInRoom(room) {
+      return Object.values(assignments[room]).reduce((a,b) => a + b, 0);
+    }
+
+    
+    const availabilitySpans = {}; 
+
+	 
+	 
+    for (const room in rooms) {
+      const capacity = rooms[room];
+      var currentCapacity=roomCurrentCapacities[room];
+      const roomDiv = document.createElement("div");
+      roomDiv.className = "room";
+
+      const title = document.createElement("h3");
+      title.textContent = `${room} (${currentCapacity}/${capacity})`;
+      roomDiv.appendChild(title);
+
+      for (const topic in topics) {
+        const topicCount = topics[topic];
+
+        const row = document.createElement("div");
+        row.className = "topic-row";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `${room}-${topic}-chk`;
+        checkbox.dataset.room = room;
+        checkbox.dataset.topic = topic;
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = topic + " ";
+
+        const availabilitySpan = document.createElement("span");
+        availabilitySpan.className = "availability";
+        availabilitySpan.textContent = `(Available: ${topicCount})`;
+        label.appendChild(availabilitySpan);
+
+        // Save the span in the array for this topic
+        if (!availabilitySpans[topic]) {
+          availabilitySpans[topic] = [];
+        }
+        availabilitySpans[topic].push(availabilitySpan);
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = 1;
+        input.value = "";
+        input.disabled = true;
+        input.style.marginLeft = "10px";
+        input.style.width = "50px";
+
+        assignments[room][topic] = 0;
+
+        checkbox.addEventListener("change", () => {
+          const r = checkbox.dataset.room;
+          const t = checkbox.dataset.topic;
+
+          if (checkbox.checked) {
+            input.disabled = false;
+            /*input.value = 1;
+            assignments[r][t] = 1;
+            totalAssignedPerTopic[t] += 1;*/
+			var leftOver = topics[topic] - totalAssignedPerTopic[topic];
+            currentCapacity=roomCurrentCapacities[room];
+            var defaultValue=Math.min(capacity-currentCapacity,leftOver);
+            input.value = defaultValue;
+            assignments[r][t] = defaultValue;
+            totalAssignedPerTopic[t] += defaultValue;
+            currentCapacity+=defaultValue;
+            roomCurrentCapacities[room]=currentCapacity;
+          } else {
+            input.disabled = true;
+            totalAssignedPerTopic[t] -= assignments[r][t];
+            currentCapacity=roomCurrentCapacities[room];
+            currentCapacity-=assignments[r][t];
+            roomCurrentCapacities[room]=currentCapacity;
+            
+            assignments[r][t] = 0;
+            input.value = "";
+          }
+          
+          title.textContent = `${room} (${currentCapacity}/${capacity})`;
+          updateAvailability(t);
+        });
+
+        input.addEventListener("input", () => {
+          const r = checkbox.dataset.room;
+          const t = checkbox.dataset.topic;
+          let val = parseInt(input.value) || 0;
+
+          if (val < 1) {
+            //val = 1;
+            //input.value = val;
+          }
+
+          const roomTotalWithoutCurrent = totalAssignedInRoom(r) - assignments[r][t];
+          if (val + roomTotalWithoutCurrent > rooms[r]) {
+            val = rooms[r] - roomTotalWithoutCurrent;
+            input.value = val;
+          }
+
+          const topicTotalWithoutCurrent = totalAssignedPerTopic[t] - assignments[r][t];
+          if (val + topicTotalWithoutCurrent > topics[t]) {
+            val = topics[t] - topicTotalWithoutCurrent;
+            input.value = val;
+          }
+
+          totalAssignedPerTopic[t] += val - assignments[r][t];
+          assignments[r][t] = val;
+
+	  roomCurrentCapacities[r] = totalAssignedInRoom(r);  
+    	  title.textContent = `${r} (${roomCurrentCapacities[r]}/${rooms[r]})`;
+		
+          updateAvailability(t);
+        });
+
+        row.appendChild(checkbox);
+        row.appendChild(label);
+        row.appendChild(input);
+        roomDiv.appendChild(row);
+      }
+
+      app.appendChild(roomDiv);
+    }
+	 
+    function updateAvailability(topic) {
+  const remaining = topics[topic] - totalAssignedPerTopic[topic];
+  if (availabilitySpans[topic]) {
+    availabilitySpans[topic].forEach(span => {
+      span.textContent = `(Available: ${remaining})`;
+      span.style.fontWeight = remaining === 0 ? "800" : "200";
+    });
+  }
+}
+
+	 })
+    .catch(err => console.error("Failed to fetch room data:", err));
+
+
+    function logOutput() {
+      const cleanOutput = {};
+      for (const room in assignments) {
+        cleanOutput[room] = {};
+        for (const topic in assignments[room]) {
+          if (assignments[room][topic] > 0) {
+            cleanOutput[room][topic] = assignments[room][topic];
+          }
+        }
+      }
+      console.log("Final Output:", cleanOutput);
+            const data = {
+                topicDistribution: cleanOutput
+            };
+            console.log(data);
+            
+            // Send the data to the backend
+            fetch('/set_topics', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+		window.location.href = "/moderator";
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+            });
+	    
+      //alert("Check the console for the final output!");
+    }
+  </script>
+ </div>
+</body>
+</html>
