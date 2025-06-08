@@ -77,6 +77,29 @@
     .button:hover {
       background-color: #a10000;
     }
+
+
+    .notification {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color:#ffc7c7ff;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 5px;
+  transition: top 0.5s ease;
+  z-index: 1000;
+}
+
+.notification.show {
+  top: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
   </style>
 </head>
 <body>
