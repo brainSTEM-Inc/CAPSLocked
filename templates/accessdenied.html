@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>home</title>
+  <style>
+ body {
+  
+  height: 100%;
+  background-attachment: fixed;
+  background: linear-gradient(180deg,  #360000 , black);
+  font-family: Assistant, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  height: 100vh; /* full viewport height */
+}
+
+h2, h3 {
+  color: white;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.login-button {
+  background-color: #B51111;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  align-items: center;
+}
+
+.login-button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.my-image {
+  width: 150px;
+  height: auto;
+  border-radius: 10px; /* optional styling */
+}
+
+
+  </style>
+  </head>
+  
+  <body>
+
+  <h2>ACCESS DENIED.</h2>
+  <h3>Quit burning daylight. You don't got the CS in SMCS.</h3>
+  <button class="login-button" id="login"  onclick="wsp()">Back</button>
+  
+  <script>
+    function wsp() {
+      window.location.href='/';
+    }
+  </script>
+
+
+   
+</body>
+</html>
