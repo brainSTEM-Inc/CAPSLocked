@@ -133,6 +133,17 @@
       pointer-events: none;
     }
 
+.button-group {
+    display: flex;
+    gap: 10px; /* Adjust spacing between buttons */
+    width: 100%;
+}
+
+.half-width {
+    flex: 1; /* Ensures equal width */
+}
+
+
 </style>
 </head>
 <body>
@@ -179,9 +190,11 @@
         <button class="button" onclick="topics()">
         	Project Topics
         </button>
-        <button class="button" onclick="publish()">
-        	View Senior Questionnaire
-        </button>
+<div class="button-group">
+    <button class="button half-width" onclick="seniorForm()">Senior Form</button>
+    <button class="button half-width" onclick="juniorForm()">Junior Form</button>
+</div>
+
         <button class="button" disabled=true onclick="viewResponses()">
         	View Responses
         </button>
@@ -216,7 +229,12 @@
     	window.location.href="availability";
     }
     
-    function publish() {
+    function seniorForm() {
+    	window.location.href="seniorQuestionnaire";
+    }
+    
+    
+    function juniorForm() {
     	window.location.href="seniorQuestionnaire";
     }
     
