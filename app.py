@@ -133,20 +133,14 @@ def addQuestion():
 
 @app.route('/generateStep1')
 def generateStep1():
-    if session.get("user") != "Admin":
-        return render_template('accessdenied.html')
     return render_template('generateStep1.html')
 
 @app.route('/generateStep2')
 def generateStep2():
-    if session.get("user") != "Admin":
-        return render_template('accessdenied.html')
     return render_template('generateStep2.html')
 
 @app.route('/4')
 def goto4():
-    if session.get("user") != "Admin":
-        return render_template('accessdenied.html')
     return render_template('4.html')
 
 @app.route('/thankyou')
