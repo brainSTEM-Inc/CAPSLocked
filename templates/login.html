@@ -138,7 +138,8 @@ document.getElementById("Username").addEventListener("keydown", function(event) 
   }
 
   function select() {
-  	//document.getElementById("notification").className="notification show";
+  	
+
     let username = document.getElementById("Username").value;
     let password = document.getElementById("Password").value;
 
@@ -167,9 +168,20 @@ document.getElementById("Username").addEventListener("keydown", function(event) 
     .then(res => res.json())
     .then(data => {
         if (data.user === "Admin") {
+        document.getElementById("notification").className="notification show";
+        document.getElementById("notification").style.backgroundColor="#c7ffc7ff";
+        document.getElementById("notification").style.color="green";
+        document.getElementById("notification").innerText="Login successful";
+        
             window.location.href = "/moderator";
         }
       else if (data.user!="none"){
+      
+        document.getElementById("notification").className="notification show";
+        document.getElementById("notification").style.backgroundColor="#c7ffc7ff";
+        document.getElementById("notification").style.color="green";
+        document.getElementById("notification").innerText="Login successful";
+        
           if (data.class==="Senior") {
             window.location.href = "/seniorQuestionnaire";
           }
@@ -178,7 +190,11 @@ document.getElementById("Username").addEventListener("keydown", function(event) 
           }
         }
       else {
-      	document.getElementById("notification").className="notification show";
+            
+        document.getElementById("notification").className="notification show";
+        document.getElementById("notification").style.backgroundColor="#ffc7c7ff";
+        document.getElementById("notification").style.color="red";
+        document.getElementById("notification").innerText="Invalid credentials;
       }
         // else maybe redirect to user page or display error
     })
