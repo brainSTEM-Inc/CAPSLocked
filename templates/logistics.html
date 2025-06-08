@@ -126,6 +126,7 @@ function generateScheduleTable(allTimes, dayPeriods, rooms) {
         });
         table.appendChild(roomRow);
 
+	    /*
         // Create period rows
         periods.forEach(period => {
             const periodRow = document.createElement("tr");
@@ -135,20 +136,6 @@ function generateScheduleTable(allTimes, dayPeriods, rooms) {
             periodCell.textContent = period;
             periodRow.appendChild(periodCell);
 
-            // Dropdown Column
-		/*
-            const dropdownCell = document.createElement("td");
-            const dropdown = document.createElement("select");
-            dropdown.style = "cursor: pointer"
-            for (let i = 1; i <= 8; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = `${i}`;
-                dropdown.appendChild(option);
-            }
-            dropdownCell.appendChild(dropdown);
-            periodRow.appendChild(dropdownCell);
-*/
 
 		// Dropdown Column
 const dropdownCell = document.createElement("td");
@@ -186,6 +173,47 @@ periodRow.appendChild(dropdownCell);
             table.appendChild(periodRow);
         });
 
+*/
+
+	    // Create period rows
+periods.forEach(period => {
+    const periodRow = document.createElement("tr");
+
+    // Period Label Cell
+    const periodCell = document.createElement("td");
+    periodCell.textContent = period;
+    periodRow.appendChild(periodCell);
+
+    // Dropdown Column
+    const dropdownCell = document.createElement("td");
+    const dropdown = document.createElement("select");
+    dropdown.style = "cursor: pointer";
+
+    for (let i = 1; i <= 8; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = `${i}`;
+        dropdown.appendChild(option);
+    }
+
+    dropdownCell.appendChild(dropdown);
+    periodRow.appendChild(dropdownCell);
+
+    // Room availability checkboxes
+    rooms.forEach(() => {
+        const cell = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.style = "cursor: pointer";
+        checkbox.type = "checkbox";
+        checkbox.checked = true;
+        cell.appendChild(checkbox);
+        periodRow.appendChild(cell);
+    });
+
+    table.appendChild(periodRow);
+});
+	    
+	    
         tableWrapper.appendChild(table);
         container.appendChild(tableWrapper);
     });
