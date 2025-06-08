@@ -632,8 +632,8 @@
 	});
 	console.log(JSON.stringify(roomDict));
 	debug.innerText=JSON.stringify(roomDict);
-	createRoomElements(initRoomDistribution);
-	document.getElementById("defaultOpen").click();
+	//createRoomElements(initRoomDistribution);
+	//document.getElementById("defaultOpen").click();
 	
 	// Send to backend
 	fetch('/check_distribution', {
@@ -652,6 +652,7 @@
     }
 
    function showOffenders() {
+	document.getElementById("generate").disabled=false;
    fetch('/get_offenders')
     .then(res => res.json())
     .then(data => {
