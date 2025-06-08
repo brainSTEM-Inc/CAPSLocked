@@ -276,6 +276,7 @@ function uploadFiles() {
             })
             .then(response => {
                 console.log("✅ Received response from backend!"); 
+		window.location.href="/moderator";
                 return response.text();
             })
             .then(message => {
