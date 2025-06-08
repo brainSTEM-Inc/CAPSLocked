@@ -1573,20 +1573,21 @@ def final_distribution():
                 print(f(thisRoom,roomName,day,True))
 
             if thisSchedule:
-                daysRoomsTimes[day][roomName]=thisSchedule[0]
-            #daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)[0]
+                daysRoomsTimes[day][roomName]=thisSchedule
+            #daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)
     
     print(daysRoomsTimes)
     
     for day, rooms in daysRoomsTimes.items():
-        for room, periods in rooms.items():
-            updated_periods = {periodMap.get(period, period): value for period, value in periods.items()}
-            daysRoomsTimes[day][room]=updated_periods
-            for period, students in periods.items():
-                for i in range(len(students)):
-                    student=students[i]
-                    students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
-    
+        for room, schedules in rooms.items():
+            for periods in schedules:
+                updated_periods = {periodMap.get(period, period): value for period, value in periods.items()}
+                daysRoomsTimes[day][room]=updated_periods
+                for period, students in periods.items():
+                    for i in range(len(students)):
+                        student=students[i]
+                        students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
+        
     
     #print(daysRoomsTimes)
     #return jsonify({"status": "success", "message": "Schedule received"})
