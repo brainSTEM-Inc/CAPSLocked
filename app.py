@@ -88,22 +88,32 @@ def juniorQuestionnaire():
 
 @app.route('/projectTopics')
 def projectTopics():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('projectTopics.html')
 
 @app.route('/moderator')
 def moderator():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('moderator.html')
 
 @app.route('/viewResponses')
 def viewResponses():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('viewResponses.html')
 
 @app.route('/availability')
 def availability():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('availability.html')
 
 @app.route('/rosters')
 def rosters():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('rosters.html')
 
 @app.route('/topics')
@@ -116,14 +126,20 @@ def addQuestion():
 
 @app.route('/generateStep1')
 def generateStep1():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('generateStep1.html')
 
 @app.route('/generateStep2')
 def generateStep2():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('generateStep2.html')
 
 @app.route('/4')
 def goto4():
+    if session.get("user") != "Admin":
+        return render_template('index.html')
     return render_template('4.html')
 
 @app.route('/thankyou')
