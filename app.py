@@ -245,13 +245,29 @@ def getStudents():
     welcome="Welcome,  "+session["name"]+"!"
 
     setGlobalVariables()
+    day_periods_map = {}
+
+    for room in roomToTimes.values():
+        for day, periods in room.items():
+            if day not in day_periods_map:
+                day_periods_map[day] = set()
+            day_periods_map[day].update(periods)  # ✅ Add periods, avoiding duplicates
     
+    # ✅ Convert sets to lists for final output
+    day_periods_map = {day: list(periods) for day, periods in day_periods_map.items()}
     
+    updated_day_periods_map = {
+        day: [str(periodMap[period]) for period in periods] for day, periods in day_periods_map.items()
+    }
+
+    
+        
     return jsonify({
         "seniors":seniors,
         "juniors": juniors,
         "welcome": welcome,
-        "projectTopics":rawMaintopics
+        "projectTopics":rawMaintopics,
+        "availability": updated_day_periods_map
     })
 
 
