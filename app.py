@@ -1083,7 +1083,10 @@ def submit_availability():
                         rawdataDict[student1][3].append(student2)
     
     topicQuantity = {roomName:len(roomStudents) for roomName, roomStudents in rawRoomData.items()}
-
+    print("Topic quantity:", topicQuantity)
+    print(rawdataDict)
+    print("All rooms:", allRooms)
+    print("rawRoomData:", rawRoomData)
     
     return render_template('topics.html')
 
