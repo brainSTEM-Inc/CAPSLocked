@@ -48,20 +48,7 @@ h2 {
   border-radius: 10px; /* optional styling */
 }
 
-.logo-container {
-      display: flex;
-      align-items: center;
-      transition: transform 1s;
-    }
 
-    .logo {
-      width: 100px;
-      height: 100px;
-      background-image: url('logoss.png'); /* Replace with real image */
-      background-size: contain;
-      background-repeat: no-repeat;
-      transition: transform 1s, background-image 1s;
-    }
  .text {
       margin-left: 20px;
       opacity: 0;
@@ -69,11 +56,7 @@ h2 {
       transition: opacity 1s ease, transform 0.7s ease;
     }
 
-    .logo-container.animate .logo {
-      transform: rotate(90deg);
-      background-image: url('newLogo.png'); /* Switch to new logo */
-    }
-
+  
     .logo-container.animate .text {
       opacity: 1;
       transform: translateX(0);
@@ -84,19 +67,18 @@ h2 {
   
   <body>
   
-<div class="logo-container" id="logoContainer">
-    <div class="logo"></div>
+
     <div class="text">
       <div>CAPS</div>
       <div>Locked</div> <!-- Replace with your team name -->
     </div>
-  </div>
+ 
     
   <h2>SMCS Symposium Scheduler</h2>
 
     
     
-  <button class="login-button" id="login"  onclick="wsp()" onclick="animateLogo()">Log In</button>
+  <button class="login-button" id="login" onclick="wsp()" >Log In</button>
   
   <script>
     function wsp() {
