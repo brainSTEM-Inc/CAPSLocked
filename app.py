@@ -318,7 +318,7 @@ def logResponse():
     # SQL query 
     update_query = """ UPDATE "Senior Profiles" SET "Presentation Title" = %s, "Junior Presider" = %s, "Project Topic" = %s, "Additional Slot" = %s, "Friends" = %s, "Availability" = %s WHERE "Username" = %s; """ 
     data_tuple = (presentationTitle, presider, topic, additionalSlot, friends, availability, username)
-    print(data_tuple)
+    #print(data_tuple)
     conn.rollback()
     cur.execute(update_query, data_tuple)
     conn.commit()
@@ -341,7 +341,7 @@ def logJuniorResponse():
     # SQL query 
     update_query = """ UPDATE "Junior Profiles" SET "Preferred Topics" = %s, "Availability" = %s WHERE "Username" = %s; """ 
     data_tuple = (topics, availability, username)
-    print(data_tuple)
+    #print(data_tuple)
     conn.rollback()
     cur.execute(update_query, data_tuple)
     conn.commit()
@@ -462,13 +462,13 @@ def getRawData():
         juniorRawdataDict[name] = values
     
     # Done and done!
-    print(juniorRawdataDict)
+    #print(juniorRawdataDict)
         
     
     cursor.close()
     conn.close()
 
-    print(rawdataDict)
+    #print(rawdataDict)
 
 getRawData()
 
@@ -936,6 +936,7 @@ def set_topics():
     #Rawroomdata contains topics like "Computer Science, Biology" in addition to "Computer Science" and "Biology"
     data = request.get_json()
     topicsByRoom=data.get('topicDistribution')
+    print(topicsByRoom)
     
     def splitRooms(topic, rooms):
         roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
@@ -1143,7 +1144,7 @@ def receive_schedule():
             
         roomDayDistribution[thisRoom]=consideredDistributions
 
-    print(dayOrder)
+    #print(dayOrder)
     for room, dayChoices in roomDayDistribution.items():
         for dayChoice in dayChoices:
             ordered_dict={day: dayChoice[0][day] for day in dayOrder}
