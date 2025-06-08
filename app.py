@@ -712,7 +712,7 @@ def setTopicsByRoom():
 
 
     
-def getRoomDistribution():
+def setRoomDistribution():
     global dayOrder
     global roomDistribution
     global capacityDict
@@ -1181,9 +1181,8 @@ def set_topics():
 
 @app.route('/get_data')
 def get_data():
-    setGlobalVariables()
-    getRawData()
-    getTopicQuantity()
+    setAllGlobalVariables()
+    setRoomDistribution()
     
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
