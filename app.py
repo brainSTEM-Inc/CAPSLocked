@@ -1310,14 +1310,15 @@ def receive_schedule():
             i=0
             n=10
             #while i<len(allDayDistributions) and allDayDistributions[i][1]==highScore:
-
-            print("This is my girth", len(allDayDistributions))
-            while i<100 and i<len(allDayDistributions) and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
+            x=len(allDayDistributions)
+            
+            print("This is my girth", x)
+            while i<100 and i<x and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
             #while i<100 and allDayDistributions[i][1]==highScore:
                 print(i,allDayDistributions[i])
                 i+=1
-            print("this is my length", len(allDayDistributions))
-            if len(allDayDistributions)<n:
+            print("this is my length", x)
+            if x<n:
                 print("uh wut")
                 for distribution in allDayDistributions:
                     consideredDistributions.append(distribution)
