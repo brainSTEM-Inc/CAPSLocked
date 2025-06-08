@@ -753,7 +753,9 @@ def setRoomDistribution():
         noFriends=[]
         for student in students:
             if not rawdataDict[student][2]:
-                roomDistribution[rooms[0]].append(student)
+                print("roomDistribution", roomDistribution)
+                print("rooms",rooms)
+                roomDistribution[rooms[0][0]].append(student)
                 rooms[0][1]-=1
                 noFriends.append(student)
                 rooms= list(sorted(rooms, key=lambda item: item[1]))
@@ -787,7 +789,7 @@ def setRoomDistribution():
                 topicDistribution[topic]=[]
             topicDistribution[topic].append([room,size])
 
-    print(topicDistribution)
+    print("U SLITTLE HIT", topicDistribution)
     
     roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
     #print(topicDistribution)
@@ -1133,7 +1135,8 @@ def set_topics():
         noFriends=[]
         for student in students:
             if not rawdataDict[student][2]:
-                roomDistribution[rooms[0]].append(student)
+                #the below line is like really sus
+                roomDistribution[rooms[0][0]].append(student)
                 rooms[0][1]-=1
                 noFriends.append(student)
                 rooms= list(sorted(rooms, key=lambda item: item[1]))
@@ -1194,7 +1197,10 @@ def get_data():
     #print(rawdataDict)
     if session.get("user") != "none":
         setAllGlobalVariables()
-        setRoomDistribution()
+        try:
+            setRoomDistribution()
+        except:
+            print("for the love of all that is holy please")
     
     return jsonify({
         "realInitRoomDistribution": roomDistribution,
