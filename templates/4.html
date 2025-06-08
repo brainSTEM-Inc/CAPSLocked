@@ -114,7 +114,10 @@ font-weight: bold;
 
 <script>
 
-
+var scheduleCountDistribution = {};
+var zeroValueDistribution = {};
+var initialRoomDistribution = {};
+	
 var finalRoomDistribution={};
 var presiderInfo={};
     fetch('/getFinalDistribution')
@@ -122,7 +125,28 @@ var presiderInfo={};
     .then(data => {
       finalRoomDistribution=data.daysRoomsTimes;
       presiderInfo=data.presiderInfo;
-      createRoomElements(finalRoomDistribution);
+
+Object.entries(finalRoomDistribution).forEach(([day, rooms]) => {
+    initialRoomDistribution[day] = {};
+    Object.entries(rooms).forEach(([room, schedules]) => {
+        initialRoomDistribution[day][room] = schedules[0]; // Selects the first schedule in the list
+    });
+    
+    scheduleCountDistribution[day] = {};
+    Object.entries(rooms).forEach(([room, schedules]) => {
+        scheduleCountDistribution[day][room] = schedules.length; // Counts the number of schedules
+    });
+    
+    zeroValueDistribution[day] = {};
+    Object.keys(rooms).forEach(room => {
+        zeroValueDistribution[day][room] = 0; // Sets all values to 0
+    });
+
+    
+});
+
+	    
+      createRoomElements(initialRoomDistribution);
     })
     .catch(err => console.error("Failed to fetch room data:", err));
 
@@ -152,28 +176,6 @@ var presiderInfo={};
   }
 };*/
 
-var scheduleCountDistribution = {};
-var zeroValueDistribution = {};
-var initialRoomDistribution = {};
-
-Object.entries(finalRoomDistribution).forEach(([day, rooms]) => {
-    initialRoomDistribution[day] = {};
-    Object.entries(rooms).forEach(([room, schedules]) => {
-        initialRoomDistribution[day][room] = schedules[0]; // Selects the first schedule in the list
-    });
-    
-    scheduleCountDistribution[day] = {};
-    Object.entries(rooms).forEach(([room, schedules]) => {
-        scheduleCountDistribution[day][room] = schedules.length; // Counts the number of schedules
-    });
-    
-    zeroValueDistribution[day] = {};
-    Object.keys(rooms).forEach(room => {
-        zeroValueDistribution[day][room] = 0; // Sets all values to 0
-    });
-
-    
-});
 
   const topicColors = [
     "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
