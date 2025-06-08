@@ -48,13 +48,13 @@
     margin: 20px auto; /* Adds nice spacing */
     font-family: Assistant, sans-serif;
     }
-
+    
     table {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden; /* Prevents horizontal scrolling */
 }
-	
+
     th, td {
         position: relative; /* Ensures div fills up correctly */
         border: 1px solid #4d0000ff; /* Subtle border */
@@ -97,6 +97,12 @@ font-weight: bold;
       cursor: pointer;
     }
 
+.room-name:hover {
+    background-color: #3a0000; /* Much darker red */
+    color: white;
+    cursor: pointer;
+}
+
     
 </style>
 </head>
@@ -108,18 +114,66 @@ font-weight: bold;
 
 <script>
 
+
 var finalRoomDistribution={};
+var presiderInfo={};
     fetch('/getFinalDistribution')
     .then(res => res.json())
     .then(data => {
       finalRoomDistribution=data.daysRoomsTimes;
+      presiderInfo=data.presiderInfo;
       createRoomElements(finalRoomDistribution);
     })
     .catch(err => console.error("Failed to fetch room data:", err));
 
 //var finalRoomDistribution={'Day 1': {'Room 195': {'2': [['Ritviik Ravi', 'Computer Science', 'Predicting the Stock Value of NFL Athletes: An Advanced Model Using Gradient-Boosted Trees'], ['Nikhil Kakani', 'Computer Science', 'Optimizing IP Geolocation Algorithm Accuracies: An Integrated Approach Using MLP Neural Network and Reverse DNS Querying Technique']], '3': [['Sarah Yu', 'Computer Science', 'Dead Reckoning with TinyML'], ['Rachel Zhang', 'Computer Science', 'Automatic Color Flatting of Illustration Linearts']], '4': [['Aileen Sharma', 'Computer Science', 'Aligning Classroom Recording Transcripts with Common Core State Standards using Keyword Extraction'], ['Catherine Tenny', 'Computer Science', 'Assessing the Viability of Cisco Packet Tracer as Automotive Security']], '5': [['Jay Wankhede', 'Computer Science', 'Developing a Large Language Model Powered Algorithm for Enhanced Research Paper Summarization'], ['Chris Ramos', 'Computer Science', 'Analyzing the Effects of Resampling Techniques on Multiclass Imbalanced Datasets using t-SNE visualizations']], '6': [['Archit Ashok', 'Computer Science', 'Using the Kalman Filter to Project the Motion of Ground-Based Obstacles to Prevent Collisions during Autonomous Drone Landings'], ['Sean Radimer', 'Computer Science', 'How CTF Skill Level Reception to Guidance Influences Performance']]}, 'Room 199': {'2': [['Jeffery Westlake', 'Engineering', 'Laser Rangefinding in Explosive Testing'], ['Ethan Nee', 'Engineering', 'Spatial assessments of desalination of groundwater for almond irrigation in California']], '3': [['Lahari Bandaru', 'Agriculture', 'DeepQC: A Deep Learning System for Automatic Quality Control of In-situ Soil Moisture Sensor  Time Series Data '], ['Tarini Nagenalli', 'Material Science', 'Improvement of Electrolytes in Batteries Designed for Wearable Technology by Comparison of 20% and 30% PVA Solutions\n']], '4': [['Milo Stammers', 'Math', 'Elementary Generation of SL2 Over Integer Rings of Imaginary Function Fields'], ['sumedh vangara', 'Physics', 'Electron transport through a 1D chain of dopant-based quantum dots']], '5': [['Patrick Le', 'Engineering', 'Mechanical Design of a 3D-Printable Miniature Robotics Platform'], ['Sachet Korada', 'Engineering', 'Developing a lightweight, robust, open source control system for a differential drive miniature unmanned ground vehicle']], '6': [['Sanvika Thimmasamudram', 'Engineering', 'Using MATLAB to Test Camera Sensitivity and for Motion Tracking to Identify Inaccuracies in the Camera used to Record a Building Collapse'], ['Larson Ozbun', 'Engineering', 'Validation of an Autonomous Dynamic Indoor Quadcopter Testing Methodology']]}}, 'Day 2': {'Room 195': {'2': [['Pranav Gaddam', 'Computer Science', 'Hyperparameter Optimization and Performance Analysis of Convolutional Neural Networks'], ['Nicholas McGonigle', 'Computer Science', 'GPT-Verilog: Enhancing Verilog Generation Using Large Language Models']], '3': [['Aaron Zhu', 'Computer Science', 'Emotion Recognition in MIDI Files: Leveraging Long Short-Term Memory with a Novel Feature-Extraction Technique'], ['Aidan Paul', 'Computer Science', 'Music Generation using Artificial Neural Networks']], '4': [['Zory Teselko', 'Computer Science', 'Temporal Analysis of Respiratory Data for Investigating Speech Rate Variability in Health Monitoring'], ['Ryan Zhao', 'Computer Science', 'Using SpireTag Data and Breathing Patterns to Classify Respiratory Events with Human-Learn']], '5': [['James Tan', 'Computer Science', 'Characterization of Breathing Types: Optimizing Data Collection and Cleaning Process for Spire Tag Sensor Analysis'], ['Akhil Raman', 'Computer Science', 'WRF HDF5 Reader Integration into Paraview']], '6': [['Eddie Wu', 'Computer Science', 'Optimizing Sensor Data Transmission in IoT Networks through MQTT Broker-Based Algorithmic Efficiency'], ['Aditya Lahiri', 'Computer Science', 'A Preliminary Method for Identifying Ice Movement in the Arctic']]}, 'Room 198': {'2': [['Daniel Ling', 'Biology', 'Unveiling the Role of AND-1 in Tumorigenesis'], ['Devon Chen', 'Biology', 'Role of Amygdala Projections to the Ventral Pallidum in Regulating Stress-Induced Behaviors']], '3': [['Katherine Saeed', 'Biology', 'Comparative Analysis of Short-Read, Long-Read, and Hybrid Bacterial Genome Assembly Across Differen Sequencing Platforms']], '4': [['Leavy Hu', 'Biology', 'Designing An Animal Model For V122I Transthyretin Amyloidosis'], ['Snigdha Chelluri', 'Biology', 'CRISPR-Based Mitochondrial Regulation in Neuro2a Cells']], '5': [['Rohun Sarkar', 'Data Science', 'Comparative Analysis of Machine Learning Methods for Predicting Global Sea Ice Extent'], ['Andrew Sha', 'Neuroscience', 'Extracting connectivity signatures of Parkinson’s disease using energy-based analysis']], '6': [['Neel Bhattacharyya', 'Biology', 'Identifying Predictors of Non-Home Discharge Dispositions Using Artificial Intelligence Among Critically Ill Patients Undergoing Coronary Artery Bypass Grafting'], ['Daniel Mathew', 'Biology', 'MiniMesh: Real-Time 5,000-Node Anatomical Human Body Mesh Reconstruction for Portable Devices']]}, 'Room 199': {'2': [], '3': [['Lakshmi Sangireddi', 'Soil Studies', 'Investigating Field Capacity Dynamics for Precision Irrigation Management: A Case Study in Agricultural Settings']], '4': [['Elizabeth Ivanova', 'Engineering', 'Enhancing CdSe Quantum Emitter Isolation via Spin Coating and Experimental Optimization'], ['Srinidhi Guruvayurappan', 'Earth science/Geology', 'Determining the Metamorphic Temperatures of Rocks in the Raspas Complex using Zirconium-in-Rutile Thermometry to Compare to Computer Models']], '5': [['Muhammad Ahmad', 'Engineering', 'Precise Light Coupling Apparatus for Optical Waveguide Chips'], ['Tanya Bait', 'Astronomy', 'Kinematics of the Ionized Outflow in the Northwest of NGC 253']], '6': [['Avyukth Selvadurai', 'Engineering', 'The Effect of Cross Laminated Timber on Fire Dynamics'], ['Patrick Foley', 'nan', 'Geolocation as a Language ID Proxy with Pre-trained Transformers']]}}};
 
-/*var finalRoomDistribution={'Day 1': {'Room 195': {'2': [['Ritviik Ravi', 'Computer Science', 'Predicting the Stock Value of NFL Athletes: An Advanced Model Using Gradient-Boosted Trees'], ['Nikhil Kakani', 'Computer Science', 'Optimizing IP Geolocation Algorithm Accuracies: An Integrated Approach Using MLP Neural Network and Reverse DNS Querying Technique']], '3': [['Sarah Yu', 'Computer Science', 'Dead Reckoning with TinyML'], ['Rachel Zhang', 'Computer Science', 'Automatic Color Flatting of Illustration Linearts']], '4': [['Aileen Sharma', 'Computer Science', 'Aligning Classroom Recording Transcripts with Common Core State Standards using Keyword Extraction'], ['Catherine Tenny', 'Computer Science', 'Assessing the Viability of Cisco Packet Tracer as Automotive Security']], '5': [['Jay Wankhede', 'Computer Science', 'Developing a Large Language Model Powered Algorithm for Enhanced Research Paper Summarization'], ['Chris Ramos', 'Computer Science', 'Analyzing the Effects of Resampling Techniques on Multiclass Imbalanced Datasets using t-SNE visualizations']], '6': [['Archit Ashok', 'Computer Science', 'Using the Kalman Filter to Project the Motion of Ground-Based Obstacles to Prevent Collisions during Autonomous Drone Landings'], ['Sean Radimer', 'Computer Science', 'How CTF Skill Level Reception to Guidance Influences Performance']]}, 'Room 198': {'2': [['Pranav Gaddam', 'Computer Science', 'Hyperparameter Optimization and Performance Analysis of Convolutional Neural Networks'], ['Nicholas McGonigle', 'Computer Science', 'GPT-Verilog: Enhancing Verilog Generation Using Large Language Models']], '3': [['Aaron Zhu', 'Computer Science', 'Emotion Recognition in MIDI Files: Leveraging Long Short-Term Memory with a Novel Feature-Extraction Technique'], ['Aidan Paul', 'Computer Science', 'Music Generation using Artificial Neural Networks']], '4': [['Zory Teselko', 'Computer Science', 'Temporal Analysis of Respiratory Data for Investigating Speech Rate Variability in Health Monitoring'], ['Ryan Zhao', 'Computer Science', 'Using SpireTag Data and Breathing Patterns to Classify Respiratory Events with Human-Learn']], '5': [['James Tan', 'Computer Science', 'Characterization of Breathing Types: Optimizing Data Collection and Cleaning Process for Spire Tag Sensor Analysis'], ['Akhil Raman', 'Computer Science', 'WRF HDF5 Reader Integration into Paraview']], '6': [['Eddie Wu', 'Computer Science', 'Optimizing Sensor Data Transmission in IoT Networks through MQTT Broker-Based Algorithmic Efficiency'], ['Aditya Lahiri', 'Computer Science', 'A Preliminary Method for Identifying Ice Movement in the Arctic']]}}};*/
+/*var finalRoomDistribution = {
+  'Day 1': {
+    'Room 195': [
+      {'2': [['Alice', 'CS', 'AI Ethics'], ['Bob', 'CS', 'Neural Networks']],
+      '3': [['Charlie', 'CS', 'Cybersecurity'], ['Dana', 'CS', 'Data Science']]},       {'2': [['Ethan', 'Bio', 'Cancer Research'], ['Fiona', 'Bio', 'Gene Editing']],
+      '3': [['George', 'Bio', 'Microbiomes'], ['Holly', 'Bio', 'Stem Cells']]}
+    ],
+    'Room 198': [
+      {'2': [['Ethan', 'Bio', 'Cancer Research'], ['Fiona', 'Bio', 'Gene Editing']],
+      '3': [['George', 'Bio', 'Microbiomes'], ['Holly', 'Bio', 'Stem Cells']]}
+    ]
+  },
+  'Day 2': {
+    'Room 199': [
+      {'2': [['Ian', 'Physics', 'Quantum Computing'], ['Judy', 'Physics', 'Particle Simulation']],
+      '3': [['Kevin', 'Physics', 'Astrophysics'], ['Liam', 'Physics', 'Gravitational Waves']]}
+    ],
+        'Room 195': [
+      {'2': [['Ian', 'Physics', 'Quantum Computing'], ['Judy', 'Physics', 'Particle Simulation']],
+      '3': [['Kevin', 'Physics', 'Astrophysics'], ['Liam', 'Physics', 'Gravitational Waves']]}
+    ]
+  }
+};*/
+
+var scheduleCountDistribution = {};
+var zeroValueDistribution = {};
+var initialRoomDistribution = {};
+
+Object.entries(finalRoomDistribution).forEach(([day, rooms]) => {
+    initialRoomDistribution[day] = {};
+    Object.entries(rooms).forEach(([room, schedules]) => {
+        initialRoomDistribution[day][room] = schedules[0]; // Selects the first schedule in the list
+    });
+    
+    scheduleCountDistribution[day] = {};
+    Object.entries(rooms).forEach(([room, schedules]) => {
+        scheduleCountDistribution[day][room] = schedules.length; // Counts the number of schedules
+    });
+    
+    zeroValueDistribution[day] = {};
+    Object.keys(rooms).forEach(room => {
+        zeroValueDistribution[day][room] = 0; // Sets all values to 0
+    });
+
+    
+});
 
   const topicColors = [
     "#ffcccc", "#ccffff", "#ccffcc", "#ffe0b3", "#e0ccff",
@@ -130,6 +184,8 @@ var finalRoomDistribution={};
   
   var periodDivs=[];
   var periodHeights=[];
+
+//createRoomElements(initialRoomDistribution);
 
 function createRoomElements(data) {
   // Create the table container
@@ -157,11 +213,31 @@ function createRoomElements(data) {
       // Room row
       const roomRow = document.createElement("tr");
       roomRow.appendChild(document.createElement("th")); // Empty corner cell
-      Object.values(data).forEach(rooms => {
+      Object.entries(data).forEach(([day, rooms]) => {
           Object.keys(rooms).forEach(room => {
-              const roomHeader = document.createElement("th");
-              roomHeader.textContent = room;
-              roomRow.appendChild(roomHeader);
+const roomHeader = document.createElement("th");
+//roomHeader.textContent = room+" ("+(zeroValueDistribution[day][room]+1)+"/"+scheduleCountDistribution[day][room]+")";
+roomHeader.innerHTML = room + "<br>(" + (zeroValueDistribution[day][room] + 1) + "/" + scheduleCountDistribution[day][room] + ")";
+
+roomHeader.classList.add("room-name");
+roomHeader.style.cursor = "pointer";
+
+roomHeader.addEventListener("click", function () {
+    document.querySelectorAll(".room-name").forEach(r => r.style.backgroundColor = ""); // No reset to lighter color
+    roomHeader.style.backgroundColor = "#4d0000"; // Darkens only the selected room
+
+	console.log(day);
+    zeroValueDistribution[day][room]=(zeroValueDistribution[day][room]+1)%scheduleCountDistribution[day][room];
+    var newSchedule=finalRoomDistribution[day][room][zeroValueDistribution[day][room]];
+    initialRoomDistribution[day][room]=newSchedule;
+    table.remove();
+    createRoomElements(initialRoomDistribution);
+    
+});
+
+roomRow.appendChild(roomHeader);
+
+
           });
       });
       table.appendChild(roomRow);
@@ -288,7 +364,9 @@ function collectTableData() {
         if (header.colSpan > 1) {
             currentDay = header.textContent.trim();
             currentRoomHeaders = rooms.slice(index, index + header.colSpan);
-            dayRoomMap[currentDay] = currentRoomHeaders.map(roomCell => roomCell.textContent.trim());
+            dayRoomMap[currentDay] = currentRoomHeaders.map(roomCell => {
+    return roomCell.textContent.trim().split("\n")[0]; // ✅ Extracts only the first line (room name)
+});
         }
     });
 	console.log(JSON.stringify(dayRoomMap));
@@ -300,10 +378,12 @@ function collectTableData() {
     });
 	console.log(JSON.stringify(dayRoomMap));
     
+    /*
     dayRoomMap={};
     Object.entries(finalRoomDistribution).forEach(([day, rooms]) => {
     	dayRoomMap[day]=Object.keys(rooms);
     });
+    */
     
     console.log(JSON.stringify(dayRoomMap));
     
@@ -325,7 +405,7 @@ function collectTableData() {
                 		students.push([lines[1], lines[2]]);
                     });
                 }
-
+				console.log(finalDistribution);
                 if (students.length > 0) {
                     finalDistribution[day][room][period] = students;
                 }
