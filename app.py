@@ -234,12 +234,14 @@ def isCommitteeMember():
 def getStudents():
     global conn
     global cur
+    '''
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
     cursor.execute('SELECT "Name" FROM "Senior Profiles";')
     seniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
     cursor.execute('SELECT "Name" FROM "Junior Profiles";')
     juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
+    '''
     welcome="Welcome,  "+session["name"]+"!"
 
     setGlobalVariables()
@@ -261,8 +263,8 @@ def getStudents():
     
         
     return jsonify({
-        "seniors":seniors,
-        "juniors": juniors,
+        "seniors":seniorsList,
+        "juniors": juniorsList,
         "welcome": welcome,
         "projectTopics":rawMaintopics,
         "availability": updated_day_periods_map
@@ -432,6 +434,12 @@ def getRawData():
     global rawdataDict
     global juniorRawdataDict
     global allTimes
+    global seniorsList
+    global juniorsList
+    global presiderDict
+    presiderDict={}
+    seniorsList=[]
+    juniorsList=[]
     
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
@@ -505,14 +513,31 @@ def getRawData():
     
     # Done and done!
     #print(juniorRawdataDict)
-        
+    for key, value in rawdataDict.items():
+        if value[6] in juniorsList:
+            sharedTimes=list(set(value[0]) & set(juniorRawdataDict[value[6]][1]))
+            if len(sharedTimes)>0:
+                rawdataDict[key][0]=sharedTimes
+                presiderDict[key]=value[6]
+            else if value[9] in juniorsList:
+                sharedTimes=list(set(value[0]) & set(juniorRawdataDict[value[9]][1]))
+                if len(sharedTimes)>0:
+                    rawdataDict[key][0]=sharedTimes
+                    presiderDict[key]=value[9]     
+                
+    seniorsList=list(rawdataDict.keys())
+    for senior in seniorsList:
+        if senior not in list(presiderDict.keys()):
+            presiderDict[senior]=""
+    print(presiderDict)
+    juniorsList=list(juniorRawdataDict.keys())
     
     cursor.close()
     conn.close()
 
     #print(rawdataDict)
 
-getRawData()
+#getRawData()
 
 
 
