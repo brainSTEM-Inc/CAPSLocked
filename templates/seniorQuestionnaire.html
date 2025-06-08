@@ -270,7 +270,7 @@
 
 		<p id="errorMessage" style="color: red; font-weight: bold;"></p>
 
-      <button type="submit" onclick="completeForm()">Submit</button>
+      <button type="submit">Submit</button>
     </form>
   </div>
 
@@ -499,11 +499,14 @@ function validateForm() {
 }
 
 
-function completeForm() {
-	if (validateForm()) {
-    	collectFormData();
+document.querySelector("form").addEventListener("submit", function (e) {
+    if (!validateForm()) {  
+        e.preventDefault(); // ✅ Stops submission if validation fails
+        return; // ✅ Ensures no further execution
     }
-}
+    collectFormData();
+});
+
 
 function collectFormData() {
     // Get presentation title
