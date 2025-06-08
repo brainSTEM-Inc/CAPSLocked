@@ -286,10 +286,11 @@
     var juniorPresiders;
     var seniors;
     var projectTopics;
-    const availability = {
+    var availability;
+    /*const availability = {
       "Wednesday, December 31st": ["2", "3", "4", "5"],
       "Thursday, January 1st": ["2", "3", "4", "5"]
-    };
+    };*/
 
 
     fetch('/getStudents')
@@ -299,7 +300,7 @@
       seniors=data.seniors;
       welcome=data.welcome;
       projectTopics=data.projectTopics;
-	    
+      availability=data.availability;	    
     /*})
     .catch(err => console.error("Failed to fetch room data:", err));*/
 	document.getElementById("welcomeMessage").innerText=welcome;
