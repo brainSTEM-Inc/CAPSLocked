@@ -240,45 +240,16 @@
 </head>
 <body>
 <div class="formContainer">
-<div class="header">
-<h2>Junior Questionnaire</h2>
-</div>
-<form action="/submit" method="POST">
+    <div class="header">
+      <h2>Junior Questionnaire</h2>
+      <h3 id="welcomeMessage"></h3>
+    </div>
+	<h4>Questions marked with * are required.</h4>
+<form>
 	
-    <p>Which topics would you prefer to present for?</p>
-    <div class = "optionsColor">    
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Biology/Biotech
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Chemistry/Materials Science
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Computer Science/AI
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Earth Space Systems Science
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Economics/Social Issues
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Engineering
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Math
-  <span class="checkmark"></span>
-</label><br>
-    <label class="styled-checkbox">
-  <input type="checkbox" name="Preferred Topics" checked="checked">Physics
-  <span class="checkmark"></span>
-</label><br>
+    <p>Which topics would you prefer to present for?*</p>
+<div class="optionsColor">
+    <!-- Remove all manually added checkboxes -->
 </div>
     
     
@@ -287,7 +258,7 @@
  <div><p class="note">NOTE: You should be available for ALL the listed times. If you do have any schedule conflicts, please indicate them below</p></div>
       <table id="availabilityTable"></table>
 
-
+<p id="errorMessage" style="color: red; font-weight: bold;"></p>
   
   <!--<a href="thankyou.html">-->
   <button type="submit">Submit</button>
@@ -300,12 +271,54 @@
 
 <script>
 
-const availability = {
+	var welcome;
+    var projectTopics;
+    var availability;
+
+
+
+
+    /*const availability = {
       "Wednesday, December 31st": ["2", "3", "4", "5"],
       "Thursday, January 1st": ["2", "3", "4", "5"]
-    };
+    };*/
 
 
+    fetch('/getStudents')
+    .then(res => res.json())
+    .then(data => {
+      welcome=data.welcome;
+      projectTopics=data.projectTopics;
+      availability=data.availability;	    
+
+	document.getElementById("welcomeMessage").innerText=welcome;
+ 
+
+//const projectTopics = ["Chemistry", "Math", "Physics"]; // ✅ Change this list as needed
+
+const optionsContainer = document.querySelector(".optionsColor"); // ✅ Select the container
+
+optionsContainer.innerHTML = ""; // ✅ Clear existing content
+
+projectTopics.forEach(topic => {
+    const label = document.createElement("label");
+    label.className = "styled-checkbox";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "Preferred Topics";
+    checkbox.checked = true;
+
+    const checkmark = document.createElement("span");
+    checkmark.className = "checkmark";
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(topic)); // ✅ Add text
+    label.appendChild(checkmark);
+
+    optionsContainer.appendChild(label);
+    optionsContainer.appendChild(document.createElement("br")); // ✅ Add line break
+});
 
     // ✅ Generate availability table dynamically
 const availabilityTable = document.getElementById("availabilityTable");
@@ -348,15 +361,50 @@ allPeriods.forEach(period => {
 
   availabilityTable.appendChild(row);
 });
+
+})
+    .catch(err => console.error("Failed to fetch room data:", err));
     
     
-    
+function validateForm() {
+    // Get the error message container
+    const errorMessageContainer = document.getElementById("errorMessage");
+
+
+    // Check Project Topic Selection
+const selectedTopics = document.querySelectorAll(".optionsColor input[type='checkbox']:checked");
+if (selectedTopics.length === 0) {  
+    errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+    return false;
+}
+
+    // Check if at least one availability checkbox is checked
+    const availabilityChecked = document.querySelectorAll("#availabilityTable input[type='checkbox']:checked").length > 0;
+    if (!availabilityChecked) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+
+    // Clear error message if form is valid
+    errorMessageContainer.textContent = "";
+
+    return true;
+}
+
+
+document.querySelector("form").addEventListener("submit", function (e) {
+    if (!validateForm()) {  
+        e.preventDefault(); // ✅ Stops submission if validation fails
+        return; // ✅ Ensures no further execution
+    }
+    collectFormData();
+});
     
     
     
 
 
-  document.querySelector("form").addEventListener("submit", function (e) {
+  function collectFormData() {
     e.preventDefault();
 
     
@@ -370,12 +418,6 @@ allPeriods.forEach(period => {
       }
     });
 
-    // Get availability
-    /*const availability = {};
-    const checkedBoxes = document.querySelectorAll('table input[type="checkbox"]');
-    checkedBoxes.forEach(cb => {
-      availability[cb.name] = cb.checked;
-    });*/
 
 const availabilityList = [];
 document.querySelectorAll("#availabilityTable tr").forEach(row => {
@@ -400,6 +442,8 @@ document.querySelectorAll("#availabilityTable tr").forEach(row => {
     var data = {
         topics, availabilityList
     };
+    
+    console.log(JSON.stringify(data));
 
 
 fetch('/logJuniorResponse', {
@@ -422,8 +466,7 @@ fetch('/logJuniorResponse', {
                 console.error('❌ Error:', error);
             });
 
-  });
-
+  };
 
 </script>
 </body>
