@@ -519,7 +519,7 @@ def getRawData():
             if len(sharedTimes)>0:
                 rawdataDict[key][0]=sharedTimes
                 presiderDict[key]=value[6]
-            else if value[9] in juniorsList:
+            elif value[9] in juniorsList:
                 sharedTimes=list(set(value[0]) & set(juniorRawdataDict[value[9]][1]))
                 if len(sharedTimes)>0:
                     rawdataDict[key][0]=sharedTimes
