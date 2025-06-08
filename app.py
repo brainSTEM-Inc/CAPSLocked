@@ -786,6 +786,8 @@ def setRoomDistribution():
             if topic not in list(topicDistribution.keys()):
                 topicDistribution[topic]=[]
             topicDistribution[topic].append([room,size])
+
+    print(topicDistribution)
     
     roomDistribution={roomName:[] for roomName in list(topicsByRoom.keys())}
     #print(topicDistribution)
