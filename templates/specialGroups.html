@@ -114,101 +114,21 @@
 }
     
    .remove-button {
-    background-color: #B51111;
+    background-color: #B51111; /* Dark red */
     color: white;
     border: none;
     cursor: pointer;
     padding: 6px 12px;
     font-size: 14px;
     font-weight: bold;
-    border-radius: 15px;
+    border-radius: 15px; /* ✅ Smooth rounded button */
     transition: 0.3s ease-in-out;
     margin: 5px;
 }
-
-/* Menu */
-    .menu {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 35px;
-      height: 25px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .menu div {
-      height: 5px;
-      background-color: white;
-      border-radius: 2px;
-    }
-
-    /* Dropdown Menu */
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 70px;
-      right: 30px;
-      background-color: #d9d9d9;
-      border: 1px solid #888;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-      width: 200px;
-      z-index: 1000;
-    }
-
-    .dropdown a {
-      display: block;
-      padding: 16px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      color: black;
-      border-bottom: 1px solid #aaa;
-    }
-
-    .dropdown a:last-child {
-      color: red;
-      border-bottom: none;
-    }
-
-    .dropdown a:hover {
-      background-color: #ccc;
-    }
     
   </style>
 </head>
 <body>
-  <!-- Menu Icon -->
-  <div class="menu" onclick="toggleMenu()">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-
-  <!-- Dropdown Popup Menu -->
-  <div id="dropdownMenu" class="dropdown">
-    <a href="#">Return to Home</a>
-    <a href="#">Help</a>
-    <a href="#">Logout</a>
-  </div>
-
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('dropdownMenu');
-      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-    }
-
-    // hide menu if clicking outside
-    document.addEventListener('click', function(event) {
-      const menu = document.getElementById('dropdownMenu');
-      const hamburger = document.querySelector('.menu');
-      if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
-        menu.style.display = 'none';
-      }
-    });
-  </script>
-
   <div class="formContainer">
     <div class="header">
       <h2>Manage Groups</h2>
@@ -225,7 +145,12 @@
     const groupContainer = document.getElementById("groupContainer");
     const addGroupButton = document.getElementById("addGroupButton");
 
-    let availableFriends = ["Alice", "Bob", "Charlie", "David", "Emma", "Frank", "Grace", "Hannah", "Isaac", "Jack", "Kate", "Liam", "Mia", "Nathan", "Olivia", "Paul", "Quinn", "Rachel", "Sam", "Tina"];
+fetch('/getStudents')
+    .then(res => res.json())
+    .then(data => {
+      availableFriends=data.seniors;	    
+
+    //let availableFriends = ["Alice", "Bob", "Charlie", "David", "Emma", "Frank", "Grace", "Hannah", "Isaac", "Jack", "Kate", "Liam", "Mia", "Nathan", "Olivia", "Paul", "Quinn", "Rachel", "Sam", "Tina"];
 
     addGroupButton.addEventListener("click", () => {
         const groupDiv = document.createElement("div");
@@ -318,7 +243,10 @@
     });
 
     console.log("Saved Groups:", JSON.stringify(allGroupsData)); // ✅ Log structure [[group1], [group2], etc.]
-    
+
+})
+    .catch(err => console.error("Failed to fetch room data:", err));
+
 fetch('/saveGroups', {
     method: 'POST',
     headers: {
