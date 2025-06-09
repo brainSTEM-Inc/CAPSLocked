@@ -172,6 +172,70 @@
     	height: 50px;
         margin-top: 10px;
     }
+    
+    .tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #cb5151ff;
+  color: white;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  font-family: Assistant, sans-serif;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #853535ff;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #a25050ff;
+}
+
+/* Style the tab content */
+.tabcontent {
+  background-color: #e9e2e2ff;
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+#students {
+  font-family: Assistant, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#students td, #students th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#students tr{background-color: white;}
+
+#students tr:hover {background-color: #ddd;}
+
+#students th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #cb5151ff;
+  color: white;
+}
   </style>
 </head>
 <body>
@@ -220,7 +284,7 @@
           </label>
           <span id="juniorFileName" class="file-name">No file uploaded</span>
 
-          <input type="text" class="text" placeholder="(Data will appear here)" name="juniorText">
+          
         </div>
 
         <!-- Senior Group -->
@@ -230,19 +294,217 @@
             <input type="file" name="seniorRoster" accept=".csv" onchange="updateFileDisplay(this, 'seniorFileName')">
           </label>
           <span id="seniorFileName" class="file-name">No file uploaded</span>
-          <input type="text" class="text" placeholder="(Data will appear here)" name="seniorText">
-        </div>
-
-        <!-- Mentor Group -->
-        <div class="upload-group">
-          <label class="upload-label">
-            <p>Upload<br>Mentor<br>List</p>
-            <input type="file" name="mentorList" accept=".csv" onchange="updateFileDisplay(this, 'mentorFileName')">
-          </label>
-          <span id="mentorFileName" class="file-name">No file uploaded</span>
-          <input type="text" class="text" placeholder="(Data will appear here)" name="mentorText">
+          
         </div>
       </div>
+      
+     <div class="tab">
+  <button type="button" class="tablinks" onclick="openCity(event, 'Seniors')">Senior Rosters</button>
+  <button type="button" class="tablinks" onclick="openCity(event, 'Juniors')">Juniors Rosters</button>
+</div>
+
+<div id="Seniors" class="tabcontent">
+  <h3>Senior Rosters</h3>
+  <table id="students">
+  <tr>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Password</th>
+  </tr>
+  <tr>
+    <td>Algernon, Algorithm</td>
+    <td>AlgorithmA</td>
+    <td>SMCS123987</td>
+  </tr>
+  <tr>
+    <td>Baguette, Bingbong</td>
+    <td>BingbongB</td>
+    <td>SMCS234542</td>
+  </tr>
+  <tr>
+    <td>Calculator, Calvin</td>
+    <td>CalvinC</td>
+    <td>SMCS354367</td>
+  </tr>
+  <tr>
+    <td>Calculator, Caitlyn</td>
+    <td>CaitlynC</td>
+    <td>SMCS732984</td>
+  </tr>
+  <tr>
+    <td>Curry, Chandrasekhar</td>
+    <td>ChandrasekharC</td>
+    <td>SMCS108474</td>
+  </tr>
+  <tr>
+    <td>Derivative,	Daniel</td>
+    <td>DanielD</td>
+    <td>SMCS453627</td>
+  </tr>
+  <tr>
+    <td>Divider, David</td>
+    <td>DavidD</td>
+    <td>SMCS498732</td>
+  </tr>
+  <tr>
+    <td>Earnest, Ethan</td>
+    <td>EthanE</td>
+    <td>SMCS456428</td>
+  </tr>
+  <tr>
+    <td>Engineer, Ellie</td>
+    <td>EllieE</td>
+    <td>SMCS259786</td>
+  </tr>
+  <tr>
+    <td>Ethernet, Everlyn</td>
+    <td>EvelynE</td>
+    <td>SMCS432742</td>
+  </tr>
+  <tr>
+  	<td>Global,	Gracelyn</td>
+    <td>GracelynG</td>
+    <td>SMCS544633</td>
+  </tr>
+  <tr>
+  	<td>Haskell, Harrison</td>
+    <td>HarrisonH</td>
+    <td>SMCS754398</td>
+  </tr>
+  <tr>
+  	<td>Hypothesis,	Hien</td>
+    <td>HienH</td>
+    <td>SMCS295473</td>
+  </tr>
+  <tr>
+  	<td>Integral, Isabela</td>
+    <td>IsabelaI</td>
+    <td>SMCS293893</td>
+  </tr>
+  <tr>
+  	<td>Keyboard, Kevin</td>
+    <td>KevinK</td>
+    <td>SMCS394282</td>
+  </tr>
+   <tr>
+  	<td>Kinetics,	Katherine</td>
+    <td>KatherineK</td>
+    <td>SMCS823987</td>
+  </tr>
+  <tr>
+  	<td>L'Bozo,	Benjamin</td>
+    <td>BenjaminL</td>
+    <td>SMCS932852</td>
+  </tr>
+  <tr>
+  	<td>L'Hospital,	Lily</td>
+    <td>LilyL</td>
+    <td>SMCS372422</td>
+  </tr>
+</table>
+</div>
+
+<div id="Juniors" class="tabcontent">
+  <h3>Junior Rosters</h3>
+  <table id="students">
+  <tr>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Password</th>
+  </tr>
+  <tr>
+    <td>Algernon, Algorithm</td>
+    <td>AlgorithmA</td>
+    <td>SMCS123987</td>
+  </tr>
+  <tr>
+    <td>Baguette, Bingbong</td>
+    <td>BingbongB</td>
+    <td>SMCS234542</td>
+  </tr>
+  <tr>
+    <td>Calculator, Calvin</td>
+    <td>CalvinC</td>
+    <td>SMCS354367</td>
+  </tr>
+  <tr>
+    <td>Calculator, Caitlyn</td>
+    <td>CaitlynC</td>
+    <td>SMCS732984</td>
+  </tr>
+  <tr>
+    <td>Curry, Chandrasekhar</td>
+    <td>ChandrasekharC</td>
+    <td>SMCS108474</td>
+  </tr>
+  <tr>
+    <td>Derivative,	Daniel</td>
+    <td>DanielD</td>
+    <td>SMCS453627</td>
+  </tr>
+  <tr>
+    <td>Divider, David</td>
+    <td>DavidD</td>
+    <td>SMCS498732</td>
+  </tr>
+  <tr>
+    <td>Earnest, Ethan</td>
+    <td>EthanE</td>
+    <td>SMCS456428</td>
+  </tr>
+  <tr>
+    <td>Engineer, Ellie</td>
+    <td>EllieE</td>
+    <td>SMCS259786</td>
+  </tr>
+  <tr>
+    <td>Ethernet, Everlyn</td>
+    <td>EvelynE</td>
+    <td>SMCS432742</td>
+  </tr>
+  <tr>
+  	<td>Global,	Gracelyn</td>
+    <td>GracelynG</td>
+    <td>SMCS544633</td>
+  </tr>
+  <tr>
+  	<td>Haskell, Harrison</td>
+    <td>HarrisonH</td>
+    <td>SMCS754398</td>
+  </tr>
+  <tr>
+  	<td>Hypothesis,	Hien</td>
+    <td>HienH</td>
+    <td>SMCS295473</td>
+  </tr>
+  <tr>
+  	<td>Integral, Isabela</td>
+    <td>IsabelaI</td>
+    <td>SMCS293893</td>
+  </tr>
+  <tr>
+  	<td>Keyboard, Kevin</td>
+    <td>KevinK</td>
+    <td>SMCS394282</td>
+  </tr>
+   <tr>
+  	<td>Kinetics,	Katherine</td>
+    <td>KatherineK</td>
+    <td>SMCS823987</td>
+  </tr>
+  <tr>
+  	<td>L'Bozo,	Benjamin</td>
+    <td>BenjaminL</td>
+    <td>SMCS932852</td>
+  </tr>
+  <tr>
+  	<td>L'Hospital,	Lily</td>
+    <td>LilyL</td>
+    <td>SMCS372422</td>
+  </tr>
+</table> 
+</div>
+
 
       <div class="extra">
         <button type="submit" onclick="uploadFiles()">Back to Moderator Page</button>
@@ -266,8 +528,6 @@ function uploadFiles() {
     const seniorFile = document.querySelector('input[name="seniorRoster"]').files[0];
     formData.append("seniorRoster", seniorFile ? seniorFile : "none");
 
-    const mentorFile = document.querySelector('input[name="mentorList"]').files[0];
-    formData.append("mentorList", mentorFile ? mentorFile : "none");
             
             // Send the data to the backend
             fetch('/makeAccounts', {
@@ -291,6 +551,23 @@ function uploadFiles() {
 
 }
 
-  </script>
+  function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
 </body>
 </html>
