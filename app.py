@@ -242,7 +242,7 @@ def getStudents():
     cursor.execute('SELECT "Name" FROM "Junior Profiles";')
     juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
     '''
-    if session.get("user")=="admin":
+    if session.get("user")=="Admin":
         welcome="Welcome, Test User!"
     else:
         welcome="Welcome,  "+session["name"]+"!"
