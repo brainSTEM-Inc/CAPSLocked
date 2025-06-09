@@ -101,6 +101,12 @@
   display: none;
 }
 
+h4 {
+    font-size: 15px; /* ✅ Small text */
+    text-align: center; /* ✅ Centers text */
+}
+
+
   </style>
 </head>
 <body>
@@ -112,7 +118,8 @@
       <input type="text" id="Username" placeholder="Username">
       <input type="password" id="Password" placeholder="Password">
       <button class="button" onclick="select()"><b>Login</b></button>
-      <button class="spreadsheet-button" onclick="spreadsheet()"><b>Generate schedules from spreadsheet</b></button>
+      <!--<button class="spreadsheet-button" onclick="spreadsheet()"><b>Generate schedules from spreadsheet</b></button>-->
+      <h4><b>If you're a committee member, enter the code in the Password box.</b></h4>
     </div>
   </div>
   <script>
