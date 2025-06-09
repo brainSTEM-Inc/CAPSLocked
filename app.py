@@ -162,6 +162,8 @@ def checkLogin():
     actualUsername=cur.fetchone()[0]
     cur.execute('SELECT "Password" FROM public."Admin" LIMIT 1;')
     actualPassword=cur.fetchone()[0]
+    cur.execute('SELECT "Code" FROM public."Admin" LIMIT 1;')
+    actualCode=cur.fetchone()[0]
     #print(actualUsername)
     #print(actualPassword)
     data = request.get_json()
@@ -169,7 +171,13 @@ def checkLogin():
         session["user"]="Admin";
         print("u are the smartest person alive")
         session.modified = True
-
+        return render_template('index.html')   
+    if data.get("password")==actualCode:
+        session["user"]="Admin";
+        print("u are the smartest person alive")
+        session.modified = True
+        return render_template('index.html')   
+        
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
     #query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
