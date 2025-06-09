@@ -277,6 +277,10 @@
       <p>Select Availability*</p>
       <table id="availabilityTable"></table>
 
+
+      <p>Write a short blurb for your presentation*</p>
+      <textarea id="presBlurb" rows="3" cols="50" placeholder="Something to draw your audience in"></textarea>
+
 		<p id="errorMessage" style="color: red; font-weight: bold;"></p>
 
       <button type="submit">Submit</button>
@@ -502,6 +506,12 @@ function validateForm() {
         errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
         return false;
     }
+    
+        const presentationBlurb = document.getElementById("presBlurb").value.trim();
+    if (!presentationBlurb) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
 
     // Clear error message if form is valid
     errorMessageContainer.textContent = "";
@@ -539,6 +549,11 @@ function collectFormData() {
     const selectedFriends = [...document.getElementById("selectedFriends").children]
         .map(friendDiv => friendDiv.textContent.replace("❌", "").trim());
 
+const blurbText = document.getElementById("presBlurb").value.trim();
+const introText = document.getElementById("presIntro").value.trim();
+
+
+
 // Get list of availability based on checkboxes
 const availabilityList = [];
 document.querySelectorAll("#availabilityTable tr").forEach(row => {
@@ -565,7 +580,9 @@ document.querySelectorAll("#availabilityTable tr").forEach(row => {
         selectedProjectTopic,
         selectedAdditionalSlot,
         selectedFriends,
-        availabilityList
+        availabilityList,
+        presiderIntro,
+        presentationBlurb
     };
 
 	    fetch('/logResponse', {
