@@ -144,6 +144,71 @@
 }
 
 
+
+
+    .big-button {
+      background-color: #b51111;
+      color: white;
+      font-size: 26px;
+      font-weight: bold;
+      border: none;
+      width: 100%;
+      height: 320px;
+      cursor: pointer;
+    }
+
+.box1 {
+    background-color: #d9d9d9;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: fit-content; /* ✅ Automatically adjusts width based on content */
+    min-width: 400px; /* ✅ Ensures a minimum width */
+    margin: auto; /* ✅ Centers the div */
+}
+
+
+.header {
+    font-size: 18px; /* ✅ Makes text smaller */
+    font-weight: bold;
+    color: black;
+    white-space: nowrap; /* ✅ Prevents text from wrapping */
+}
+
+input[type="text"] {
+    flex: 1; /* ✅ Expands input */
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #f3f3f3;
+    box-sizing: border-box;
+}
+
+.login-button {
+    background-color: #b51111;
+    color: white;
+    font-size: 16px; /* ✅ Keeps button small */
+    font-weight: bold;
+    padding: 10px 15px; /* ✅ Adjusts button size */
+    border: none;
+    cursor: pointer;
+}
+
+    .login-button:hover,
+    .big-button:hover {
+      background-color: #9f0f0f;
+    }
+
+
+
+
+
+
+
 </style>
 </head>
 <body>
@@ -220,6 +285,13 @@
         </button>
     </div>
     </div>
+    
+<div class="box1">
+    <div class="header">Set Committee Member Code</div>
+    <input type="text" placeholder="Enter Code" id="Code"/>
+    <button class="login-button" disabled="true" id="setCode">Set Code</button>
+</div>
+
     <script>
     function rosters() {
     	window.location.href="rosters";
@@ -259,6 +331,33 @@
     function specialGroups() {
     	window.location.href="specialGroups";
     }
+    
+    document.getElementById("Code").addEventListener("input", function() {
+    const setCodeButton = document.getElementById("setCode");
+    console.log("im alive");
+    setCodeButton.disabled = this.value.trim() === ""; // ✅ Disables if empty
+});
+
+function sendCodeToBackend() {
+    const code = document.getElementById("Code").value.trim();
+
+    fetch('/setCode', { // ✅ Replace with your actual backend endpoint
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ code }) // ✅ Sends the code as JSON
+    })
+    .then(response => response.text()) // ✅ Handle response text from backend
+    .then(message => {
+        console.log("📢 Backend says:", message);
+        alert(message); // ✅ Alerts user with backend response
+    })
+    .catch(error => {
+        console.error('❌ Error:', error);
+    });
+}
+
     </script>
 </body>
 </html>
