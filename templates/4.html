@@ -111,6 +111,7 @@ font-weight: bold;
 
 <button id="generateSpreadsheet" class="button" onclick="downloadCSV()">Download spreadsheet</button>
 <button id="generateSpreadsheet" class="button" onclick="moderator()">Return to Moderator Page</button>
+<button id="generateSpreadsheet" class="button" onclick="home()">Return to Portal</button>
 <p> SMCS Symposium Schedule</p>
 
 <script>
@@ -471,6 +472,10 @@ csvContent += rows.map(row => row.map(cell =>
 
 function moderator() {
 	window.location.href="/moderator";
+}
+
+function home() {
+	window.location.href="/";
 }
 
 //createRoomElements(finalRoomDistribution);
