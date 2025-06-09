@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify, render_template, redirect, session
-import requests, pandas as pd, io, copy, sys, json
+from flask import Flask, request, jsonify, render_template, redirect, session, Response
+import requests, pandas as pd, io, copy, sys, json, csv
 
 sys.setrecursionlimit(2000)
 
@@ -972,10 +972,48 @@ def setAllGlobalVariables():
     setSpecialGroups()
 
 
+def generate_csv(table_name):
+    """Fetches data from the specified table and returns CSV content."""
+    connection = psycopg2.connect(DATABASE_URL)
+    cursor = connection.cursor()
 
+    cursor.execute(f'SELECT * FROM "{table_name}"')
+    rows = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]
 
+    cursor.close()
+    connection.close()
 
+    # ✅ Create CSV content
+    csv_output = [",".join(column_names)]  # Header row
+    csv_output += [",".join(map(str, row)) for row in rows]  # Data rows
 
+    return "\n".join(csv_output)
+
+@app.route('/downloadSeniorProfiles')
+def download_senior_profiles():
+    """Triggers CSV download for Senior Profiles."""
+    csv_data = generate_csv("Senior Profiles")
+    return Response(csv_data, mimetype="text/csv",
+                    headers={"Content-Disposition": "attachment; filename=Senior_Profiles.csv"})
+
+@app.route('/downloadJuniorProfiles')
+def download_junior_profiles():
+    """Triggers CSV download for Junior Profiles."""
+    csv_data = generate_csv("Junior Profiles")
+    return Response(csv_data, mimetype="text/csv",
+                    headers={"Content-Disposition": "attachment; filename=Junior_Profiles.csv"})
+
+@app.route('/downloadBothProfiles')
+def download_both_profiles():
+    """Triggers both CSV downloads by returning JavaScript to open both links."""
+    js_script = """
+    <script>
+        window.open('/downloadSeniorProfiles', '_blank');
+        window.open('/downloadJuniorProfiles', '_blank');
+    </script>
+    """
+    return js_script
 
 
 
