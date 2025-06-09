@@ -990,16 +990,18 @@ def generate_csv(table_name):
 
     return "\n".join(csv_output)
 
-@app.route('/downloadSeniorProfiles')
+@app.route('/downloadSeniorProfiles', methods=['POST'])
 def download_senior_profiles():
     """Triggers CSV download for Senior Profiles."""
+    print("SENIORS LETS GO")
     csv_data = generate_csv("Senior Profiles")
     return Response(csv_data, mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=Senior_Profiles.csv"})
 
-@app.route('/downloadJuniorProfiles')
+@app.route('/downloadJuniorProfiles', methods=['POST'])
 def download_junior_profiles():
     """Triggers CSV download for Junior Profiles."""
+    print("JUNIORS LETS GO")
     csv_data = generate_csv("Junior Profiles")
     return Response(csv_data, mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=Junior_Profiles.csv"})
