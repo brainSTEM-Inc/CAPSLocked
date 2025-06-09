@@ -279,10 +279,11 @@
         <!-- Junior Group -->
         <div class="upload-group">
           <label class="upload-label">
-            <p>Upload<br>Junior<br>Roster</p>
+            <!--<p>Upload<br>Junior<br>Roster</p>-->
+	    <p>Upload New Junior Roster</p>	  
             <input type="file" name="juniorRoster" accept=".csv" onchange="updateFileDisplay(this, 'juniorFileName')">
           </label>
-          <span id="juniorFileName" class="file-name">No file uploaded</span>
+          <span id="juniorFileName" class="file-name">No new file uploaded</span>
 
           
         </div>
@@ -290,10 +291,11 @@
         <!-- Senior Group -->
         <div class="upload-group">
           <label class="upload-label">
-            <p>Upload<br>Senior<br>Roster</p>
+            <!--<p>Upload<br>Senior<br>Roster</p>-->
+	    <p>Upload New Senior Roster</p>
             <input type="file" name="seniorRoster" accept=".csv" onchange="updateFileDisplay(this, 'seniorFileName')">
           </label>
-          <span id="seniorFileName" class="file-name">No file uploaded</span>
+          <span id="seniorFileName" class="file-name"></span>
           
         </div>
       </div>
@@ -507,23 +509,30 @@
 
 
       <div class="extra">
-        <button type="submit" onclick="uploadFiles()">Save Rosters</button>
+        <button type="submit" onclick="goBack()">Return to Moderator Page</button>
       </div>
     </form>
   </div>
   
   <script>
+function goBack() {
+	window.location.href="/moderator";
+}
+	  
   function updateFileDisplay(fileInput, fileNameId) {
-    const fileName = fileInput.files.length > 0 ? "Uploaded: " + fileInput.files[0].name : "No file uploaded";
+    //const fileName = fileInput.files.length > 0 ? "Uploaded: " + fileInput.files[0].name : "No file uploaded";
+    const fileName = "Uploading...";
     document.getElementById(fileNameId).textContent = fileName;
+    if (fileNameId=="juniorFileName") {
+	    uploadJuniorFiles(fileNameId);
+    }
+    if (fileNameId=="seniorFileName") {
+	    uploadFiles(fileNameId);
+    }
 }
 
-function uploadFiles() {
+function uploadFiles(fileNameId) {
     const formData = new FormData();  
-
-    // ✅ Add each file, or "none" if no file is selected
-    const juniorFile = document.querySelector('input[name="juniorRoster"]').files[0];
-    formData.append("juniorRoster", juniorFile ? juniorFile : "none");
 
     const seniorFile = document.querySelector('input[name="seniorRoster"]').files[0];
     formData.append("seniorRoster", seniorFile ? seniorFile : "none");
@@ -536,7 +545,38 @@ function uploadFiles() {
             })
             .then(response => {
                 console.log("✅ Received response from backend!"); 
-		window.location.href="/moderator";
+		document.getElementById(fileNameId).textContent = "Uploaded!";
+		//window.location.href="/moderator";
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                //alert('An error occurred. Please try again.');
+    
+            });
+
+}
+
+function uploadJuniorFiles(fileNameId) {
+    const formData = new FormData();  
+
+    // ✅ Add each file, or "none" if no file is selected
+    const juniorFile = document.querySelector('input[name="juniorRoster"]').files[0];
+    formData.append("juniorRoster", juniorFile ? juniorFile : "none");
+            
+            // Send the data to the backend
+            fetch('/makeAccounts', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!"); 
+		document.getElementById(fileNameId).textContent = "Uploaded!";
+		//window.location.href="/moderator";
                 return response.text();
             })
             .then(message => {
