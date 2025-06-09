@@ -393,6 +393,10 @@ if (selectedTopics.length === 0) {
 
 
 document.querySelector("form").addEventListener("submit", function (e) {
+
+if (welcome=="Welcome, Test User!") {
+    	window.location.href="/moderator";
+    }
     if (!validateForm()) {  
         e.preventDefault(); // ✅ Stops submission if validation fails
         return; // ✅ Ensures no further execution
