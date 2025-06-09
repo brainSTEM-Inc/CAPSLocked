@@ -332,7 +332,8 @@
     // ✅ Populate presider dropdown dynamically
     const presiderDropdown = document.getElementById("presiderDropdown");
     const presiderButton = document.getElementById("presiderButton");
-    
+
+juniorPresiders.sort();
 juniorPresiders.forEach(presider => {
   const option = document.createElement("a");
   option.textContent = presider; // Display presider name
@@ -427,6 +428,7 @@ addFriendButton.addEventListener("click", (event) => {
 
 
 // Add seniors to dropdown
+seniors.sort();
 seniors.forEach(senior => {
     const option = document.createElement("a");
     option.textContent = senior;
