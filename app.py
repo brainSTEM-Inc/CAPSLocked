@@ -432,7 +432,7 @@ def logJuniorResponse():
 @app.route('/setCode', methods=['POST'])
 def submit_code():
     """Receives the code from frontend and stores it in the Availability table."""
-    data = request.json
+    data = request.get_json()
     code = data.get("code")
 
     connection = psycopg2.connect(DATABASE_URL)
