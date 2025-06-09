@@ -1185,6 +1185,57 @@ def parse_data():
     #print(juniorDisplayHeaders)
     #print(juniorRawdataDict)
     #print(juniorDisplayAllTimesFromData)
+
+
+    connection = psycopg2.connect(DATABASE_URL)
+    cursor = connection.cursor()
+
+    for name, values in rawdataDict.items():
+        availability = ", ".join(values[0]) if values[0] else ""  # ✅ Availability (comma-separated)
+        project_topic = values[1] if values[1] else ""  # ✅ Project Topic
+        friends = ", ".join(values[2]) if values[2] else ""  # ✅ Friends (comma-separated)
+        presentation_title = values[4] if values[4] else ""  # ✅ Presentation Title
+        presentation_blurb = values[5] if values[5] else ""  # ✅ Presentation Blurb
+        junior_presider = values[6] if values[6] else ""  # ✅ Junior Presider
+        presider_intro = values[7] if values[7] else ""  # ✅ Presider Intro
+    
+        # ✅ Update the row where "Name" matches
+        cursor.execute("""
+            UPDATE "Senior Profiles"
+            SET "Availability" = %s,
+                "Project Topic" = %s,
+                "Friends" = %s,
+                "Presentation Title" = %s,
+                "Presentation Blurb" = %s,
+                "Junior Presider" = %s,
+                "Presider Intro" = %s
+            WHERE "Name" = %s
+        """, (availability, project_topic, friends, presentation_title, presentation_blurb, junior_presider, presider_intro, name))
+    
+    # ✅ Commit changes and close connection
+    connection.commit()
+
+    for name, values in juniorRawdataDict.items():
+        preferred_topics = ", ".join(values[0]) if values[0] else ""  # ✅ Preferred Topics (comma-separated)
+        availability = ", ".join(values[1]) if values[1] else ""  # ✅ Availability (comma-separated)
+    
+        # ✅ Update the row where "Name" matches in "Junior Profiles"
+        cursor.execute("""
+            UPDATE "Junior Profiles"
+            SET "Preferred Topics" = %s,
+                "Availability" = %s
+            WHERE "Name" = %s
+        """, (preferred_topics, availability, name))
+    
+    # ✅ Commit changes and close connection
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+    print("✅ Profiles tables successfully updated!")
+
+
     
     return render_template('index.html')
 
