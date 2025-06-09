@@ -266,8 +266,8 @@ input[type="text"] {
 </div>
 
 <div class="button-group">
-    <button class="button half-width" onclick="seniorResponses()">Senior Responses</button>
-    <button class="button half-width" onclick="juniorResponses()">Junior Responses</button>
+    <button class="button half-width" onclick="downloadFile('/downloadSeniorProfiles')">Senior Responses</button>
+    <button class="button half-width" onclick="downloadFile('/downloadJuniorProfiles')">Junior Responses</button>
 </div>
 
     </div>
@@ -340,6 +340,17 @@ fetch("/downloadJuniorProfiles", { method: "POST" })
   .catch(error => console.error("❌ Error calling Python function:", error));
 
     }
+    
+    
+    function downloadFile(url) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = ''; // Let the server's Content-Disposition handle the filename
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+    
 	    
     function topicsByRoom() {
     	window.location.href="topicsByRoom";	
