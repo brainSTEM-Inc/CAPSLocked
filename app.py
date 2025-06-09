@@ -413,6 +413,25 @@ def logJuniorResponse():
 
 
 
+@app.route('/setCode', methods=['POST'])
+def submit_code():
+    """Receives the code from frontend and stores it in the Availability table."""
+    data = request.json
+    code = data.get("code")
+
+    connection = psycopg2.connect(DATABASE_URL)
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO \"Availability\" (\"Code\") VALUES (%s)", (code,))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    return jsonify({"message": "✅ Code successfully inserted into Availability table!"})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 
 
 
