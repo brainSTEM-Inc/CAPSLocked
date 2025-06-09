@@ -358,7 +358,7 @@ function sendCodeToBackend() {
     .then(response => response.text()) // ✅ Handle response text from backend
     .then(message => {
         console.log("📢 Backend says:", message);
-        alert(message); // ✅ Alerts user with backend response
+        alert("Successfully set new code: "+code); // ✅ Alerts user with backend response
     })
     .catch(error => {
         console.error('❌ Error:', error);
