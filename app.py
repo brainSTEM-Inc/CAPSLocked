@@ -1142,6 +1142,10 @@ def parse_data():
             presiderDict[senior]=""
     print(presiderDict)
     allTimesFromData = set(time for value in list(rawdataDict.values()) for time in value[0])
+
+    displayAllTimes=[]
+    displayAllTimesFromData=[]
+    juniorDisplayAllTimesFromData=[]
     
     for time in allTimesFromData:
         if time in allTimes:
