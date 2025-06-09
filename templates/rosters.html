@@ -569,7 +569,7 @@ function uploadJuniorFiles(fileNameId) {
     formData.append("juniorRoster", juniorFile ? juniorFile : "none");
             
             // Send the data to the backend
-            fetch('/makeAccounts', {
+            fetch('/makeJuniorAccounts', {
                 method: 'POST',
                 body: formData
             })
