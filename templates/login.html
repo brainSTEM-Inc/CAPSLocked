@@ -132,6 +132,13 @@ document.getElementById("Username").addEventListener("keydown", function(event) 
 });
 
 
+window.onload = function() {
+    console.log("✅ Page has fully loaded!");
+    
+    document.getElementById("notification").className="notification hide";
+};
+
+
     
   function spreadsheet() {
   	window.location.href = "upload";
