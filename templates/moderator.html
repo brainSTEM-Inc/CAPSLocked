@@ -324,22 +324,13 @@ input[type="text"] {
     
     
     function viewResponses() {
-    	fetch("/setProjectTopics", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ topics })
-})
-.then(response => {
-    if (response.ok) {
-        console.log("✅ Request was successful!");
-        // ✅ No redirection—just logs success
-    } else {
-        console.error("❌ Error: Server responded with an issue.");
+fetch("/downloadBothProfiles", { method: "POST" }) 
+  .then(response => response.text()) 
+  .then(message => console.log(message)) 
+  .catch(error => console.error("❌ Error calling Python function:", error));
+
     }
-})
-.catch(error => console.error("❌ Error sending project topics:", error));
-    }
-    
+	    
     function topicsByRoom() {
     	window.location.href="topicsByRoom";	
     }
