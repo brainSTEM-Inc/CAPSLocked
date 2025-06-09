@@ -735,7 +735,8 @@
 
    function showOffenders() {
 	document.getElementById("generate").disabled=false;
-   fetch('/get_offenders')
+   /*
+	   fetch('/get_offenders')
     .then(res => res.json())
     .then(data => {
       offenders=data.offenders;
@@ -750,7 +751,7 @@
 	    }
     })
     .catch(err => console.error("Failed to fetch room data:", err));
-	   
+	*/   
    }
     
     function generateSchedules() {
