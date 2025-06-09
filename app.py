@@ -1005,7 +1005,7 @@ def download_junior_profiles():
                     headers={"Content-Disposition": "attachment; filename=Junior_Profiles.csv"})
 
 
-@app.route('/downloadBothProfiles')
+@app.route('/downloadBothProfiles', methods=['POST'])
 def download_both_profiles():
     """Triggers both CSV downloads by serving JavaScript correctly."""
     print("bro im alive eh?")  # ✅ This will now actually print in Flask logs
