@@ -1006,14 +1006,15 @@ def download_junior_profiles():
 
 @app.route('/downloadBothProfiles')
 def download_both_profiles():
-    """Triggers both CSV downloads by returning JavaScript to open both links."""
+    """Triggers both CSV downloads by serving JavaScript correctly."""
     js_script = """
     <script>
         window.open('/downloadSeniorProfiles', '_blank');
         window.open('/downloadJuniorProfiles', '_blank');
     </script>
     """
-    return js_script
+    return Response(js_script, mimetype="text/html")  # ✅ Ensures proper execution
+
 
 
 
