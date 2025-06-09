@@ -265,9 +265,11 @@ input[type="text"] {
     <button class="button half-width" onclick="juniorForm()">Junior Form</button>
 </div>
 
-        <button class="button" onclick="viewResponses()">
-        	Download Responses
-        </button>
+<div class="button-group">
+    <button class="button half-width" onclick="seniorResponses()">Senior Responses</button>
+    <button class="button half-width" onclick="juniorResponses()">Junior Responses</button>
+</div>
+
     </div>
 	<div class="box">
         <div class="heading">
@@ -323,8 +325,16 @@ input[type="text"] {
     }
     
     
-    function viewResponses() {
-fetch("/downloadBothProfiles", { method: "POST" }) 
+    function seniorResponses() {
+fetch("/downloadSeniorProfiles", { method: "POST" }) 
+  .then(response => response.text()) 
+  .then(message => console.log(message)) 
+  .catch(error => console.error("❌ Error calling Python function:", error));
+
+    }
+    
+        function juniorResponses() {
+fetch("/downloadJuniorProfiles", { method: "POST" }) 
   .then(response => response.text()) 
   .then(message => console.log(message)) 
   .catch(error => console.error("❌ Error calling Python function:", error));
