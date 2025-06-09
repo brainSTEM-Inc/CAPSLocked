@@ -232,21 +232,20 @@ fetch('/getStudents')
         groupContainer.appendChild(groupDiv);
     });
     
-    
-    
-    document.getElementById("saveGroupsButton").addEventListener("click", () => {
-    let allGroupsData = [];
 
-    document.querySelectorAll(".group").forEach(group => {
-        let members = Array.from(group.querySelector(".selectedFriends").children).map(member => member.textContent);
-        allGroupsData.push(members);
-    });
-
-    console.log("Saved Groups:", JSON.stringify(allGroupsData)); // ✅ Log structure [[group1], [group2], etc.]
 
 })
     .catch(err => console.error("Failed to fetch room data:", err));
 
+document.getElementById("saveGroupsButton").addEventListener("click", () => {
+let allGroupsData = [];
+
+document.querySelectorAll(".group").forEach(group => {
+let members = Array.from(group.querySelector(".selectedFriends").children).map(member => member.textContent);
+allGroupsData.push(members);
+});
+
+console.log("Saved Groups:", JSON.stringify(allGroupsData)); // ✅ Log structure [[group1], [group2], etc.]
 fetch('/saveGroups', {
     method: 'POST',
     headers: {
