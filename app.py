@@ -87,10 +87,14 @@ def specialGroups():
 
 @app.route('/seniorQuestionnaire')
 def seniorQuestionnaire():
+    if session.get("user") == "none" or session.get("class")=="Junior":
+        return render_template('accessdenied.html')
     return render_template('seniorQuestionnaire.html')
 
 @app.route('/juniorQuestionnaire')
 def juniorQuestionnaire():
+    if session.get("user") == "none" or session.get("class")=="Senior":
+        return render_template('accessdenied.html')
     return render_template('juniorQuestionnaire.html')
 
 @app.route('/projectTopics')
