@@ -1195,6 +1195,7 @@ def submit_availability():
     #print(roomsToTimes)
     #dayOrder = list(data.get('dayOrder').values())
     #print(dayOrder)
+    capacityDict={}
     
     for room, times in roomToTimes.items():
         capacityDict[room]=sum(len(values) for values in times.values())*personsPerTime
