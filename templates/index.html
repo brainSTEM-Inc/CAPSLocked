@@ -47,6 +47,7 @@
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin: 10px;
     }
 
     .login-button:hover {
@@ -68,12 +69,19 @@
   
 
   <button class="login-button" onclick="wsp()">Log In</button>
-
+  <button class="login-button" onclick="wsp2()">Generate schedules from spreadsheet</button>
   <script>
     function wsp() {
       document.getElementById('logoContainer').classList.add('animate');
       setTimeout(() => {
         window.location.href = '/login';
+      }, 800);
+    }
+    
+    function wsp2() {
+      document.getElementById('logoContainer').classList.add('animate');
+      setTimeout(() => {
+        window.location.href = '/upload';
       }, 800);
     }
   </script>
