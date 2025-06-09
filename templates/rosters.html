@@ -173,12 +173,15 @@
         margin-top: 10px;
     }
     
-    .tab {
-  overflow: hidden;
+.tab {
+  display: flex; /* ✅ Ensures tabs appear in a row */
+  flex-direction: row; /* ✅ Makes tabs horizontal */
+  justify-content: space-around; /* ✅ Adds spacing */
   border: 1px solid #ccc;
   background-color: #cb5151ff;
   color: white;
 }
+
 
 /* Style the buttons inside the tab */
 .tab button {
@@ -214,22 +217,22 @@
   border-top: none;
 }
 
-#students {
+#seniorTable, #juniorTable {
   font-family: Assistant, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-#students td, #students th {
+#seniorTable td, #seniorTable th, 
+#juniorTable td, #juniorTable th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#students tr{background-color: white;}
+#seniorTable tr, #juniorTable tr { background-color: white; }
+#seniorTable tr:hover, #juniorTable tr:hover { background-color: #ddd; }
 
-#students tr:hover {background-color: #ddd;}
-
-#students th {
+#seniorTable th, #juniorTable th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -305,206 +308,25 @@
 </div>
 
 <div id="Seniors" class="tabcontent">
-  <h3>Senior Rosters</h3>
-  <table id="students">
-  <tr>
-    <th>Name</th>
-    <th>Username</th>
-    <th>Password</th>
-  </tr>
-  <tr>
-    <td>Algernon, Algorithm</td>
-    <td>AlgorithmA</td>
-    <td>SMCS123987</td>
-  </tr>
-  <tr>
-    <td>Baguette, Bingbong</td>
-    <td>BingbongB</td>
-    <td>SMCS234542</td>
-  </tr>
-  <tr>
-    <td>Calculator, Calvin</td>
-    <td>CalvinC</td>
-    <td>SMCS354367</td>
-  </tr>
-  <tr>
-    <td>Calculator, Caitlyn</td>
-    <td>CaitlynC</td>
-    <td>SMCS732984</td>
-  </tr>
-  <tr>
-    <td>Curry, Chandrasekhar</td>
-    <td>ChandrasekharC</td>
-    <td>SMCS108474</td>
-  </tr>
-  <tr>
-    <td>Derivative,	Daniel</td>
-    <td>DanielD</td>
-    <td>SMCS453627</td>
-  </tr>
-  <tr>
-    <td>Divider, David</td>
-    <td>DavidD</td>
-    <td>SMCS498732</td>
-  </tr>
-  <tr>
-    <td>Earnest, Ethan</td>
-    <td>EthanE</td>
-    <td>SMCS456428</td>
-  </tr>
-  <tr>
-    <td>Engineer, Ellie</td>
-    <td>EllieE</td>
-    <td>SMCS259786</td>
-  </tr>
-  <tr>
-    <td>Ethernet, Everlyn</td>
-    <td>EvelynE</td>
-    <td>SMCS432742</td>
-  </tr>
-  <tr>
-  	<td>Global,	Gracelyn</td>
-    <td>GracelynG</td>
-    <td>SMCS544633</td>
-  </tr>
-  <tr>
-  	<td>Haskell, Harrison</td>
-    <td>HarrisonH</td>
-    <td>SMCS754398</td>
-  </tr>
-  <tr>
-  	<td>Hypothesis,	Hien</td>
-    <td>HienH</td>
-    <td>SMCS295473</td>
-  </tr>
-  <tr>
-  	<td>Integral, Isabela</td>
-    <td>IsabelaI</td>
-    <td>SMCS293893</td>
-  </tr>
-  <tr>
-  	<td>Keyboard, Kevin</td>
-    <td>KevinK</td>
-    <td>SMCS394282</td>
-  </tr>
-   <tr>
-  	<td>Kinetics,	Katherine</td>
-    <td>KatherineK</td>
-    <td>SMCS823987</td>
-  </tr>
-  <tr>
-  	<td>L'Bozo,	Benjamin</td>
-    <td>BenjaminL</td>
-    <td>SMCS932852</td>
-  </tr>
-  <tr>
-  	<td>L'Hospital,	Lily</td>
-    <td>LilyL</td>
-    <td>SMCS372422</td>
-  </tr>
-</table>
+  <table id="seniorTable">
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Responded?</th>
+    </tr>
+  </table>
 </div>
 
 <div id="Juniors" class="tabcontent">
-  <h3>Junior Rosters</h3>
-  <table id="students">
-  <tr>
-    <th>Name</th>
-    <th>Username</th>
-    <th>Password</th>
-  </tr>
-  <tr>
-    <td>Algernon, Algorithm</td>
-    <td>AlgorithmA</td>
-    <td>SMCS123987</td>
-  </tr>
-  <tr>
-    <td>Baguette, Bingbong</td>
-    <td>BingbongB</td>
-    <td>SMCS234542</td>
-  </tr>
-  <tr>
-    <td>Calculator, Calvin</td>
-    <td>CalvinC</td>
-    <td>SMCS354367</td>
-  </tr>
-  <tr>
-    <td>Calculator, Caitlyn</td>
-    <td>CaitlynC</td>
-    <td>SMCS732984</td>
-  </tr>
-  <tr>
-    <td>Curry, Chandrasekhar</td>
-    <td>ChandrasekharC</td>
-    <td>SMCS108474</td>
-  </tr>
-  <tr>
-    <td>Derivative,	Daniel</td>
-    <td>DanielD</td>
-    <td>SMCS453627</td>
-  </tr>
-  <tr>
-    <td>Divider, David</td>
-    <td>DavidD</td>
-    <td>SMCS498732</td>
-  </tr>
-  <tr>
-    <td>Earnest, Ethan</td>
-    <td>EthanE</td>
-    <td>SMCS456428</td>
-  </tr>
-  <tr>
-    <td>Engineer, Ellie</td>
-    <td>EllieE</td>
-    <td>SMCS259786</td>
-  </tr>
-  <tr>
-    <td>Ethernet, Everlyn</td>
-    <td>EvelynE</td>
-    <td>SMCS432742</td>
-  </tr>
-  <tr>
-  	<td>Global,	Gracelyn</td>
-    <td>GracelynG</td>
-    <td>SMCS544633</td>
-  </tr>
-  <tr>
-  	<td>Haskell, Harrison</td>
-    <td>HarrisonH</td>
-    <td>SMCS754398</td>
-  </tr>
-  <tr>
-  	<td>Hypothesis,	Hien</td>
-    <td>HienH</td>
-    <td>SMCS295473</td>
-  </tr>
-  <tr>
-  	<td>Integral, Isabela</td>
-    <td>IsabelaI</td>
-    <td>SMCS293893</td>
-  </tr>
-  <tr>
-  	<td>Keyboard, Kevin</td>
-    <td>KevinK</td>
-    <td>SMCS394282</td>
-  </tr>
-   <tr>
-  	<td>Kinetics,	Katherine</td>
-    <td>KatherineK</td>
-    <td>SMCS823987</td>
-  </tr>
-  <tr>
-  	<td>L'Bozo,	Benjamin</td>
-    <td>BenjaminL</td>
-    <td>SMCS932852</td>
-  </tr>
-  <tr>
-  	<td>L'Hospital,	Lily</td>
-    <td>LilyL</td>
-    <td>SMCS372422</td>
-  </tr>
-</table> 
+  <table id="juniorTable">
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Responded?</th>
+    </tr>
+  </table>
 </div>
+
 
 
       <div class="extra">
@@ -514,6 +336,11 @@
   </div>
   
   <script>
+  
+// Sample list of respondents
+
+// Function to generate table rows dynamically
+
 function goBack() {
 	window.location.href="/moderator";
 }
@@ -590,22 +417,101 @@ function uploadJuniorFiles(fileNameId) {
 
 }
 
-  function openCity(evt, cityName) {
-  var i, tabcontent, tablinks;
+const seniorRespondents = [
+    ["Algernon, Algorithm", "AlgorithmA", "No"],
+    ["Baguette, Bingbong", "BingbongB", "Yes"],
+    ["Calculator, Calvin", "CalvinC", "No"],
+    ["Calculator, Caitlyn", "CaitlynC", "Yes"],
+    ["Derivative, Daniel", "DanielD", "No"],
+    ["Divider, David", "DavidD", "Yes"]
+];
 
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
+const juniorRespondents = [
+    ["Calculator, Calvin", "CalvinC", "SMCS354367"],
+    ["Calculator, Caitlyn", "CaitlynC", "SMCS732984"]
+];
 
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
+// ✅ Function to dynamically generate a table
+function generateTable(tableId, data) {
+    const table = document.getElementById(tableId);
+    table.innerHTML = `
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Responded?</th>
+        </tr>
+    `; // ✅ Add header row
 
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " active";
+    data.forEach(([name, username, password]) => {
+        const row = document.createElement("tr");
+
+        // ✅ Store color based on password value
+        const bgColor = password === "No" ? "#ffcccc" : "#ccffcc"; // Red for No, Green for Yes
+
+        // ✅ Apply color directly to each `<td>`
+        row.innerHTML = `
+            <td style="background-color:${bgColor}">${name}</td>
+            <td style="background-color:${bgColor}">${username}</td>
+            <td style="background-color:${bgColor}">${password}</td>
+        `;
+
+        table.appendChild(row);
+    });
 }
+
+// ✅ Show correct tab content & generate the right table when clicked
+function openCity(evt, cityName) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    var tablinks = document.getElementsByClassName("tablinks");
+
+    // Hide all tab content
+    for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Remove active class from all buttons
+    for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+
+    // Show the selected tab content
+    document.getElementById(cityName).style.display = "block";
+
+    // Add the active class to the clicked tab
+    evt.currentTarget.classList.add("active");
+
+    // ✅ Generate the correct table
+    if (cityName === "Seniors") {
+    fetch('/getSeniorRespondents')
+    .then(res => res.json())
+    .then(data => {
+      var seniorRespondents=data.seniors;	
+    	generateTable("seniorTable", seniorRespondents);
+
+})
+    .catch(err => console.error("Failed to fetch room data:", err));
+
+    } else if (cityName === "Juniors") {
+
+    fetch('/getJeniorRespondents')
+    .then(res => res.json())
+    .then(data => {
+      var juniorRespondents=data.juniors;	
+    	generateTable("juniorTable", juniorRespondents);
+
+})
+    .catch(err => console.error("Failed to fetch room data:", err));
+
+    }
+    
+}
+
+// ✅ Set default tab on page load & generate its table
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("Seniors").style.display = "block"; // Default tab
+    document.querySelector(".tablinks").classList.add("active"); // Default active button
+    generateTable("seniorTable", seniorRespondents); // Default table generation
+});
 </script>
 
 </body>
