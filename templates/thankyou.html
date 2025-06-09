@@ -67,14 +67,19 @@ text-align: center;
 <p> Thank you for filling out the questionnaire! Your name has been recorded and you will receive a prize next week.</p>
 
 <p>If you would like to report bugs or suggest improvements regarding anything you experimented with today, please fill out this form:</p> 
-<p>Ok we will actually do major interface construction later so uh only fill this out if u have ideas that you think we won't think of on our own thank you!!!!!!!!!</p>
 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOKeVXB9SoNh5xjo6mUxgYXmlR_im19StTvuCIPAU1P2Ivcg/viewform?embedded=true" width="640" height="995" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 
 <p>You may receive additional prizes for completing this form.<p>
 <p>Enjoy the rest of your day!<p>
-<button class="login-button" id="backtocontrol">Back to Portal</button>
+<button class="login-button" id="backtocontrol" onclick="home()">Back to Portal</button>
 
 
 </div>
+
+<script>
+    function home() {
+        window.location.href="/";
+    }
+</script>    
 </body>
 </html>
