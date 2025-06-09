@@ -424,11 +424,11 @@ def submit_code():
 
     connection = psycopg2.connect(DATABASE_URL)
     cursor = connection.cursor()
-    cursor.execute("INSERT INTO \"Availability\" (\"Code\") VALUES (%s)", (code,))
+    cursor.execute("UPDATE \"Admin\" SET \"Code\" = %s WHERE \"id\" = 1", (code,))
     connection.commit()
     cursor.close()
     connection.close()
-
+    print("ok inserted")
     return jsonify({"message": "✅ Code successfully inserted into Availability table!"})
 
 if __name__ == '__main__':
