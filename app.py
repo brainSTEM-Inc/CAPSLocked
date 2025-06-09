@@ -242,9 +242,13 @@ def getStudents():
     cursor.execute('SELECT "Name" FROM "Junior Profiles";')
     juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
     '''
-    welcome="Welcome,  "+session["name"]+"!"
+    if session.get("user")=="admin":
+        welcome="Welcome, Test User!"
+    else:
+        welcome="Welcome,  "+session["name"]+"!"
 
     setGlobalVariables()
+    getRawData()
     day_periods_map = {}
 
     for room in roomToTimes.values():
