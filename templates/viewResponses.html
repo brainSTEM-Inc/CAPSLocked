@@ -1,69 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>Senior Questionnaire</title>
   <style>
-    body {
-      background-color: black;
-      margin: 0;
-      font-family: Arial, sans-serif;
+	body{
+    	margin: 0;
+      padding: 40px;
       display: flex;
-      justify-content: center;
+    	background-color: black;
       align-items: center;
-      height: 100vh;
+      justify-content: center;
+      font-family: 'Assistant', sans-serif;
+     }
+     .optionsColor{
+     	background-color: #cb5151ff;
+        padding: 10px;
+        font-size: 18px;
+        color: white;
+      }
+     .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     }
-
-    .container {
-      background-color: #ddd;
-      width: 500px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px;
     }
-
-    .header {
-      background-color: #360000ff;
-      color: white;
-      padding: 20px;
-      margin: 20px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
+    p{
+    color: black;
+    text-align: left;
+    font-size: 20px;
     }
-
-    .content {
-      padding: 20px;
-    }
-
-    .label {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    select {
+    .selection input[type="radio"]{
+    	width=100%;
+     }
+    
+    button[type="submit"]{
+    	background-color: #B51111;
+        color: white;
+        text-align: center;
+        margin: 0px;
+        padding: 18px 36px;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        margin-top: 30px;
+        width: 100%;
+        font-weight: bold;
+    }  
+    button[type="submit"]:hover {
+  background-color: #870c0cff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+    
+    table {
+      border-collapse: collapse;
       width: 100%;
-      padding: 12px;
-      font-size: 20px;
+      
+    }
+    td {
+      border: 1.5px solid #000;
+      padding: 10px;
+      text-align: center;
+    }
+    .checkbox-cell input[type="checkbox"] {
+      transform: scale(1.5);
+      cursor: pointer;
+      
+    }
+    .label-cell {
+      font-weight: bold;
+      background-color:#eb9494ff;
+      color: black;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown-button {
       background-color: #cb5151ff;
       color: white;
+      padding: 12px 20px;
+      font-size: 16px;
       border: none;
-      margin-bottom: 30px;
       cursor: pointer;
-
-    }
-
-    .button {
-      background-color: #b51111;
-      color: white;
-      font-size: 20px;
-      padding: 15px;
       width: 100%;
-      border: none;
-      border-radius: 0;
-      margin-bottom: 10px;
-      font-weight: bold;
-      cursor: pointer;
+      box-sizing: border-box;
+      text-align: left;
     }
 
-    .button:hover {
-      background-color: #9f0f0f;
+   
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #cb5151ff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+      color: white;
     }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+   
+    .dropdown-content a:hover {
+      background-color: #a83737ff;
+    }
+    
+    textarea{
+    	background-color:#cb5151ff;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        padding: 15px;
+        border-color:#cb5151ff;
+        color: white;
+    }
+    
+    .inputBox{
+    	background-color:#C5C1C5;
+        width 200px;
+        paddding: 40px;
+        font-family: Arial, sans-serif;
+      }
+     
+     .side{
+     	display: inline-block;
+     }
 
     /* Menu */
     .menu {
@@ -114,10 +210,25 @@
     .dropdown a:hover {
       background-color: #ccc;
     }
+ textarea::placeholder, input::placeholder {
+  color: white; /* ✅ Makes placeholder text white */
+}
+
+  #friendDropdown {
+    width: auto; /* ✅ Matches the button width */
+    max-height: 200px; /* ✅ Limits height */
+    overflow-y: auto; /* ✅ Enables scrolling */
+    background-color: #cb5151ff; /* ✅ Keeps styling consistent */
+    position: absolute; /* ✅ Ensures it stays positioned */
+    z-index: 10; /* ✅ Keeps it above other elements */
+    border: 1px solid #a83737ff; /* ✅ Adds a slight border */
+}
+
+ 
   </style>
 </head>
-
 <body>
+
   <!-- Menu Icon -->
   <div class="menu" onclick="toggleMenu()">
     <div></div>
@@ -148,16 +259,393 @@
     });
   </script>
 
-  <div class="container">
-    <div class="header">View Student Responses</div>
-    <div class="content">
-      <div class="label">Select Student</div>
-      <select>
-        <option>-- Select One --</option>
-      </select>
-      <button class="button">Upload Response Spreadsheet</button>
-      <button class="button">Export to Spreadsheet</button>
-      <button class="button">Return</button>
+  <div class="formContainer">
+    <div class="header">
+      <h2>Senior Questionnaire</h2>
+      <h3 id="welcomeMessage"></h3>
     </div>
+	<h4>Questions marked with * are required.</h4>
+    <form>
+      <p>Presentation Title*</p>
+      <textarea id="presTitle" rows="3" cols="50" placeholder="Enter the title of your presentation here"></textarea>
+
+      <p>Project Topic (Choose 1)*</p>
+      <div class="optionsColor" id="projectTopics"></div>
+
+      <p>Junior Presider</p>
+      <div class="dropdown">
+        <button id="presiderButton" class="dropdown-button" disabled=true>Select Junior Presider</button>
+        <div class="dropdown-content" id="presiderDropdown"></div>
+      </div>
+      
+      <p>Backup Presider</p>
+      <div class="dropdown">
+        <button id="backuppresiderButton" class="dropdown-button" disabled=true>Select Backup Presider</button>
+        <div class="dropdown-content" id="backuppresiderDropdown"></div>
+      </div>
+      
+      <p>Presider Introduction*</p>
+      <textarea id="presIntro" rows="3" cols="50" placeholder="Enter how you would like your presider to introduce you"></textarea>
+
+
+<p>Presenting with a Friend?</p>
+<h4>The more friends you add, the more likely you'll get to present with someone you like!</h4>
+<div id="friendContainer">
+    <button id="addFriendButton" class="dropdown-button">+ Add Friend</button>
+    <div class="dropdown-content" id="friendDropdown"></div>
+</div>
+<div id="selectedFriends"></div>
+
+
+      <p>Would you like additional presentation slots?*</p>
+      <div class="optionsColor">
+        <input type="radio" id="y" name="extraSlot" value="Yes">
+        <label for="y">Yes</label>
+        <input type="radio" id="n" name="extraSlot" value="No">
+        <label for="n">No</label>
+      </div>
+
+      <p>Select Availability*</p>
+      <table id="availabilityTable"></table>
+
+
+      <p>Write a short blurb for your presentation*</p>
+      <textarea id="presBlurb" rows="3" cols="50" placeholder="Something to draw your audience in"></textarea>
+
+		<p id="errorMessage" style="color: red; font-weight: bold;"></p>
+
+      <button type="submit">Submit</button>
+    </form>
   </div>
+
+  <script>
+  //OK PRANAVI THE GOAT MADE THIS AND "I" CONVERTED IT TO JAVASCRIPT PRANAVI IS THE GOAT AND COPILOT IS THE INTERN
+    // 🚀 Data sources
+    
+    /*const projectTopics = [
+      "Biology/Biotech", "Chemistry/Materials Science", "Computer Science/AI",
+      "Engineering", "Math", "Physics", "Earth Space Systems Science", "Economics/Social Issues"
+    ];*/
+    //const juniorPresiders = ["Alice", "Bob", "Charlie", "Dave"];
+    var juniorPresiders;
+    var seniors;
+    var projectTopics;
+    var availability;
+    /*const availability = {
+      "Wednesday, December 31st": ["2", "3", "4", "5"],
+      "Thursday, January 1st": ["2", "3", "4", "5"]
+    };*/
+
+
+    fetch('/getStudents')
+    .then(res => res.json())
+    .then(data => {
+      juniorPresiders=data.juniors;
+      seniors=data.seniors;
+      welcome=data.welcome;
+      projectTopics=data.projectTopics;
+      availability=data.availability;	    
+    /*})
+    .catch(err => console.error("Failed to fetch room data:", err));*/
+	document.getElementById("welcomeMessage").innerText=welcome;
+	  
+
+    // ✅ Populate project topics dynamically
+    const projectTopicsContainer = document.getElementById("projectTopics");
+    projectTopics.forEach(topic => {
+      const label = document.createElement("label");
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "projTopic";
+      radio.value = topic;
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(topic));
+      projectTopicsContainer.appendChild(label);
+      projectTopicsContainer.appendChild(document.createElement("br"));
+    });
+
+    // ✅ Populate presider dropdown dynamically
+    const presiderDropdown = document.getElementById("presiderDropdown");
+    const presiderButton = document.getElementById("presiderButton");
+
+juniorPresiders.sort();
+juniorPresiders.forEach(presider => {
+  const option = document.createElement("a");
+  option.textContent = presider; // Display presider name
+  option.style.cursor = "pointer"; // Make it feel clickable
+  option.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevents navigation
+    presiderButton.textContent = presider;
+  });
+  presiderDropdown.appendChild(option);
+	presiderDropdown.style.overflowY="auto";
+    presiderDropdown.style.maxHeight="200px";
+});
+
+    // ✅ Populate presider dropdown dynamically
+    const backuppresiderDropdown = document.getElementById("backuppresiderDropdown");
+    const backuppresiderButton = document.getElementById("backuppresiderButton");
+    
+juniorPresiders.forEach(presider => {
+  const option = document.createElement("a");
+  option.textContent = presider; // Display presider name
+  option.style.cursor = "pointer"; // Make it feel clickable
+  option.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevents navigation
+    backuppresiderButton.textContent = presider; // Updates button without reload
+  });
+  backuppresiderDropdown.appendChild(option);
+backuppresiderDropdown.style.overflowY="auto";
+    backuppresiderDropdown.style.maxHeight="200px";
+});
+
+
+
+
+    // ✅ Generate availability table dynamically
+const availabilityTable = document.getElementById("availabilityTable");
+
+// Create header row dynamically
+const headerRow = document.createElement("tr");
+headerRow.innerHTML = `<td class="label-cell">PD</td>`;
+Object.keys(availability).forEach(day => {
+  const headerCell = document.createElement("td");
+  headerCell.className = "label-cell";
+  headerCell.textContent = day;
+  headerRow.appendChild(headerCell);
+});
+availabilityTable.appendChild(headerRow);
+
+
+// Create availability rows dynamically
+const allPeriods = new Set(); // ✅ Collects all periods across all days
+
+Object.values(availability).forEach(periods => {
+  periods.forEach(period => allPeriods.add(period)); // ✅ Ensures unique periods across all days
+});
+
+allPeriods.forEach(period => {
+  const row = document.createElement("tr");
+  const labelCell = document.createElement("td");
+  labelCell.className = "label-cell";
+  labelCell.textContent = period;
+  row.appendChild(labelCell);
+
+  Object.keys(availability).forEach(day => {
+    const checkboxCell = document.createElement("td");
+    checkboxCell.className = "checkbox-cell";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = availability[day].includes(period); // ✅ Only checks relevant periods for each day
+    checkboxCell.appendChild(checkbox);
+    row.appendChild(checkboxCell);
+  });
+
+  availabilityTable.appendChild(row);
+});
+    
+    //const seniors = ["Alice", "Bob", "Charlie", "Dave"]; // ✅ Updated from juniorPresiders
+
+// ✅ Populate the friend dropdown dynamically
+const friendDropdown = document.getElementById("friendDropdown");
+//const addFriendButton = document.getElementById("addFriendButton");
+const selectedFriends = document.getElementById("selectedFriends");
+
+// Ensure dropdown opens correctly
+const addFriendButton = document.getElementById("addFriendButton");
+
+// Ensure dropdown opens correctly
+addFriendButton.addEventListener("click", (event) => {
+    event.preventDefault(); // 🔥 Prevent navigation issue
+    friendDropdown.style.display = friendDropdown.style.display === "block" ? "none" : "block";
+
+});
+
+
+// Add seniors to dropdown
+seniors.sort();
+seniors.forEach(senior => {
+    const option = document.createElement("a");
+    option.textContent = senior;
+    option.style.cursor = "pointer";
+    option.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevents page jump
+        addSelectedFriend(senior);
+        friendDropdown.style.display = "none"; // Hide dropdown after selection
+    });
+    friendDropdown.appendChild(option);
+});
+
+})
+    .catch(err => console.error("Failed to fetch room data:", err));
+	    
+// ✅ Add selected senior to display list
+function addSelectedFriend(senior) {
+    // Check if already selected
+    if (document.getElementById(`friend-${senior}`)) return;
+
+    const friendDiv = document.createElement("div");
+    friendDiv.id = `friend-${senior}`;
+    friendDiv.textContent = senior;
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "❌";
+    removeButton.style.marginLeft = "10px";
+    removeButton.addEventListener("click", () => {
+        friendDiv.remove();
+    });
+
+    friendDiv.appendChild(removeButton);
+    selectedFriends.appendChild(friendDiv);
+}
+
+function validateForm() {
+    // Get the error message container
+    const errorMessageContainer = document.getElementById("errorMessage");
+
+    // Check Presentation Title
+    const presentationTitle = document.getElementById("presTitle").value.trim();
+    if (!presentationTitle) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+
+    // Check Project Topic Selection
+    const projectTopicSelected = document.querySelector("input[name='projTopic']:checked");
+    if (!projectTopicSelected) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+
+    // Check Presider Introduction
+    const presiderIntro = document.getElementById("presIntro").value.trim();
+    if (!presiderIntro) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+
+    // Check Additional Presentation Slot Selection
+    const additionalSlotSelected = document.querySelector("input[name='extraSlot']:checked");
+    if (!additionalSlotSelected) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+
+    // Check if at least one availability checkbox is checked
+    const availabilityChecked = document.querySelectorAll("#availabilityTable input[type='checkbox']:checked").length > 0;
+    if (!availabilityChecked) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+    
+        const presentationBlurb = document.getElementById("presBlurb").value.trim();
+    if (!presentationBlurb) {
+        errorMessageContainer.textContent = "Some required fields are blank. Please check your response.";
+        return false;
+    }
+
+    // Clear error message if form is valid
+    errorMessageContainer.textContent = "";
+
+    return true;
+}
+
+
+document.querySelector("form").addEventListener("submit", function (e) {
+    if (welcome=="Welcome, Test User!") {
+    	window.location.href="/moderator";
+    }
+    if (!validateForm()) {  
+        e.preventDefault(); // ✅ Stops submission if validation fails
+        return; // ✅ Ensures no further execution
+    }
+    collectFormData();
+});
+
+
+function collectFormData() {
+    // Get presentation title
+    const presentationTitle = document.getElementById("presTitle").value.trim();
+
+    // Get selected junior presider
+    const presiderName = document.getElementById("presiderButton").textContent.trim();
+    const backupPresiderName = document.getElementById("backuppresiderButton").textContent.trim();
+
+    // Get selected project topic
+    const projectTopic = document.querySelector("input[name='projTopic']:checked");
+    const selectedProjectTopic = projectTopic ? projectTopic.value : "";
+
+    // Get additional presentation slot selection
+    const additionalSlotSelection = document.querySelector("input[name='extraSlot']:checked");
+    const selectedAdditionalSlot = additionalSlotSelection ? additionalSlotSelection.value : "";
+
+    // Get list of friends presenting
+    const selectedFriends = [...document.getElementById("selectedFriends").children]
+        .map(friendDiv => friendDiv.textContent.replace("❌", "").trim());
+
+const presentationBlurb = document.getElementById("presBlurb").value.trim();
+const presiderIntro = document.getElementById("presIntro").value.trim();
+
+
+
+// Get list of availability based on checkboxes
+const availabilityList = [];
+document.querySelectorAll("#availabilityTable tr").forEach(row => {
+    const periodCell = row.querySelector("td.label-cell");
+    if (periodCell) {
+        const periodText = periodCell.textContent.trim(); // Extract period number
+        const dayCells = row.querySelectorAll("td.checkbox-cell input[type='checkbox']");
+        dayCells.forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                // Fix the index shift issue by referencing the correct header
+                const dayName = document.querySelectorAll("#availabilityTable tr:first-child td.label-cell")[index + 1].textContent.trim();
+                availabilityList.push(`PD ${periodText}, ${dayName}`);
+            }
+        });
+    }
+});
+
+	
+    
+    // Return an object containing all collected data
+    var data = {
+        presentationTitle,
+        presiderName,
+        selectedProjectTopic,
+        selectedAdditionalSlot,
+        selectedFriends,
+        availabilityList,
+        presiderIntro,
+        presentationBlurb
+    };
+
+	    fetch('/logResponse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log("✅ Received response from backend!");
+		window.location.href = "/thankyou";
+                return response.text();
+            })
+            .then(message => {
+                console.log("📢 Backend says:", message);
+                //alert(message); // still alert the user nicely
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+            });
+    
+    console.log(JSON.stringify(data));
+    window.location.href = "/thankyou";
+}
+
+// Example usage
+
+
+  </script>
 </body>
+</html>
