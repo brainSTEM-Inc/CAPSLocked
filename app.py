@@ -295,46 +295,22 @@ def getStudents():
 def makeJuniorAccounts():
     global conn
     global cur
-    clear_table("Accounts")
+    #clear_table("Accounts")
     clear_table("Senior Profiles")
-    clear_table("Junior Profiles")
     conn = psycopg2.connect(DATABASE_URL)
-    cursor = conn.cursor() 
-    if request.files['juniorRoster']!="none":
-        file = request.files['juniorRoster']
-        rawData = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
+    cursor = conn.cursor()
     if request.files['seniorRoster']!="none":
         file = request.files['seniorRoster']
         rawData2 = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
 
     
-    juniorAccounts=[]
     seniorAccounts=[]
-    for i in range(len(rawData)):
-        x = [str(item).strip() for item in rawData.iloc[i]]
-        y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Junior"]
-        juniorAccounts.append(y)
-        
+
     for i in range(len(rawData2)):
         x = [str(item).strip() for item in rawData2.iloc[i]]
         y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Senior"]
         seniorAccounts.append(y)
         
-
-    for account in juniorAccounts:
-        #print(account)
-        username, password, name, message, class_name = account  # Unpack list
-
-        # ✅ Ensure empty values are stored as empty strings
-        cursor.execute("""
-            INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
-            VALUES (%s, %s, %s, %s, %s);
-        """, (username or "", password or "", name or "", message or "", class_name or ""))
-
-        cursor.execute("""
-        INSERT INTO "Junior Profiles" ("Name", "Username")
-        VALUES (%s, %s);
-    """, (name or "", username or ""))
 
 
     for account in seniorAccounts:
@@ -360,7 +336,44 @@ def makeJuniorAccounts():
 
 
 
+@app.route('/makeJuniorAccounts', methods=['POST'])
+def makeAccounts():
+    global conn
+    global cur
+    #clear_table("Accounts")
+    clear_table("Junior Profiles")
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor() 
+    if request.files['juniorRoster']!="none":
+        file = request.files['juniorRoster']
+        rawData = pd.read_csv(io.StringIO(file.stream.read().decode('utf-8')), header=None)
+    
+    juniorAccounts=[]
+    for i in range(len(rawData)):
+        x = [str(item).strip() for item in rawData.iloc[i]]
+        y=[x[2], "SMCS", x[1]+" "+x[0], x[3], "Junior"]
+        juniorAccounts.append(y)
+        
+    for account in juniorAccounts:
+        #print(account)
+        username, password, name, message, class_name = account  # Unpack list
 
+        # ✅ Ensure empty values are stored as empty strings
+        cursor.execute("""
+            INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
+            VALUES (%s, %s, %s, %s, %s);
+        """, (username or "", password or "", name or "", message or "", class_name or ""))
+
+        cursor.execute("""
+        INSERT INTO "Junior Profiles" ("Name", "Username")
+        VALUES (%s, %s);
+    """, (name or "", username or ""))
+
+    conn.commit()  # ✅ Save changes
+    print("Accounts inserted successfully!")
+
+    
+    return render_template('rosters.html')
 
 
 @app.route('/logResponse', methods=['POST'])
