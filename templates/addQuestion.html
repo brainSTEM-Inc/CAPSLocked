@@ -1,101 +1,221 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>Senior Questionnaire</title>
   <style>
-    body {
-      margin: 0px;
-      height: 100vh;
-      background-color: #000;
+	body{
+    	margin: 0;
+      padding: 40px;
       display: flex;
-      justify-content: center;
+    	background-color: black;
       align-items: center;
-      font-family: Assistant, sans-serif;
-position: relative;
-padding: 0px;
-    }
-
-    .backing {
-      width: 50%;
-        length: 90%;
-        background: #d9d9d9;
+      justify-content: center;
+      font-family: 'Assistant', sans-serif;
+     }
+     .optionsColor{
+     	background-color: #cb5151ff;
         padding: 10px;
+        font-size: 18px;
+        color: white;
+      }
+     .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+      	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+	.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    p{
+    color: black;
+    text-align: left;
+    font-size: 20px;
+    }
+    .selection input[type="radio"]{
+    	width=100%;
+     }
+
+	  /*button[type="submit"]*/
+    button{
+    	background-color: #B51111;
+        color: white;
+        text-align: center;
         margin: 0px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-        align-content: stretch;
-    }
-
-    .header {
-      width: 90%;
-        background-color: #580C1F;
-        align-self: flex;
-        padding: 15px;
-        text-align: center;
-        color: #ffffff;
-        font-size: 24px;
-margin-top: 10px;
-margin-bottom: 10px;
-font-weight: bold;
-
-    }
-
-    .button {
-      width: 90%;
-        background-color: #B51111;
-        align-self: center;
-        padding: 15px;
-        text-align: center;
-        color: #ffffff;
-        margin-top: 10px;
-margin-bottom: 10px;
-font-size: 20px;
-font-weight: bold;
-    }
-    .question {
+        padding: 18px 36px;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        margin-top: 30px;
+        width: 100%;
+        font-weight: bold;
+    }  
+    button[type="submit"]:hover {
+  background-color: #870c0cff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+    
+    table {
+      border-collapse: collapse;
       width: 100%;
-      margin-bottom: 10px;
+      
     }
-    .label {
-      margin-bottom: 5px;
-      font-size: 18px;
-    }
-    select {
-      width: 100%;
+    td {
+      border: 1.5px solid #000;
       padding: 10px;
-      background-color: #d55;
-      color: white;
-      border: none;
-      font-size: 20px;
+      text-align: center;
+    }
+    .checkbox-cell input[type="checkbox"] {
+      transform: scale(1.5);
       cursor: pointer;
+      
     }
-    input[type="text"] {
+    .label-cell {
+      font-weight: bold;
+      background-color:#eb9494ff;
+      color: black;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
       width: 100%;
-      padding: 10px;
-      font-size: 20px;
-      border: none;
-      background-color: #d55;
-      color: white;
       box-sizing: border-box;
-    }
-    input[type="text"]::placeholder {
-      color: white;
-    }
-    .trash {
-      float: right;
-      cursor: pointer;
-      font-size: 18px;
-      color: #000;
-      margin-bottom: 10px;
+      text-align: left;
     }
 
-    .button:hover {
-      background-color: #9f0f0f;
+  
+    .dropdown-button {
+      background-color: #cb5151ff;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
       cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
     }
+
+   
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #cb5151ff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+      color: white;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+  
+    .dropdown:hover .dropdown-content {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+   
+    .dropdown-content a:hover {
+      background-color: #a83737ff;
+    }
+    
+    textarea{
+    	background-color:#cb5151ff;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        padding: 15px;
+        border-color:#cb5151ff;
+        color: white;
+    }
+    
+    .inputBox{
+    	background-color:#C5C1C5;
+        width 200px;
+        paddding: 40px;
+        font-family: Arial, sans-serif;
+      }
+     
+     .side{
+     	display: inline-block;
+     }
 
     /* Menu */
+    .menu {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 35px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .menu div {
+      height: 5px;
+      background-color: white;
+      border-radius: 2px;
+    }
+
+    /* Dropdown Menu */
+    .dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 30px;
+      background-color: #d9d9d9;
+      border: 1px solid #888;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdownMenu a {
+      display: block;
+      padding: 16px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .dropdownMenu a:last-child {
+      color: red;
+      border-bottom: none;
+    }
+
+    .dropdownMenu a:hover {
+      background-color: #ccc;
+    }
+ textarea::placeholder, input::placeholder {
+  color: white;
+}
+
+/* Menu */
     .menu {
       position: absolute;
       top: 30px;
@@ -145,16 +265,12 @@ font-weight: bold;
       background-color: #ccc;
     }
 
-    .main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+ 
+ 
   </style>
 </head>
 <body>
-  <!-- Menu Icon -->
+  !-- Menu Icon -->
   <div class="menu" onclick="toggleMenu()">
     <div></div>
     <div></div>
@@ -183,34 +299,58 @@ font-weight: bold;
       }
     });
   </script>
-
-  <div class="backing">
-    <div class="header">Student Questionnaire</div>
-    <div class="button">Add Question</div>
-
-    <div class="question">
-      <div class="label">Example <span class="trash">🗑️</span></div>
-      <select>
-        <option>-- Select One --</option>
-      </select>
+  <div class="formContainer">
+    <div class="header">
+      <h2>Project Topics</h2>
+      <h3 id="welcomeMessage"></h3>
     </div>
+    <form>
+      <p>Enter the possible topics here, one topic per row.</p>
+      <textarea id="projectTopics" rows="10" cols="50">Biology/Biotech
+Chemistry/Materials Science
+Computer Science/AI
+Engineering
+Math
+Physics
+Earth Space Systems Science
+Economics/Social Issues</textarea>
 
-    <div class="question">
-      <div class="label">Example <span class="trash">🗑️</span></div>
-      <input type="text" placeholder=" Text Entry"/>
-      </select>
-    </div>
-
-    <div class="question">
-      <div class="label">Example <span class="trash">🗑️</span></div>
-      <select>
-        <option>Yes/No</option>
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-    <div class="button">Finish</div>
+      <button type="button" onclick="getProjectTopics()">Save Topics</button>
+    </form>
   </div>
+
+  <script>
+  function getProjectTopics() {
+    // Get textarea content
+    const textarea = document.getElementById("projectTopics");
+    if (!textarea) {
+        console.error("Element with id 'projectTopics' not found.");
+        return;
+    }
+
+    // Split text into a list (removing extra spaces & newlines)
+    const topics = textarea.value.split("\n").map(line => line.trim()).filter(line => line !== "");
+	console.log(JSON.stringify(topics));
+    // Send the list to the backend via POST request
+fetch("/setProjectTopics", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ topics })
+})
+.then(response => {
+    if (response.ok) {
+        console.log("Request was successful! Redirecting...");
+        window.location.href = "/moderator"; // ✅ Redirect since backend returns HTML
+    } else {
+        console.error("Error: Server responded with an issue.");
+    }
+})
+.catch(error => console.error("Error sending project topics:", error));
+
+}
+
+	  
+
+  </script>
 </body>
 </html>
