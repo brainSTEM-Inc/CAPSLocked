@@ -246,21 +246,24 @@ def isCommitteeMember():
 def getStudents():
     global conn
     global cur
-    '''
+    
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
     cursor.execute('SELECT "Name" FROM "Senior Profiles";')
     seniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
     cursor.execute('SELECT "Name" FROM "Junior Profiles";')
     juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
-    '''
+    
     if session.get("user")=="Admin":
         welcome="Welcome, Test User!"
     else:
         welcome="Welcome,  "+session["name"]+"!"
 
     setGlobalVariables()
-    getRawData()
+    try:
+        getRawData()
+    except:
+        print("whatever no biggie")
     day_periods_map = {}
 
     for room in roomToTimes.values():
@@ -279,8 +282,8 @@ def getStudents():
     
         
     return jsonify({
-        "seniors":seniorsList,
-        "juniors": juniorsList,
+        "seniors":seniors,
+        "juniors": juniors,
         "welcome": welcome,
         "projectTopics":rawMaintopics,
         "availability": updated_day_periods_map
