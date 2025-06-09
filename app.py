@@ -1019,7 +1019,7 @@ def download_both_profiles():
     return Response(js_script, mimetype="text/html")  # ✅ Ensures proper execution
 
 @app.route('/getSeniorRespondents')
-def getSeniorRespondents() {
+def getSeniorRespondents():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     
@@ -1029,30 +1029,54 @@ def getSeniorRespondents() {
         FROM "Senior Profiles";
     """)
     
-    answeredSeniors = []
-    unansweredSeniors = []
+    seniors=[]
     
     # ✅ Process each row
     for name, username, presentation_title in cursor.fetchall():
         if presentation_title is None or presentation_title.strip() == "":
-            unansweredSeniors.append([name, username, "No"])
+            seniors.append([name, username, "No"])
         else:
-            answeredSeniors.append([name, username, "Yes"])
+            seniors.append([name, username, "Yes"])
     
     # ✅ Close database connection
     cursor.close()
     conn.close()
     
     # ✅ Debugging: Print results
-    print("Unanswered Seniors:", unansweredSeniors)
-    print("Answered Seniors:", answeredSeniors)
 
     return jsonify({
-        "answeredSeniors":answeredSeniors,
-        "unansweredSeniors": unansweredSeniors,
+        "seniors":seniors
     })
-}
 
+@app.route('/getJuniorRespondents')
+def getJuniorRespondents():
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
+    # ✅ Query to fetch data from "Senior Profiles"
+    cursor.execute("""
+        SELECT "Name", "Username", "Preferred Topics"
+        FROM "Junior Profiles";
+    """)
+    
+    seniors=[]
+    
+    # ✅ Process each row
+    for name, username, presentation_title in cursor.fetchall():
+        if presentation_title is None or presentation_title.strip() == "":
+            seniors.append([name, username, "No"])
+        else:
+            seniors.append([name, username, "Yes"])
+    
+    # ✅ Close database connection
+    cursor.close()
+    conn.close()
+    
+    # ✅ Debugging: Print results
+
+    return jsonify({
+        "juniors":seniors
+    })
 
 
 
