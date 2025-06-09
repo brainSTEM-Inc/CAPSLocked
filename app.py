@@ -1006,6 +1006,7 @@ def download_junior_profiles():
 
 @app.route('/downloadBothProfiles')
 def download_both_profiles():
+    print("bro im alive eh?")
     """Triggers both CSV downloads by serving JavaScript correctly."""
     js_script = """
     <script>
