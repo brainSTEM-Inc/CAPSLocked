@@ -1004,10 +1004,12 @@ def download_junior_profiles():
     return Response(csv_data, mimetype="text/csv",
                     headers={"Content-Disposition": "attachment; filename=Junior_Profiles.csv"})
 
+
 @app.route('/downloadBothProfiles')
 def download_both_profiles():
-    print("bro im alive eh?")
     """Triggers both CSV downloads by serving JavaScript correctly."""
+    print("bro im alive eh?")  # ✅ This will now actually print in Flask logs
+
     js_script = """
     <script>
         window.open('/downloadSeniorProfiles', '_blank');
@@ -1015,7 +1017,6 @@ def download_both_profiles():
     </script>
     """
     return Response(js_script, mimetype="text/html")  # ✅ Ensures proper execution
-
 
 
 
