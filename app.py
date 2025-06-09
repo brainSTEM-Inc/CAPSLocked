@@ -1216,7 +1216,7 @@ def parse_data():
     connection.commit()
 
     for name, values in juniorRawdataDict.items():
-        preferred_topics = ", ".join(values[0]) if values[0] else ""  # ✅ Preferred Topics (comma-separated)
+        preferred_topics = values[0] if values[0] else ""  # ✅ Preferred Topics (comma-separated)
         availability = ", ".join(values[1]) if values[1] else ""  # ✅ Availability (comma-separated)
     
         # ✅ Update the row where "Name" matches in "Junior Profiles"
