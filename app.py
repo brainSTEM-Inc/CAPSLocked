@@ -1292,10 +1292,10 @@ def parse_data():
     #print(juniorDisplayAllTimesFromData)
     return render_template('index.html')
 
-'''
+
     connection = psycopg2.connect(DATABASE_URL)
     cursor = connection.cursor()
-
+    '''
     for name, values in rawdataDict.items():
         availability = ", ".join(values[0]) if values[0] else ""  # ✅ Availability (comma-separated)
         project_topic = values[1] if values[1] else ""  # ✅ Project Topic
@@ -1320,7 +1320,7 @@ def parse_data():
     
     # ✅ Commit changes and close connection
     connection.commit()
-
+    '''
     for name, values in juniorRawdataDict.items():
         preferred_topics = values[0] if values[0] else ""  # ✅ Preferred Topics (comma-separated)
         availability = ", ".join(values[1]) if values[1] else ""  # ✅ Availability (comma-separated)
@@ -1340,7 +1340,8 @@ def parse_data():
 
 
     print("✅ Profiles tables successfully updated!")
-'''
+    return render_template('index.html')
+
 
 
 
