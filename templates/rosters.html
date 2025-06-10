@@ -493,7 +493,7 @@ function openCity(evt, cityName) {
 
     } else if (cityName === "Juniors") {
 
-    fetch('/getJeniorRespondents')
+    fetch('/getJuniorRespondents')
     .then(res => res.json())
     .then(data => {
       var juniorRespondents=data.juniors;	
