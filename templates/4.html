@@ -129,6 +129,7 @@ var presiderInfo={};
       finalRoomDistribution=data.daysRoomsTimes;
       presiderInfo=data.presiderInfo;
 	timeTopicDict=data.fullPresiderDict;
+	    console.log(timeTopicDict);
 
 Object.entries(finalRoomDistribution).forEach(([day, rooms]) => {
     initialRoomDistribution[day] = {};
@@ -456,7 +457,7 @@ function downloadCSV() {
     document.body.removeChild(link);
 }
 
-function downloadPresiderCSV(timeTopicDict) {
+function downloadPresiderCSV() {
     let csvContent = "";
     
     // 🔹 Presider Info Section
