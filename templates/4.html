@@ -128,6 +128,7 @@ var presiderInfo={};
     .then(data => {
       finalRoomDistribution=data.daysRoomsTimes;
       presiderInfo=data.presiderInfo;
+	timeTopicDict=data.fullPresiderDict;
 
 Object.entries(finalRoomDistribution).forEach(([day, rooms]) => {
     initialRoomDistribution[day] = {};
@@ -455,22 +456,41 @@ function downloadCSV() {
     document.body.removeChild(link);
 }
 
-function downloadPresiderCSV() {
-	let csvContent = "";
+function downloadPresiderCSV(timeTopicDict) {
+    let csvContent = "";
+    
+    // 🔹 Presider Info Section
     csvContent += "Presider Info\n"; // Separator
     const headers1 = ["Senior Presenter", "Junior Presider", "Script"];
     const rows = Object.entries(presiderInfo).map(([senior, [junior, script]]) => [
         senior,
-        junior || "", // Ensuring junior is always a string
-        script || ""  // Ensuring script is always a string
+        junior || "", // Ensure junior is always a string
+        script || ""  // Ensure script is always a string
     ]);
 
     csvContent += headers1.join(",") + "\n"; // Add headers
-
     csvContent += rows.map(row => row.map(cell => 
         `"${(cell ?? "").toString().replace(/\n/g, ' ')}"`
-    ).join(",")).join("\n") + "\n";
+    ).join(",")).join("\n") + "\n\n"; // 🔹 Extra newline before Time-Topic section
 
+    // 🔹 Time-Topic-People Section
+    csvContent += "Time,Topic,People\n"; // Header
+
+    Object.entries(timeTopicDict).forEach(([time, topics]) => {
+        let firstRow = true; // Flag for inserting an empty row
+
+        Object.entries(topics).forEach(([topic, people]) => {
+            let row = `${time},${topic},"${people.join(", ")}"`; // Format row
+            csvContent += row + "\n";
+        });
+
+        if (firstRow) {
+            csvContent += "\n"; // 🔹 Empty row between times
+            firstRow = false;
+        }
+    });
+
+    // ✅ Create and download CSV file
     const blob = new Blob([csvContent], { type: "text/csv" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
