@@ -70,6 +70,7 @@
 
   <button class="login-button" onclick="wsp()">Log In</button>
   <button class="login-button" onclick="wsp2()">Generate schedules from spreadsheet</button>
+  <button class="login-button" onclick="wsp3()">Improvements Form</button>
   <script>
     function wsp() {
       document.getElementById('logoContainer').classList.add('animate');
@@ -82,6 +83,13 @@
       document.getElementById('logoContainer').classList.add('animate');
       setTimeout(() => {
         window.location.href = '/upload';
+      }, 800);
+    }
+    
+        function wsp3() {
+      document.getElementById('logoContainer').classList.add('animate');
+      setTimeout(() => {
+        window.location.href = '/bugreport';
       }, 800);
     }
   </script>
