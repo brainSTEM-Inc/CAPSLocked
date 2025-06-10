@@ -1831,6 +1831,8 @@ def final_distribution():
 
             if thisSchedule:
                 daysRoomsTimes[day][roomName]=thisSchedule
+            else:
+                print("ABORTION = TRUE")
             #daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)
     
     print("WTF?",daysRoomsTimes)
