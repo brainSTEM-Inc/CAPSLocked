@@ -1294,10 +1294,12 @@ def parse_data():
             displayAllTimes.append([time,0])
     
     juniorDisplayHeaders=["Junior Name",juniorDataHeaders[juniorTopicsCol],juniorDataHeaders[juniorAvailabilityCol]]
-    #print(juniorDisplayHeaders)
-    #print(juniorRawdataDict)
-    #print(juniorDisplayAllTimesFromData)
+    print(juniorDisplayHeaders)
+    print(juniorRawdataDict)
+    print(juniorDisplayAllTimesFromData)
 
+    print(rawdataDict)
+    
     return render_template('index.html')
     '''
     connection = psycopg2.connect(DATABASE_URL)
