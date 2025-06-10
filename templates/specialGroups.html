@@ -241,7 +241,7 @@ document.getElementById("saveGroupsButton").addEventListener("click", () => {
 let allGroupsData = [];
 
 document.querySelectorAll(".group").forEach(group => {
-let members = Array.from(group.querySelector(".selectedFriends").children).map(member => member.textContent);
+let members = Array.from(group.querySelector(".selectedFriends").children).map(member => member.firstChild.textContent);
 allGroupsData.push(members);
 });
 
