@@ -1833,7 +1833,7 @@ def final_distribution():
                 daysRoomsTimes[day][roomName]=thisSchedule
             #daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)
     
-    print(daysRoomsTimes)
+    print("WTF?",daysRoomsTimes)
     
     for day, rooms in daysRoomsTimes.items():
         for room, schedules in rooms.items():
