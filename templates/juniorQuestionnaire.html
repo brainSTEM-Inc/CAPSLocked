@@ -397,11 +397,13 @@ document.querySelector("form").addEventListener("submit", function (e) {
 if (welcome=="Welcome, Test User!") {
     	window.location.href="/moderator";
     }
+else {
     if (!validateForm()) {  
         e.preventDefault(); // ✅ Stops submission if validation fails
         return; // ✅ Ensures no further execution
     }
     collectFormData();
+}
 });
     
     
