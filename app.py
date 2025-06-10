@@ -1170,6 +1170,7 @@ def parse_data():
     csv=data.get('csv')
 
     juniorCsv=data.get('juniorCsv')
+    juniorUrl=data.get('juniorUrl')
     juniorFirstNameCol1 = data.get('juniorFirstNameCol')
     juniorLastNameCol1 = data.get('juniorLastNameCol')
     juniorTopicsCol1=data.get('juniorTopicsCol')
