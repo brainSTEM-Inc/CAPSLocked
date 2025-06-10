@@ -1290,6 +1290,7 @@ def parse_data():
     #print(juniorDisplayHeaders)
     #print(juniorRawdataDict)
     #print(juniorDisplayAllTimesFromData)
+    return render_template('index.html')
 
 '''
     connection = psycopg2.connect(DATABASE_URL)
@@ -1341,8 +1342,6 @@ def parse_data():
     print("✅ Profiles tables successfully updated!")
 '''
 
-    
-    return render_template('index.html')
 
 
 @app.route('/submit_availability', methods=['POST'])
