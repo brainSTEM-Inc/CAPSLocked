@@ -1631,7 +1631,7 @@ def receive_schedule():
             x=len(allDayDistributions)
             
             print("This is my girth", x)
-            while i<100 and i<x and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
+            while i<200 and i<x and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
             #while i<100 and allDayDistributions[i][1]==highScore:
                 print(i,allDayDistributions[i])
                 i+=1
@@ -1742,7 +1742,7 @@ def final_distribution():
                     newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
                 newSchedule[time].append(students[0])
                 newStudents.remove(students[0])
-                if len(schedules)<1000:
+                if len(schedules)<4000:
                     g(newSchedule, newStudents,newScore, maintopic, day)
                 
     
@@ -1775,7 +1775,7 @@ def final_distribution():
         highScore = sorted_schedules[0][1]
         #print(highScore)
         i=0
-        n=10
+        n=20
         schedulesToReturn = []
         while i<len(sorted_schedules) and sorted_schedules[i][1]==highScore:
             i+=1
