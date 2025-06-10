@@ -1815,7 +1815,7 @@ def final_distribution():
     
     daysRoomsTimes = {}
 
-    abortion=false
+    abortion=False
     for roomName, roomInfo in roomData.items():
         for day, thisRoom in roomInfo.items():
             schedules=[]
@@ -1834,7 +1834,7 @@ def final_distribution():
                 daysRoomsTimes[day][roomName]=thisSchedule
             else:
                 print("ABORTION = TRUE")
-                abortion=true
+                abortion=True
             #daysRoomsTimes[day][roomName]=f(thisRoom,roomName,day)
     
     print("WTF?",daysRoomsTimes)
