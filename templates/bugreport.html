@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+<style>
+
+body{
+    background-color: black;
+    color: white;
+    font-family: Assistant, sans-serif;
+    display: flex; /* ✅ Enables flexbox */
+    justify-content: center; /* ✅ Centers horizontally */
+    margin: 0; /* ✅ Removes default margin */
+    padding: 40px;
+
+ }
+ 
+ .formContainer{
+     	background-color: #D9D9D9;
+      	padding: 40px;
+      	width: 100%;
+      	max-width: 600px;
+    }
+
+p{
+color: black;
+font-size: 20px;
+}
+
+.login-button {
+  background-color: #B51111;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  margin-top: 45px;
+  margin-left: 220px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  align-items: center;
+}
+
+.header{
+    	background-color: #580C1F;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+
+.login-button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+h2{
+text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="formContainer">
+<div class="header">
+<h2>Improvements Form</h2></div>
+<p>If you would like to report bugs or suggest improvements regarding anything you experimented with today, please fill out this form:</p> 
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOKeVXB9SoNh5xjo6mUxgYXmlR_im19StTvuCIPAU1P2Ivcg/viewform?embedded=true" width="640" height="995" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+<p>Enjoy the rest of your day!<p>
+<button class="login-button" id="backtocontrol" onclick="home()">Back to Portal</button>
+
+
+</div>
+
+<script>
+    function home() {
+        window.location.href="/";
+    }
+</script>    
+</body>
+</html>
