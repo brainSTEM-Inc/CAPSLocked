@@ -1290,8 +1290,6 @@ def parse_data():
     #print(juniorDisplayHeaders)
     #print(juniorRawdataDict)
     #print(juniorDisplayAllTimesFromData)
-    return render_template('index.html')
-
 
     connection = psycopg2.connect(DATABASE_URL)
     cursor = connection.cursor()
