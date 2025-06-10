@@ -67,6 +67,11 @@ def login():
 
 @app.route('/upload')
 def upload():
+    global rawdataDict
+    try:
+        rawdataDict={}
+    except:
+        print("welp")
     return render_template('upload.html')
 
 @app.route('/select')
