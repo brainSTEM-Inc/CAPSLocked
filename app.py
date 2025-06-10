@@ -977,7 +977,7 @@ def setAllGlobalVariables():
 
 
 def generate_csv(table_name):
-    """Fetches data from the specified table and returns CSV content."""
+    """Fetches data from the specified table and returns correctly formatted CSV content."""
     connection = psycopg2.connect(DATABASE_URL)
     cursor = connection.cursor()
 
@@ -988,11 +988,15 @@ def generate_csv(table_name):
     cursor.close()
     connection.close()
 
-    # ✅ Create CSV content
-    csv_output = [",".join(column_names)]  # Header row
-    csv_output += [",".join(map(str, row)) for row in rows]  # Data rows
+    # ✅ Use CSV writer to handle commas properly
+    output = io.StringIO()
+    writer = csv.writer(output, quoting=csv.QUOTE_ALL)  # ✅ Ensures values with commas are wrapped in quotes
 
-    return "\n".join(csv_output)
+    writer.writerow(column_names)  # ✅ Header row
+    writer.writerows(rows)  # ✅ Data rows
+
+    return output.getvalue()
+
 
 @app.route('/downloadSeniorProfiles', methods=['GET'])
 def download_senior_profiles():
