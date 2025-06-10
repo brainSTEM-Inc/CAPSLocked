@@ -72,6 +72,10 @@ def upload():
 def select():
     return render_template('select.html')
 
+@app.route('/bugreports')
+def bugreports():
+    return render_template('bugreport.html')
+
 @app.route('/topicsByRoom')
 def topicsByRoom():
     if session.get("user") != "Admin":
