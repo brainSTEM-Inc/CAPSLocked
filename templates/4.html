@@ -469,27 +469,28 @@ function downloadPresiderCSV() {
         script || ""  // Ensure script is always a string
     ]);
 
-    csvContent += headers1.join(",") + "\n"; // Add headers
-    csvContent += rows.map(row => row.map(cell => 
-        `"${(cell ?? "").toString().replace(/\n/g, ' ')}"`
-    ).join(",")).join("\n") + "\n\n"; // 🔹 Extra newline before Time-Topic section
+csvContent += headers1.map(header => `"${header}"`).join(",") + "\n"; // ✅ Wrap headers in quotes
 
-    // 🔹 Time-Topic-People Section
-    csvContent += "Time,Topic,People\n"; // Header
+csvContent += rows.map(row => row.map(cell => 
+    `"${(cell ?? "").toString().replace(/\n/g, ' ').replace(/"/g, '""')}"` // ✅ Escape double quotes
+).join(",")).join("\n") + "\n\n"; // ✅ Extra newline before Time-Topic section
 
-    Object.entries(timeTopicDict).forEach(([time, topics]) => {
-        let firstRow = true; // Flag for inserting an empty row
+// 🔹 Time-Topic-People Section
+csvContent += `"Time","Topic","People"\n`; // ✅ Wrap header values in quotes
 
-        Object.entries(topics).forEach(([topic, people]) => {
-            let row = `${time},${topic},"${people.join(", ")}"`; // Format row
-            csvContent += row + "\n";
-        });
+Object.entries(timeTopicDict).forEach(([time, topics]) => {
+    let firstRow = true; // ✅ Flag for inserting an empty row
 
-        if (firstRow) {
-            csvContent += "\n"; // 🔹 Empty row between times
-            firstRow = false;
-        }
+    Object.entries(topics).forEach(([topic, people]) => {
+        let row = `"${time}","${topic}","${people.join(", ")}"`; // ✅ Wrap all values in quotes
+        csvContent += row + "\n";
     });
+
+    if (firstRow) {
+        csvContent += "\n"; // ✅ Empty row between times
+        firstRow = false;
+    }
+});
 
     // ✅ Create and download CSV file
     const blob = new Blob([csvContent], { type: "text/csv" });
