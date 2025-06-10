@@ -1291,7 +1291,7 @@ def parse_data():
     #print(juniorRawdataDict)
     #print(juniorDisplayAllTimesFromData)
 
-
+'''
     connection = psycopg2.connect(DATABASE_URL)
     cursor = connection.cursor()
 
@@ -1339,7 +1339,7 @@ def parse_data():
 
 
     print("✅ Profiles tables successfully updated!")
-
+'''
 
     
     return render_template('index.html')
