@@ -1541,9 +1541,25 @@ def getDataForStep3():
     for senior, junior in presiderDict.items():
         presiderInfo[senior]=[junior,rawdataDict[senior][7]]
     print(presiderInfo)
+
+
+    timeTopicDict = {}
+    for name, (topics, times) in juniorRawdataDict.items():
+        for time in times:
+            if time not in timeTopicDict:
+                timeTopicDict[time] = {}  # Initialize time slot
+    
+            for topic in topics:
+                if topic not in timeTopicDict[time]:
+                    timeTopicDict[time][topic] = []  # Initialize topic list
+                
+                timeTopicDict[time][topic].append(name)
+    
+    
     return jsonify({
         "daysRoomsTimes":daysRoomsTimes,
-        "presiderInfo":presiderInfo
+        "presiderInfo":presiderInfo,
+        "fullPresiderDict": timeTopicDict
     })
 
 allDayDistributions = []
