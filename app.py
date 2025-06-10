@@ -62,6 +62,7 @@ def logistics():
 
 @app.route('/login')
 def login():
+    session["user"] = "none"
     return render_template('login.html')
 
 @app.route('/upload')
@@ -1759,7 +1760,7 @@ def final_distribution():
                     newScore+=5*len(set(newSchedule[time]) & set(dataDict[students[0]][3]))
                 newSchedule[time].append(students[0])
                 newStudents.remove(students[0])
-                if len(schedules)<4000:
+                if len(schedules)<2000:
                     g(newSchedule, newStudents,newScore, maintopic, day)
                 
     
