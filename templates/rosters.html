@@ -8,14 +8,15 @@
       margin: 0;
       padding: 40px;
       display: flex;
-      background-color: black;
+      background: linear-gradient(180deg,  #360000, black);
       align-items: center;
       justify-content: center;
       font-family: 'Assistant', sans-serif;
     }
 
     .formContainer {
-      background-color: #D9D9D9;
+      background: linear-gradient(180deg, #d9d9d9, #b6abab);
+      border-radius: 6px;
       padding: 35px;
       width: 100%;
       max-width: 600px;
@@ -23,11 +24,12 @@
     }
 
     .header {
-      background-color: #580C1F;
+      background: linear-gradient(180deg, #550000, #360000);
       text-align: center;
       color: white;
       font-family: Arial, sans-serif;
       padding: 10px;
+      border-radius: 6px;
       margin-bottom: 20px;
     }
 
@@ -58,13 +60,17 @@
       color: white;
       cursor: pointer;
       display: flex;
+      border-radius: 6px;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     .upload-label:hover {
       background-color: #a43d3d;
+      transform: scale(1.1);
     }
 
     .upload input[type="file"] {
@@ -100,13 +106,17 @@
       padding: 18px 36px;
       border: none;
       font-size: 22px;
+	    border-radius: 8px;
       cursor: pointer;
       width: 100%;
       font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     button:hover {
       background-color: #9f0f0f;
+      transform: scale(1.05)
     }
 
     .extra {
@@ -180,6 +190,7 @@
   border: 1px solid #ccc;
   background-color: #cb5151ff;
   color: white;
+ border-radius: 6px;
 }
 
 
@@ -229,8 +240,10 @@
   padding: 8px;
 }
 
-#seniorTable tr, #juniorTable tr { background-color: white; }
-#seniorTable tr:hover, #juniorTable tr:hover { background-color: #ddd; }
+#seniorTable tr, #juniorTable tr { background-color: white; 
+border-radius: 6px;}
+#seniorTable tr:hover, #juniorTable tr:hover { background-color: #ddd; 
+border-radius: 6px;}
 
 #seniorTable th, #juniorTable th {
   padding-top: 12px;
@@ -238,6 +251,7 @@
   text-align: left;
   background-color: #cb5151ff;
   color: white;
+  border-radius: 6px;
 }
   </style>
 </head>
