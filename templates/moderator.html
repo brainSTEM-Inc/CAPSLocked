@@ -4,8 +4,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
 <style>
 	body {
-      height: 100vh;
-      background-color: #000;
+      height: 150vh;
+      background: linear-gradient(180deg,  #360000, black);
       font-family: Assistant, sans-serif;
       position: relative;
       padding: 30px;
@@ -18,20 +18,22 @@
       height: 90%;
     }
     .box {
-    	background-color: #d9d9d9;
+    	background: linear-gradient(180deg, #d9d9d9,#A18686);
         padding: 40px;
+        border-radius: 8px;
         box-sizing: border-box;
         width: 500px;
         margin-top: 40px;
     }
     
     .heading {
-      background-color: #360000;
+      background: linear-gradient(180deg, #550000, #360000);
       color: white;
       font-size: 24px;
       font-weight: bold;
       text-align: center;
       padding: 20px;
+      border-radius: 8px;
       margin-bottom: 10px;
 
     }
@@ -55,6 +57,8 @@
       border: none;
       cursor: pointer;
       font-family: Assistant, sans-serif;
+      border-radius: 6px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .startButton {
     	width: 100%;
@@ -72,6 +76,7 @@
     }
     .button:hover, .startButton:hover {
       background-color: #9f0f0f;
+      transform: scale(1.04);
       cursor: pointer;
     }
     
@@ -158,10 +163,11 @@
     }
 
 .box1 {
-    background-color: #d9d9d9;
+    background: linear-gradient(180deg, #EBEAEA ,#d9d9d9);
     padding: 20px;
     box-sizing: border-box;
     display: flex;
+    border-radius: 8px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -187,6 +193,7 @@ input[type="text"] {
     border: none;
     background-color: #f3f3f3;
     box-sizing: border-box;
+    border-radius: 6px;
 }
 
 .login-button {
@@ -197,6 +204,7 @@ input[type="text"] {
     padding: 10px 15px; /* ✅ Adjusts button size */
     border: none;
     cursor: pointer;
+    border-radius: 8px;
 }
 
     .login-button:hover,
