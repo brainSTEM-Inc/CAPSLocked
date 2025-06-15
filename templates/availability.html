@@ -287,7 +287,7 @@ function updateDayColumns() {
     const numRooms = parseInt(roomNumInput.value, 10);
     const numPeriods = parseInt(periodNumInput.value, 10);
 
-    // ✅ Ensure all room names are stored even if unchanged
+    // Ensure all room names are stored even if unchanged
     for (let j = 1; j <= numRooms; j++) {
         if (!savedRoomNames[`Room ${j}`]) {
             savedRoomNames[`Room ${j}`] = `Room ${j}`; // Default naming for rooms
@@ -341,10 +341,7 @@ function updateDayColumns() {
                 event.target.focus();
                 console.log(JSON.stringify(savedRoomNames));
             });
-            
-           
-            
-            
+		
 
             room.appendChild(roomLabel);
             roomList.appendChild(room);
@@ -443,9 +440,7 @@ if (dayColumn) {
         }
     }
 }
-            
-            
-            
+                 
             
         }
     }
@@ -490,7 +485,6 @@ console.log("roomsToTimes:", JSON.stringify(roomsToTimes));
             .catch(error => {
                 console.error('❌ Error:', error);
             });
-
 
 }
 
