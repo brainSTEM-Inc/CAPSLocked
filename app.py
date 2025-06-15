@@ -17,7 +17,7 @@ cur = conn.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS test (id SERIAL PRIMARY KEY, name TEXT);")
 conn.commit()
 
-print("✅ Connected to Neon DB!")
+print("Connected to Neon DB!")
 
 def clear_table(table_name):
     global conn
@@ -28,7 +28,7 @@ def clear_table(table_name):
     cur.execute(f'DELETE FROM "{table_name}";')
     conn.commit()
     print("im doing something im not supposed to be doing yk wut these error messages are kinda funny lets write a story so basiclaly once upon a itme")
-    print(f"✅ Table '{table_name}' has been cleared!")
+    print(f"Table '{table_name}' has been cleared!")
 
 #clear_table("Accounts")
 
@@ -36,7 +36,7 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(24) 
 
-app.config['SESSION_PERMANENT'] = True  # ✅ Ensures session persists
+app.config['SESSION_PERMANENT'] = True  # Ensures session persists
 app.config['SESSION_TYPE'] = 'filesystem'
 cached_accounts=[]
 
@@ -197,7 +197,7 @@ def checkLogin():
     #query = """SELECT Username, Name, Message, Class FROM Accounts WHERE Username = %s AND Password = %s;"""
     query = """SELECT "Username", "Name", "Message", "Class" FROM "Accounts" WHERE "Username" = %s AND "Password" = %s;"""
     cur.execute(query, (data.get("username"), data.get("password")))
-    result = cur.fetchone()  # ✅ Fetch matched row
+    result = cur.fetchone()  # Fetch matched row
 
     if result:  # If user exists
         print("i gave a second chance to cupid jk im not that stupid thats why this works")
@@ -260,9 +260,9 @@ def getStudents():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor() 
     cursor.execute('SELECT "Name" FROM "Senior Profiles";')
-    seniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
+    seniors = [row[0] for row in cursor.fetchall()]  # Convert results into a list
     cursor.execute('SELECT "Name" FROM "Junior Profiles";')
-    juniors = [row[0] for row in cursor.fetchall()]  # 🔥 Convert results into a list
+    juniors = [row[0] for row in cursor.fetchall()]  # Convert results into a list
     
     if session.get("user")=="Admin":
         welcome="Welcome, Test User!"
@@ -280,9 +280,9 @@ def getStudents():
         for day, periods in room.items():
             if day not in day_periods_map:
                 day_periods_map[day] = set()
-            day_periods_map[day].update(periods)  # ✅ Add periods, avoiding duplicates
+            day_periods_map[day].update(periods)  # Add periods, avoiding duplicates
     
-    # ✅ Convert sets to lists for final output
+    # Convert sets to lists for final output
     day_periods_map = {day: list(periods) for day, periods in day_periods_map.items()}
     
     updated_day_periods_map = {
@@ -327,7 +327,7 @@ def makeJuniorAccounts():
         #print(account)
         username, password, name, message, class_name = account  # Unpack list
 
-        # ✅ Ensure empty values are stored as empty strings
+        # Ensure empty values are stored as empty strings
         cursor.execute("""
             INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
             VALUES (%s, %s, %s, %s, %s);
@@ -338,7 +338,7 @@ def makeJuniorAccounts():
         VALUES (%s, %s);
     """, (name or "", username or ""))
 
-    conn.commit()  # ✅ Save changes
+    conn.commit()  # Save changes
     print("Accounts inserted successfully!")
 
     
@@ -368,7 +368,7 @@ def makeAccounts():
         #print(account)
         username, password, name, message, class_name = account  # Unpack list
 
-        # ✅ Ensure empty values are stored as empty strings
+        # Ensure empty values are stored as empty strings
         cursor.execute("""
             INSERT INTO "Accounts" ("Username", "Password", "Name", "Message", "Class")
             VALUES (%s, %s, %s, %s, %s);
@@ -379,7 +379,7 @@ def makeAccounts():
         VALUES (%s, %s);
     """, (name or "", username or ""))
 
-    conn.commit()  # ✅ Save changes
+    conn.commit()  # Save changes
     print("Accounts inserted successfully!")
 
     
@@ -452,7 +452,7 @@ def submit_code():
     cursor.close()
     connection.close()
     print("ok inserted")
-    return jsonify({"message": "✅ Code successfully inserted into Availability table!"})
+    return jsonify({"message": "Code successfully inserted into Availability table!"})
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -616,7 +616,7 @@ def setProjectTopics():
     cursor.execute("""
         UPDATE "Availability"
         SET "rawMaintopics" = %s
-        WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
+        WHERE "id" = 1;  --  Adjust the row ID accordingly!
     """, (json.dumps(rawMaintopics),))
 
     conn.commit()
@@ -788,7 +788,7 @@ def putSpecialGroupsInNeon():
     cursor.execute("""
         UPDATE "Availability"
         SET "specialGroups" = %s
-        WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
+        WHERE "id" = 1;  --  Adjust the row ID accordingly!
     """, (json.dumps(specialGroups),))
 
     conn.commit()
@@ -845,7 +845,7 @@ def setNewTopics():
     cursor.execute("""
         UPDATE "Availability"
         SET "topicsByRoom" = %s
-        WHERE "id" = 1;  -- ✅ Adjust the row ID accordingly!
+        WHERE "id" = 1;  --  Adjust the row ID accordingly!
     """, (json.dumps(topicsByRoom),))
 
     conn.commit()
@@ -994,12 +994,12 @@ def generate_csv(table_name):
     cursor.close()
     connection.close()
 
-    # ✅ Use CSV writer to handle commas properly
+    # Use CSV writer to handle commas properly
     output = io.StringIO()
-    writer = csv.writer(output, quoting=csv.QUOTE_ALL)  # ✅ Ensures values with commas are wrapped in quotes
+    writer = csv.writer(output, quoting=csv.QUOTE_ALL)  # Ensures values with commas are wrapped in quotes
 
-    writer.writerow(column_names)  # ✅ Header row
-    writer.writerows(rows)  # ✅ Data rows
+    writer.writerow(column_names)  # Header row
+    writer.writerows(rows)  # Data rows
 
     return output.getvalue()
 
@@ -1022,7 +1022,7 @@ def download_junior_profiles():
 @app.route('/downloadBothProfiles', methods=['POST'])
 def download_both_profiles():
     """Triggers both CSV downloads by serving JavaScript correctly."""
-    print("bro im alive eh?")  # ✅ This will now actually print in Flask logs
+    print("bro im alive eh?")  # This will now actually print in Flask logs
 
     js_script = """
     <script>
@@ -1030,14 +1030,14 @@ def download_both_profiles():
         window.open('/downloadJuniorProfiles', '_blank');
     </script>
     """
-    return Response(js_script, mimetype="text/html")  # ✅ Ensures proper execution
+    return Response(js_script, mimetype="text/html")  # Ensures proper execution
 
 @app.route('/getSeniorRespondents')
 def getSeniorRespondents():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     
-    # ✅ Query to fetch data from "Senior Profiles"
+    # Query to fetch data from "Senior Profiles"
     cursor.execute("""
         SELECT "Name", "Username", "Presentation Title"
         FROM "Senior Profiles";
@@ -1045,18 +1045,18 @@ def getSeniorRespondents():
     
     seniors=[]
     
-    # ✅ Process each row
+    # Process each row
     for name, username, presentation_title in cursor.fetchall():
         if presentation_title is None or presentation_title.strip() == "":
             seniors.append([name, username, "No"])
         else:
             seniors.append([name, username, "Yes"])
     
-    # ✅ Close database connection
+    # Close database connection
     cursor.close()
     conn.close()
     
-    # ✅ Debugging: Print results
+    # Debugging: Print results
 
     return jsonify({
         "seniors":seniors
@@ -1067,7 +1067,7 @@ def getJuniorRespondents():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     
-    # ✅ Query to fetch data from "Senior Profiles"
+    # Query to fetch data from "Senior Profiles"
     cursor.execute("""
         SELECT "Name", "Username", "Preferred Topics"
         FROM "Junior Profiles";
@@ -1075,27 +1075,22 @@ def getJuniorRespondents():
     
     seniors=[]
     
-    # ✅ Process each row
+    # Process each row
     for name, username, presentation_title in cursor.fetchall():
         if presentation_title is None or presentation_title.strip() == "":
             seniors.append([name, username, "No"])
         else:
             seniors.append([name, username, "Yes"])
     
-    # ✅ Close database connection
+    # Close database connection
     cursor.close()
     conn.close()
     
-    # ✅ Debugging: Print results
+    # Debugging: Print results
 
     return jsonify({
         "juniors":seniors
     })
-
-
-
-
-
 
 
 
@@ -1306,15 +1301,15 @@ def parse_data():
     cursor = connection.cursor()
     
     for name, values in rawdataDict.items():
-        availability = ", ".join(values[0]) if values[0] else ""  # ✅ Availability (comma-separated)
-        project_topic = values[1] if values[1] else ""  # ✅ Project Topic
-        friends = ", ".join(values[2]) if values[2] else ""  # ✅ Friends (comma-separated)
-        presentation_title = values[4] if values[4] else ""  # ✅ Presentation Title
-        presentation_blurb = values[5] if values[5] else ""  # ✅ Presentation Blurb
-        junior_presider = values[6] if values[6] else ""  # ✅ Junior Presider
-        presider_intro = values[7] if values[7] else ""  # ✅ Presider Intro
+        availability = ", ".join(values[0]) if values[0] else ""  # Availability (comma-separated)
+        project_topic = values[1] if values[1] else ""  # Project Topic
+        friends = ", ".join(values[2]) if values[2] else ""  # Friends (comma-separated)
+        presentation_title = values[4] if values[4] else ""  # Presentation Title
+        presentation_blurb = values[5] if values[5] else ""  # Presentation Blurb
+        junior_presider = values[6] if values[6] else ""  # Junior Presider
+        presider_intro = values[7] if values[7] else ""  # Presider Intro
     
-        # ✅ Update the row where "Name" matches
+        # Update the row where "Name" matches
         cursor.execute("""
             UPDATE "Senior Profiles"
             SET "Availability" = %s,
@@ -1327,14 +1322,14 @@ def parse_data():
             WHERE "Name" = %s
         """, (availability, project_topic, friends, presentation_title, presentation_blurb, junior_presider, presider_intro, name))
     
-    # ✅ Commit changes and close connection
+    # Commit changes and close connection
     connection.commit()
     
     for name, values in juniorRawdataDict.items():
-        preferred_topics = values[0] if values[0] else ""  # ✅ Preferred Topics (comma-separated)
-        availability = ", ".join(values[1]) if values[1] else ""  # ✅ Availability (comma-separated)
+        preferred_topics = values[0] if values[0] else ""  # Preferred Topics (comma-separated)
+        availability = ", ".join(values[1]) if values[1] else ""  # Availability (comma-separated)
     
-        # ✅ Update the row where "Name" matches in "Junior Profiles"
+        # Update the row where "Name" matches in "Junior Profiles"
         cursor.execute("""
             UPDATE "Junior Profiles"
             SET "Preferred Topics" = %s,
@@ -1342,13 +1337,13 @@ def parse_data():
             WHERE "Name" = %s
         """, (preferred_topics, availability, name))
     
-    # ✅ Commit changes and close connection
+    # Commit changes and close connection
     connection.commit()
     cursor.close()
     connection.close()
     
 
-    print("✅ Profiles tables successfully updated!")
+    print("Profiles tables successfully updated!")
     '''
 
 
@@ -1368,7 +1363,7 @@ def submit_availability():
     global topicQuantity
     global specialGroups
     
-    print("🔔 submit_availability was called!")
+    print("submit_availability was called!")
     data = request.get_json()
 
     roomToTimes = data.get('roomsToTimes')
