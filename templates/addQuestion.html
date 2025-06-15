@@ -340,7 +340,7 @@ fetch("/setProjectTopics", {
 .then(response => {
     if (response.ok) {
         console.log("Request was successful! Redirecting...");
-        window.location.href = "/moderator"; // ✅ Redirect since backend returns HTML
+        window.location.href = "/moderator"; // Redirect since backend returns HTML
     } else {
         console.error("Error: Server responded with an issue.");
     }
@@ -348,8 +348,6 @@ fetch("/setProjectTopics", {
 .catch(error => console.error("Error sending project topics:", error));
 
 }
-
-	  
 
   </script>
 </body>
