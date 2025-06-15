@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
-  <title>Senior Questionnaire</title>
+  <title>Add Question Page</title>
   <style>
 	body{
     	margin: 0;
@@ -90,7 +90,6 @@
       text-align: left;
     }
 
-  
     .dropdown-button {
       background-color: #cb5151ff;
       color: white;
@@ -102,7 +101,6 @@
       box-sizing: border-box;
       text-align: left;
     }
-
    
     .dropdown-content {
       display: none;
@@ -127,14 +125,12 @@
       text-align: left;
     }
 
-  
     .dropdown:hover .dropdown-content {
       display: block;
       width: 100%;
       box-sizing: border-box;
       text-align: left;
     }
-
    
     .dropdown-content a:hover {
       background-color: #a83737ff;
@@ -161,59 +157,10 @@
      .side{
      	display: inline-block;
      }
-
-    /* Menu */
-    .menu {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 35px;
-      height: 25px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+ 
+    textarea::placeholder, input::placeholder {
+      color: white;
     }
-
-    .menu div {
-      height: 5px;
-      background-color: white;
-      border-radius: 2px;
-    }
-
-    /* Dropdown Menu */
-    .dropdownMenu {
-      display: none;
-      position: absolute;
-      top: 70px;
-      right: 30px;
-      background-color: #d9d9d9;
-      border: 1px solid #888;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-      width: 200px;
-      z-index: 1000;
-    }
-
-    .dropdownMenu a {
-      display: block;
-      padding: 16px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      color: black;
-      border-bottom: 1px solid #aaa;
-    }
-
-    .dropdownMenu a:last-child {
-      color: red;
-      border-bottom: none;
-    }
-
-    .dropdownMenu a:hover {
-      background-color: #ccc;
-    }
- textarea::placeholder, input::placeholder {
-  color: white;
-}
 
 /* Menu */
     .menu {
@@ -265,8 +212,6 @@
       background-color: #ccc;
     }
 
- 
- 
   </style>
 </head>
 <body>
