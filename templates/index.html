@@ -19,25 +19,37 @@
       color: white;
       text-align: center;
       margin: 10px 0 30px;
+      font-size: 35px;
     }
 
     .text {
-      opacity: 0;
-      transform: translateX(150px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
       color: white;
       font-size: 24px;
       margin-bottom: 40px;
       text-align: center;
+      font-weight: bold;
     }
 
-    .animate .text {
-      opacity: 1;
-      font-size: 36px;
-      transform: translateX(0);
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .login-button {
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .button {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
       background-color: #B51111;
       color: white;
       padding: 12px 24px;
@@ -48,9 +60,29 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       margin: 10px;
+      font-weight: bold;
+      text-align: center;
     }
 
-    .login-button:hover {
+    .button:nth-of-type(1) {
+      padding-left: 30px;
+      padding-right: 30px;
+      animation-delay: 0.3s;
+    }
+
+    .button:nth-of-type(2) {
+      padding-left: 30px;
+      padding-right: 30px;
+      animation-delay: 0.6s;
+    }
+
+    .button:nth-of-type(3) {
+      padding-left: 30px;
+      padding-right: 30px;
+      animation-delay: 0.9s;
+    }
+
+    .button:hover {
       transform: scale(1.15);
       box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
@@ -58,39 +90,32 @@
 </head>
 <body>
 
-<div id="logoContainer">
-    <div class="text">
-      <div>CAPS</div>
-      <div>Locked</div>
-    </div>
-  </div>
   <h2>SMCS Symposium Scheduler</h2>
 
-  
+  <div id="logoContainer">
+    <div class="text">
+      <div>CAPSLocked</div>
+    </div>
+  </div>
 
-  <button class="login-button" onclick="wsp()">Log In</button>
-  <button class="login-button" onclick="wsp2()">Generate schedules from spreadsheet</button>
-  <button class="login-button" onclick="wsp3()">Improvements Form</button>
+
+  <div class="button-container">
+    <button class="button" onclick="wsp()">Log In</button>
+    <button class="button" onclick="wsp2()">Generate schedules from spreadsheet</button>
+    <button class="button" onclick="wsp3()">Improvements Form</button>
+  </div>
+
   <script>
     function wsp() {
-      document.getElementById('logoContainer').classList.add('animate');
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 800);
+      window.location.href = '/login';
     }
-    
+
     function wsp2() {
-      document.getElementById('logoContainer').classList.add('animate');
-      setTimeout(() => {
-        window.location.href = '/upload';
-      }, 800);
+      window.location.href = '/upload';
     }
-    
-        function wsp3() {
-      document.getElementById('logoContainer').classList.add('animate');
-      setTimeout(() => {
-        window.location.href = '/bugreport';
-      }, 800);
+
+    function wsp3() {
+      window.location.href = '/bugreport';
     }
   </script>
 
