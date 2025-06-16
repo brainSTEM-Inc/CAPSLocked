@@ -4,7 +4,7 @@
   <style>
     body {
       margin: 0;
-      height: 150vh;
+      height: 100vh;
       background: linear-gradient(180deg,  #360000, black);
       display: flex;
       justify-content: center;
@@ -14,7 +14,7 @@
 
     .backing {
       background: linear-gradient(180deg, #d9d9d9, #b6abab);
-        padding: 40px;
+        padding: 40px 40px 20px 40px;
         box-sizing: border-box;
         width: 350px;
         margin-top: 0px;
@@ -78,11 +78,10 @@
       cursor: pointer;
       margin-top: 10px;
       text-decoration: underline;
-       font-size: 14px;
+      font-size: 14px;
     }
 
     .button:hover {
-      background-color: #a10000;
       transform: scale(1.1);
       box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
@@ -110,8 +109,8 @@
 }
 
 h4 {
-    font-size: 15px; /* ✅ Small text */
-    text-align: center; /* ✅ Centers text */
+    font-size: 15px;
+    text-align: center;
 }
 
 
@@ -133,22 +132,22 @@ h4 {
   <script>
 
 document.getElementById("Password").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {  // ✅ Checks if Enter was pressed
-        //event.preventDefault();  // ✅ Prevents default form submission (if needed)
+    if (event.key === "Enter") {
+        //event.preventDefault();
         select();
     }
 });
 
 document.getElementById("Username").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {  // ✅ Checks if Enter was pressed
-        //event.preventDefault();  // ✅ Prevents default form submission (if needed)
+    if (event.key === "Enter") {
+        //event.preventDefault()
         select();
     }
 });
 
 
 window.onload = function() {
-    console.log("✅ Page has fully loaded!");
+    console.log("Page has fully loaded!");
     
     document.getElementById("notification").className="notification hide";
 };
@@ -174,7 +173,7 @@ window.onload = function() {
         body: JSON.stringify(data)
     })
     .then(response => {
-        console.log("✅ Received response from backend!");
+        console.log("Received response from backend!");
         return response.text();
     })
     .then(message => {
@@ -182,7 +181,7 @@ window.onload = function() {
 
         /*return fetch('/getUser', {
     method: 'GET',
-    credentials: 'include'  // ✅ Sends session cookies!
+    credentials: 'include'
 });*/
       return fetch('/getUser');
 
@@ -221,7 +220,7 @@ window.onload = function() {
         // else maybe redirect to user page or display error
     })
     .catch(error => {
-        console.error('❌ Error:', error);
+        console.error('Error:', error);
     });
 }
   </script>
