@@ -1,6 +1,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+  <title>Login</title>
   <style>
     body {
       margin: 0;
@@ -9,16 +10,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
     }
 
     .backing {
       background: linear-gradient(180deg, #d9d9d9, #b6abab);
-        padding: 40px 40px 20px 40px;
-        box-sizing: border-box;
-        width: 350px;
-        margin-top: 0px;
-        border-radius: 6px;
+      padding: 40px 40px 20px 40px;
+      box-sizing: border-box;
+      width: 350px;
+      margin-top: 0px;
+      border-radius: 6px;
     }
 
     .header {
@@ -30,7 +31,7 @@
       padding: 20px;
       margin-bottom: 30px;
       border-radius: 6px;
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
     }
 
     .contentHeading {
@@ -38,7 +39,7 @@
       margin-bottom: 0px;
       font-size: 20px;
       color: #222;
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
     }
 
     input[type="text"], input[type="password"] {
@@ -50,7 +51,7 @@
       background-color: #f3f3f3;
       box-sizing: border-box;
       border-radius: 8px;
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
     }
 
     .button {
@@ -62,7 +63,7 @@
       width: 100%;
       border: none;
       cursor: pointer;
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
       border-radius: 6px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -88,31 +89,30 @@
 
 
     .notification {
-  position: fixed;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color:#ffc7c7ff;
-  color: red;
-  padding: 15px 25px;
-  border-radius: 5px;
-  transition: top 0.5s ease;
-  z-index: 1000;
-}
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color:#ffc7c7ff;
+      color: red;
+      padding: 15px 25px;
+      border-radius: 5px;
+      transition: top 0.5s ease;
+      z-index: 1000;
+    }
 
-.notification.show {
-  top: 20px;
-}
+    .notification.show {
+      top: 20px;
+    }
 
-.hidden {
-  display: none;
-}
+    .hidden {
+      display: none;
+    }
 
-h4 {
-    font-size: 15px;
-    text-align: center;
-}
-
+    h4 {
+      font-size: 15px;
+      text-align: center;
+    }
 
   </style>
 </head>
