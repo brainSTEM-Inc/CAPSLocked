@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+<title>Moderator Panel</title>
 <style>
 	body {
-      height: 150vh;
+      height: 100vh;
       background: linear-gradient(180deg,  #360000, black);
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
       position: relative;
-      padding: 30px;
+      padding: 0px 0px 60px;
     }
     .wrapper {
       display: flex;
@@ -19,11 +19,10 @@
     }
     .box {
     	background: linear-gradient(180deg, #d9d9d9,#A18686);
-        padding: 40px;
+        padding: 50px;
         border-radius: 8px;
         box-sizing: border-box;
         width: 500px;
-        margin-top: 40px;
     }
     
     .heading {
@@ -38,46 +37,50 @@
 
     }
     .button {
-     
       align-self: center;
-      
       text-align: center;
-      
       margin-top: 10px;
       margin-bottom: 10px;
       font-size: 20px;
       font-weight: bold;
-      
-      
       background-color: #b51111;
       color: white;
-      
       padding: 20px;
       width: 100%;
       border: none;
       cursor: pointer;
-      font-family: Assistant, sans-serif;
+      font-family: "Monaco", monospace;
       border-radius: 6px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .startButton {
+    /*.startButton {
     	width: 100%;
-        background-color: #B51111;
-        align-self: center;
-        padding: 40px;
-        text-align: center;
-        color: #ffffff;
-        border: none;
-        cursor: pointer;
-        font-size: 20px;
-        font-weight: bold;
-		font-family: 'Assistant', sans-serif;
+      background-color: #B51111;
+      align-self: center;
+      padding: 40px;
+      text-align: center;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+      font-family: "Monaco", monospace;
 
-    }
-    .button:hover, .startButton:hover {
-      background-color: #9f0f0f;
+    }*/
+    .button:hover, .startButton:hover, .login-button:hover {
       transform: scale(1.04);
       cursor: pointer;
+    }
+    
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 15px;
+      font-size: 20px;
+      border: none;
+      background-color: #f3f3f3;
+      box-sizing: border-box;
+      border-radius: 8px;
+      font-family: "Monaco", monospace;
     }
     
     /* Menu */
@@ -148,9 +151,6 @@
     flex: 1; /* Ensures equal width */
 }
 
-
-
-
     .big-button {
       background-color: #b51111;
       color: white;
@@ -172,22 +172,20 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
-    width: fit-content; /* ✅ Automatically adjusts width based on content */
-    min-width: 400px; /* ✅ Ensures a minimum width */
-    margin: auto; /* ✅ Centers the div */
-    margin-top: 50px;
+    width: fit-content;
+    min-width: 400px;
 }
 
 
 .header {
-    font-size: 18px; /* ✅ Makes text smaller */
+    font-size: 18px;
     font-weight: bold;
     color: black;
-    white-space: nowrap; /* ✅ Prevents text from wrapping */
+    white-space: nowrap;
 }
 
 input[type="text"] {
-    flex: 1; /* ✅ Expands input */
+    flex: 1;
     padding: 10px;
     font-size: 16px;
     border: none;
@@ -199,32 +197,24 @@ input[type="text"] {
 .login-button {
     background-color: #b51111;
     color: white;
-    font-size: 16px; /* ✅ Keeps button small */
+    font-size: 16px;
     font-weight: bold;
-    padding: 10px 15px; /* ✅ Adjusts button size */
+    padding: 10px 15px;
     border: none;
     cursor: pointer;
     border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-    .login-button:hover,
-    .big-button:hover {
-      background-color: #9f0f0f;
-    }
 
 .big {
 	display: flex;
     flex-direction: column;
-    justify-content: center; /* ✅ Centers vertically */
-    align-items: center; /* ✅ Centers horizontally */
-    height: 100vh; /* ✅ Makes container fill entire viewport */
-    padding: 20px; /* ✅ Adds spacing */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
 
 }
-
-
-
-
 
 </style>
 </head>
@@ -342,7 +332,7 @@ input[type="text"] {
 fetch("/downloadSeniorProfiles", { method: "POST" }) 
   .then(response => response.text()) 
   .then(message => console.log(message)) 
-  .catch(error => console.error("❌ Error calling Python function:", error));
+  .catch(error => console.error("Error calling Python function:", error));
 
     }
     
@@ -350,7 +340,7 @@ fetch("/downloadSeniorProfiles", { method: "POST" })
 fetch("/downloadJuniorProfiles", { method: "POST" }) 
   .then(response => response.text()) 
   .then(message => console.log(message)) 
-  .catch(error => console.error("❌ Error calling Python function:", error));
+  .catch(error => console.error("Error calling Python function:", error));
 
     }
     
@@ -380,26 +370,26 @@ fetch("/downloadJuniorProfiles", { method: "POST" })
     document.getElementById("Code").addEventListener("input", function() {
     const setCodeButton = document.getElementById("setCode");
     console.log("im alive");
-    setCodeButton.disabled = this.value.trim() === ""; // ✅ Disables if empty
+    setCodeButton.disabled = this.value.trim() === ""; // Disables if empty
 });
 
 function sendCodeToBackend() {
     const code = document.getElementById("Code").value.trim();
 
-    fetch('/setCode', { // ✅ Replace with your actual backend endpoint
+    fetch('/setCode', { // Replace with your actual backend endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ code }) // ✅ Sends the code as JSON
+        body: JSON.stringify({ code }) // Sends the code as JSON
     })
-    .then(response => response.text()) // ✅ Handle response text from backend
+    .then(response => response.text()) // Handle response text from backend
     .then(message => {
-        console.log("📢 Backend says:", message);
-        alert("Successfully set new code: "+code); // ✅ Alerts user with backend response
+        console.log("Backend says:", message);
+        alert("Successfully set new code: "+code); // Alerts user with backend response
     })
     .catch(error => {
-        console.error('❌ Error:', error);
+        console.error('Error:', error);
     });
 }
 
