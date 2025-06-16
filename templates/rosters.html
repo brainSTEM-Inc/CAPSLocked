@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
-  <title>uploadRoster</title>
+  <title>Student Rosters</title>
   <style>
     body {
       margin: 0;
@@ -11,7 +10,7 @@
       background: linear-gradient(180deg,  #360000, black);
       align-items: center;
       justify-content: center;
-      font-family: 'Assistant', sans-serif;
+      font-family: "Monaco", monospace;
     }
 
     .formContainer {
@@ -27,7 +26,7 @@
       background: linear-gradient(180deg, #550000, #360000);
       text-align: center;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: "Monaco", monospace;
       padding: 10px;
       border-radius: 6px;
       margin-bottom: 20px;
@@ -35,18 +34,14 @@
 
     .upload {
       display: flex;
-      justify-content: space-between;
+      width: 100%;
       gap: 10px;
-      margin-bottom: 10px;
-      margin: 10px;
     }
 
     .upload-group {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 90%;
-      max-width: 200px;
     }
 
     .upload-label {
@@ -69,7 +64,6 @@
     }
 
     .upload-label:hover {
-      background-color: #a43d3d;
       transform: scale(1.1);
     }
 
@@ -91,7 +85,7 @@
     input[type="text"]::placeholder {
       color: white;
       top: 5px; /* Moves label to the top */
-	  position: absolute;
+	    position: absolute;
       left: 10px;
       top: 50%;
       transform: translateY(-50%);
@@ -115,7 +109,6 @@
     }
 
     button:hover {
-      background-color: #9f0f0f;
       transform: scale(1.05)
     }
 
@@ -180,17 +173,16 @@
     
     .file-name {
     	height: 50px;
-        margin-top: 10px;
+      margin-top: 10px;
     }
     
 .tab {
-  display: flex; /* ✅ Ensures tabs appear in a row */
-  flex-direction: row; /* ✅ Makes tabs horizontal */
-  justify-content: space-around; /* ✅ Adds spacing */
-  border: 1px solid #ccc;
+  display: flex; /* Ensures tabs appear in a row */
+  flex-direction: row; /* Makes tabs horizontal */
+  justify-content: space-around; /* Adds spacing */
   background-color: #cb5151ff;
   color: white;
- border-radius: 6px;
+  border-radius: 6px;
 }
 
 
@@ -200,7 +192,7 @@
   float: left;
   border: none;
   outline: none;
-  font-family: Assistant, sans-serif;
+  font-family: "Monaco", monospace;
   font-weight: bold;
   color: white;
   cursor: pointer;
@@ -211,7 +203,6 @@
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #853535ff;
 }
 
 /* Create an active/current tablink class */
@@ -229,7 +220,7 @@
 }
 
 #seniorTable, #juniorTable {
-  font-family: Assistant, sans-serif;
+  font-family: "Monaco", monospace;
   border-collapse: collapse;
   width: 100%;
 }
@@ -384,17 +375,17 @@ function uploadFiles(fileNameId) {
                 body: formData
             })
             .then(response => {
-                console.log("✅ Received response from backend!"); 
+                console.log("Received response from backend!"); 
 		document.getElementById(fileNameId).textContent = "Uploaded!";
 		//window.location.href="/moderator";
                 return response.text();
             })
             .then(message => {
-                console.log("📢 Backend says:", message);
+                console.log("Backend says:", message);
                 //alert(message); // still alert the user nicely
             })
             .catch(error => {
-                console.error('❌ Error:', error);
+                console.error('Error:', error);
                 //alert('An error occurred. Please try again.');
     
             });
@@ -404,7 +395,7 @@ function uploadFiles(fileNameId) {
 function uploadJuniorFiles(fileNameId) {
     const formData = new FormData();  
 
-    // ✅ Add each file, or "none" if no file is selected
+    // Add each file, or "none" if no file is selected
     const juniorFile = document.querySelector('input[name="juniorRoster"]').files[0];
     formData.append("juniorRoster", juniorFile ? juniorFile : "none");
             
@@ -414,17 +405,17 @@ function uploadJuniorFiles(fileNameId) {
                 body: formData
             })
             .then(response => {
-                console.log("✅ Received response from backend!"); 
+                console.log("Received response from backend!"); 
 		document.getElementById(fileNameId).textContent = "Uploaded!";
 		//window.location.href="/moderator";
                 return response.text();
             })
             .then(message => {
-                console.log("📢 Backend says:", message);
+                console.log("Backend says:", message);
                 //alert(message); // still alert the user nicely
             })
             .catch(error => {
-                console.error('❌ Error:', error);
+                console.error('Error:', error);
                 //alert('An error occurred. Please try again.');
     
             });
@@ -445,7 +436,7 @@ const juniorRespondents = [
     ["Calculator, Caitlyn", "CaitlynC", "SMCS732984"]
 ];
 
-// ✅ Function to dynamically generate a table
+// Function to dynamically generate a table
 function generateTable(tableId, data) {
     const table = document.getElementById(tableId);
     table.innerHTML = `
@@ -454,15 +445,15 @@ function generateTable(tableId, data) {
             <th>Username</th>
             <th>Responded?</th>
         </tr>
-    `; // ✅ Add header row
+    `; // Add header row
 
     data.forEach(([name, username, password]) => {
         const row = document.createElement("tr");
 
-        // ✅ Store color based on password value
+        // Store color based on password value
         const bgColor = password === "No" ? "#ffcccc" : "#ccffcc"; // Red for No, Green for Yes
 
-        // ✅ Apply color directly to each `<td>`
+        // Apply color directly to each `<td>`
         row.innerHTML = `
             <td style="background-color:${bgColor}">${name}</td>
             <td style="background-color:${bgColor}">${username}</td>
@@ -473,7 +464,7 @@ function generateTable(tableId, data) {
     });
 }
 
-// ✅ Show correct tab content & generate the right table when clicked
+// Show correct tab content & generate the right table when clicked
 function openCity(evt, cityName) {
     var tabcontent = document.getElementsByClassName("tabcontent");
     var tablinks = document.getElementsByClassName("tablinks");
@@ -494,7 +485,7 @@ function openCity(evt, cityName) {
     // Add the active class to the clicked tab
     evt.currentTarget.classList.add("active");
 
-    // ✅ Generate the correct table
+    // Generate the correct table
     if (cityName === "Seniors") {
     fetch('/getSeniorRespondents')
     .then(res => res.json())
@@ -520,7 +511,7 @@ function openCity(evt, cityName) {
     
 }
 
-// ✅ Set default tab on page load & generate its table
+// Set default tab on page load & generate its table
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("Seniors").style.display = "block"; // Default tab
     document.querySelector(".tablinks").classList.add("active"); // Default active button
