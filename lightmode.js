@@ -1,20 +1,26 @@
-let sunlight = localStorage.getItem('sunlight')
-const themeSwitch = document.getElementById('theme-switch')
+let sunlight = localStorage.getItem('sunlight');
+const themeSwitch = document.getElementById('theme-switch');
 
 const enableLightMode = () => {
-  document.body.classList.add('sunlight')
-  localStorage.setItem('sunlight', 'active')
-})
+  document.body.classList.add('sunlight');
+  localStorage.setItem('sunlight', 'active');
+};
 
 const disableLightMode = () => {
-  document.body.classList.remove('sunlight')
-  localStorage.setItem('sunlight', null)
+  document.body.classList.remove('sunlight');
+  localStorage.setItem('sunlight', null);
+};
+
+if (sunlight === 'active') {
+  enableLightMode();
 }
 
-if(sunlight === 'active') enablleLightMode()
 
-themeSwitch = addEventListener("click", () => {
-sunlight = localStorage.getItem('darkmode')
-sunlight !== "active" ? enableLightMode() : disableLightMode()
-  
-})
+themeSwitch.addEventListener('click', () => {
+  sunlight = localStorage.getItem('sunlight');
+  if (sunlight !== 'active') {
+    enableLightMode();
+  } else {
+    disableLightMode();
+  }
+});
