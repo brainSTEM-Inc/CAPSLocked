@@ -1,27 +1,28 @@
-document.addEventListener("DOMContentLoaded", function () {
-  let sunlight = localStorage.getItem('sunlight');
-  const themeSwitch = document.getElementById('theme-switch');
+document.addEventListener("DOMContentLoaded", () => {
+  const themeSwitch = document.getElementById("theme-switch");
+  const root = document.documentElement; // targets <html> for CSS variable scope
 
   const enableLightMode = () => {
-    document.body.classList.add('sunlight');
-    localStorage.setItem('sunlight', 'active');
+    root.classList.add("sunlight");
+    localStorage.setItem("sunlight", "active");
   };
 
   const disableLightMode = () => {
-    document.body.classList.remove('sunlight');
-    localStorage.setItem('sunlight', null);
+    root.classList.remove("sunlight");
+    localStorage.removeItem("sunlight"); // cleaner than setting to null
   };
 
-  if (sunlight === 'active') {
+  // Apply saved theme on page load
+  if (localStorage.getItem("sunlight") === "active") {
     enableLightMode();
   }
 
-  themeSwitch.addEventListener('click', () => {
-    sunlight = localStorage.getItem('sunlight');
-    if (sunlight !== 'active') {
-      enableLightMode();
-    } else {
+  // Toggle theme on button click
+  themeSwitch.addEventListener("click", () => {
+    if (root.classList.contains("sunlight")) {
       disableLightMode();
+    } else {
+      enableLightMode();
     }
   });
 });
