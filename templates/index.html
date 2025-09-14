@@ -13,6 +13,14 @@
 --base-variant: #ff2222;
 }
 
+  html.sunlight{
+--base-color: linear-gradient(180deg, #fff6eeff ,#ff5555);
+--text-color: black;
+--buttoncolor: #f1bfbf;
+--fill-color: #550000;
+--base-variant: #edbfbf;
+}
+  
 body {
 background: var(--base-color);
 font-family: "Monaco", monospace;
@@ -22,14 +30,8 @@ align-items: center;
 justify-content: center;
 margin: 0;
 height: 100vh;
-}
+transition: background 0.5s ease, color 0.5s ease;
 
-.sunlight{
---base-color: linear-gradient(180deg, #fff6eeff ,#ff5555);
---text-color: black;
---buttoncolor: #f1bfbf;
---fill-color: #550000;
---base-variant: #edbfbf;
 }
 
 h2 {
