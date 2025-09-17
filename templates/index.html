@@ -1,196 +1,185 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="sunlight">
+<html lang="en" data-theme="sunlight" class="sunlight">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
-  <script type="text/javascript" src="lightmode.js" defer></script>
-<title>Home</title>
-<style>
-:root{
---base-color: linear-gradient(180deg, #360000, black);
---text-color: white;
---buttoncolor:#B51111;
---fill-color: #fff7f7;
---base-variant: #ff2222;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet" />
+  <script src="lightmode.js" defer></script>
 
-.dark{
---base-color: linear-gradient(180deg, #360000, black);
---text-color: white;
---buttoncolor:#B51111;
---fill-color: #fff7f7;
---base-variant: #ff2222;
+  <style>
+    :root {
+      --base-color: linear-gradient(180deg, #360000, black);
+      --text-color: white;
+      --buttoncolor: #B51111;
+      --fill-color: #fff7f7;
+      --base-variant: #ff2222;
+    }
 
-}
-  html.sunlight{
---base-color: linear-gradient(180deg, #fff6eeff ,#ff5555);
---text-color: black;
---buttoncolor: #f1bfbf;
---fill-color: #550000;
---base-variant: #edbfbf;
-}
-  
-body {
-background: var(--base-color);
-font-family: "Monaco", monospace;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-margin: 0;
-height: 100vh;
-transition: background 0.5s ease, color 0.5s ease;
+    html.sunlight {
+      --base-color: linear-gradient(180deg, #fff6eeff, #ff5555);
+      --text-color: black;
+      --buttoncolor: #f1bfbf;
+      --fill-color: #550000;
+      --base-variant: #edbfbf;
+    }
 
-}
+    body {
+      background: var(--base-color);
+      font-family: "Monaco", monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      height: 100vh;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
 
-h2 {
-color: var(--text-color);
-text-align: center;
-margin: 10px 0 30px;
-font-size: 40px;
-}
+    h2 {
+      color: var(--text-color);
+      text-align: center;
+      margin: 10px 0 30px;
+      font-size: 40px;
+    }
 
-.text {
-color: var(--text-color);
-font-size: 24px;
-margin-bottom: 40px;
-text-align: center;
-font-weight: bold;
-font-family: "Monaco", monospace;
-}
+    .text {
+      color: var(--text-color);
+      font-size: 24px;
+      margin-bottom: 40px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-@keyframes fadeInUp {
-from {
-opacity: 0;
-transform: translateY(20px);
-}
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.button-container {
-display: flex;
-flex-direction: column;
-align-items: center;
-}
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-.button-wrapper {
-opacity: 0;
-animation: fadeInUp 0.6s ease forwards;
-animation-fill-mode: forwards;
-margin: 10px;
-}
+    .button-wrapper {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+      margin: 10px;
+    }
 
-.button-wrapper:nth-child(1) {
-animation-delay: 0.3s;
-}
+    .button-wrapper:nth-child(1) { animation-delay: 0.3s; }
+    .button-wrapper:nth-child(2) { animation-delay: 0.6s; }
+    .button-wrapper:nth-child(3) { animation-delay: 0.9s; }
 
-.button-wrapper:nth-child(2) {
-animation-delay: 0.6s;
-}
+    .button {
+      background-color: var(--buttoncolor);
+      color: var(--text-color);
+      padding: 12px 30px;
+      border: none;
+      border-radius: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.button-wrapper:nth-child(3) {
-animation-delay: 0.9s;
-}
+    .button:hover {
+      transform: scale(1.13);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
 
-.button {
-background-color: var(--buttoncolor);
-color: var(--text-color);
-padding: 12px 30px;
-border: none;
-border-radius: 6px;
-font-size: 20px;
-cursor: pointer;
-font-weight: bold;
-text-align: center;
-box-shadow: 0 4px 6px rgba(0,0,0,0.25);
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-font-family: "Monaco", monospace;
-}
+    #theme-switch {
+      height: 50px;
+      width: 50px;
+      padding: 0;
+      border-radius: 50px;
+      background-color: var(--base-variant);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
 
-.button:hover {
-transform: scale(1.13);
-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
+    #theme-switch svg {
+      fill: var(--fill-color);
+    }
 
-#theme-switch{
-height: 50px;
-width: 50px;
-padding: 0;
-border-radius: 50px;
-background-color: var(--base-variant);
-display: flex;
-justify-content: center;
-align-items:center;
-position: fixed;
-top: 20px;
-right: 20px;
-}
-#theme-switch svg{
-fill: var(--fill-color);
-}
+    #theme-switch svg:last-child {
+      display: none;
+    }
 
-#theme-switch svg:last-child{
-display: none;
-}
-.sunlight #theme-switch svg:first-child{
-display: none;
-}
+    html.sunlight #theme-switch svg:first-child {
+      display: none;
+    }
 
-.sunlight #theme-switch svg:last-child{
-display: block;
-}
-</style>
+    html.sunlight #theme-switch svg:last-child {
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
-<button id="theme-switch" onclick ="switch()" >
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/></svg>
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>
-</button>
+  <!-- Theme toggle button -->
+  <button id="theme-switch" aria-label="Toggle Theme">
+    <!-- Moon icon (dark mode) -->
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+      <path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/>
+    </svg>
+    <!-- Sun icon (light mode) -->
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+      <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
+    </svg>
+  </button>
 
-<h2>SMCS Symposium Scheduler</h2>
-<img src="https://imgur.com/4IWYffJ.png" alt="Logo" width="200" height="200">
+  <h2>SMCS Symposium Scheduler</h2>
+  <img src="https://imgur.com/4IWYffJ.png" alt="Logo" width="200" height="200">
 
-<div id="logoContainer">
-<div class="text">
-<div>CAPSLocked</div>
-</div>
-</div>
+  <div id="logoContainer">
+    <div class="text">
+      <div>CAPSLocked</div>
+    </div>
+  </div>
 
-<h3>Let's get to W-E-R-K!</h3>
-<div class="button-container">
-<div class="button-wrapper">
-<button class="button" onclick="wsp()">Log In</button>
-</div>
-<div class="button-wrapper">
-<button class="button" onclick="wsp2()">Generate schedules from spreadsheet</button>
-</div>
-<div class="button-wrapper">
-<button class="button" onclick="wsp3()">Improvements Form</button>
-</div>
-</div>
+  <h3>Let's get to W-E-R-K!</h3>
 
-<script>
-function wsp() {
-window.location.href = '/login';
-}
+  <div class="button-container">
+    <div class="button-wrapper">
+      <button class="button" onclick="wsp()">Log In</button>
+    </div>
+    <div class="button-wrapper">
+      <button class="button" onclick="wsp2()">Generate schedules from spreadsheet</button>
+    </div>
+    <div class="button-wrapper">
+      <button class="button" onclick="wsp3()">Improvements Form</button>
+    </div>
+  </div>
 
-function wsp2() {
-window.location.href = '/upload';
-}
+  <script>
+    function wsp() {
+      window.location.href = '/login';
+    }
 
-function wsp3() {
-window.location.href = '/bugreport';
-}
-function switch(){
+    function wsp2() {
+      window.location.href = '/upload';
+    }
 
-var element= document.body;
-element.classList.toggle("sunlight");
+    function wsp3() {
+      window.location.href = '/bugreport';
+    }
+  </script>
 
-}
-</script>
-
-<h4>Created by the CAPSLocked team: Pranavi Bhamidipati, Crest Highfill, Sherry Wang, Anna Zhou | SMCS 27</h4>
+  <h4>Created by the CAPSLocked team: Pranavi Bhamidipati, Crest Highfill, Sherry Wang, Anna Zhou | SMCS 27</h4>
 </body>
 </html>
