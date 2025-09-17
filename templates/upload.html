@@ -10,6 +10,7 @@
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            border-radius: 12px;
         }
         table, th, td {
             border: 1px solid black;
@@ -23,7 +24,7 @@
 	.tab {
 	  overflow: hidden;
 	  border: 1px solid #ccc;
-	  background-color: #f1f1f1;
+	  background-color: #B51111;
 	}
 	
 	/* Style the buttons inside the tab */
@@ -45,7 +46,7 @@
 	
 	/* Create an active/current tablink class */
 	.tab button.active {
-	  background-color: #ccc;
+	  background-color: #B51111;
 	}
 	
 	/* Style the tab content */
@@ -105,7 +106,7 @@ width:50px;
     <h1 style="color:white;  text-align: center;">SMCS Symposium Schedule Generator</h1>
     </div>
 
-    <h2 style="color:#750000">Senior Responses - Add Spreadsheet</h2>
+    <h2 style="color:#B51111">Senior Responses - Add Spreadsheet</h2>
     <p>Download the spreadsheet as a csv file and upload it here</p>
 
     <form id="uploadForm" enctype="multipart/form-data">
@@ -168,18 +169,21 @@ width:50px;
     
     <h2 style="color:#B51111">Rooms</h2>
     <p>Enter each room the symposium will be held in on a separate line, using the same format as the text below.</p>
-    <textarea id="roomsInput" style="width:200px; font-size: 22px;" rows="5">Room 195
+    <textarea id="roomsInput" style="width:200px; font-size:22px; border-radius:12px; padding: 5px; text-align: left;" rows="5">
+Room 195
 Room 198
-Room 199</textarea>
+Room 199
+</textarea>
 
-    <br><br><br>
-    <hr>
-    <h2 style="color:#B51111">All Possible Times</h2>
-    <p>Enter all possible times the symposium can be held in the text box below, using the same format.
-    <br>
-    Days are separated by a single empty line.
-    </p>
-    <textarea id="timesInput" style="width:400px; font-size: 22px;" rows="15">PD 2, Tuesday, December 19th
+<br><br><br>
+<hr>
+<h2 style="color:#B51111">All Possible Times</h2>
+<p>Enter all possible times the symposium can be held in the text box below, using the same format.
+<br>
+Days are separated by a single empty line.
+</p>
+<textarea id="timesInput" style="width:400px; font-size:22px; border-radius:12px; padding: 9px;" rows="15">
+PD 2, Tuesday, December 19th
 PD 3, Tuesday, December 19th
 PD 4, Tuesday, December 19th
 PD 5, Tuesday, December 19th
@@ -189,10 +193,11 @@ PD 2, Thursday, December 21st
 PD 3, Thursday, December 21st
 PD 4, Thursday, December 21st
 PD 5, Thursday, December 21st
-PD 6, Thursday, December 21st</textarea>
+PD 6, Thursday, December 21st
+</textarea>
 
     <br><br>
-    <button id="parseData" style="width:200px; font-size: 22px; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
+    <button id="parseData" style="width:200px; font-size: 22px; margin-right: 20px; border-radius:12px; background-color: #B51111; color: white; margin-top: 10px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
     <button id="nextPage" style="width:200px; font-size: 22px;" rows="5" disabled="true" onclick="nextPage()">Next</button>
     <p id="troubleshoot" style="display: none;">Problems with input will appear here.</p>
     <script>
