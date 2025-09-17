@@ -1,45 +1,53 @@
-localStorage.getItem("theme");
-localStorage.setItem("theme", newTheme);
+// lightmode.js
 
-const systemSettingDark = window.matchMedia("(Prefers color-scheme: midnight)");
-const systemSettingLight = window.matchMedia("(Prefers color-scheme: sunlight");
+const THEME_KEY = "theme";
+const DARK = "dark";
+const LIGHT = "sunlight";
 
- {
-  matches: true, media: "(Prefers-color-scheme: midnight)", onchange: null}
+// Get the <html> element and theme toggle button
+const html = document.documentElement;
+const button = document.getElementById("theme-switch");
 
-function calculateSettingAsThemeString({ localStorageTheme, systemSettingDark }) {
-  if (localStorageTheme !== null) {
-    return localStorageTheme;
-  }
+// Get saved theme or fall back to system preference
+function getPreferredTheme() {
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored) return stored;
 
-  if (systemSettingDark.matches) {
-    return "midnight";
-  }
-
-  return "sunlight";
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  return prefersDark ? DARK : LIGHT;
 }
 
-const button = document.querySelector("[data-theme-toggle]");
+// Apply theme to <html> tag and update icon if needed
+function applyTheme(theme) {
+  if (theme === LIGHT) {
+    html.classList.add("sunlight");
+  } else {
+    html.classList.remove("sunlight");
+  }
+  html.setAttribute("data-theme", theme);
+}
 
-button.addEventListener("click", () => {
-  const newTheme = currentThemeSetting === "midnight" ? "sunlight" : "midnight";
+// Toggle between themes
+function toggleTheme() {
+  const current = html.getAttribute("data-theme") || getPreferredTheme();
+  const newTheme = current === DARK ? LIGHT : DARK;
 
-  // update the button text
-  const newCta = newTheme === "midnight" ? "Change to light theme" : "Change to dark theme";
-  button.innerText = newCta;  
+  applyTheme(newTheme);
+  localStorage.setItem(THEME_KEY, newTheme);
+}
 
-  // use an aria-label if you are omitting text on the button
-  // and using sun/moon icons, for example
-  button.setAttribute("aria-label", newCta);
+// Listen for theme switch button click
+button.addEventListener("click", toggleTheme);
 
-  // update theme attribute on HTML to switch theme in CSS
-  document.querySelector("html").setAttribute("data-theme", newTheme);
-
-  // update in local storage
-  localStorage.setItem("theme", newTheme);
-
-  // update the currentThemeSetting in memory
-  currentThemeSetting = newTheme;
+// Sync across tabs
+window.addEventListener("storage", (e) => {
+  if (e.key === THEME_KEY) {
+    applyTheme(e.newValue);
+  }
 });
 
-
+// On initial load, apply saved or preferred theme
+document.addEventListener("DOMContentLoaded", () => {
+  const theme = getPreferredTheme();
+  applyTheme(theme);
+});
