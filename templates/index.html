@@ -8,8 +8,55 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet" />
 
-  <!-- Theme toggle logic -->
-  <script src="templates/js/lightmode.js" defer></script>
+  <!-- Theme toggle logic (inlined instead of external file) -->
+  <script defer>
+    const THEME_KEY = "theme";
+    const DARK = "dark";
+    const LIGHT = "sunlight";
+
+    const html = document.documentElement;
+
+    function getPreferredTheme() {
+      const stored = localStorage.getItem(THEME_KEY);
+      if (stored) return stored;
+
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return prefersDark ? DARK : LIGHT;
+    }
+
+    function applyTheme(theme) {
+      if (theme === LIGHT) {
+        html.classList.add("sunlight");
+      } else {
+        html.classList.remove("sunlight");
+      }
+      html.setAttribute("data-theme", theme);
+    }
+
+    function toggleTheme() {
+      const current = html.getAttribute("data-theme") || getPreferredTheme();
+      const newTheme = current === DARK ? LIGHT : DARK;
+
+      applyTheme(newTheme);
+      localStorage.setItem(THEME_KEY, newTheme);
+    }
+
+    window.addEventListener("storage", (e) => {
+      if (e.key === THEME_KEY) {
+        applyTheme(e.newValue);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      applyTheme(getPreferredTheme());
+
+      const button = document.getElementById("theme-switch");
+      if (button) {
+        button.addEventListener("click", toggleTheme);
+      }
+    });
+  </script>
+
 
   <style>
     /* Theme Variables */
