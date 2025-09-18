@@ -1,75 +1,5 @@
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>upload</title>
-
-  <!-- Fonts -->
-   <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet" />
-
-  <!-- Theme toggle logic (inlined instead of external file) -->
-  <script defer>
-    const THEME_KEY = "theme";
-    const DARK = "dark";
-    const LIGHT = "sunlight";
-
-    const html = document.documentElement;
-
-    function getPreferredTheme() {
-      const stored = localStorage.getItem(THEME_KEY);
-      if (stored) return stored;
-
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      return prefersDark ? DARK : LIGHT;
-    }
-
-    function applyTheme(theme) {
-      if (theme === LIGHT) {
-        html.classList.add("sunlight");
-      } else {
-        html.classList.remove("sunlight");
-      }
-      html.setAttribute("data-theme", theme);
-    }
-
-    function toggleTheme() {
-      const current = html.getAttribute("data-theme") || getPreferredTheme();
-      const newTheme = current === DARK ? LIGHT : DARK;
-
-      applyTheme(newTheme);
-      localStorage.setItem(THEME_KEY, newTheme);
-    }
-
-    window.addEventListener("storage", (e) => {
-      if (e.key === THEME_KEY) {
-        applyTheme(e.newValue);
-      }
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      applyTheme(getPreferredTheme());
-
-      const button = document.getElementById("theme-switch");
-      if (button) {
-        button.addEventListener("click", toggleTheme);
-      }
-    });
-  </script>
-
     <style>
-    
-    :root {
-      --base-color: linear-gradient(180deg, #360000, #130101);
-      --text-color: white;
-      --fill-color: #fff7f7;
-      --base-variant: #ff2222;
-    }
-
-    html.sunlight {
-      --base-color: linear-gradient(180deg, #fff6eeff, #ffded9 );;
-      --text-color: #B51111;
-      --fill-color: #550000;
-      --base-variant: #edbfbf;
-    }
         .columnnumbers {
             width: 30px;
             margin-right: 20px;
@@ -79,7 +9,6 @@
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            border-radius: 12px;
         }
         table, th, td {
             border: 1px solid black;
@@ -87,38 +16,13 @@
             padding: 5px;
             text-align: center;
         }
-        
-        button {
-  background-color: #B51111;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-family: 'Monaco', monospace;
-  transition: background-color 0.3s ease;
-}
-
-button:hover:not(:disabled) {
-  background-color: #E53935;
-}
-
-button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
 
 
-p{
-color: var(--text-color);
-}
 	/* Style the tab */
 	.tab {
 	  overflow: hidden;
 	  border: 1px solid #ccc;
-	  background-color: #B51111;
+	  background-color: #f1f1f1;
 	}
 	
 	/* Style the buttons inside the tab */
@@ -140,7 +44,7 @@ color: var(--text-color);
 	
 	/* Create an active/current tablink class */
 	.tab button.active {
-	  background-color: #B51111;
+	  background-color: #ccc;
 	}
 	
 	/* Style the tab content */
@@ -166,10 +70,6 @@ color: var(--text-color);
     p {
         font-size: 22px;
     }
-  
-  body{
-  font-family: 'Assistant', sans-serif;
-  }
 
 .columnnumbers {
 font-size: 22px; 
@@ -182,49 +82,14 @@ width:50px;
         cursor: pointer; /* Make it clickable */
     }
 
-.header {
-      background: linear-gradient(135deg, #B51111, #E53935); /* red gradient */
-      text-align: center;
-      padding: 1px ;
-      border-radius: 12px;
-      margin: 5px auto;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-size: 1.5 rem;
-    }
-    #theme-switch svg {
-  display: none;
-}
-
-html[data-theme="dark"] #theme-switch svg:first-child {
-  display: block; /* Show moon icon in dark mode */
-}
-
-html[data-theme="sunlight"] #theme-switch svg:last-child {
-  display: block; /* Show sun icon in light mode */
-}
-
     
     </style>
 
 </head>
-<body style="margin: 20px; background-image:var(--base-color);">
+<body style="margin: 20px;">
+    <h1 style="color:white; background-color:#B51111; text-align: center;">SMCS Symposium Schedule Generator</h1>
 
-<div class="header">
-    <h1 style="color:white;  text-align: center;">SMCS Symposium Schedule Generator</h1>
-    
-    <button id="theme-switch" aria-label="Toggle Theme">
-    <!-- Moon icon (dark mode) -->
-    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-      <path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/>
-    </svg>
-    <!-- Sun icon (light mode) -->
-    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-      <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
-    </svg>
-  </button>
-    </div>
-
-    <h2 style="color:var(--text-color)">Senior Responses - Add Spreadsheet</h2>
+    <h2 style="color:#B51111">Senior Responses - Add Spreadsheet</h2>
     <p>Download the spreadsheet as a csv file and upload it here</p>
 
     <form id="uploadForm" enctype="multipart/form-data">
@@ -234,31 +99,31 @@ html[data-theme="sunlight"] #theme-switch svg:last-child {
     <p>OR</p>
     
     <p>Make the spreadsheet public using a personal (non-MCPS) account and enter the link below</p>
-    <input id="spreadsheetUrl" type="text" name="url" style="width:100%; font-size: 22px;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUTvl8O4D9cuNTR1MBYAu8CgRzM_sI6eK29hoPriy-4edUpz7YUSDL80wLqxBszu0RLV2YYMLgL3pK/pub?output=csv">
+    <input id="spreadsheetUrl" type="text" name="url" style="width:100%; font-size: 22px; font-family: Times New Roman;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUTvl8O4D9cuNTR1MBYAu8CgRzM_sI6eK29hoPriy-4edUpz7YUSDL80wLqxBszu0RLV2YYMLgL3pK/pub?output=csv">
     
     <br><br><br>
     <hr>
-    <h2 style="color:var(--text-color)">Senior Responses - Columns</h2>
+    <h2 style="color:#B51111">Senior Responses - Columns</h2>
     <p>Number of column containing...</p>
     <form id="columnForm1" class="container" id="columnForm" style="font-size: 22px;">
-        <p>Last name</p> <input type="number" id="lastName" style="font-size: 22px;" class="columnnumbers" value="3">
-        <p>First name</p> <input type="number" id="firstName" style="font-size: 22px;" class="columnnumbers" value="4">
-        <p>Name of project</p> <input type="number" id="projectName" style="font-size: 22px;" class="columnnumbers" value="5">
-        <p>Project topic</p> <input type="number" id="projectTopic" style="font-size: 22px;" class="columnnumbers" value="6">
-        <p>Blurb about project</p> <input type="number" id="blurb" style="font-size: 22px;" class="columnnumbers" value="18">
+        <p>Last name</p> <input type="number" id="lastName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="3">
+        <p>First name</p> <input type="number" id="firstName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="4">
+        <p>Name of project</p> <input type="number" id="projectName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="5">
+        <p>Project topic</p> <input type="number" id="projectTopic" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="6">
+        <p>Blurb about project</p> <input type="number" id="blurb" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="18">
     </form>
     <form id="columnForm2" class="container" id="columnForm" style="font-size: 22px;">
-        <p>Availability</p> <input type="number" id="availability" style="font-size: 22px;" class="columnnumbers" value="7">
+        <p>Availability</p> <input type="number" id="availability" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="7">
         <p>Presider of Choice</p> <input type="number" id="presider" class="columnnumbers" value="8">
-    	<p>Presider Introduction</p> <input type="number" id="presiderIntro" style="font-size: 22px;" class="columnnumbers" value="10">
-        <p>Presenting with friend(s)</p> <input type="number" id="friends" style="font-size: 22px;" class="columnnumbers" value="15">
+    	<p>Presider Introduction</p> <input type="number" id="presiderIntro" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="10">
+        <p>Presenting with friend(s)</p> <input type="number" id="friends" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="15">
     </form>
 
     <br>
     <hr>
     
     
-    <h2 style="color:var(--text-color)">Junior Responses - Add Spreadsheet</h2>
+    <h2 style="color:#B51111">Junior Responses - Add Spreadsheet</h2>
     <p>Download the spreadsheet as a csv file and upload it here</p>
 
     <form id="juniorUploadForm" enctype="multipart/form-data">
@@ -268,40 +133,37 @@ html[data-theme="sunlight"] #theme-switch svg:last-child {
     <p>OR</p>
     
     <p>Make the spreadsheet public using a personal (non-MCPS) account and enter the link below</p>
-    <input id="juniorSpreadsheetUrl" type="text" name="url" style="width:100%; font-size: 22px;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7CKfSEaLsaw7I5GanMCMe8fU6DvOY79LIOAE7PnvSebb9kY51aVsDNShD7oMG6KLs29b811ijnDx7/pub?gid=0&single=true&output=csv">
+    <input id="juniorSpreadsheetUrl" type="text" name="url" style="width:100%; font-size: 22px; font-family: Times New Roman;" placeholder="Paste spreadsheet csv here..." value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7CKfSEaLsaw7I5GanMCMe8fU6DvOY79LIOAE7PnvSebb9kY51aVsDNShD7oMG6KLs29b811ijnDx7/pub?gid=0&single=true&output=csv">
     
     <br><br><br>
     <hr>
-    <h2 style="color:var(--text-color)">Junior Responses - Columns</h2>
+    <h2 style="color:#B51111">Junior Responses - Columns</h2>
     <p>Number of column containing...</p>
     <form id="columnForm3" class="container" id="columnForm" style="font-size: 22px;">
-        <p>Last name</p> <input type="number" id="juniorLastName" style="font-size: 22px;" class="columnnumbers" value="1">
-        <p>First name</p> <input type="number" id="juniorFirstName" style="font-size: 22px; " class="columnnumbers" value="2">
-        <p>Preferred Topics</p> <input type="number" id="juniorTopics" style="font-size: 22px; " class="columnnumbers" value="3">
-        <p>Availability</p> <input type="number" id="juniorAvailability" style="font-size: 22px; " class="columnnumbers" value="4">
+        <p>Last name</p> <input type="number" id="juniorLastName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="1">
+        <p>First name</p> <input type="number" id="juniorFirstName" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="2">
+        <p>Preferred Topics</p> <input type="number" id="juniorTopics" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="3">
+        <p>Availability</p> <input type="number" id="juniorAvailability" style="font-size: 22px; font-family: Times New Roman;" class="columnnumbers" value="4">
     </form>
     <br>
     <hr>
     
     
     
-    <h2 style="color:var(--text-color)">Rooms</h2>
+    <h2 style="color:#B51111">Rooms</h2>
     <p>Enter each room the symposium will be held in on a separate line, using the same format as the text below.</p>
-    <textarea id="roomsInput" style="width:200px; font-size:22px; border-radius:12px; padding: 5px; text-align: left;" rows="5">
-Room 195
+    <textarea id="roomsInput" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5">Room 195
 Room 198
-Room 199
-</textarea>
+Room 199</textarea>
 
-<br><br><br>
-<hr>
-<h2 style="color:var(--text-color)">All Possible Times</h2>
-<p>Enter all possible times the symposium can be held in the text box below, using the same format.
-<br>
-Days are separated by a single empty line.
-</p>
-<textarea id="timesInput" style="width:400px; font-size:22px; border-radius:12px; padding: 9px;" rows="15">
-PD 2, Tuesday, December 19th
+    <br><br><br>
+    <hr>
+    <h2 style="color:#B51111">All Possible Times</h2>
+    <p>Enter all possible times the symposium can be held in the text box below, using the same format.
+    <br>
+    Days are separated by a single empty line.
+    </p>
+    <textarea id="timesInput" style="width:400px; font-size: 22px; font-family: Times New Roman;" rows="15">PD 2, Tuesday, December 19th
 PD 3, Tuesday, December 19th
 PD 4, Tuesday, December 19th
 PD 5, Tuesday, December 19th
@@ -311,13 +173,12 @@ PD 2, Thursday, December 21st
 PD 3, Thursday, December 21st
 PD 4, Thursday, December 21st
 PD 5, Thursday, December 21st
-PD 6, Thursday, December 21st
-</textarea>
+PD 6, Thursday, December 21st</textarea>
 
     <br><br>
- <button id="parseData" style="width:200px; font-size: 22px; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
-    <button id="nextPage" style="width:200px; font-size: 22px;" rows="5" disabled="true" onclick="nextPage()">Next</button>
-	
+    <button id="parseData" style="width:200px; font-size: 22px; font-family: Times New Roman; margin-right: 20px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
+    <button id="nextPage" style="width:200px; font-size: 22px; font-family: Times New Roman;" rows="5" disabled="true" onclick="nextPage()">Next</button>
+    <p id="troubleshoot" style="display: none;">Problems with input will appear here.</p>
     <script>
         function checkInputs() {
             // Get input elements
