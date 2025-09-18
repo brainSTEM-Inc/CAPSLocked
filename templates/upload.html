@@ -1,6 +1,75 @@
 <head>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>upload</title>
+
+  <!-- Fonts -->
+   <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet" />
+
+  <!-- Theme toggle logic (inlined instead of external file) -->
+  <script defer>
+    const THEME_KEY = "theme";
+    const DARK = "dark";
+    const LIGHT = "sunlight";
+
+    const html = document.documentElement;
+
+    function getPreferredTheme() {
+      const stored = localStorage.getItem(THEME_KEY);
+      if (stored) return stored;
+
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return prefersDark ? DARK : LIGHT;
+    }
+
+    function applyTheme(theme) {
+      if (theme === LIGHT) {
+        html.classList.add("sunlight");
+      } else {
+        html.classList.remove("sunlight");
+      }
+      html.setAttribute("data-theme", theme);
+    }
+
+    function toggleTheme() {
+      const current = html.getAttribute("data-theme") || getPreferredTheme();
+      const newTheme = current === DARK ? LIGHT : DARK;
+
+      applyTheme(newTheme);
+      localStorage.setItem(THEME_KEY, newTheme);
+    }
+
+    window.addEventListener("storage", (e) => {
+      if (e.key === THEME_KEY) {
+        applyTheme(e.newValue);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      applyTheme(getPreferredTheme());
+
+      const button = document.getElementById("theme-switch");
+      if (button) {
+        button.addEventListener("click", toggleTheme);
+      }
+    });
+  </script>
+
     <style>
+    
+    :root {
+      --base-color: linear-gradient(180deg, #360000, #130101);
+      --text-color: white;
+      --fill-color: #fff7f7;
+      --base-variant: #ff2222;
+    }
+
+    html.sunlight {
+      --base-color: linear-gradient(180deg, #fff6eeff, #ffded9 );;
+      --text-color: #B51111;
+      --fill-color: #550000;
+      --base-variant: #edbfbf;
+    }
         .columnnumbers {
             width: 30px;
             margin-right: 20px;
@@ -18,8 +87,33 @@
             padding: 5px;
             text-align: center;
         }
+        
+        button {
+  background-color: #B51111;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Monaco', monospace;
+  transition: background-color 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #E53935;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 
 
+p{
+color: var(--text-color);
+}
 	/* Style the tab */
 	.tab {
 	  overflow: hidden;
@@ -97,16 +191,40 @@ width:50px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       font-size: 1.5 rem;
     }
+    #theme-switch svg {
+  display: none;
+}
+
+html[data-theme="dark"] #theme-switch svg:first-child {
+  display: block; /* Show moon icon in dark mode */
+}
+
+html[data-theme="sunlight"] #theme-switch svg:last-child {
+  display: block; /* Show sun icon in light mode */
+}
+
     
     </style>
 
 </head>
-<body style="margin: 20px; background-image:linear-gradient(180deg, #fff6eeff, #ffded9 );">
+<body style="margin: 20px; background-image:var(--base-color);">
+
 <div class="header">
     <h1 style="color:white;  text-align: center;">SMCS Symposium Schedule Generator</h1>
+    
+    <button id="theme-switch" aria-label="Toggle Theme">
+    <!-- Moon icon (dark mode) -->
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+      <path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/>
+    </svg>
+    <!-- Sun icon (light mode) -->
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+      <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
+    </svg>
+  </button>
     </div>
 
-    <h2 style="color:#B51111">Senior Responses - Add Spreadsheet</h2>
+    <h2 style="color:var(--text-color)">Senior Responses - Add Spreadsheet</h2>
     <p>Download the spreadsheet as a csv file and upload it here</p>
 
     <form id="uploadForm" enctype="multipart/form-data">
@@ -120,7 +238,7 @@ width:50px;
     
     <br><br><br>
     <hr>
-    <h2 style="color:#B51111">Senior Responses - Columns</h2>
+    <h2 style="color:var(--text-color)">Senior Responses - Columns</h2>
     <p>Number of column containing...</p>
     <form id="columnForm1" class="container" id="columnForm" style="font-size: 22px;">
         <p>Last name</p> <input type="number" id="lastName" style="font-size: 22px;" class="columnnumbers" value="3">
@@ -140,7 +258,7 @@ width:50px;
     <hr>
     
     
-    <h2 style="color:#B51111">Junior Responses - Add Spreadsheet</h2>
+    <h2 style="color:var(--text-color)">Junior Responses - Add Spreadsheet</h2>
     <p>Download the spreadsheet as a csv file and upload it here</p>
 
     <form id="juniorUploadForm" enctype="multipart/form-data">
@@ -154,7 +272,7 @@ width:50px;
     
     <br><br><br>
     <hr>
-    <h2 style="color:#B51111">Junior Responses - Columns</h2>
+    <h2 style="color:var(--text-color)">Junior Responses - Columns</h2>
     <p>Number of column containing...</p>
     <form id="columnForm3" class="container" id="columnForm" style="font-size: 22px;">
         <p>Last name</p> <input type="number" id="juniorLastName" style="font-size: 22px;" class="columnnumbers" value="1">
@@ -167,7 +285,7 @@ width:50px;
     
     
     
-    <h2 style="color:#B51111">Rooms</h2>
+    <h2 style="color:var(--text-color)">Rooms</h2>
     <p>Enter each room the symposium will be held in on a separate line, using the same format as the text below.</p>
     <textarea id="roomsInput" style="width:200px; font-size:22px; border-radius:12px; padding: 5px; text-align: left;" rows="5">
 Room 195
@@ -177,7 +295,7 @@ Room 199
 
 <br><br><br>
 <hr>
-<h2 style="color:#B51111">All Possible Times</h2>
+<h2 style="color:var(--text-color)">All Possible Times</h2>
 <p>Enter all possible times the symposium can be held in the text box below, using the same format.
 <br>
 Days are separated by a single empty line.
@@ -197,9 +315,10 @@ PD 6, Thursday, December 21st
 </textarea>
 
     <br><br>
-    <button id="parseData" style="width:200px; font-size: 22px; margin-right: 20px; border-radius:12px; background-color: #B51111; color: white; margin-top: 10px;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
-    <button id="nextPage" style="width:200px; font-size: 22px;" rows="5" disabled="true" onclick="nextPage()">Next</button>
-    <p id="troubleshoot" style="display: none;">Problems with input will appear here.</p>
+    <button id="parseData" style="width:200px; height:75px; font-size:22px; margin-right:20px; border-radius:12px; background-color:#B51111; color:white; margin-top:10px; font-family: 'Monaco', sans-serif;" rows="5" disabled="true" onclick="parseData()">View Parsed Data</button>
+
+<button id="nextPage" style="width:200px; height:50px; font-size:22px; margin-right:20px; border-radius:12px; background-color:#B51111; color:white; margin-top:10px; font-family: 'Monaco', sans-serif;" rows="5" disabled="true" onclick="nextPage()">Next</button>
+
     <script>
         function checkInputs() {
             // Get input elements
