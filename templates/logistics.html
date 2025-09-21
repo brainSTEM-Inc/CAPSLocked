@@ -259,12 +259,26 @@ periods.forEach(period => {
     const dropdown = document.createElement("select");
     dropdown.style = "cursor: pointer";
 
-    for (let i = 1; i <= 8; i++) {
+    /*for (let i = 1; i <= 8; i++) {
         const option = document.createElement("option");
         option.value = i;
         option.textContent = `${i}`;
         dropdown.appendChild(option);
-    }
+    }*/
+
+const dropdownStart = 2; // Starting value
+const dropdownMax = 8;   // Max value you want
+
+for (let i = dropdownStart; i <= dropdownMax; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = `${i}`;
+    dropdown.appendChild(option);
+}
+
+// Set default selected value to 2
+dropdown.value = dropdownStart;
+	
 
     dropdownCell.appendChild(dropdown);
     periodRow.appendChild(dropdownCell);
