@@ -196,7 +196,7 @@ function generateScheduleTable(allTimes, dayPeriods, rooms) {
         });
         table.appendChild(roomRow);
 
-periods.forEach(period => {
+periods.forEach((period, index) => {
     const periodRow = document.createElement("tr");
 
     // Period Label Cell
@@ -209,26 +209,18 @@ periods.forEach(period => {
     const dropdown = document.createElement("select");
     dropdown.style = "cursor: pointer";
 
-    /*for (let i = 1; i <= 8; i++) {
+    const dropdownStart = 2;
+    const dropdownMax = 8;
+
+    for (let i = dropdownStart; i <= dropdownMax; i++) {
         const option = document.createElement("option");
         option.value = i;
         option.textContent = `${i}`;
         dropdown.appendChild(option);
-    }*/
+    }
 
-const dropdownStart = 2; // Starting value
-const dropdownMax = 8;   // Max value you want
-
-for (let i = dropdownStart; i <= dropdownMax; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = `${i}`;
-    dropdown.appendChild(option);
-}
-
-// Set default selected value to 2
-dropdown.value = dropdownStart;
-	
+    const defaultValue = dropdownStart + index;
+    dropdown.value = defaultValue <= dropdownMax ? defaultValue : dropdownMax;
 
     dropdownCell.appendChild(dropdown);
     periodRow.appendChild(dropdownCell);
@@ -246,7 +238,6 @@ dropdown.value = dropdownStart;
 
     table.appendChild(periodRow);
 });
-
 	    // Create period rows
 /*
 periods.forEach(period => {
