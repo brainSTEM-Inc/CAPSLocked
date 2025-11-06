@@ -5,6 +5,7 @@ sys.setrecursionlimit(2000)
 
 import os
 import psycopg2
+import random
 
 # Get the database URL from Render's environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -1255,6 +1256,11 @@ def parse_data():
             if len(sharedTimes)>0:
                 output_list=sharedTimes
             presiderDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
+
+        if len(output_list) > 4:
+            output_list = random.sample(output_list, 4)
+
+        
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol].strip(),x[presiderIntroCol]]
     seniorsList=list(rawdataDict.keys())
     for senior in seniorsList:
