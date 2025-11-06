@@ -1598,13 +1598,13 @@ def receive_schedule():
                     if (len(set(students) & set(rawdataDict[student][2])))>0:
                         newScore+=5
 
-
-            if newScore > highestScore - 3:
-                if newScore > highestScore:
-                    highestScore = newScore
-                if random.randint(1, 100)==2:
-                    allDayDistributions.append([roomSchedule,newScore])
-            
+            if len(allDayDistributions)<=100:
+                if newScore > highestScore - 3:
+                    if newScore > highestScore:
+                        highestScore = newScore
+                    if random.randint(1, 100)==2:
+                        allDayDistributions.append([roomSchedule,newScore])
+                
             return
         
         student = list(studentAvailability.keys())[0]
