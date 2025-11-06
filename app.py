@@ -1582,7 +1582,7 @@ def receive_schedule():
     global allDayDistributions
     global roomDayDistribution
     global days
-    print("roomToTimes", roomToTimes)
+    #print("roomToTimes", roomToTimes)
 
     global highestScore
     #highestScore=0
@@ -1598,11 +1598,11 @@ def receive_schedule():
                     if (len(set(students) & set(rawdataDict[student][2])))>0:
                         newScore+=5
 
-            if len(allDayDistributions)<=50:
+            if len(allDayDistributions)<=100:
                 if newScore > highestScore - 3:
                     if newScore > highestScore:
                         highestScore = newScore
-                    if random.randint(1, 100)==2:
+                    if random.randint(1, 10)==2:
                         allDayDistributions.append([roomSchedule,newScore])
                 
             return
@@ -1620,18 +1620,19 @@ def receive_schedule():
             #break
             return
         for day in availableDays:
-            roomSchedule1 = copy.deepcopy(roomSchedule)
-            thisDayTimes1 = copy.deepcopy(thisDayTimes)
-            roomSchedule1[day].append(student)
-            thisDayTimes1[day]-=1
-        
-            studentAvailability1 = copy.deepcopy(studentAvailability)
-            del studentAvailability1[student]
-            newScore = score
-            if len(set(roomSchedule[day]) & set(rawdataDict[student][2]))>0:
-                newScore+=len(set(roomSchedule[day]) & set(rawdataDict[student][2]))
+            if random.randint(1, 3)==2:
+                roomSchedule1 = copy.deepcopy(roomSchedule)
+                thisDayTimes1 = copy.deepcopy(thisDayTimes)
+                roomSchedule1[day].append(student)
+                thisDayTimes1[day]-=1
             
-            findDayDistributions(roomSchedule1, studentAvailability1, thisDayTimes1, newScore)
+                studentAvailability1 = copy.deepcopy(studentAvailability)
+                del studentAvailability1[student]
+                newScore = score
+                if len(set(roomSchedule[day]) & set(rawdataDict[student][2]))>0:
+                    newScore+=len(set(roomSchedule[day]) & set(rawdataDict[student][2]))
+                
+                findDayDistributions(roomSchedule1, studentAvailability1, thisDayTimes1, newScore)
     
     roomDayDistribution={}
     for thisRoom, thisStudents in unboxedRoomData.items():
