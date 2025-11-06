@@ -1582,7 +1582,9 @@ def receive_schedule():
     global roomDayDistribution
     global days
     print("roomToTimes", roomToTimes)
-
+    
+    highestScore=0
+    
     def findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, score):
         global allDayDistributions
     
@@ -1592,7 +1594,13 @@ def receive_schedule():
                 for student in students:
                     if (len(set(students) & set(rawdataDict[student][2])))>0:
                         newScore+=5
-            allDayDistributions.append([roomSchedule,newScore])
+
+
+            if newScore > highestScore - 3:
+                if newScore > highestScore:
+                    highestScore = newScore
+                allDayDistributions.append([roomSchedule,newScore])
+            
             return
         
         student = list(studentAvailability.keys())[0]
