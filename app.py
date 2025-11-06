@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, session, Response
 import requests, pandas as pd, io, copy, sys, json, csv
 
-sys.setrecursionlimit(2000)
+sys.setrecursionlimit(20000)
 
 import os
 import psycopg2
@@ -1257,8 +1257,8 @@ def parse_data():
                 output_list=sharedTimes
             presiderDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
 
-        if len(output_list) > 4:
-            output_list = random.sample(output_list, 4)
+        if len(output_list) > 3:
+            output_list = random.sample(output_list, 3)
 
         
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol].strip(),x[presiderIntroCol]]
