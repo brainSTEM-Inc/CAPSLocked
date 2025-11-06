@@ -1573,6 +1573,7 @@ def getDataForStep3():
     })
 
 allDayDistributions = []
+highestScore=0
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     unboxedRoomData = request.get_json()
@@ -1582,12 +1583,14 @@ def receive_schedule():
     global roomDayDistribution
     global days
     print("roomToTimes", roomToTimes)
-    
-    highestScore=0
+
+    global highestScore
+    #highestScore=0
     
     def findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, score):
         global allDayDistributions
-    
+        global highestScore 
+        
         if not studentAvailability:
             newScore=score
             for students in list(roomSchedule.values()):
@@ -1599,7 +1602,8 @@ def receive_schedule():
             if newScore > highestScore - 3:
                 if newScore > highestScore:
                     highestScore = newScore
-                allDayDistributions.append([roomSchedule,newScore])
+                if random.randint(1, 100)==2:
+                    allDayDistributions.append([roomSchedule,newScore])
             
             return
         
@@ -1649,7 +1653,8 @@ def receive_schedule():
         studentAvailability = dict(sorted(studentAvailability.items(), key=lambda item: len(item[1])))
         
         allDayDistributions = []
-        
+
+        highestScore=0
         findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, 0)
         allDayDistributions = sorted(allDayDistributions, key=lambda x: x[1], reverse=True)
         #print(len(allDayDistributions))
