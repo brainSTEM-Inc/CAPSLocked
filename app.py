@@ -1571,10 +1571,11 @@ allDayDistributions = []
 def receive_schedule():
     unboxedRoomData = request.get_json()
     print("Received schedule:", unboxedRoomData)
-
+    global roomToTimes
     global allDayDistributions
     global roomDayDistribution
     global days
+    print("roomToTimes", roomToTimes)
 
     def findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, score):
         global allDayDistributions
