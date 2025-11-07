@@ -1257,8 +1257,8 @@ def parse_data():
                 output_list=sharedTimes
             presiderDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
 
-        if len(output_list) > 5:
-            output_list = random.sample(output_list, 5)
+        if len(output_list) > 4:
+            output_list = random.sample(output_list, 4)
 
         
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol].strip(),x[presiderIntroCol]]
