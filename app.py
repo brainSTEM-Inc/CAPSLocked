@@ -1602,7 +1602,7 @@ def receive_schedule():
                 if newScore > highestScore - 3:
                     if newScore > highestScore:
                         highestScore = newScore
-                    if random.randint(1, 2)==2:
+                    if random.randint(1, 1)==1:
                         allDayDistributions.append([roomSchedule,newScore])
                 
             return
@@ -1620,7 +1620,7 @@ def receive_schedule():
             #break
             return
         for day in availableDays:
-            if random.randint(1, 2)==2:
+            if random.randint(1, 6)!=6:
                 roomSchedule1 = copy.deepcopy(roomSchedule)
                 thisDayTimes1 = copy.deepcopy(thisDayTimes)
                 roomSchedule1[day].append(student)
