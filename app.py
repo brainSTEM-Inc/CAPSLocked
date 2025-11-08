@@ -1664,6 +1664,8 @@ def receive_schedule():
                         studentTimes = random.sample(originalTimes, 4)
                 else:
                     for friend in rawdataDict[student][2]:
+                        print(friend)
+                        print(rawdataDict[friend])
                         try:
                             newStudentTimes = list(set(newStudentTimes).intersection(set(rawdataDict[friend][0])))
                         except Exception as e:
