@@ -1657,6 +1657,7 @@ def receive_schedule():
         
             studentAvailability = {}
             for student in thisStudents:
+                '''
                 originalTimes = rawdataDict[student][0]
                 newStudentTimes=originalTimes.copy()
                 if not rawdataDict[student][2]:
@@ -1679,7 +1680,12 @@ def receive_schedule():
                         # Sample enough to reach 4 total
                         needed = 4 - len(studentTimes)
                         studentTimes += random.sample(remaining, k=needed)
+                    '''
                 
+                studentTimes = rawdataDict[student][0]
+                if len(studentTimes) > 4:
+                    studentTimes = random.sample(studentTimes, 4)
+                        
                 availableDays = []
                 for day, times in thisDayTimesFull.items():
                     if len(set(studentTimes) & set(times)) != 0:
