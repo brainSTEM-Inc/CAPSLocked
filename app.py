@@ -1600,7 +1600,7 @@ def receive_schedule():
                         newScore+=5
 
             if len(allDayDistributions)<=100:
-                if newScore > highestScore - 3:
+                if newScore > highestScore - 1:
                     if newScore > highestScore:
                         highestScore = newScore
                     if random.randint(1, 1)==1:
@@ -1657,10 +1657,23 @@ def receive_schedule():
         
             studentAvailability = {}
             for student in thisStudents:
-                studentTimes = rawdataDict[student][0]
-                
-                if len(studentTimes) > 4:
-                    studentTimes = random.sample(studentTimes, 4)
+                originalTimes = rawdataDict[student][0]
+                newStudentTimes=originalTimes.copy()
+                if not rawdataDict[student][2]:
+                    if len(studentTimes) > 4:
+                        studentTimes = random.sample(originalTimes, 4)
+                else:
+                    for friend in rawdataDict[student][2]:
+                        try:
+                            studentTimes = list(set(newStudentTimes).intersection(set(rawdataDict[friend][0])))
+                    studentTimes = newStudentTimes.copy()
+    
+                    if len(studentTimes) < 4:
+                        # Get candidates that aren't already in studentTimes
+                        remaining = list(set(studentTimes) - set(newStudentTimes))
+                        # Sample enough to reach 4 total
+                        needed = 4 - len(studentTimes)
+                        studentTimes += random.sample(remaining, k=needed)
                 
                 availableDays = []
                 for day, times in thisDayTimesFull.items():
