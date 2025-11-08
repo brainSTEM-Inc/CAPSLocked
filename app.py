@@ -1658,8 +1658,9 @@ def receive_schedule():
             studentAvailability = {}
             for student in thisStudents:
                 studentTimes = rawdataDict[student][0]
-                if len(studentTimes) > 4:
-                    studentTimes = random.sample(studentTimes, 4)
+                
+                if len(studentTimes) > 5:
+                    studentTimes = random.sample(studentTimes, 5)
                 
                 availableDays = []
                 for day, times in thisDayTimesFull.items():
