@@ -1665,7 +1665,10 @@ def receive_schedule():
                 else:
                     for friend in rawdataDict[student][2]:
                         try:
-                            studentTimes = list(set(newStudentTimes).intersection(set(rawdataDict[friend][0])))
+                            newStudentTimes = list(set(newStudentTimes).intersection(set(rawdataDict[friend][0])))
+                        except Exception as e:
+                            print(f"Error occurred: {e}. no friends")
+                    
                     studentTimes = newStudentTimes.copy()
     
                     if len(studentTimes) < 4:
