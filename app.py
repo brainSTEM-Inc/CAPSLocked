@@ -1578,7 +1578,7 @@ highestScore=0
 @app.route('/receive_schedule', methods=['POST'])
 def receive_schedule():
     unboxedRoomData = request.get_json()
-    print("Received schedule:", unboxedRoomData)
+    #print("Received schedule:", unboxedRoomData)
     global roomToTimes
     global allDayDistributions
     global roomDayDistribution
@@ -1691,7 +1691,7 @@ def receive_schedule():
                 print("This is my girth", x)
                 while i<200 and i<x and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
                 #while i<100 and allDayDistributions[i][1]==highScore:
-                    print(i,allDayDistributions[i])
+                    #print(i,allDayDistributions[i])
                     i+=1
                 print("this is my length", x)
                 if x<n:
@@ -1711,7 +1711,7 @@ def receive_schedule():
                 #print()
             print(thisRoom,"considered distributions",consideredDistributions)    
             roomDayDistribution[thisRoom]=consideredDistributions
-            print(roomDayDistribution)
+            #print(roomDayDistribution)
     
         #print(dayOrder)
         for room, dayChoices in roomDayDistribution.items():
