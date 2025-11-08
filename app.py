@@ -1257,9 +1257,10 @@ def parse_data():
                 output_list=sharedTimes
             presiderDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=x[presiderCol]
 
+        '''
         if len(output_list) > 4:
             output_list = random.sample(output_list, 4)
-
+        '''
         
         rawdataDict[x[firstNameCol].strip()+" "+x[lastNameCol].strip()]=[output_list,x[topicCol],x[friendsCol].split(", "),[],x[projectNameCol],x[blurbCol],x[presiderCol].strip(),x[presiderIntroCol]]
     seniorsList=list(rawdataDict.keys())
@@ -1633,80 +1634,103 @@ def receive_schedule():
                     newScore+=len(set(roomSchedule[day]) & set(rawdataDict[student][2]))
                 
                 findDayDistributions(roomSchedule1, studentAvailability1, thisDayTimes1, newScore)
-    
-    roomDayDistribution={}
-    for thisRoom, thisStudents in unboxedRoomData.items():
-    
-        thisDayTimesFull = roomToTimes[thisRoom]
-        thisDayTimes = {key:len(value)*personsPerTime for key,value in roomToTimes[thisRoom].items()}
-        thisDays = list(roomToTimes[thisRoom].keys())
-        roomSchedule = {key:[] for key in thisDays}
-    
-        studentAvailability = {}
-        for student in thisStudents:
-            studentTimes = rawdataDict[student][0]
-            availableDays = []
-            for day, times in thisDayTimesFull.items():
-                if len(set(studentTimes) & set(times)) != 0:
-                    availableDays.append(day)
-            studentAvailability[student]=availableDays
-        
-        studentAvailability = dict(sorted(studentAvailability.items(), key=lambda item: len(item[1])))
-        
-        allDayDistributions = []
 
-        highestScore=0
-        findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, 0)
-        allDayDistributions = sorted(allDayDistributions, key=lambda x: x[1], reverse=True)
-        #print(len(allDayDistributions))
+
+    def solveDayDistribution():
+
+        global roomToTimes
+        global allDayDistributions
+        global roomDayDistribution
+        global days
+        #print("roomToTimes", roomToTimes)
+    
+        global highestScore
+        #highestScore=0
         
-        #print(thisRoom)
-        if not allDayDistributions:
-            print("unfortunately, it sucks")
-        else:
-            consideredDistributions = []
-            highScore = allDayDistributions[0][1]
-            i=0
-            n=20
-            #while i<len(allDayDistributions) and allDayDistributions[i][1]==highScore:
-            x=len(allDayDistributions)
+        roomDayDistribution={}
+        for thisRoom, thisStudents in unboxedRoomData.items():
+        
+            thisDayTimesFull = roomToTimes[thisRoom]
+            thisDayTimes = {key:len(value)*personsPerTime for key,value in roomToTimes[thisRoom].items()}
+            thisDays = list(roomToTimes[thisRoom].keys())
+            roomSchedule = {key:[] for key in thisDays}
+        
+            studentAvailability = {}
+            for student in thisStudents:
+                studentTimes = rawdataDict[student][0]
+                if len(studentTimes) > 4:
+                    studentTimes = random.sample(studentTimes, 4)
+                
+                availableDays = []
+                for day, times in thisDayTimesFull.items():
+                    if len(set(studentTimes) & set(times)) != 0:
+                        availableDays.append(day)
+                studentAvailability[student]=availableDays
             
-            print("This is my girth", x)
-            while i<200 and i<x and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
-            #while i<100 and allDayDistributions[i][1]==highScore:
-                print(i,allDayDistributions[i])
-                i+=1
-            print("this is my length", x)
-            if x<n:
-                print("uh wut")
-                for distribution in allDayDistributions:
-                    consideredDistributions.append(distribution)
-            elif i<=n:
-                print("dreaming abt all the things that we could be")
-                for distribution in allDayDistributions[:n]:
-                    consideredDistributions.append(distribution)
-            else:
-                print("lately ive been ive been losing sleep")
-                hop=(int)(i/n)
-                for j in range(0,i,hop):
-                    distribution=allDayDistributions[j]
-                    consideredDistributions.append(distribution)
-            #print()
-        print(thisRoom,"considered distributions",consideredDistributions)    
-        roomDayDistribution[thisRoom]=consideredDistributions
-        print(roomDayDistribution)
-
-    #print(dayOrder)
-    for room, dayChoices in roomDayDistribution.items():
-        for dayChoice in dayChoices:
-            #ordered_dict={day: dayChoice[0][day] for day in dayOrder}
-            #dayChoice[0]=ordered_dict
-            for day, students in dayChoice[0].items():
-                for i in range(len(students)):
-                    student=students[i]
-                    students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
+            studentAvailability = dict(sorted(studentAvailability.items(), key=lambda item: len(item[1])))
+            
+            allDayDistributions = []
     
-    print("my room day distribution yay!", roomDayDistribution) 
+            highestScore=0
+            findDayDistributions(roomSchedule, studentAvailability, thisDayTimes, 0)
+            allDayDistributions = sorted(allDayDistributions, key=lambda x: x[1], reverse=True)
+            #print(len(allDayDistributions))
+            
+            #print(thisRoom)
+            if not allDayDistributions:
+                print("unfortunately, it sucks")
+            else:
+                consideredDistributions = []
+                highScore = allDayDistributions[0][1]
+                i=0
+                n=20
+                #while i<len(allDayDistributions) and allDayDistributions[i][1]==highScore:
+                x=len(allDayDistributions)
+                
+                print("This is my girth", x)
+                while i<200 and i<x and len(allDayDistributions[i])==2 and allDayDistributions[i][1]==highScore:
+                #while i<100 and allDayDistributions[i][1]==highScore:
+                    print(i,allDayDistributions[i])
+                    i+=1
+                print("this is my length", x)
+                if x<n:
+                    print("uh wut")
+                    for distribution in allDayDistributions:
+                        consideredDistributions.append(distribution)
+                elif i<=n:
+                    print("dreaming abt all the things that we could be")
+                    for distribution in allDayDistributions[:n]:
+                        consideredDistributions.append(distribution)
+                else:
+                    print("lately ive been ive been losing sleep")
+                    hop=(int)(i/n)
+                    for j in range(0,i,hop):
+                        distribution=allDayDistributions[j]
+                        consideredDistributions.append(distribution)
+                #print()
+            print(thisRoom,"considered distributions",consideredDistributions)    
+            roomDayDistribution[thisRoom]=consideredDistributions
+            print(roomDayDistribution)
+    
+        #print(dayOrder)
+        for room, dayChoices in roomDayDistribution.items():
+            for dayChoice in dayChoices:
+                #ordered_dict={day: dayChoice[0][day] for day in dayOrder}
+                #dayChoice[0]=ordered_dict
+                for day, students in dayChoice[0].items():
+                    for i in range(len(students)):
+                        student=students[i]
+                        students[i]=[student,rawdataDict[student][1],rawdataDict[student][4]]
+        
+        print("my room day distribution yay!", roomDayDistribution) 
+
+    while True:
+        try:
+            solveDayDistribution()
+            break
+        except Exception as e:
+            print(f"Error occurred: {e}. Retrying...")
+    
     #return jsonify({"status": "success", "message": "Schedule received"})
     return render_template('generateStep2.html')
 
